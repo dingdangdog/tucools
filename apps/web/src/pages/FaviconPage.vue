@@ -17,7 +17,7 @@ import BatchLayout from "@/components/BatchLayout.vue";
 import ResultGrid from "@/components/ResultGrid.vue";
 import Stage from "@/components/Stage.vue";
 import { useResults } from "@/composables/useResults";
-import { copy } from "@/content/zh";
+import { copy } from "@/content";
 import { canvasToIcoBlob } from "@/utils/ico";
 import { canvasToBlob, drawContainCover, fileToImage, formatBytes, isProcessableImage, stem } from "@/utils/image";
 

@@ -1,0 +1,454 @@
+import type { Copy } from "./zh";
+
+export const es: Copy = {
+  appName: "图酷",
+  tagline: "Herramientas de imagen",
+  language: "Idioma",
+  allFeatures: "Todas las funciones",
+  aiGroup: "Procesamiento con IA",
+  localGroup: "Procesamiento habitual",
+  infoGroup: "Procesamiento de información",
+  openNav: "Herramientas",
+  closeNav: "Cerrar",
+  themeToDark: "Cambiar a oscuro",
+  themeToLight: "Cambiar a claro",
+  empty: "Arrastra las imágenes aquí o selecciona archivos",
+  choose: "Seleccionar archivos",
+  processing: "Procesando",
+  download: "Descargar",
+  downloadAll: "Descargar empaquetado",
+  clear: "Vaciar",
+  saveAs: "Guardar en…",
+  failed: "Error al procesar",
+  noImage: "Introduce archivos de imagen",
+  engineDown: "El motor no responde. Inicia primero el motor local o el motor de Docker.",
+  engineMissing: "Faltan estos archivos",
+  modelPackHint: "El paquete de modelos se descarga por separado. Descomprímelo en este directorio y vuelve a comprobar:",
+  refreshHealth: "Comprobar de nuevo",
+  modelChecking: "Comprobando modelos",
+  modelBlocked: "No hay modelos disponibles. Esta función está desactivada.",
+  modelUnavailable: "Esta función no se puede usar por ahora",
+  modelLinksLead: "El paquete de modelos y las nuevas versiones del cliente se publican en el repositorio de 图酷.",
+  modelRepo: "Repositorio",
+  modelReleases: "Versiones",
+  modelPartial: "Aún faltan algunos modelos por instalar",
+  featureReady: "Esta función está disponible.",
+  currentDevice: "Dispositivo actual",
+  menus: {
+    title: "Menú de funciones",
+    open: "Menú de funciones",
+    lead: "Elige las herramientas que se muestran en este dispositivo. La selección se guarda en este dispositivo.",
+    capped: "Este despliegue solo ofrece las herramientas siguientes. La selección marcada se guarda en este dispositivo.",
+    browserLead: "En el despliegue del navegador, la variable de entorno TUCOOLS_FEATURES decide qué herramientas se muestran. Separa los nombres de función con comas. Si no está definida, se muestran todas.",
+    browserCurrent: "Visualización actual",
+    showAll: "Mostrar todas las funciones permitidas",
+    empty: "Ahora no hay herramientas que mostrar.",
+  },
+  homeLead: "El procesamiento habitual y el de información se completan en el navegador de este dispositivo. Quitar el fondo, mejorar y borrar se envían al mismo motor. El paquete de instalación y Docker usan la misma página.",
+  tools: {
+    home: { title: "Inicio", lead: "Elige una herramienta de la izquierda." },
+    compress: { title: "Comprimir", lead: "Comprime JPEG, PNG y WebP por calidad, lado más largo o tamaño objetivo." },
+    resize: { title: "Escalar", lead: "Escala al ancho y alto indicados, o déjala con márgenes en el lienzo." },
+    converter: { title: "Convertir formato", lead: "Convierte entre PNG, JPEG, WebP, BMP e ICO." },
+    cropping: { title: "Recortar", lead: "Tras enmarcar y girar, exporta PNG." },
+    idPhoto: { title: "Tamaño de foto de carné", lead: "Recorta a la proporción de foto de carné según píxeles habituales y aplica un color de fondo. Aquí no se quita el fondo." },
+    sizes: { title: "Tamaños para redes", lead: "Coloca la imagen en tamaños habituales de redes sociales." },
+    cutting: { title: "Dividir", lead: "Corta por líneas verticales, horizontales, diagonales o cuadrícula, y también puedes volver a unirlas." },
+    watermark: { title: "Marca de agua", lead: "Añade una marca de agua de texto a la imagen." },
+    caption: { title: "Añadir texto", lead: "Añade una línea de texto grande en el centro de la imagen." },
+    fade: { title: "Escala de grises", lead: "Convierte la imagen a escala de grises." },
+    tocircle: { title: "Círculo", lead: "Recorta en círculo según el diámetro." },
+    exif: { title: "Quitar información", lead: "Consulta el EXIF y vuelve a dibujar una imagen nueva sin metadatos." },
+    pdf: { title: "Imagen a PDF", lead: "Cada imagen ocupa una página. Exporta un PDF." },
+    favicon: { title: "Favicon", lead: "Exporta PNG de 16, 32, 48 y 180, y un ICO." },
+    prompt: {
+      title: "Extracción de prompts de IA",
+      lead: "Extrae de PNG y JPEG los prompts de IA, los prompts negativos y los parámetros de generación incrustados. No se sube nada y no hay inferencia del modelo.",
+    },
+    pix: { title: "Información de la imagen", lead: "Consulta el EXIF y puede exportar JSON." },
+    cutout: { title: "Quitar fondo", lead: "Quita el fondo y exporta un PNG transparente." },
+    enhance: { title: "Mejorar", lead: "Amplía y mejora la imagen según el efecto elegido." },
+    erase: { title: "Borrar", lead: "Pinta la zona que quieres quitar y el motor la rellena." },
+  },
+  seo: {
+    faqHeading: "Preguntas frecuentes",
+    listName: "Herramientas de imagen de 图酷",
+    boundary:
+      "El procesamiento habitual y el de información se completan en local en el navegador. Quitar el fondo, la mejora y el borrado solo solicitan el /api/engine del mismo origen y no pasan por terceros. El paquete de modelos se descarga por separado y no está en el paquete de instalación ni en la imagen de contenedor. El tamaño de foto de carné solo recorta y aplica color de fondo. La extracción de prompts de IA solo lee el texto que ya está en el archivo y no hace inferencia.",
+    omitHeading: "No citar como descripción de la herramienta",
+    missingTitle: "La página no existe",
+    missingBody: "Esta dirección no corresponde a ninguna herramienta.",
+    backHome: "Volver al inicio",
+    homeDescription:
+      "图酷 ofrece direcciones independientes para comprimir, escalar, convertir formato, recortar, el tamaño de foto de carné, los tamaños para redes, dividir, la marca de agua, añadir texto, la escala de grises, el círculo, imagen a PDF, Favicon, quitar información, la información de la imagen y la extracción de prompts de IA, y los procesa en local en el navegador. Quitar el fondo, la mejora y el borrado solo solicitan el motor del mismo origen.",
+    homeFaqs: [
+      {
+        q: "¿Se suben las imágenes al servidor?",
+        a: "El procesamiento habitual y el de información se completan en el navegador de este dispositivo, y las imágenes no se suben. Quitar el fondo, la mejora y el borrado solo solicitan el /api/engine del sitio actual y no pasan por terceros.",
+      },
+      {
+        q: "¿El paquete de instalación y la página web son el mismo conjunto de herramientas?",
+        a: "Sí. Docker y el paquete de instalación de Windows usan la misma página. El paquete de modelos se descarga por separado y no está en el paquete de instalación ni en la imagen de contenedor.",
+      },
+    ],
+    tools: {
+      cutout: {
+        description: "Quita el fondo y exporta un PNG transparente. La solicitud solo se envía al motor del sitio actual y no pasa por terceros. Sin un modelo disponible no se puede empezar.",
+        faqs: [
+          {
+            q: "¿Qué resultado da quitar el fondo?",
+            a: "Quita el fondo y exporta un PNG transparente. La página solo lista los modelos que ya están instalados y se pueden usar.",
+          },
+          {
+            q: "¿Se envía la imagen a terceros?",
+            a: "No. La solicitud solo se envía al /api/engine del sitio actual. El límite de subida es 50MB y el motor procesa un solo trabajo a la vez. Sin un modelo disponible no se puede empezar.",
+          },
+        ],
+      },
+      enhance: {
+        description: "Amplía y mejora la imagen según los efectos ya instalados. La solicitud solo se envía al motor del sitio actual. Sin un modelo disponible no se puede empezar.",
+        faqs: [
+          {
+            q: "¿Qué hace la mejora?",
+            a: "Amplía y mejora la imagen según el efecto elegido. La página solo lista los efectos que ya están instalados y se pueden usar.",
+          },
+          {
+            q: "¿Se envía la imagen a terceros?",
+            a: "No. La solicitud solo se envía al /api/engine del sitio actual. Sin un modelo disponible no se puede empezar. El contenedor de Linux también necesita el upscayl-bin del paquete de modelos.",
+          },
+        ],
+      },
+      erase: {
+        description: "Pinta la zona que quieres quitar y el motor del sitio actual la rellena. Sin un modelo disponible no se puede empezar, y la imagen no pasa por terceros.",
+        faqs: [
+          {
+            q: "¿Cómo se indica la zona que hay que borrar?",
+            a: "Pinta sobre la imagen. El trazo blanco se entrega al motor como máscara para rellenar. Puedes borrarlo y volver a pintar.",
+          },
+          {
+            q: "¿Se envía la imagen a terceros?",
+            a: "No. La solicitud solo se envía al /api/engine del sitio actual. El límite de subida es 50MB. Sin un modelo disponible no se puede empezar.",
+          },
+        ],
+      },
+      compress: {
+        description: "Comprime JPEG, PNG y WebP en local en el navegador, por calidad, lado más largo o tamaño objetivo. Las imágenes no se suben.",
+        faqs: [
+          {
+            q: "¿Se puede comprimir a un tamaño concreto?",
+            a: "Se puede comprimir JPEG, PNG y WebP por calidad, lado más largo o tamaño objetivo. Un tamaño objetivo de 0 significa sin límite. El PNG se comprime por píxeles y el deslizador de calidad no tiene efecto.",
+          },
+          {
+            q: "¿La compresión sube la imagen?",
+            a: "No. La compresión se completa en el navegador de este dispositivo.",
+          },
+        ],
+      },
+      resize: {
+        description: "Escala la imagen en local en el navegador al ancho y alto indicados. Puede mostrarse completa con márgenes, cubrirse recortando o estirarse. Las imágenes no se suben.",
+        faqs: [
+          {
+            q: "¿El escalado recorta la imagen?",
+            a: "Se puede mostrar completa con márgenes, cubrir y recortar, o estirar al ancho y alto indicados.",
+          },
+          {
+            q: "¿El escalado sube la imagen?",
+            a: "No. El escalado se completa en el navegador de este dispositivo.",
+          },
+        ],
+      },
+      converter: {
+        description: "Convierte imágenes en local en el navegador entre PNG, JPEG, WebP, BMP e ICO. Los formatos que el navegador actual no puede exportar se indican en la página.",
+        faqs: [
+          {
+            q: "¿Qué formatos se admiten?",
+            a: "Se puede convertir entre PNG, JPEG, WebP, BMP e ICO. Los formatos que el navegador actual no puede exportar se indican directamente, sin simular que la conversión se ha completado.",
+          },
+          {
+            q: "¿La conversión de formato sube la imagen?",
+            a: "No. La conversión de formato se completa en el navegador de este dispositivo.",
+          },
+        ],
+      },
+      cropping: {
+        description: "En el navegador, enmarca, gira o voltea y exporta PNG. Las imágenes no se suben.",
+        faqs: [
+          {
+            q: "¿En qué formato queda el recorte?",
+            a: "Tras enmarcar, girar o voltear se exporta PNG. Se puede enmarcar con libertad o elegir una proporción fija.",
+          },
+          {
+            q: "¿El recorte sube la imagen?",
+            a: "No. El recorte se completa en el navegador de este dispositivo.",
+          },
+        ],
+      },
+      "id-photo": {
+        description: "Recorta a la proporción de foto de carné según los píxeles de una pulgada, dos pulgadas, pasaporte o visado de EE. UU., y aplica fondo blanco, azul o rojo. Aquí solo se recorta y se aplica color de fondo, sin quitar el fondo.",
+        faqs: [
+          {
+            q: "¿Aquí se quita el fondo?",
+            a: "No. El tamaño de foto de carné solo recorta a la proporción según píxeles habituales y aplica fondo blanco, azul o rojo. Para quitar el fondo, usa Quitar fondo.",
+          },
+          {
+            q: "¿Qué tamaños hay?",
+            a: "Incluye una pulgada 295×413, dos pulgadas 413×626, pasaporte 413×531 y visado de EE. UU. 600×600.",
+          },
+        ],
+      },
+      sizes: {
+        description: "Coloca la imagen en tamaños habituales como publicaciones de Instagram, la portada de YouTube o Xiaohongshu. Se puede dejar margen, cubrir recortando o estirar. El procesamiento se completa en local en el navegador.",
+        faqs: [
+          {
+            q: "¿Qué tamaños para redes hay?",
+            a: "Incluye publicación de Instagram 1080×1080, imagen vertical 1080×1350, historia 1080×1920, portada de YouTube 1280×720 y Xiaohongshu 1080×1440.",
+          },
+          {
+            q: "¿Qué ocurre si la imagen no cabe en el tamaño de destino?",
+            a: "Se puede mostrar completa con márgenes, cubrir y recortar, o estirar al tamaño indicado. El procesamiento se completa en local en el navegador.",
+          },
+        ],
+      },
+      cutting: {
+        description: "Corta la imagen por líneas verticales, horizontales, diagonales o cuadrícula. Salvo la cuadrícula, se puede volver a unir. La división se completa en local en el navegador.",
+        faqs: [
+          {
+            q: "¿Cómo se puede cortar?",
+            a: "Se puede cortar por líneas verticales, horizontales, diagonales o cuadrícula. Salvo la cuadrícula, las partes se pueden volver a unir.",
+          },
+          {
+            q: "¿La división sube la imagen?",
+            a: "No. La división se completa en el navegador de este dispositivo.",
+          },
+        ],
+      },
+      watermark: {
+        description: "Añade en local en el navegador una marca de agua de texto. Se pueden ajustar la posición, el tamaño, el color, la transparencia y el contorno. Las imágenes no se suben.",
+        faqs: [
+          {
+            q: "¿Cómo se puede colocar la marca de agua?",
+            a: "El texto puede ir en el centro, en el punto medio de los cuatro lados, en las cuatro esquinas o al azar, y se pueden ajustar el tamaño, la fuente, el color, la opacidad y el contorno.",
+          },
+          {
+            q: "¿La marca de agua sube la imagen?",
+            a: "No. La marca de agua se completa en el navegador de este dispositivo.",
+          },
+        ],
+      },
+      caption: {
+        description: "Añade una línea de texto grande en el centro de la imagen. El procesamiento se completa en local en el navegador. Las imágenes no se suben.",
+        faqs: [
+          {
+            q: "¿Dónde se añade el texto?",
+            a: "Se añade una línea de texto grande en el centro, y se pueden ajustar el tamaño, la fuente, el color, la opacidad y el contorno.",
+          },
+          {
+            q: "¿Añadir texto sube la imagen?",
+            a: "No. Añadir texto se completa en el navegador de este dispositivo.",
+          },
+        ],
+      },
+      fade: {
+        description: "Convierte la imagen a escala de grises en local en el navegador. Las imágenes no se suben.",
+        faqs: [
+          {
+            q: "¿La escala de grises conserva los colores originales?",
+            a: "No. Esta herramienta convierte toda la imagen a escala de grises.",
+          },
+          {
+            q: "¿La escala de grises sube la imagen?",
+            a: "No. La escala de grises se completa en el navegador de este dispositivo.",
+          },
+        ],
+      },
+      tocircle: {
+        description: "Recorta la imagen en círculo según el diámetro. Si el diámetro es 0, se usa el lado corto. El procesamiento se completa en local en el navegador.",
+        faqs: [
+          {
+            q: "¿Cómo se recorta el círculo?",
+            a: "Se recorta en círculo según el diámetro. Si el diámetro es 0, se usa el lado corto de la imagen.",
+          },
+          {
+            q: "¿El recorte circular sube la imagen?",
+            a: "No. El recorte circular se completa en el navegador de este dispositivo.",
+          },
+        ],
+      },
+      pdf: {
+        description: "Une varias imágenes en un PDF, cada imagen en su propia página. Se genera en local en el navegador y no se sube.",
+        faqs: [
+          {
+            q: "¿Cómo se ordenan varias imágenes?",
+            a: "Cada imagen es una página del PDF, en el orden en que se añadieron.",
+          },
+          {
+            q: "¿Generar el PDF sube las imágenes?",
+            a: "No. El PDF se genera en el navegador de este dispositivo.",
+          },
+        ],
+      },
+      favicon: {
+        description: "Exporta desde una imagen PNG de 16, 32, 48 y 180, y un ICO. Se genera en local en el navegador y no se sube.",
+        faqs: [
+          {
+            q: "¿Qué archivos se exportan?",
+            a: "Se exportan PNG de lado 16, 32, 48 y 180, y un ICO.",
+          },
+          {
+            q: "¿Generar el Favicon sube la imagen?",
+            a: "No. El Favicon se genera en el navegador de este dispositivo.",
+          },
+        ],
+      },
+      exif: {
+        description: "Tras ver el EXIF de la imagen, la vuelve a dibujar como una imagen nueva sin metadatos. No modifica el archivo original ni lo sube.",
+        faqs: [
+          {
+            q: "¿Qué quita la eliminación de información?",
+            a: "Primero muestra el EXIF y luego vuelve a dibujar una imagen nueva sin metadatos. El archivo original no se sobrescribe.",
+          },
+          {
+            q: "¿En qué se diferencia de la información de la imagen?",
+            a: "Quitar información exporta una imagen nueva. La información de la imagen solo consulta y exporta JSON, y no genera una imagen sin metadatos.",
+          },
+        ],
+      },
+      pix: {
+        description: "Consulta el tamaño y el EXIF de la imagen, y puede exportar JSON. Aquí solo se lee la información. Para quitar los metadatos, usa Quitar información. No se sube.",
+        faqs: [
+          {
+            q: "¿Qué incluye la información de la imagen?",
+            a: "Consulta el tamaño y el EXIF, y puede exportar la información leída como JSON.",
+          },
+          {
+            q: "¿Aquí se modifica la imagen?",
+            a: "No. Para obtener una imagen nueva sin metadatos, usa Quitar información. La lectura se completa en local en el navegador.",
+          },
+        ],
+      },
+      prompt: {
+        description:
+          "Extracción de prompts de IA: lee los prompts positivos, los prompts negativos y los parámetros de generación incrustados en imágenes PNG y JPEG, para buscar indicaciones de dibujo escritas en el archivo, como las de Stable Diffusion. Se completa en local en el navegador, sin inferencia del modelo.",
+        faqs: [
+          {
+            q: "¿Qué se puede leer?",
+            a: "Lee los prompts positivos, los prompts negativos y los parámetros de generación incrustados en PNG tEXt/iTXt y JPEG APP1/COM. Si el archivo no contiene esos datos, la página indica que no se ha leído nada.",
+          },
+          {
+            q: "¿Se llama a un modelo de dibujo?",
+            a: "No. Esta herramienta no hace inferencia ni sube la imagen.",
+          },
+        ],
+      },
+    },
+  },
+  ui: {
+    replace: "Cambiar imagen",
+    replaceFiles: "Volver a seleccionar",
+    exportPng: "Exportar PNG",
+    downloadResult: "Descargar resultado",
+    again: "Procesar de nuevo",
+    repaint: "Seguir pintando",
+    remove: "Quitar",
+    clearMask: "Borrar el trazo",
+    startCutout: "Empezar a quitar el fondo",
+    startEnhance: "Empezar a mejorar",
+    startErase: "Empezar a borrar",
+    brush: "Grosor del pincel",
+    paintHint: "Pinta la zona que quieres borrar. El trazo blanco se entrega al motor como máscara.",
+    needPaint: "Pinta primero la zona que quieres borrar",
+    compare: "Arrastra a izquierda y derecha para comparar el original y el resultado",
+    original: "Original",
+    result: "Resultado",
+    ratio: "Proporción",
+    ratioFree: "Libre",
+    rotateLeft: "Girar a la izquierda",
+    rotateRight: "Girar a la derecha",
+    flipX: "Voltear en horizontal",
+    flipY: "Voltear en vertical",
+    format: "Formato",
+    quality: "Calidad",
+    maxEdge: "Lado más largo",
+    maxEdgeHint: "0 es el tamaño original",
+    targetKb: "Tamaño objetivo KB",
+    targetKbHint: "0 significa sin límite",
+    pngNote: "El PNG se comprime por píxeles y el deslizador de calidad no tiene efecto.",
+    width: "Anchura",
+    height: "Altura",
+    fit: "Modo de ajuste",
+    fitContain: "Mostrar completo con márgenes",
+    fitCover: "Cubrir y recortar",
+    fitStretch: "Estirar al tamaño indicado",
+    targetFormat: "Formato de destino",
+    needFormat: "Selecciona al menos un formato",
+    cannotExport: "Estos formatos no se pueden exportar en el navegador actual",
+    diameter: "Diámetro",
+    diameterHint: "0 significa usar el lado corto",
+    before: "Antes",
+    after: "Tras volver a dibujar",
+    noExif: "No se ha leído EXIF",
+    selected: "Seleccionadas",
+    sheets: "imágenes",
+    buildPdf: "Generar PDF",
+    exportJson: "Exportar JSON",
+    noPrompt: "No se ha leído ningún prompt de IA incrustado",
+    preset: "Preajuste",
+    background: "Color de fondo",
+    output: "Salida",
+    text: "Texto",
+    fontSize: "Tamaño de letra",
+    position: "Posición",
+    font: "Fuente",
+    textColor: "Color del texto",
+    opacity: "Opacidad",
+    stroke: "Contorno",
+    needText: "Escribe primero el texto",
+    cutWay: "Modo",
+    cutAction: "Acción",
+    pieceCount: "Piezas",
+    rowCount: "Filas",
+    colCount: "Columnas",
+    gridMergeUnsupported: "La cuadrícula solo admite cortar, no la unión automática.",
+    model: "Modelo",
+    effect: "Efecto",
+    scale: "Factor",
+    canvas: "No se puede usar el lienzo",
+    maskExport: "No se puede exportar la máscara",
+    cut: {
+      vertical: "Corte vertical",
+      horizontal: "Corte horizontal",
+      diagonalLeft: "Diagonal izquierda",
+      diagonalRight: "Diagonal derecha",
+      diagonalX: "Forma de X",
+      grid: "Cuadrícula",
+      split: "Cortar",
+      auto: "Unir",
+    },
+    place: {
+      random: "Al azar",
+      center: "Centro",
+      top: "Arriba centrado",
+      bottom: "Abajo centrado",
+      left: "Izquierda centrada",
+      right: "Derecha centrada",
+      topLeft: "Arriba a la izquierda",
+      topRight: "Arriba a la derecha",
+      bottomLeft: "Abajo a la izquierda",
+      bottomRight: "Abajo a la derecha",
+    },
+    models: {
+      u2net: "General",
+      u2netp: "Ligero",
+      human: "Retrato",
+      isnet: "Alta precisión",
+      anime: "Anime",
+    },
+    effects: {
+      balanced: "Mejora general",
+      standard: "Mejora estándar",
+      premium: "Mejora de alta calidad",
+      anime: "Arte digital",
+      animePro: "Anime",
+    },
+  },
+};

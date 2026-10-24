@@ -1,0 +1,454 @@
+import type { Copy } from "./zh";
+
+export const vn: Copy = {
+  appName: "图酷",
+  tagline: "Công cụ ảnh",
+  language: "Ngôn ngữ",
+  allFeatures: "Mọi tính năng",
+  aiGroup: "Xử lý AI",
+  localGroup: "Xử lý thông thường",
+  infoGroup: "Xử lý thông tin",
+  openNav: "Công cụ",
+  closeNav: "Đóng",
+  themeToDark: "Chuyển sang nền tối",
+  themeToLight: "Chuyển sang nền sáng",
+  empty: "Kéo ảnh vào đây, hoặc chọn tệp",
+  choose: "Chọn tệp",
+  processing: "Đang xử lý",
+  download: "Tải xuống",
+  downloadAll: "Tải gói",
+  clear: "Xóa hết",
+  saveAs: "Lưu vào…",
+  failed: "Xử lý thất bại",
+  noImage: "Hãy thêm tệp ảnh",
+  engineDown: "Engine không phản hồi. Hãy khởi động engine trên máy này hoặc engine trong Docker.",
+  engineMissing: "Còn thiếu các tệp này",
+  modelPackHint: "Gói mô hình tải riêng. Giải nén vào thư mục này rồi kiểm tra lại:",
+  refreshHealth: "Kiểm tra lại",
+  modelChecking: "Đang kiểm tra mô hình",
+  modelBlocked: "Không có mô hình dùng được. Tính năng này đã tắt.",
+  modelUnavailable: "Tính năng này tạm thời không dùng được",
+  modelLinksLead: "Gói mô hình và phiên bản mới của ứng dụng được phát hành trên kho 图酷.",
+  modelRepo: "Kho",
+  modelReleases: "Trang phát hành",
+  modelPartial: "Một số mô hình chưa được cài",
+  featureReady: "Tính năng này dùng được.",
+  currentDevice: "Thiết bị hiện tại",
+  menus: {
+    title: "Menu tính năng",
+    open: "Menu tính năng",
+    lead: "Chọn công cụ hiện trên thiết bị này. Lựa chọn được lưu trên thiết bị này.",
+    capped: "Bản triển khai này chỉ mở các công cụ bên dưới. Kết quả chọn được lưu trên thiết bị này.",
+    browserLead: "Khi triển khai trên trình duyệt, biến môi trường TUCOOLS_FEATURES quyết định công cụ nào hiện ra. Tách tên tính năng bằng dấu phẩy. Khi chưa đặt biến, mọi công cụ đều hiện.",
+    browserCurrent: "Đang hiện",
+    showAll: "Hiện mọi tính năng được phép",
+    empty: "Hiện không có công cụ để hiện.",
+  },
+  homeLead: "Xử lý thông thường và xử lý thông tin chạy trên trình duyệt của thiết bị này. Tách nền, tối ưu và xóa vùng dùng chung một engine. Bộ cài và Docker dùng cùng một trang.",
+  tools: {
+    home: { title: "Bắt đầu", lead: "Chọn công cụ ở bên trái." },
+    compress: { title: "Nén", lead: "Nén JPEG, PNG và WebP theo chất lượng, cạnh dài nhất hoặc dung lượng đích." },
+    resize: { title: "Đổi kích thước", lead: "Đổi theo chiều rộng và chiều cao chỉ định, hoặc đặt vào khung với phần để trống." },
+    converter: { title: "Đổi định dạng", lead: "Chuyển giữa PNG, JPEG, WebP, BMP và ICO." },
+    cropping: { title: "Cắt", lead: "Khoanh vùng, xoay, rồi xuất PNG." },
+    idPhoto: { title: "Kích thước ảnh thẻ", lead: "Cắt theo tỷ lệ ảnh thẻ với số điểm ảnh thường gặp và tô màu nền. Ở đây không tách nền." },
+    sizes: { title: "Kích thước mạng xã hội", lead: "Đặt ảnh vào các kích thước mạng xã hội thường gặp." },
+    cutting: { title: "Chia ảnh", lead: "Cắt theo đường dọc, ngang, chéo hoặc lưới. Cũng có thể ghép lại." },
+    watermark: { title: "Hình mờ", lead: "Thêm hình mờ chữ vào ảnh." },
+    caption: { title: "Thêm chữ", lead: "Thêm một dòng chữ lớn ở giữa ảnh." },
+    fade: { title: "Thang xám", lead: "Chuyển ảnh sang thang xám." },
+    tocircle: { title: "Hình tròn", lead: "Cắt thành hình tròn theo đường kính." },
+    exif: { title: "Xóa thông tin", lead: "Xem EXIF, rồi vẽ lại thành ảnh mới không có siêu dữ liệu." },
+    pdf: { title: "Ảnh sang PDF", lead: "Mỗi ảnh thành một trang. Xuất PDF." },
+    favicon: { title: "Favicon", lead: "Xuất PNG 16, 32, 48, 180 và một ICO." },
+    prompt: {
+      title: "Trích xuất prompt AI",
+      lead: "Trích từ PNG và JPEG prompt AI, prompt phủ định và tham số tạo đã nhúng. Không tải lên và không suy luận mô hình.",
+    },
+    pix: { title: "Thông tin ảnh", lead: "Xem EXIF và có thể xuất JSON." },
+    cutout: { title: "Tách nền", lead: "Xóa nền và xuất PNG trong suốt." },
+    enhance: { title: "Tối ưu", lead: "Phóng to và tăng chất lượng ảnh theo hiệu ứng đã chọn." },
+    erase: { title: "Xóa vùng", lead: "Tô vùng cần xóa, rồi để engine hoàn thiện." },
+  },
+  seo: {
+    faqHeading: "Câu hỏi thường gặp",
+    listName: "Công cụ ảnh của 图酷",
+    boundary:
+      "Xử lý thông thường và xử lý thông tin chạy cục bộ trên trình duyệt. Tách nền, tối ưu và xóa vùng chỉ gửi yêu cầu tới /api/engine cùng nguồn, không qua bên thứ ba. Gói mô hình tải riêng, không nằm trong bộ cài đặt hay image. Kích thước ảnh thẻ chỉ cắt và tô màu nền. Trích xuất prompt AI chỉ đọc văn bản đã có trong tệp, không suy luận.",
+    omitHeading: "Không dùng làm mô tả công cụ",
+    missingTitle: "Trang không tồn tại",
+    missingBody: "Địa chỉ này không có công cụ tương ứng.",
+    backHome: "Về trang bắt đầu",
+    homeDescription:
+      "图酷 có địa chỉ riêng cho nén, đổi kích thước, đổi định dạng, cắt, kích thước ảnh thẻ, kích thước mạng xã hội, chia ảnh, hình mờ, thêm chữ, thang xám, hình tròn, ảnh sang PDF, Favicon, xóa thông tin, thông tin ảnh và trích xuất prompt AI, xử lý cục bộ trên trình duyệt. Tách nền, tối ưu và xóa vùng chỉ gửi yêu cầu tới engine cùng nguồn.",
+    homeFaqs: [
+      {
+        q: "Ảnh có được tải lên máy chủ không?",
+        a: "Xử lý thông thường và xử lý thông tin chạy trên trình duyệt của thiết bị này, ảnh không được tải lên. Tách nền, tối ưu và xóa vùng chỉ gửi yêu cầu tới /api/engine của trang hiện tại, không qua bên thứ ba.",
+      },
+      {
+        q: "Bộ cài và trang web có phải cùng một bộ công cụ không?",
+        a: "Có. Docker và bộ cài Windows dùng cùng một trang. Gói mô hình phải tải riêng, không nằm trong bộ cài đặt hay image.",
+      },
+    ],
+    tools: {
+      cutout: {
+        description: "Xóa nền và xuất PNG trong suốt. Yêu cầu chỉ gửi tới engine của trang hiện tại, không qua bên thứ ba. Không có mô hình dùng được thì không thể bắt đầu.",
+        faqs: [
+          {
+            q: "Kết quả tách nền là gì?",
+            a: "Nền được xóa và kết quả là PNG trong suốt. Trang chỉ liệt kê mô hình đã cài và dùng được.",
+          },
+          {
+            q: "Ảnh có được gửi cho bên thứ ba không?",
+            a: "Không. Yêu cầu chỉ gửi tới /api/engine của trang hiện tại. Giới hạn tải lên là 50MB, và engine chỉ xử lý một tác vụ tại một thời điểm. Không có mô hình dùng được thì không thể bắt đầu.",
+          },
+        ],
+      },
+      enhance: {
+        description: "Phóng to và tăng chất lượng ảnh theo hiệu ứng đã cài. Yêu cầu chỉ gửi tới engine của trang hiện tại. Không có mô hình dùng được thì không thể bắt đầu.",
+        faqs: [
+          {
+            q: "Tối ưu sẽ làm gì?",
+            a: "Phóng to và tăng chất lượng ảnh theo hiệu ứng đã chọn. Trang chỉ liệt kê hiệu ứng đã cài và dùng được.",
+          },
+          {
+            q: "Ảnh có được gửi cho bên thứ ba không?",
+            a: "Không. Yêu cầu chỉ gửi tới /api/engine của trang hiện tại. Không có mô hình dùng được thì không thể bắt đầu. Container Linux còn cần upscayl-bin trong gói mô hình.",
+          },
+        ],
+      },
+      erase: {
+        description: "Tô vùng cần xóa. Engine của trang hiện tại sẽ hoàn thiện vùng đó. Không có mô hình dùng được thì không thể bắt đầu, và ảnh không qua bên thứ ba.",
+        faqs: [
+          {
+            q: "Làm sao chỉ vùng cần xóa?",
+            a: "Tô trên ảnh. Nét trắng được đưa cho engine làm mặt nạ để hoàn thiện. Có thể xóa nét rồi tô lại.",
+          },
+          {
+            q: "Ảnh có được gửi cho bên thứ ba không?",
+            a: "Không. Yêu cầu chỉ gửi tới /api/engine của trang hiện tại. Giới hạn tải lên là 50MB. Không có mô hình dùng được thì không thể bắt đầu.",
+          },
+        ],
+      },
+      compress: {
+        description: "Nén JPEG, PNG và WebP cục bộ trên trình duyệt, theo chất lượng, cạnh dài nhất hoặc dung lượng đích. Ảnh không được tải lên.",
+        faqs: [
+          {
+            q: "Có nén tới một dung lượng chỉ định không?",
+            a: "Có thể nén JPEG, PNG và WebP theo chất lượng, cạnh dài nhất hoặc dung lượng đích. Dung lượng đích bằng 0 nghĩa là không giới hạn. PNG nén theo điểm ảnh, thanh chất lượng không có tác dụng.",
+          },
+          {
+            q: "Nén có tải ảnh lên không?",
+            a: "Không. Nén chạy trên trình duyệt của thiết bị này.",
+          },
+        ],
+      },
+      resize: {
+        description: "Đổi kích thước ảnh cục bộ trên trình duyệt theo chiều rộng và chiều cao chỉ định. Có thể để trống để hiện đủ, phủ kín rồi cắt, hoặc kéo giãn. Ảnh không được tải lên.",
+        faqs: [
+          {
+            q: "Đổi kích thước có cắt mất ảnh không?",
+            a: "Có thể hiện đủ ảnh với phần để trống, phủ kín rồi cắt, hoặc kéo giãn tới chiều rộng và chiều cao chỉ định.",
+          },
+          {
+            q: "Đổi kích thước có tải ảnh lên không?",
+            a: "Không. Đổi kích thước chạy trên trình duyệt của thiết bị này.",
+          },
+        ],
+      },
+      converter: {
+        description: "Chuyển ảnh cục bộ trên trình duyệt giữa PNG, JPEG, WebP, BMP và ICO. Định dạng trình duyệt hiện tại không xuất được sẽ được ghi trên trang.",
+        faqs: [
+          {
+            q: "Hỗ trợ những định dạng nào?",
+            a: "Có thể chuyển giữa PNG, JPEG, WebP, BMP và ICO. Nếu trình duyệt hiện tại không xuất được một định dạng, trang báo thẳng và không giả vờ là đã chuyển xong.",
+          },
+          {
+            q: "Đổi định dạng có tải ảnh lên không?",
+            a: "Không. Đổi định dạng chạy trên trình duyệt của thiết bị này.",
+          },
+        ],
+      },
+      cropping: {
+        description: "Khoanh vùng, xoay hoặc lật trên trình duyệt rồi xuất PNG. Ảnh không được tải lên.",
+        faqs: [
+          {
+            q: "Kết quả cắt là định dạng gì?",
+            a: "Sau khi khoanh vùng, xoay hoặc lật, kết quả là PNG. Có thể khoanh tự do hoặc chọn tỷ lệ cố định.",
+          },
+          {
+            q: "Cắt có tải ảnh lên không?",
+            a: "Không. Cắt chạy trên trình duyệt của thiết bị này.",
+          },
+        ],
+      },
+      "id-photo": {
+        description: "Cắt theo tỷ lệ ảnh thẻ với số điểm ảnh của ảnh 1 inch, 2 inch, hộ chiếu hoặc thị thực Mỹ, rồi tô nền trắng, xanh hoặc đỏ. Ở đây chỉ cắt và tô màu nền, không tách nền.",
+        faqs: [
+          {
+            q: "Ở đây có tách nền không?",
+            a: "Không. Kích thước ảnh thẻ chỉ cắt theo số điểm ảnh thường gặp và tô nền trắng, xanh hoặc đỏ. Muốn xóa nền thì dùng tách nền.",
+          },
+          {
+            q: "Có những kích thước nào?",
+            a: "Gồm ảnh 1 inch 295×413, ảnh 2 inch 413×626, hộ chiếu 413×531 và thị thực Mỹ 600×600.",
+          },
+        ],
+      },
+      sizes: {
+        description: "Đặt ảnh vào các kích thước thường gặp như Instagram, ảnh bìa YouTube hoặc Xiaohongshu. Có thể để trống, phủ kín rồi cắt, hoặc kéo giãn. Xử lý chạy cục bộ trên trình duyệt.",
+        faqs: [
+          {
+            q: "Có những kích thước mạng xã hội nào?",
+            a: "Gồm bài đăng Instagram 1080×1080, ảnh dọc 1080×1350, story 1080×1920, ảnh bìa YouTube 1280×720 và Xiaohongshu 1080×1440.",
+          },
+          {
+            q: "Ảnh không vừa kích thước đích thì sao?",
+            a: "Có thể hiện đủ ảnh với phần để trống, phủ kín rồi cắt, hoặc kéo giãn tới kích thước chỉ định. Xử lý chạy cục bộ trên trình duyệt.",
+          },
+        ],
+      },
+      cutting: {
+        description: "Cắt ảnh theo đường dọc, ngang, chéo hoặc lưới. Trừ lưới, các phần có thể ghép lại. Chia ảnh chạy cục bộ trên trình duyệt.",
+        faqs: [
+          {
+            q: "Có thể cắt theo cách nào?",
+            a: "Có thể cắt theo đường dọc, ngang, chéo hoặc lưới. Trừ lưới, ảnh đã cắt vẫn có thể ghép lại.",
+          },
+          {
+            q: "Chia ảnh có tải lên không?",
+            a: "Không. Chia ảnh chạy trên trình duyệt của thiết bị này.",
+          },
+        ],
+      },
+      watermark: {
+        description: "Thêm hình mờ chữ cục bộ trên trình duyệt. Có thể chỉnh vị trí, cỡ chữ, màu, độ trong suốt và viền. Ảnh không được tải lên.",
+        faqs: [
+          {
+            q: "Hình mờ có thể đặt ở đâu?",
+            a: "Chữ có thể đặt ở giữa, điểm giữa bốn cạnh, bốn góc, hoặc vị trí ngẫu nhiên. Cũng có thể chỉnh cỡ chữ, phông, màu, độ đục và viền.",
+          },
+          {
+            q: "Hình mờ có tải ảnh lên không?",
+            a: "Không. Hình mờ được thêm trên trình duyệt của thiết bị này.",
+          },
+        ],
+      },
+      caption: {
+        description: "Thêm một dòng chữ lớn ở giữa ảnh. Xử lý chạy cục bộ trên trình duyệt. Ảnh không được tải lên.",
+        faqs: [
+          {
+            q: "Chữ được thêm ở đâu?",
+            a: "Một dòng chữ lớn được thêm ở giữa ảnh. Có thể chỉnh cỡ chữ, phông, màu, độ đục và viền.",
+          },
+          {
+            q: "Thêm chữ có tải ảnh lên không?",
+            a: "Không. Thêm chữ chạy trên trình duyệt của thiết bị này.",
+          },
+        ],
+      },
+      fade: {
+        description: "Chuyển ảnh sang thang xám cục bộ trên trình duyệt. Ảnh không được tải lên.",
+        faqs: [
+          {
+            q: "Thang xám có giữ màu gốc không?",
+            a: "Không. Công cụ này chuyển cả ảnh sang thang xám.",
+          },
+          {
+            q: "Thang xám có tải ảnh lên không?",
+            a: "Không. Thang xám chạy trên trình duyệt của thiết bị này.",
+          },
+        ],
+      },
+      tocircle: {
+        description: "Cắt ảnh thành hình tròn theo đường kính. Đường kính bằng 0 thì dùng cạnh ngắn. Xử lý chạy cục bộ trên trình duyệt.",
+        faqs: [
+          {
+            q: "Hình tròn được cắt thế nào?",
+            a: "Cắt thành hình tròn theo đường kính. Đường kính bằng 0 thì dùng cạnh ngắn của ảnh.",
+          },
+          {
+            q: "Cắt hình tròn có tải ảnh lên không?",
+            a: "Không. Cắt hình tròn chạy trên trình duyệt của thiết bị này.",
+          },
+        ],
+      },
+      pdf: {
+        description: "Ghép nhiều ảnh thành PDF, mỗi ảnh một trang. Tạo cục bộ trên trình duyệt và không tải lên.",
+        faqs: [
+          {
+            q: "Nhiều ảnh được xếp thế nào?",
+            a: "Mỗi ảnh thành một trang PDF, theo thứ tự thêm vào.",
+          },
+          {
+            q: "Tạo PDF có tải ảnh lên không?",
+            a: "Không. PDF được tạo trên trình duyệt của thiết bị này.",
+          },
+        ],
+      },
+      favicon: {
+        description: "Từ một ảnh, xuất PNG 16, 32, 48, 180 và một ICO. Tạo cục bộ trên trình duyệt và không tải lên.",
+        faqs: [
+          {
+            q: "Sẽ xuất những tệp nào?",
+            a: "Xuất PNG có cạnh 16, 32, 48 và 180, cùng một ICO.",
+          },
+          {
+            q: "Tạo Favicon có tải ảnh lên không?",
+            a: "Không. Favicon được tạo trên trình duyệt của thiết bị này.",
+          },
+        ],
+      },
+      exif: {
+        description: "Xem EXIF của ảnh, rồi vẽ lại thành ảnh mới không có siêu dữ liệu. Không sửa tệp gốc và không tải lên.",
+        faqs: [
+          {
+            q: "Xóa thông tin sẽ xóa những gì?",
+            a: "Trước hết xem EXIF, rồi vẽ lại thành một ảnh mới không có siêu dữ liệu. Tệp gốc không bị ghi đè.",
+          },
+          {
+            q: "Khác thông tin ảnh ở điểm nào?",
+            a: "Xóa thông tin xuất một ảnh mới. Thông tin ảnh chỉ xem và xuất JSON, không tạo ảnh đã bỏ siêu dữ liệu.",
+          },
+        ],
+      },
+      pix: {
+        description: "Xem kích thước và EXIF của ảnh, và có thể xuất JSON. Ở đây chỉ đọc thông tin. Muốn bỏ siêu dữ liệu, hãy dùng xóa thông tin. Không tải lên.",
+        faqs: [
+          {
+            q: "Thông tin ảnh gồm những gì?",
+            a: "Xem kích thước và EXIF, và có thể xuất thông tin đã đọc thành JSON.",
+          },
+          {
+            q: "Ở đây có sửa ảnh không?",
+            a: "Không. Muốn có ảnh mới không siêu dữ liệu, hãy dùng xóa thông tin. Việc đọc chạy cục bộ trên trình duyệt.",
+          },
+        ],
+      },
+      prompt: {
+        description:
+          "Trích xuất prompt AI: đọc prompt thuận, prompt phủ định và tham số tạo đã nhúng trong ảnh PNG và JPEG, để tìm gợi ý vẽ được ghi trong tệp, như của Stable Diffusion. Chạy cục bộ trên trình duyệt, không suy luận mô hình.",
+        faqs: [
+          {
+            q: "Đọc được những nội dung nào?",
+            a: "Đọc prompt thuận, prompt phủ định và tham số tạo nhúng trong PNG tEXt/iTXt và JPEG APP1/COM. Nếu tệp không có các nội dung này, trang sẽ nói là không đọc được.",
+          },
+          {
+            q: "Có gọi mô hình vẽ không?",
+            a: "Không. Công cụ này không suy luận và không tải ảnh lên.",
+          },
+        ],
+      },
+    },
+  },
+  ui: {
+    replace: "Đổi ảnh",
+    replaceFiles: "Chọn lại",
+    exportPng: "Xuất PNG",
+    downloadResult: "Tải kết quả",
+    again: "Xử lý lại",
+    repaint: "Tiếp tục tô",
+    remove: "Gỡ",
+    clearMask: "Xóa nét tô",
+    startCutout: "Bắt đầu tách nền",
+    startEnhance: "Bắt đầu tối ưu",
+    startErase: "Bắt đầu xóa vùng",
+    brush: "Độ dày cọ",
+    paintHint: "Tô vùng cần xóa. Nét trắng được đưa cho engine làm mặt nạ.",
+    needPaint: "Hãy tô vùng cần xóa trước",
+    compare: "Kéo sang hai bên để so ảnh gốc và kết quả",
+    original: "Ảnh gốc",
+    result: "Kết quả",
+    ratio: "Tỷ lệ",
+    ratioFree: "Tự do",
+    rotateLeft: "Xoay trái",
+    rotateRight: "Xoay phải",
+    flipX: "Lật ngang",
+    flipY: "Lật dọc",
+    format: "Định dạng",
+    quality: "Chất lượng",
+    maxEdge: "Cạnh dài nhất",
+    maxEdgeHint: "0 là kích thước gốc",
+    targetKb: "Dung lượng đích KB",
+    targetKbHint: "0 nghĩa là không giới hạn",
+    pngNote: "PNG nén theo điểm ảnh, thanh chất lượng không có tác dụng.",
+    width: "Chiều rộng",
+    height: "Chiều cao",
+    fit: "Cách đặt",
+    fitContain: "Hiện đủ với phần để trống",
+    fitCover: "Phủ kín và cắt",
+    fitStretch: "Kéo giãn tới kích thước chỉ định",
+    targetFormat: "Định dạng đích",
+    needFormat: "Hãy chọn ít nhất một định dạng",
+    cannotExport: "Các định dạng này không xuất được trên trình duyệt hiện tại",
+    diameter: "Đường kính",
+    diameterHint: "0 nghĩa là dùng cạnh ngắn",
+    before: "Trước khi xử lý",
+    after: "Sau khi vẽ lại",
+    noExif: "Không đọc được EXIF",
+    selected: "Đã chọn",
+    sheets: "ảnh",
+    buildPdf: "Tạo PDF",
+    exportJson: "Xuất JSON",
+    noPrompt: "Không đọc được prompt AI đã nhúng",
+    preset: "Mẫu sẵn",
+    background: "Màu nền",
+    output: "Đầu ra",
+    text: "Chữ",
+    fontSize: "Cỡ chữ",
+    position: "Vị trí",
+    font: "Phông",
+    textColor: "Màu chữ",
+    opacity: "Độ đục",
+    stroke: "Viền",
+    needText: "Hãy nhập chữ trước",
+    cutWay: "Cách",
+    cutAction: "Thao tác",
+    pieceCount: "Số mảnh",
+    rowCount: "Số hàng",
+    colCount: "Số cột",
+    gridMergeUnsupported: "Lưới chỉ hỗ trợ cắt, không hỗ trợ ghép tự động.",
+    model: "Mô hình",
+    effect: "Hiệu ứng",
+    scale: "Bội số",
+    canvas: "Không dùng được canvas",
+    maskExport: "Không xuất được mặt nạ",
+    cut: {
+      vertical: "Cắt dọc",
+      horizontal: "Cắt ngang",
+      diagonalLeft: "Chéo trái",
+      diagonalRight: "Chéo phải",
+      diagonalX: "Hình X",
+      grid: "Lưới",
+      split: "Cắt ra",
+      auto: "Ghép",
+    },
+    place: {
+      random: "Ngẫu nhiên",
+      center: "Giữa",
+      top: "Giữa trên",
+      bottom: "Giữa dưới",
+      left: "Giữa trái",
+      right: "Giữa phải",
+      topLeft: "Trên trái",
+      topRight: "Trên phải",
+      bottomLeft: "Dưới trái",
+      bottomRight: "Dưới phải",
+    },
+    models: {
+      u2net: "Tổng quát",
+      u2netp: "Nhẹ",
+      human: "Chân dung",
+      isnet: "Độ chính xác cao",
+      anime: "Anime",
+    },
+    effects: {
+      balanced: "Tăng cường chung",
+      standard: "Tăng cường chuẩn",
+      premium: "Tăng cường chất lượng cao",
+      anime: "Nghệ thuật số",
+      animePro: "Anime",
+    },
+  },
+};

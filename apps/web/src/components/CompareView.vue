@@ -33,7 +33,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/vue/24/outline";
-import { copy } from "@/content/zh";
+import { copy } from "@/content";
 
 defineProps<{
   original: string;

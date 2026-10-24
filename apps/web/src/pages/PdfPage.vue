@@ -20,7 +20,7 @@ import { ref } from "vue";
 import { PDFDocument } from "pdf-lib";
 import BatchLayout from "@/components/BatchLayout.vue";
 import Stage from "@/components/Stage.vue";
-import { copy } from "@/content/zh";
+import { copy } from "@/content";
 import { canvasToBlob, fileToImage, isProcessableImage } from "@/utils/image";
 import { saveOrDownload } from "@/utils/save";
 

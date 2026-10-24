@@ -23,7 +23,10 @@
       </div>
     </template>
     <template v-else>
-      <p class="text-muted">{{ copy.ui.engineReady }} {{ device }}。</p>
+      <p class="text-muted">
+        {{ copy.featureReady }}
+        <template v-if="device">{{ copy.currentDevice }} {{ device }}。</template>
+      </p>
       <p v-if="status?.missing.length" class="mt-1 break-all text-muted">
         {{ copy.modelPartial }}：{{ status.missing.join("、") }}
       </p>
@@ -34,34 +37,33 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
-import { engineHealth, type EngineHealth, type EngineToolStatus } from "@/api/engine";
-import { copy } from "@/content/zh";
+import { engineHealth, type EngineToolHealth, type EngineToolName } from "@/api/engine";
+import { copy } from "@/content";
 import { type ToolGate } from "@/engine-gate";
 import { projectReleases, projectRepo } from "@/release";
 
-const props = defineProps<{ tool: "cutout" | "enhance" | "erase" }>();
+const props = defineProps<{ tool: EngineToolName }>();
 const emit = defineEmits<{ gate: [ToolGate] }>();
-const health = ref<EngineHealth | null>(null);
+const health = ref<EngineToolHealth | null>(null);
 const down = ref(false);
 const loaded = ref(false);
 const checking = ref(false);
-const status = computed(() => health.value?.[props.tool] as EngineToolStatus | undefined);
-const device = computed(() => health.value?.device ?? "cpu");
+const status = computed(() => health.value ?? undefined);
+const device = computed(() => health.value?.device ?? "");
 const phase = computed(() => snapshot().phase);
 
 function snapshot(): ToolGate {
   if (!loaded.value) return { phase: "checking", available: [] };
   if (down.value || !health.value) return { phase: "down", available: [] };
-  const current = health.value[props.tool];
-  if (!current?.ready) return { phase: "blocked", available: [] };
-  return { phase: "ready", available: current.available };
+  if (!health.value.ready) return { phase: "blocked", available: [] };
+  return { phase: "ready", available: health.value.available };
 }
 
 async function load() {
   if (checking.value) return;
   checking.value = true;
   try {
-    health.value = await engineHealth();
+    health.value = await engineHealth(props.tool);
     down.value = false;
   } catch {
     health.value = null;

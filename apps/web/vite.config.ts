@@ -1,6 +1,7 @@
 import { defineConfig, type Plugin } from "vite";
 import vue from "@vitejs/plugin-vue";
 import { fileURLToPath, URL } from "node:url";
+import { seoPlugin } from "./seo-plugin";
 
 function appConfigPlugin(): Plugin {
   return {
@@ -23,6 +24,7 @@ function appConfigPlugin(): Plugin {
 
 export default defineConfig({
   plugins: [
+    seoPlugin(),
     appConfigPlugin(),
     vue({
       template: {
@@ -39,7 +41,7 @@ export default defineConfig({
   },
   server: {
     host: "127.0.0.1",
-    port: 5173,
+    port: 13175,
     proxy: {
       "/api/engine": "http://127.0.0.1:8787",
     },

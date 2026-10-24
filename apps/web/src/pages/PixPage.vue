@@ -13,7 +13,7 @@ import { ref } from "vue";
 import ExifReader from "exifreader";
 import BatchLayout from "@/components/BatchLayout.vue";
 import Stage from "@/components/Stage.vue";
-import { copy } from "@/content/zh";
+import { copy } from "@/content";
 import { isProcessableImage, stem } from "@/utils/image";
 import { saveOrDownload } from "@/utils/save";
 

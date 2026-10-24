@@ -24,7 +24,7 @@ import Chips from "@/components/Chips.vue";
 import ResultGrid from "@/components/ResultGrid.vue";
 import Stage from "@/components/Stage.vue";
 import { useResults } from "@/composables/useResults";
-import { copy } from "@/content/zh";
+import { copy } from "@/content";
 import { convertImageFile } from "@/utils/convert-image";
 import { formatBytes } from "@/utils/image";
 

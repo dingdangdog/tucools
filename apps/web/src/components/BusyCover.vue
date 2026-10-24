@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { copy } from "@/content/zh";
+import { copy } from "@/content";
 
 defineProps<{ show: boolean; text?: string }>();
 </script>

@@ -17,6 +17,8 @@ function contentType(filePath) {
     ".svg": "image/svg+xml",
     ".png": "image/png",
     ".webp": "image/webp",
+    ".xml": "application/xml; charset=utf-8",
+    ".txt": "text/plain; charset=utf-8",
     ".ico": "image/x-icon",
     ".woff2": "font/woff2",
   };
@@ -51,6 +53,25 @@ function proxyTo(req, res, port) {
   req.pipe(upstream);
 }
 
+const LOCALE_PREFIXES = new Set(["en", "zh_hant", "es", "de", "ja", "pt_br", "hi", "vn", "ar", "bn"]);
+
+function resolveWebFile(webRoot, requested) {
+  const root = path.normalize(webRoot);
+  const relative = requested === "/" ? "index.html" : requested.replace(/^\/+/, "");
+  let filePath = path.normalize(path.join(root, relative));
+  if (filePath !== root && !filePath.startsWith(root + path.sep)) return null;
+  if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) return filePath;
+  const nested = path.join(filePath, "index.html");
+  if (fs.existsSync(nested) && fs.statSync(nested).isFile()) return nested;
+  const parts = relative.split("/").filter(Boolean);
+  if (parts.length && LOCALE_PREFIXES.has(parts[0])) {
+    const localized = path.join(root, parts[0], "index.html");
+    if (fs.existsSync(localized)) return localized;
+  }
+  const fallback = path.join(root, "index.html");
+  return fs.existsSync(fallback) ? fallback : null;
+}
+
 function createStaticServer(webRoot, engine) {
   return http.createServer((req, res) => {
     const url = new URL(req.url || "/", "http://127.0.0.1");
@@ -73,15 +94,11 @@ function createStaticServer(webRoot, engine) {
       return;
     }
     const requested = decodeURIComponent(url.pathname);
-    const relative = requested === "/" ? "index.html" : requested.replace(/^\/+/, "");
-    let filePath = path.normalize(path.join(webRoot, relative));
-    if (!filePath.startsWith(path.normalize(webRoot))) {
-      res.writeHead(403);
-      res.end();
+    const filePath = resolveWebFile(webRoot, requested);
+    if (!filePath) {
+      res.writeHead(404);
+      res.end("页面不存在");
       return;
-    }
-    if (!fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
-      filePath = path.join(webRoot, "index.html");
     }
     fs.readFile(filePath, (error, data) => {
       if (error) {
@@ -112,10 +129,18 @@ function missingModels(runtime, names) {
   return names.filter((name) => !fs.existsSync(path.join(runtimeModels(runtime), name)));
 }
 
-function legacyHealth(runtime) {
+function cutoutLegacy(runtime) {
   const cutoutFiles = ["u2net.onnx", "u2netp.onnx", "u2net_human_seg.onnx", "isnet-general-use.onnx", "isnet-anime.onnx"];
   const cutoutMissing = missingModels(runtime, cutoutFiles);
-  const eraseMissing = missingModels(runtime, ["big-lama.pt"]);
+  if (!fs.existsSync(path.join(runtime, "erembg.exe"))) cutoutMissing.push("erembg.exe");
+  return {
+    ready: fs.existsSync(path.join(runtime, "erembg.exe")) && cutoutMissing.length < cutoutFiles.length,
+    missing: cutoutMissing,
+    available: cutoutFiles.filter((name) => fs.existsSync(path.join(runtimeModels(runtime), name))).map((name) => name.replace(".onnx", "")),
+  };
+}
+
+function enhanceLegacy(runtime) {
   const enhancePairs = {
     balanced: ["upscayl-lite-4x.bin", "upscayl-lite-4x.param"],
     standard: ["upscayl-standard-4x.bin", "upscayl-standard-4x.param"],
@@ -133,30 +158,64 @@ function legacyHealth(runtime) {
   const upscayl = path.join(runtime, "bin", "windows", "upscayl-bin.exe");
   if (!fs.existsSync(upscayl)) enhanceMissing.push(upscayl);
   if (!fs.existsSync(path.join(runtime, "eenhance.exe"))) enhanceMissing.push("eenhance.exe");
-  if (!fs.existsSync(path.join(runtime, "erembg.exe"))) cutoutMissing.push("erembg.exe");
+  return {
+    ready: fs.existsSync(path.join(runtime, "eenhance.exe")) && fs.existsSync(upscayl) && enhanceAvailable.length > 0,
+    missing: enhanceMissing,
+    available: enhanceAvailable,
+    upscayl,
+  };
+}
+
+function eraseLegacy(runtime) {
+  const eraseMissing = missingModels(runtime, ["big-lama.pt"]);
   if (!fs.existsSync(path.join(runtime, "eerase.exe"))) eraseMissing.push("eerase.exe");
+  return {
+    ready: eraseMissing.length === 0,
+    missing: eraseMissing,
+    available: eraseMissing.length ? [] : ["lama"],
+  };
+}
+
+const legacyChecks = {
+  cutout: cutoutLegacy,
+  enhance: enhanceLegacy,
+  erase: eraseLegacy,
+};
+
+function legacyHealth(runtime) {
+  const enhance = enhanceLegacy(runtime);
   return {
     ok: true,
     device: "cpu",
     cuda: false,
     modelsDir: runtimeModels(runtime),
-    upscayl,
-    cutout: {
-      ready: fs.existsSync(path.join(runtime, "erembg.exe")) && cutoutMissing.length < cutoutFiles.length,
-      missing: cutoutMissing,
-      available: cutoutFiles.filter((name) => fs.existsSync(path.join(runtimeModels(runtime), name))).map((name) => name.replace(".onnx", "")),
-    },
+    upscayl: enhance.upscayl,
+    cutout: cutoutLegacy(runtime),
     enhance: {
-      ready: fs.existsSync(path.join(runtime, "eenhance.exe")) && fs.existsSync(upscayl) && enhanceAvailable.length > 0,
-      missing: enhanceMissing,
-      available: enhanceAvailable,
+      ready: enhance.ready,
+      missing: enhance.missing,
+      available: enhance.available,
     },
-    erase: {
-      ready: eraseMissing.length === 0,
-      missing: eraseMissing,
-      available: eraseMissing.length ? [] : ["lama"],
-    },
+    erase: eraseLegacy(runtime),
   };
+}
+
+function legacyToolHealth(runtime, tool) {
+  const status = legacyChecks[tool](runtime);
+  const body = {
+    ok: true,
+    tool,
+    modelsDir: runtimeModels(runtime),
+    ready: status.ready,
+    missing: status.missing,
+    available: status.available,
+  };
+  if (tool === "enhance") body.upscayl = status.upscayl;
+  if (tool === "erase") {
+    body.device = "cpu";
+    body.cuda = false;
+  }
+  return body;
 }
 
 const jobs = new Map();
@@ -266,6 +325,15 @@ function handleLegacy(req, res, runtime) {
   const url = new URL(req.url || "/", "http://127.0.0.1");
   if (req.method === "GET" && url.pathname === "/api/engine/health") {
     sendJson(res, 200, legacyHealth(runtime));
+    return;
+  }
+  const toolHealth = url.pathname.match(/^\/api\/engine\/health\/([^/]+)$/);
+  if (req.method === "GET" && toolHealth) {
+    if (!legacyChecks[toolHealth[1]]) {
+      sendJson(res, 400, { detail: "只能检查抠图、优化或消除。" });
+      return;
+    }
+    sendJson(res, 200, legacyToolHealth(runtime, toolHealth[1]));
     return;
   }
   const events = url.pathname.match(/^\/api\/engine\/jobs\/([^/]+)\/events$/);

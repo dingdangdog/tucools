@@ -10,7 +10,17 @@ from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.responses import FileResponse, StreamingResponse
 
 from jobs import Job, jobs
-from runtime_info import ENHANCE_MODELS, bind_pack_env, device_label, missing, models_dir, pack_root, tool_status
+from runtime_info import (
+    ENHANCE_MODELS,
+    TOOL_CHECKS,
+    bind_pack_env,
+    device_label,
+    missing,
+    models_dir,
+    pack_root,
+    single_tool_status,
+    tool_status,
+)
 
 bind_pack_env()
 
@@ -121,6 +131,17 @@ def health():
     info = tool_status()
     info.update(device_label())
     info["ok"] = True
+    return info
+
+
+@app.get("/api/engine/health/{tool}")
+def health_tool(tool: str):
+    if tool not in TOOL_CHECKS:
+        raise HTTPException(status_code=400, detail="只能检查抠图、优化或消除。")
+    info = single_tool_status(tool)
+    info["ok"] = True
+    if tool == "erase":
+        info.update(device_label())
     return info
 
 

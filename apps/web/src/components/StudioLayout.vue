@@ -8,6 +8,7 @@
         <p v-if="lead" class="shrink-0 text-sm text-muted">{{ lead }}</p>
         <div class="flex flex-col gap-3 lg:min-h-0 lg:flex-1 lg:overflow-y-auto">
           <slot name="panel" />
+          <PageFacts />
         </div>
         <div v-if="$slots.actions" class="flex shrink-0 flex-col gap-2 border-t border-line pt-3">
           <slot name="actions" />
@@ -18,5 +19,7 @@
 </template>
 
 <script setup lang="ts">
+import PageFacts from "@/components/PageFacts.vue";
+
 defineProps<{ lead?: string }>();
 </script>

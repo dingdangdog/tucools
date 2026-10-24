@@ -1,3 +1,5 @@
+export type EngineToolName = "cutout" | "enhance" | "erase";
+
 export interface EngineToolStatus {
   ready: boolean;
   missing: string[];
@@ -16,6 +18,16 @@ export interface EngineHealth {
   erase: EngineToolStatus;
 }
 
+export interface EngineToolHealth extends EngineToolStatus {
+  ok: boolean;
+  tool: EngineToolName;
+  modelPack?: string;
+  modelsDir?: string;
+  upscayl?: string;
+  device?: string;
+  cuda?: boolean;
+}
+
 export interface EngineEvent {
   status: string;
   percentage: number;
@@ -29,8 +41,8 @@ function errorMessage(data: { detail?: string; error?: string }, fallback: strin
   return fallback;
 }
 
-export async function engineHealth(): Promise<EngineHealth> {
-  const response = await fetch("/api/engine/health");
+export async function engineHealth(tool: EngineToolName): Promise<EngineToolHealth> {
+  const response = await fetch(`/api/engine/health/${tool}`);
   if (!response.ok) throw new Error("引擎没有响应");
   return response.json();
 }

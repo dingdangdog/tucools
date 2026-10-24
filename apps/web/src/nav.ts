@@ -20,7 +20,8 @@ import {
   SwatchIcon,
   ViewfinderCircleIcon,
 } from "@heroicons/vue/24/outline";
-import { copy } from "@/content/zh";
+import { copy, currentLocale } from "@/content";
+import { localePath } from "@/locale";
 
 export interface NavItem {
   id: string;
@@ -31,31 +32,100 @@ export interface NavItem {
   icon: Component;
 }
 
-function item(id: string, label: string, lead: string, tone: string, icon: Component): NavItem {
-  return { id, to: `/${id}`, label, lead, tone, icon: markRaw(icon) };
+const toolKey = {
+  compress: "compress",
+  resize: "resize",
+  converter: "converter",
+  cropping: "cropping",
+  "id-photo": "idPhoto",
+  sizes: "sizes",
+  cutting: "cutting",
+  watermark: "watermark",
+  caption: "caption",
+  fade: "fade",
+  tocircle: "tocircle",
+  exif: "exif",
+  pdf: "pdf",
+  favicon: "favicon",
+  prompt: "prompt",
+  pix: "pix",
+  cutout: "cutout",
+  enhance: "enhance",
+  erase: "erase",
+} as const;
+
+export const allNavIds = [
+  "cutout",
+  "enhance",
+  "erase",
+  "compress",
+  "resize",
+  "converter",
+  "cropping",
+  "id-photo",
+  "sizes",
+  "cutting",
+  "watermark",
+  "caption",
+  "fade",
+  "tocircle",
+  "pdf",
+  "favicon",
+  "exif",
+  "pix",
+  "prompt",
+] as const;
+
+function present(id: keyof typeof toolKey, tone: string, icon: Component): NavItem {
+  const tool = copy.tools[toolKey[id]];
+  return {
+    id,
+    to: localePath(`/${id}`, currentLocale.value),
+    label: tool.title,
+    lead: tool.lead,
+    tone,
+    icon: markRaw(icon),
+  };
 }
 
-export const localNav: NavItem[] = [
-  item("compress", copy.tools.compress.title, copy.tools.compress.lead, "emerald", ArrowsPointingInIcon),
-  item("resize", copy.tools.resize.title, copy.tools.resize.lead, "orange", ArrowsPointingOutIcon),
-  item("converter", copy.tools.converter.title, copy.tools.converter.lead, "pink", ArrowPathRoundedSquareIcon),
-  item("cropping", copy.tools.cropping.title, copy.tools.cropping.lead, "violet", ViewfinderCircleIcon),
-  item("id-photo", copy.tools.idPhoto.title, copy.tools.idPhoto.lead, "sky", IdentificationIcon),
-  item("sizes", copy.tools.sizes.title, copy.tools.sizes.lead, "indigo", DevicePhoneMobileIcon),
-  item("cutting", copy.tools.cutting.title, copy.tools.cutting.lead, "blue", Squares2X2Icon),
-  item("watermark", copy.tools.watermark.title, copy.tools.watermark.lead, "blue", ChatBubbleBottomCenterTextIcon),
-  item("caption", copy.tools.caption.title, copy.tools.caption.lead, "sky", PencilSquareIcon),
-  item("fade", copy.tools.fade.title, copy.tools.fade.lead, "slate", SwatchIcon),
-  item("tocircle", copy.tools.tocircle.title, copy.tools.tocircle.lead, "cyan", StopCircleIcon),
-  item("exif", copy.tools.exif.title, copy.tools.exif.lead, "lime", DocumentMinusIcon),
-  item("pdf", copy.tools.pdf.title, copy.tools.pdf.lead, "rose", DocumentTextIcon),
-  item("favicon", copy.tools.favicon.title, copy.tools.favicon.lead, "orange", GlobeAltIcon),
-  item("prompt", copy.tools.prompt.title, copy.tools.prompt.lead, "cyan", CodeBracketIcon),
-  item("pix", copy.tools.pix.title, copy.tools.pix.lead, "lime", InformationCircleIcon),
-];
-
-export const aiNav: NavItem[] = [
-  item("cutout", copy.tools.cutout.title, copy.tools.cutout.lead, "blue", ScissorsIcon),
-  item("enhance", copy.tools.enhance.title, copy.tools.enhance.lead, "emerald", SparklesIcon),
-  item("erase", copy.tools.erase.title, copy.tools.erase.lead, "pink", PaintBrushIcon),
-];
+export function createNavGroups() {
+  return [
+    {
+      id: "ai",
+      label: copy.aiGroup,
+      items: [
+        present("cutout", "blue", ScissorsIcon),
+        present("enhance", "emerald", SparklesIcon),
+        present("erase", "pink", PaintBrushIcon),
+      ],
+    },
+    {
+      id: "local",
+      label: copy.localGroup,
+      items: [
+        present("compress", "emerald", ArrowsPointingInIcon),
+        present("resize", "orange", ArrowsPointingOutIcon),
+        present("converter", "pink", ArrowPathRoundedSquareIcon),
+        present("cropping", "violet", ViewfinderCircleIcon),
+        present("id-photo", "sky", IdentificationIcon),
+        present("sizes", "indigo", DevicePhoneMobileIcon),
+        present("cutting", "blue", Squares2X2Icon),
+        present("watermark", "blue", ChatBubbleBottomCenterTextIcon),
+        present("caption", "sky", PencilSquareIcon),
+        present("fade", "slate", SwatchIcon),
+        present("tocircle", "cyan", StopCircleIcon),
+        present("pdf", "rose", DocumentTextIcon),
+        present("favicon", "orange", GlobeAltIcon),
+      ],
+    },
+    {
+      id: "info",
+      label: copy.infoGroup,
+      items: [
+        present("exif", "lime", DocumentMinusIcon),
+        present("pix", "lime", InformationCircleIcon),
+        present("prompt", "cyan", CodeBracketIcon),
+      ],
+    },
+  ];
+}

@@ -17,9 +17,9 @@
 | 路径 | 职责 |
 | --- | --- |
 | `apps/web` | Vite + Vue 3 + Vue Router + Pinia + Tailwind。唯一界面。 |
-| `apps/web/src/content/zh.ts` | 全部界面文案。 |
+| `apps/web/src/content/` | 界面文案。`zh.ts` 定义 `Copy`，其余语言文件必须符合这个类型。 |
 | `apps/web/src/router.ts` | 路由。 |
-| `apps/web/src/nav.ts` | 「本地处理」「AI 处理」导航。 |
+| `apps/web/src/nav.ts` | 「全部功能」「AI 处理」「常规处理」「信息处理」导航。 |
 | `apps/web/src/utils` | 浏览器内图像算法。 |
 | `apps/web/src/api/engine.ts` | 引擎请求。页面不写死引擎地址。 |
 | `services/engine` | FastAPI。`app.py` 是契约，`vendor/` 是算法，`runtime_info.py` 是模型就绪检查。 |
@@ -32,7 +32,7 @@
 ## 不能破坏的边界
 
 - 同一份 `apps/web` 构建结果给 Docker 和安装包用。不要做第二套界面，不要把 AI 推理搬进浏览器。
-- 本地工具不上传。证件照尺寸只裁切和铺底色，不抠图。嵌入提示只读取 PNG tEXt/iTXt 和 JPEG APP1/COM，不做推理。
+- 本地工具不上传。证件照尺寸只裁切和铺底色，不抠图。AI提示词提取只读取 PNG tEXt/iTXt 和 JPEG APP1/COM，不做推理。
 - AI 页面只走 `/api/engine`。开发时 Vite 代理到 `127.0.0.1:8787`；部署时由 nginx 或 Electron 反代。
 - 引擎同时只处理一个任务。忙时 409。缺模型或缺参数时 400，并写明缺什么。上传上限 50MB。
 - 模型包单独下载，目录由 `TUCOOLS_MODEL_PACK` 指定。权重在 `models/`，超分程序在 `bin/<平台>/`。清单见 `deploy/model-pack.json`。不得把 `model-pack`、权重或 upscayl 打进 Git、安装包或镜像。
@@ -40,7 +40,8 @@
 - 超分调用 upscayl-bin，不安装 Python 版 realesrgan。Linux 容器不能运行 `upscayl-bin.exe`。
 - 桌面引擎顺序：随包 `tucools-engine.exe`，否则 `TUCOOLS_RUNTIME` 里的旧命令行，否则本机 Python。旧命令行只组装参数，不重写算法。
 - 安装包只做 Windows NSIS。产品名「图酷」，`appId` 为 `com.tucools.app`。
-- 不做激活、支付、试用、博客、广告、多语言 SEO、上色、美颜、人脸修复。
+- 不做激活、支付、试用、博客、广告、上色、美颜、人脸修复。
+- 默认语言是简体中文，地址不带前缀。其他语言使用 `/en`、`/zh_hant`、`/es`、`/de`、`/ja`、`/pt_br`、`/hi`、`/vn`、`/ar`、`/bn`。产品名在每种语言里都是「图酷」。网页不按 `Accept-Language` 跳转；`localStorage` 键 `tucools-locale` 只在打开站点根 `/` 时生效。安装包第一次打开根地址、且没有保存语言时，按系统语言选择。阿拉伯语页面使用 `dir="rtl"`。公开站点的绝对规范地址在构建时读取 `VITE_SITE_URL`，容器启动时读取 `TUCOOLS_SITE_URL`。
 
 ## 接到需求后怎么改
 
@@ -48,12 +49,12 @@
 
 | 需求 | 改哪里 |
 | --- | --- |
-| 新的本地图像工具 | `nav.ts` 的 `localNav`、`router.ts`、`pages/` 里最接近的页面、`utils/`、`zh.ts`。不请求引擎。 |
+| 新的本地图像工具 | `nav.ts` 里按分组写入 `aiNav`、`localNav` 或 `infoNav`，再改 `router.ts`、`pages/` 里最接近的页面、`utils/`、`zh.ts` 以及 `content/` 里其余语言。不请求引擎。 |
 | 调整本地算法或导出结果 | 对应 `utils/*.ts` 和调用它的页面。结果列表继续用 `useResults()`。 |
-| 新的或变更的 AI 能力 | `services/engine/app.py` 的路由与校验、`vendor/` 的算法、`runtime_info.py` 的就绪条件、对应 AI 页面和 `zh.ts`。健康检查要能指出缺的文件。 |
+| 新的或变更的 AI 能力 | `services/engine/app.py` 的路由与校验、`vendor/` 的算法、`runtime_info.py` 的就绪条件、对应 AI 页面、`zh.ts` 以及 `content/` 里其余语言。健康检查要能指出缺的文件。 |
 | 改抠图、优化、消除参数 | 页面表单和 `app.py` 的 Form 一起改。优化效果名以 `ENHANCE_MODELS` 为准。 |
 | 改配色或主题 | 只改 `styles.css` 的令牌，以及 `index.html` 里首屏主题脚本。组件使用已有变量，不写死颜色。 |
-| 改文案 | 只改 `zh.ts`。 |
+| 改文案 | 先改 `zh.ts`，再改 `content/` 里每一种语言，使它们继续符合 `Copy`。 |
 | 改模型文件名或目录 | `runtime_info.py`、`deploy/model-pack.json`、`docs/models.md`，以及安装包过滤和镜像忽略规则。 |
 | 改安装或 Docker | `apps/desktop`、`deploy/`、`docs/deploy.md`。镜像和安装包仍不包含模型包。 |
 
@@ -67,7 +68,7 @@
 
 - 先看相关实现和 `git status`，不覆盖用户已有改动。
 - 说明和排障写入 `docs/`。复杂方案写入 `design/`，使用下一位编号。
-- 改了代码或可执行脚本后，在 `changelog/` 增加三位编号记录。先看已有编号，当前最大是 `008`。记录写明问题、改动、影响、兼容性和实际验证；未跑的检查写「未测试」。
+- 改了代码或可执行脚本后，在 `changelog/` 增加三位编号记录。先看已有编号，当前最大是 `013`。记录写明问题、改动、影响、兼容性和实际验证；未跑的检查写「未测试」。
 - 未经要求不启动开发服务器、Docker、安装包构建或长期进程。可以跑 `npm run typecheck`、`npm run build:web` 和针对改动文件的 Python 语法检查。
 - 不把未安装依赖时的推理、镜像构建或安装包打包写成已通过。
 - 不读取或提交 `.env`、密钥和真实用户图片。不修改两个旧项目。

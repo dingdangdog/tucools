@@ -33,7 +33,7 @@ powershell -File scripts/link-models.ps1
 npm run engine
 ```
 
-确认 http://127.0.0.1:8787/api/engine/health 能打开。缺模型时这里会列出文件名。对应的 AI 页面可以打开，但在没有可用模型时不能开始处理。
+确认 http://127.0.0.1:8787/api/engine/health 能打开。这个地址会列出抠图、优化、消除各自缺的文件。页面按功能分开检查：`/api/engine/health/cutout`、`/api/engine/health/enhance`、`/api/engine/health/erase`。对应的 AI 页面可以打开，但在没有可用模型时不能开始处理。
 
 5. 另开一个终端，启动页面：
 
@@ -41,7 +41,7 @@ npm run engine
 npm run dev:web
 ```
 
-打开 http://127.0.0.1:5173 。Vite 把 `/api/engine` 转到第 4 步的引擎。
+打开 http://127.0.0.1:13175 。Vite 把 `/api/engine` 转到第 4 步的引擎。
 
 ## 桌面壳
 
@@ -77,6 +77,8 @@ docker compose -f deploy/docker-compose.yml up --build
 ```
 
 打开 http://127.0.0.1:8080 。
+
+每个工具有独立地址，并提供简体中文、繁体中文、英语、西语、德语、日语、巴西葡语、印地语、越南语、阿拉伯语和孟加拉语。公开到自己的域名时，设置 `TUCOOLS_SITE_URL` 后再启动，站点地图、hreflang 和 `llms.txt` 会写成这个绝对地址。说明见 [docs/deploy.md](docs/deploy.md)。
 
 ## 发布
 

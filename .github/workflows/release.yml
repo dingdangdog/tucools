@@ -79,6 +79,8 @@ jobs:
         with:
           context: .
           file: deploy/Dockerfile.web
+          build-args: |
+            VITE_SITE_URL=${{ vars.TUCOOLS_SITE_URL }}
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
@@ -149,6 +151,8 @@ jobs:
 
       - name: Build web
         shell: pwsh
+        env:
+          VITE_SITE_URL: ${{ vars.TUCOOLS_SITE_URL }}
         run: |
           npm run build:web
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

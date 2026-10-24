@@ -1,6 +1,6 @@
 import { reactive, ref } from "vue";
 import type { ResultItem } from "@/components/ResultGrid.vue";
-import { copy } from "@/content/zh";
+import { copy } from "@/content";
 import { isProcessableImage } from "@/utils/image";
 import { saveOrDownload } from "@/utils/save";
 import { downloadBlobsAsZip } from "@/utils/zip";

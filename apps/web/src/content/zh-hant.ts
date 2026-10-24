@@ -1,0 +1,456 @@
+import type { Copy } from "./zh";
+
+export const zhHant: Copy = {
+  appName: "图酷",
+  tagline: "圖片工具",
+  language: "語言",
+  allFeatures: "全部功能",
+  aiGroup: "AI 處理",
+  localGroup: "常規處理",
+  infoGroup: "資訊處理",
+  openNav: "工具",
+  closeNav: "關閉",
+  themeToDark: "切換到深色",
+  themeToLight: "切換到淺色",
+  empty: "把圖片拖到這裡，或選擇檔案",
+  choose: "選擇檔案",
+  processing: "正在處理",
+  download: "下載",
+  downloadAll: "打包下載",
+  clear: "清空",
+  saveAs: "儲存到…",
+  failed: "處理失敗",
+  noImage: "請放入圖片檔案",
+  engineDown: "引擎沒有回應。請先啟動本機引擎，或 Docker 裡的引擎。",
+  engineMissing: "還缺這些檔案",
+  modelPackHint: "模型包要另外下載，解壓縮到這個資料夾後再檢查：",
+  refreshHealth: "重新檢查",
+  modelChecking: "正在檢查模型",
+  modelBlocked: "沒有可用的模型，這個功能已停用。",
+  modelUnavailable: "這個功能暫時無法使用",
+  modelLinksLead: "模型包和用戶端的新版本發布在图酷儲存庫。",
+  modelRepo: "儲存庫",
+  modelReleases: "發布頁",
+  modelPartial: "還有部分模型未安裝",
+  featureReady: "這個功能可以使用。",
+  currentDevice: "這台裝置",
+  menus: {
+    title: "功能選單",
+    open: "功能選單",
+    lead: "選擇要在這台裝置上顯示的工具。選擇會儲存在這台裝置上。",
+    capped: "目前的部署只開放下面這些工具。勾選結果會儲存在這台裝置上。",
+    browserLead:
+      "瀏覽器部署以環境變數 TUCOOLS_FEATURES 決定顯示哪些工具，功能名稱用逗號分開。未設定時顯示全部。",
+    browserCurrent: "目前顯示",
+    showAll: "顯示允許的全部功能",
+    empty: "目前沒有可顯示的工具。",
+  },
+  homeLead:
+    "常規處理和資訊處理在這台裝置的瀏覽器裡完成。去背、優化和消除交給同一個引擎，安裝包和 Docker 用的是同一份頁面。",
+  tools: {
+    home: { title: "開始", lead: "選擇左側工具。" },
+    compress: { title: "壓縮", lead: "依品質、最長邊或目標大小壓縮 JPEG、PNG、WebP。" },
+    resize: { title: "縮放", lead: "依指定的寬高縮放，也可以留白放進畫布。" },
+    converter: { title: "轉格式", lead: "在 PNG、JPEG、WebP、BMP、ICO 之間轉換。" },
+    cropping: { title: "裁切", lead: "框選、旋轉後匯出 PNG。" },
+    idPhoto: { title: "證件照尺寸", lead: "依常見像素裁成證件照比例，並鋪上底色。這裡不去背。" },
+    sizes: { title: "社群尺寸", lead: "把圖片放到常見的社群平台尺寸裡。" },
+    cutting: { title: "切圖", lead: "依直線、橫線、斜線或宮格切開，也可以再拼回去。" },
+    watermark: { title: "浮水印", lead: "為圖片加上文字浮水印。" },
+    caption: { title: "加字", lead: "在畫面中央加上一行大字。" },
+    fade: { title: "灰階", lead: "把圖片轉成灰階。" },
+    tocircle: { title: "圓形", lead: "依直徑裁成圓形。" },
+    exif: { title: "清除資訊", lead: "查看 EXIF，再重繪成不含中繼資料的新圖。" },
+    pdf: { title: "圖轉 PDF", lead: "多張圖片各成一頁，匯出 PDF。" },
+    favicon: { title: "Favicon", lead: "匯出 16、32、48、180 的 PNG 和一個 ICO。" },
+    prompt: {
+      title: "AI 提示詞擷取",
+      lead: "從 PNG、JPEG 擷取嵌入的 AI 提示詞、負向提示詞和生成參數。不上傳，也不做模型推論。",
+    },
+    pix: { title: "圖片資訊", lead: "查看 EXIF，並可匯出 JSON。" },
+    cutout: { title: "去背", lead: "去掉背景，匯出透明 PNG。" },
+    enhance: { title: "優化", lead: "依所選效果放大並增強畫面。" },
+    erase: { title: "消除", lead: "塗抹要去掉的區域，再交給引擎填補。" },
+  },
+  seo: {
+    faqHeading: "常見問題",
+    listName: "图酷的圖片工具",
+    boundary:
+      "常規處理和資訊處理在這台裝置的瀏覽器裡完成。去背、優化和消除只請求同源 /api/engine，不經過第三方。模型包另外下載，不在安裝包和 Docker 映像裡。證件照尺寸只裁切和鋪底色。AI 提示詞擷取只讀取檔案裡已有的文字，不做推論。",
+    omitHeading: "不作為工具說明引用",
+    missingTitle: "找不到頁面",
+    missingBody: "這個網址沒有對應的工具。",
+    backHome: "回到開始",
+    homeDescription:
+      "图酷為壓縮、縮放、轉格式、裁切、證件照尺寸、社群尺寸、切圖、浮水印、加字、灰階、圓形、圖轉 PDF、Favicon、清除資訊、圖片資訊和 AI 提示詞擷取提供獨立網址，並在這台裝置的瀏覽器裡處理。去背、優化和消除只請求同源引擎。",
+    homeFaqs: [
+      {
+        q: "圖片會上傳到伺服器嗎？",
+        a: "常規處理和資訊處理在這台裝置的瀏覽器裡完成，圖片不會上傳。去背、優化和消除只請求目前網站的 /api/engine，不經過第三方。",
+      },
+      {
+        q: "安裝包和網頁是同一套工具嗎？",
+        a: "是。Docker 和 Windows 安裝包使用同一份頁面。模型包要另外下載，不在安裝包和 Docker 映像裡。",
+      },
+    ],
+    tools: {
+      cutout: {
+        description: "去掉背景並匯出透明 PNG。請求只發到目前網站的引擎，不經過第三方。沒有可用的模型時不能開始。",
+        faqs: [
+          {
+            q: "去背的結果是什麼？",
+            a: "去掉背景，匯出透明 PNG。頁面只列出目前已經安裝、可以使用的模型。",
+          },
+          {
+            q: "圖片會送到第三方嗎？",
+            a: "不會。請求只發到目前網站的 /api/engine。上傳上限 50MB，引擎同時只處理一個任務。沒有可用的模型時不能開始。",
+          },
+        ],
+      },
+      enhance: {
+        description: "依已安裝的效果放大並增強畫面。請求只發到目前網站的引擎。沒有可用的模型時不能開始。",
+        faqs: [
+          {
+            q: "優化會做什麼？",
+            a: "依所選效果放大並增強畫面。頁面只列出目前已經安裝、可以使用的效果。",
+          },
+          {
+            q: "圖片會送到第三方嗎？",
+            a: "不會。請求只發到目前網站的 /api/engine。沒有可用的模型時不能開始。Linux 容器還需要模型包裡的 upscayl-bin。",
+          },
+        ],
+      },
+      erase: {
+        description: "塗抹要去掉的區域，由目前網站的引擎填補。沒有可用的模型時不能開始，圖片不經過第三方。",
+        faqs: [
+          {
+            q: "怎樣指定要消除的區域？",
+            a: "在畫面上塗抹。白色筆跡作為遮罩交給引擎填補，可以清除後重新塗抹。",
+          },
+          {
+            q: "圖片會送到第三方嗎？",
+            a: "不會。請求只發到目前網站的 /api/engine。上傳上限 50MB。沒有可用的模型時不能開始。",
+          },
+        ],
+      },
+      compress: {
+        description: "在這台裝置的瀏覽器裡壓縮 JPEG、PNG 和 WebP，可依品質、最長邊或目標大小處理。圖片不會上傳。",
+        faqs: [
+          {
+            q: "可以壓到指定大小嗎？",
+            a: "可以依品質、最長邊或目標大小壓縮 JPEG、PNG、WebP。目標大小填 0 表示不限制。PNG 依像素壓縮，品質滑桿不會生效。",
+          },
+          {
+            q: "壓縮會上傳圖片嗎？",
+            a: "不會。壓縮在這台裝置的瀏覽器裡完成。",
+          },
+        ],
+      },
+      resize: {
+        description: "在這台裝置的瀏覽器裡依指定寬高縮放圖片，可以留白完整顯示、鋪滿裁切或拉伸。圖片不會上傳。",
+        faqs: [
+          {
+            q: "縮放會裁掉畫面嗎？",
+            a: "可以選擇留白完整顯示、鋪滿並裁切，或拉伸到指定寬高。",
+          },
+          {
+            q: "縮放會上傳圖片嗎？",
+            a: "不會。縮放在這台裝置的瀏覽器裡完成。",
+          },
+        ],
+      },
+      converter: {
+        description: "在這台裝置的瀏覽器裡，於 PNG、JPEG、WebP、BMP、ICO 之間轉換圖片。目前瀏覽器不能匯出的格式會在頁面上說明。",
+        faqs: [
+          {
+            q: "支援哪些格式？",
+            a: "可以在 PNG、JPEG、WebP、BMP、ICO 之間轉換。目前瀏覽器無法匯出的格式會直接提示，不會假裝已經轉換成功。",
+          },
+          {
+            q: "轉格式會上傳圖片嗎？",
+            a: "不會。轉格式在這台裝置的瀏覽器裡完成。",
+          },
+        ],
+      },
+      cropping: {
+        description: "在瀏覽器裡框選、旋轉或翻轉後匯出 PNG。圖片不會上傳。",
+        faqs: [
+          {
+            q: "裁切結果是什麼格式？",
+            a: "框選、旋轉或翻轉後匯出 PNG。可以自由框選，也可以選擇固定比例。",
+          },
+          {
+            q: "裁切會上傳圖片嗎？",
+            a: "不會。裁切在這台裝置的瀏覽器裡完成。",
+          },
+        ],
+      },
+      "id-photo": {
+        description: "依一寸、二寸、護照或美簽的像素裁成證件照比例，並鋪上白、藍或紅底。這裡只裁切和鋪底色，不去背。",
+        faqs: [
+          {
+            q: "這裡會去背嗎？",
+            a: "不會。證件照尺寸只依常見像素裁成比例，並鋪上白、藍或紅底。去掉背景要用去背。",
+          },
+          {
+            q: "有哪些尺寸？",
+            a: "包含一寸 295×413、二寸 413×626、護照 413×531 和美簽 600×600。",
+          },
+        ],
+      },
+      sizes: {
+        description: "把圖片放進 Instagram、YouTube 封面或小紅書等常見尺寸。可以留白、鋪滿裁切或拉伸，處理在這台裝置的瀏覽器裡完成。",
+        faqs: [
+          {
+            q: "有哪些社群尺寸？",
+            a: "包含 Instagram 貼文 1080×1080、直式 1080×1350、限時動態 1080×1920、YouTube 封面 1280×720 和小紅書 1080×1440。",
+          },
+          {
+            q: "畫面放不進目標尺寸時會怎樣？",
+            a: "可以留白完整顯示、鋪滿並裁切，或拉伸到指定尺寸。處理在這台裝置的瀏覽器裡完成。",
+          },
+        ],
+      },
+      cutting: {
+        description: "依直線、橫線、斜線或宮格切開圖片。除了宮格，可以再拼回去。切圖在這台裝置的瀏覽器裡完成。",
+        faqs: [
+          {
+            q: "可以怎麼切？",
+            a: "可以依直線、橫線、斜線或宮格切開。除了宮格，切開的圖片還可以再拼回去。",
+          },
+          {
+            q: "切圖會上傳嗎？",
+            a: "不會。切圖在這台裝置的瀏覽器裡完成。",
+          },
+        ],
+      },
+      watermark: {
+        description: "在這台裝置的瀏覽器裡為圖片加上文字浮水印，可調位置、字型大小、顏色、透明度和描邊。圖片不會上傳。",
+        faqs: [
+          {
+            q: "浮水印可以怎麼放？",
+            a: "文字可放在正中、四邊中點、四個角，也可以隨機，並可調整字型大小、字型、顏色、不透明度和描邊。",
+          },
+          {
+            q: "浮水印會上傳圖片嗎？",
+            a: "不會。浮水印在這台裝置的瀏覽器裡完成。",
+          },
+        ],
+      },
+      caption: {
+        description: "在畫面中央加上一行大字，處理在這台裝置的瀏覽器裡完成。圖片不會上傳。",
+        faqs: [
+          {
+            q: "字加在哪裡？",
+            a: "在畫面中央加上一行大字，可調整字型大小、字型、顏色、不透明度和描邊。",
+          },
+          {
+            q: "加字會上傳圖片嗎？",
+            a: "不會。加字在這台裝置的瀏覽器裡完成。",
+          },
+        ],
+      },
+      fade: {
+        description: "在這台裝置的瀏覽器裡把圖片轉成灰階。圖片不會上傳。",
+        faqs: [
+          {
+            q: "灰階會保留原來的顏色嗎？",
+            a: "不會。這個工具把整張圖片轉成灰階。",
+          },
+          {
+            q: "灰階會上傳圖片嗎？",
+            a: "不會。灰階在這台裝置的瀏覽器裡完成。",
+          },
+        ],
+      },
+      tocircle: {
+        description: "依直徑把圖片裁成圓形。直徑為 0 時使用短邊。處理在這台裝置的瀏覽器裡完成。",
+        faqs: [
+          {
+            q: "圓形怎麼裁？",
+            a: "依直徑裁成圓形。直徑填 0 時使用圖片短邊。",
+          },
+          {
+            q: "圓形裁切會上傳圖片嗎？",
+            a: "不會。圓形裁切在這台裝置的瀏覽器裡完成。",
+          },
+        ],
+      },
+      pdf: {
+        description: "把多張圖片合成 PDF，每張圖片單獨一頁。在這台裝置的瀏覽器裡產生，不會上傳。",
+        faqs: [
+          {
+            q: "多張圖片怎麼排？",
+            a: "每張圖片單獨成為 PDF 的一頁，依放入順序排列。",
+          },
+          {
+            q: "產生 PDF 會上傳圖片嗎？",
+            a: "不會。PDF 在這台裝置的瀏覽器裡產生。",
+          },
+        ],
+      },
+      favicon: {
+        description: "從一張圖片匯出 16、32、48、180 的 PNG 和一個 ICO。在這台裝置的瀏覽器裡產生，不會上傳。",
+        faqs: [
+          {
+            q: "會匯出哪些檔案？",
+            a: "匯出邊長 16、32、48、180 的 PNG，以及一個 ICO。",
+          },
+          {
+            q: "產生 Favicon 會上傳圖片嗎？",
+            a: "不會。Favicon 在這台裝置的瀏覽器裡產生。",
+          },
+        ],
+      },
+      exif: {
+        description: "查看圖片 EXIF 後，重繪成不含中繼資料的新圖。不改原檔，也不上傳。",
+        faqs: [
+          {
+            q: "清除資訊會刪掉什麼？",
+            a: "先查看 EXIF，再重繪成一張不含中繼資料的新圖。原檔不會被改寫。",
+          },
+          {
+            q: "和圖片資訊有什麼不同？",
+            a: "清除資訊會匯出新圖。圖片資訊只查看和匯出 JSON，不產生去掉中繼資料的圖片。",
+          },
+        ],
+      },
+      pix: {
+        description: "查看圖片尺寸和 EXIF，並可匯出 JSON。這裡只讀取資訊；要去掉中繼資料請使用清除資訊。不會上傳。",
+        faqs: [
+          {
+            q: "圖片資訊包含什麼？",
+            a: "查看尺寸和 EXIF，並可以把讀到的資訊匯出為 JSON。",
+          },
+          {
+            q: "這裡會修改圖片嗎？",
+            a: "不會。要得到不含中繼資料的新圖，使用清除資訊。讀取在這台裝置的瀏覽器裡完成。",
+          },
+        ],
+      },
+      prompt: {
+        description:
+          "AI 提示詞擷取：讀取 PNG、JPEG 圖片裡嵌入的正向提示詞、負向提示詞和生成參數，可用來找出 Stable Diffusion 等寫在檔案中的繪圖提示。在這台裝置的瀏覽器裡完成，不做模型推論。",
+        faqs: [
+          {
+            q: "能讀出哪些內容？",
+            a: "讀取 PNG tEXt/iTXt 和 JPEG APP1/COM 裡嵌入的正向提示詞、負向提示詞和生成參數。檔案裡沒有這些內容時，頁面會說明沒有讀到。",
+          },
+          {
+            q: "會呼叫繪圖模型嗎？",
+            a: "不會。這個工具不做推論，也不上傳圖片。",
+          },
+        ],
+      },
+    },
+  },
+  ui: {
+    replace: "換一張",
+    replaceFiles: "重新選擇",
+    exportPng: "匯出 PNG",
+    downloadResult: "下載結果",
+    again: "重新處理",
+    repaint: "繼續塗抹",
+    remove: "移除",
+    clearMask: "清除塗抹",
+    startCutout: "開始去背",
+    startEnhance: "開始優化",
+    startErase: "開始消除",
+    brush: "筆刷粗細",
+    paintHint: "在要消除的區域塗抹。白色筆跡會作為遮罩交給引擎。",
+    needPaint: "請先塗抹要消除的區域",
+    compare: "左右拖曳，對比原圖和結果",
+    original: "原圖",
+    result: "結果",
+    ratio: "比例",
+    ratioFree: "自由",
+    rotateLeft: "向左旋轉",
+    rotateRight: "向右旋轉",
+    flipX: "水平翻轉",
+    flipY: "垂直翻轉",
+    format: "格式",
+    quality: "品質",
+    maxEdge: "最長邊",
+    maxEdgeHint: "0 為原尺寸",
+    targetKb: "目標大小 KB",
+    targetKbHint: "0 為不限制",
+    pngNote: "PNG 依像素壓縮，品質滑桿不會生效。",
+    width: "寬度",
+    height: "高度",
+    fit: "放入方式",
+    fitContain: "留白完整顯示",
+    fitCover: "鋪滿並裁切",
+    fitStretch: "拉伸到指定尺寸",
+    targetFormat: "目標格式",
+    needFormat: "請至少選擇一種格式",
+    cannotExport: "這些格式在目前的瀏覽器裡無法匯出",
+    diameter: "直徑",
+    diameterHint: "0 表示用短邊",
+    before: "處理前",
+    after: "重繪後",
+    noExif: "沒有讀到 EXIF",
+    selected: "已選擇",
+    sheets: "張",
+    buildPdf: "產生 PDF",
+    exportJson: "匯出 JSON",
+    noPrompt: "沒有讀到嵌入的 AI 提示詞",
+    preset: "預設",
+    background: "底色",
+    output: "輸出",
+    text: "文字",
+    fontSize: "字型大小",
+    position: "位置",
+    font: "字型",
+    textColor: "文字顏色",
+    opacity: "不透明度",
+    stroke: "描邊",
+    needText: "請先填寫文字",
+    cutWay: "方式",
+    cutAction: "動作",
+    pieceCount: "片數",
+    rowCount: "列數",
+    colCount: "欄數",
+    gridMergeUnsupported: "宮格只支援切開，不支援自動合併。",
+    model: "模型",
+    effect: "效果",
+    scale: "倍率",
+    canvas: "無法使用畫布",
+    maskExport: "無法匯出遮罩",
+    cut: {
+      vertical: "直切",
+      horizontal: "橫切",
+      diagonalLeft: "左斜",
+      diagonalRight: "右斜",
+      diagonalX: "X 形",
+      grid: "宮格",
+      split: "切開",
+      auto: "合併",
+    },
+    place: {
+      random: "隨機",
+      center: "正中",
+      top: "上方置中",
+      bottom: "下方置中",
+      left: "左側置中",
+      right: "右側置中",
+      topLeft: "左上",
+      topRight: "右上",
+      bottomLeft: "左下",
+      bottomRight: "右下",
+    },
+    models: {
+      u2net: "通用",
+      u2netp: "輕量",
+      human: "人像",
+      isnet: "高精度",
+      anime: "動漫",
+    },
+    effects: {
+      balanced: "通用增強",
+      standard: "標準增強",
+      premium: "高品質增強",
+      anime: "數位藝術",
+      animePro: "動漫",
+    },
+  },
+};

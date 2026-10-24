@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
-import { aiNav, localNav } from "@/nav";
+import { createNavGroups } from "@/nav";
 import {
   allFeatureIds,
   menuStorageKey,
@@ -14,7 +14,7 @@ function readSaved(): string[] | null {
     if (!raw) return null;
     const parsed = JSON.parse(raw) as unknown;
     if (!Array.isArray(parsed)) return null;
-    const known = new Set(allFeatureIds);
+    const known = new Set<string>(allFeatureIds);
     const ids = parsed.filter((id): id is string => typeof id === "string" && known.has(id));
     if (!ids.length && parsed.length) return null;
     return ids;
@@ -55,10 +55,24 @@ export const useMenuStore = defineStore("menus", () => {
     return cap.filter((id) => chosen.has(id));
   });
 
-  const localItems = computed(() => visibleItems(localNav, visibleIds.value));
-  const aiItems = computed(() => visibleItems(aiNav, visibleIds.value));
-  const localOptions = computed(() => visibleItems(localNav, catalogIds.value));
-  const aiOptions = computed(() => visibleItems(aiNav, catalogIds.value));
+  const groups = computed(() =>
+    createNavGroups()
+      .map((group) => ({
+        id: group.id,
+        label: group.label,
+        items: visibleItems(group.items, visibleIds.value),
+      }))
+      .filter((group) => group.items.length > 0),
+  );
+  const optionGroups = computed(() =>
+    createNavGroups()
+      .map((group) => ({
+        id: group.id,
+        label: group.label,
+        items: visibleItems(group.items, catalogIds.value),
+      }))
+      .filter((group) => group.items.length > 0),
+  );
 
   function isVisible(id: string) {
     return visibleIds.value.includes(id);
@@ -91,10 +105,8 @@ export const useMenuStore = defineStore("menus", () => {
     ready,
     capped,
     customized,
-    localItems,
-    aiItems,
-    localOptions,
-    aiOptions,
+    groups,
+    optionGroups,
     isVisible,
     toggle,
     showAllowed,

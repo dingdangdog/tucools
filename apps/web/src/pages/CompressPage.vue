@@ -37,7 +37,7 @@ import Field from "@/components/Field.vue";
 import ResultGrid from "@/components/ResultGrid.vue";
 import Stage from "@/components/Stage.vue";
 import { useResults } from "@/composables/useResults";
-import { copy } from "@/content/zh";
+import { copy } from "@/content";
 import { compressImage, type CompressFormat } from "@/utils/compress";
 import { fileToImage, formatBytes, stem } from "@/utils/image";
 

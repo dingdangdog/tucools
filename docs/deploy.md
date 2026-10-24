@@ -18,7 +18,7 @@ npm install
 npm run dev:web
 ```
 
-打开 http://127.0.0.1:5173 。本地工具这时就能用。
+打开 http://127.0.0.1:13175 。本地工具这时就能用。
 
 启动 Python 引擎。依赖装在仓库根目录的 `.venv`（Python 3.12，见 README），其中包含 CPU 版 torch。在仓库根目录运行时，引擎读取 `model-pack`：
 
@@ -82,8 +82,13 @@ $env:TUCOOLS_FEATURES = "compress,resize,cutout,enhance"
 
 开发页面读取运行 `npm run dev:web` 的环境。Docker 读取页面容器的环境，改完后需要重新创建页面容器。安装包读取启动图酷时的环境。客户端在这个上限里再做本机选择，键名是 `tucools-features`。浏览器部署没有配置页，只服从环境变量。直接打开未显示功能的地址会回到首页。
 
+侧栏最上是「全部功能」，点击回到首页。下面依次是「AI 处理」「常规处理」「信息处理」。
+
 | 功能名 | 工具 |
 | --- | --- |
+| `cutout` | 抠图 |
+| `enhance` | 优化 |
+| `erase` | 消除 |
 | `compress` | 压缩 |
 | `resize` | 缩放 |
 | `converter` | 转格式 |
@@ -95,14 +100,50 @@ $env:TUCOOLS_FEATURES = "compress,resize,cutout,enhance"
 | `caption` | 加字 |
 | `fade` | 灰度 |
 | `tocircle` | 圆形 |
-| `exif` | 去除信息 |
 | `pdf` | 图转 PDF |
 | `favicon` | Favicon |
-| `prompt` | 嵌入提示 |
+| `exif` | 去除信息 |
 | `pix` | 图片信息 |
-| `cutout` | 抠图 |
-| `enhance` | 优化 |
-| `erase` | 消除 |
+| `prompt` | AI提示词提取 |
+
+## 独立地址和收录
+
+每个工具都有自己的地址，例如 `/compress`、`/cutout`、`/prompt`。构建页面时会为这些地址各写一份 HTML，并生成：
+
+- `robots.txt`：允许搜索引擎和生成式引擎抓取。
+- `sitemap.xml`：列出首页和全部工具页的每种语言。功能菜单不进入站点地图。
+- `llms.txt`：给生成式引擎看的工具目录。每种语言各有一份，例如 `/llms.txt` 和 `/en/llms.txt`。
+- `llms-full.txt`：每个工具的说明和常见问题，同样按语言分开。
+
+不执行 JavaScript 的抓取程序直接读到该地址的标题、说明、canonical、hreflang 和常见问题。浏览器打开后仍是原来的工具页面，常见问题收在页面下方。
+
+简体中文是默认语言，地址不带前缀，例如 `/compress`。其余语言沿用原站的前缀：
+
+| 前缀 | 语言 |
+| --- | --- |
+| （无） | 简体中文 |
+| `en` | English |
+| `zh_hant` | 繁体中文 |
+| `es` | Español |
+| `de` | Deutsch |
+| `ja` | 日本語 |
+| `pt_br` | Português (Brasil) |
+| `hi` | हिन्दी |
+| `vn` | Tiếng Việt |
+| `ar` | العربية，从右到左 |
+| `bn` | বাংলা |
+
+`/zh` 和 `/zh/compress` 会转到不带前缀的简体中文地址。网页不按浏览器语言跳转。顶栏选择的语言记在 `tucools-locale`，只在下次打开站点根 `/` 时使用。Windows 安装包第一次打开根地址、且没有保存语言时，按系统语言打开。产品名在每种语言里都是「图酷」。
+
+安装包和 Docker 可以部署在不同域名，所以未设置站点根时，规范地址写成站内路径，例如 `/en/compress`。页面在浏览器里会改成当前域名的绝对地址。公开站点要让 sitemap、hreflang 和 `llms.txt` 使用绝对地址时，设置不带路径的站点根：
+
+```powershell
+$env:TUCOOLS_SITE_URL = "https://图片站点.example"
+```
+
+地址必须是 `http://` 或 `https://` 开头，不能带路径。不符合时容器会忽略它。这个变量在本地 `docker compose up --build` 时会进入页面构建；容器启动时，入口脚本还会把仍然是站内路径的规范地址、hreflang 和收录链接改成绝对地址。已经是绝对地址的链接不会再加一遍前缀。发布镜像和安装包时，仓库变量 `TUCOOLS_SITE_URL` 会作为构建参数 `VITE_SITE_URL`。
+
+`TUCOOLS_FEATURES` 只影响浏览器里显示哪些工具。静态说明和站点地图仍包含全部工具。只打算公开一部分工具时，不要把收起的地址暴露到公网。
 
 ## 按标签发布
 

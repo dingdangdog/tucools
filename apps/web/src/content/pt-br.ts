@@ -1,0 +1,454 @@
+import type { Copy } from "./zh";
+
+export const ptBr: Copy = {
+  appName: "图酷",
+  tagline: "Ferramentas de imagem",
+  language: "Idioma",
+  allFeatures: "Todos os recursos",
+  aiGroup: "Processamento com IA",
+  localGroup: "Processamento geral",
+  infoGroup: "Processamento de informações",
+  openNav: "Ferramentas",
+  closeNav: "Fechar",
+  themeToDark: "Mudar para o tema escuro",
+  themeToLight: "Mudar para o tema claro",
+  empty: "Arraste imagens para cá, ou escolha arquivos",
+  choose: "Escolher arquivos",
+  processing: "Processando",
+  download: "Baixar",
+  downloadAll: "Baixar pacote",
+  clear: "Limpar",
+  saveAs: "Salvar em…",
+  failed: "Falha no processamento",
+  noImage: "Coloque arquivos de imagem",
+  engineDown: "O mecanismo não respondeu. Inicie o mecanismo neste computador ou o mecanismo no Docker.",
+  engineMissing: "Ainda faltam estes arquivos",
+  modelPackHint: "O pacote de modelos é baixado separadamente. Extraia neste diretório e verifique de novo:",
+  refreshHealth: "Verificar de novo",
+  modelChecking: "Verificando modelos",
+  modelBlocked: "Não há modelo disponível. Este recurso foi desativado.",
+  modelUnavailable: "Este recurso não pode ser usado agora",
+  modelLinksLead: "O pacote de modelos e as novas versões do aplicativo são publicados no repositório 图酷.",
+  modelRepo: "Repositório",
+  modelReleases: "Página de lançamentos",
+  modelPartial: "Alguns modelos ainda não estão instalados",
+  featureReady: "Este recurso está disponível.",
+  currentDevice: "Dispositivo atual",
+  menus: {
+    title: "Menu de recursos",
+    open: "Menu de recursos",
+    lead: "Escolha as ferramentas exibidas neste dispositivo. A escolha fica salva neste dispositivo.",
+    capped: "Esta implantação só libera as ferramentas abaixo. A seleção fica salva neste dispositivo.",
+    browserLead: "Na implantação pelo navegador, a variável de ambiente TUCOOLS_FEATURES define quais ferramentas aparecem. Separe os nomes dos recursos por vírgula. Se não estiver definida, todas são exibidas.",
+    browserCurrent: "Exibição atual",
+    showAll: "Mostrar todos os recursos permitidos",
+    empty: "Não há ferramentas para exibir.",
+  },
+  homeLead: "O processamento geral e o de informações são feitos no navegador deste dispositivo. Remoção de fundo, otimização e eliminação usam o mesmo mecanismo. O instalador e o Docker usam a mesma página.",
+  tools: {
+    home: { title: "Início", lead: "Escolha uma ferramenta à esquerda." },
+    compress: { title: "Compactar", lead: "Compacte JPEG, PNG e WebP por qualidade, lado mais longo ou tamanho alvo." },
+    resize: { title: "Redimensionar", lead: "Redimensione para a largura e a altura definidas, ou coloque a imagem na tela com margens." },
+    converter: { title: "Converter formato", lead: "Converta entre PNG, JPEG, WebP, BMP e ICO." },
+    cropping: { title: "Recortar", lead: "Selecione uma área, gire e exporte PNG." },
+    idPhoto: { title: "Tamanho de foto de documento", lead: "Recorte para proporções comuns de foto de documento e aplique a cor de fundo. Aqui não há remoção de fundo." },
+    sizes: { title: "Tamanhos sociais", lead: "Coloque a imagem em tamanhos comuns de redes sociais." },
+    cutting: { title: "Dividir", lead: "Corte por linha vertical, horizontal, diagonal ou grade. Também é possível unir de novo." },
+    watermark: { title: "Marca d'água", lead: "Adicione uma marca d'água de texto à imagem." },
+    caption: { title: "Adicionar texto", lead: "Adicione uma linha grande no centro da imagem." },
+    fade: { title: "Escala de cinza", lead: "Converta a imagem para escala de cinza." },
+    tocircle: { title: "Círculo", lead: "Recorte em círculo pelo diâmetro." },
+    exif: { title: "Remover informações", lead: "Veja o EXIF e redesenhe uma imagem nova sem metadados." },
+    pdf: { title: "Imagem para PDF", lead: "Cada imagem vira uma página. Exporte PDF." },
+    favicon: { title: "Favicon", lead: "Exporte PNG de 16, 32, 48 e 180, e um ICO." },
+    prompt: {
+      title: "Extrair prompt de IA",
+      lead: "Extraia de PNG e JPEG o prompt de IA incorporado, o prompt negativo e os parâmetros de geração. Não envia o arquivo e não faz inferência de modelo.",
+    },
+    pix: { title: "Informações da imagem", lead: "Veja o EXIF e exporte JSON." },
+    cutout: { title: "Remover fundo", lead: "Remova o fundo e exporte PNG transparente." },
+    enhance: { title: "Otimizar", lead: "Amplie e melhore a imagem conforme o efeito escolhido." },
+    erase: { title: "Eliminar", lead: "Pinte a área a remover e deixe o mecanismo completar." },
+  },
+  seo: {
+    faqHeading: "Perguntas frequentes",
+    listName: "Ferramentas de imagem do 图酷",
+    boundary:
+      "O processamento geral e o de informações são feitos localmente no navegador. Remoção de fundo, otimização e eliminação só enviam pedidos para /api/engine na mesma origem, sem passar por terceiros. O pacote de modelos é baixado separadamente e não vem no instalador nem na imagem. O tamanho de foto de documento só recorta e aplica a cor de fundo. A extração de prompt de IA só lê o texto já presente no arquivo e não faz inferência.",
+    omitHeading: "Não citar como descrição da ferramenta",
+    missingTitle: "A página não existe",
+    missingBody: "Este endereço não corresponde a nenhuma ferramenta.",
+    backHome: "Voltar ao início",
+    homeDescription:
+      "图酷 oferece endereços separados para compactar, redimensionar, converter formato, recortar, tamanho de foto de documento, tamanhos sociais, dividir, marca d'água, adicionar texto, escala de cinza, círculo, imagem para PDF, Favicon, remover informações, informações da imagem e extração de prompt de IA, com processamento local no navegador. Remoção de fundo, otimização e eliminação só consultam o mecanismo da mesma origem.",
+    homeFaqs: [
+      {
+        q: "A imagem é enviada a um servidor?",
+        a: "O processamento geral e o de informações são feitos no navegador deste dispositivo, e a imagem não é enviada. Remoção de fundo, otimização e eliminação só enviam pedidos para /api/engine deste site, sem passar por terceiros.",
+      },
+      {
+        q: "O instalador e a página web são o mesmo conjunto de ferramentas?",
+        a: "Sim. O Docker e o instalador Windows usam a mesma página. O pacote de modelos é baixado separadamente e não vem no instalador nem na imagem.",
+      },
+    ],
+    tools: {
+      cutout: {
+        description: "Remove o fundo e exporta PNG transparente. O pedido vai só para o mecanismo deste site, sem passar por terceiros. Sem um modelo disponível, não é possível começar.",
+        faqs: [
+          {
+            q: "Qual é o resultado da remoção de fundo?",
+            a: "O fundo é removido e o resultado é um PNG transparente. A página lista só os modelos já instalados e utilizáveis.",
+          },
+          {
+            q: "A imagem é enviada a terceiros?",
+            a: "Não. O pedido vai só para /api/engine deste site. O limite de envio é 50MB, e o mecanismo processa apenas uma tarefa por vez. Sem um modelo disponível, não é possível começar.",
+          },
+        ],
+      },
+      enhance: {
+        description: "Amplia e melhora a imagem conforme o efeito instalado. O pedido vai só para o mecanismo deste site. Sem um modelo disponível, não é possível começar.",
+        faqs: [
+          {
+            q: "O que a otimização faz?",
+            a: "Amplia e melhora a imagem conforme o efeito escolhido. A página lista só os efeitos já instalados e utilizáveis.",
+          },
+          {
+            q: "A imagem é enviada a terceiros?",
+            a: "Não. O pedido vai só para /api/engine deste site. Sem um modelo disponível, não é possível começar. O contêiner Linux também precisa do upscayl-bin do pacote de modelos.",
+          },
+        ],
+      },
+      erase: {
+        description: "Pinte a área a remover. O mecanismo deste site completa essa área. Sem um modelo disponível, não é possível começar, e a imagem não passa por terceiros.",
+        faqs: [
+          {
+            q: "Como indicar a área a eliminar?",
+            a: "Pinte sobre a imagem. O traço branco é enviado ao mecanismo como máscara para completar a área. É possível limpar e pintar de novo.",
+          },
+          {
+            q: "A imagem é enviada a terceiros?",
+            a: "Não. O pedido vai só para /api/engine deste site. O limite de envio é 50MB. Sem um modelo disponível, não é possível começar.",
+          },
+        ],
+      },
+      compress: {
+        description: "Compacta JPEG, PNG e WebP localmente no navegador, por qualidade, lado mais longo ou tamanho alvo. A imagem não é enviada.",
+        faqs: [
+          {
+            q: "Dá para compactar até um tamanho definido?",
+            a: "É possível compactar JPEG, PNG e WebP por qualidade, lado mais longo ou tamanho alvo. Tamanho alvo 0 significa sem limite. PNG é compactado por pixel, e o controle deslizante de qualidade não tem efeito.",
+          },
+          {
+            q: "A compactação envia a imagem?",
+            a: "Não. A compactação é feita no navegador deste dispositivo.",
+          },
+        ],
+      },
+      resize: {
+        description: "Redimensiona a imagem localmente no navegador para a largura e a altura definidas. É possível mostrar tudo com margens, preencher e cortar, ou esticar. A imagem não é enviada.",
+        faqs: [
+          {
+            q: "O redimensionamento corta a imagem?",
+            a: "É possível mostrar a imagem inteira com margens, preencher e cortar, ou esticar até a largura e a altura definidas.",
+          },
+          {
+            q: "O redimensionamento envia a imagem?",
+            a: "Não. O redimensionamento é feito no navegador deste dispositivo.",
+          },
+        ],
+      },
+      converter: {
+        description: "Converte imagens localmente no navegador entre PNG, JPEG, WebP, BMP e ICO. Os formatos que o navegador atual não exporta são indicados na página.",
+        faqs: [
+          {
+            q: "Quais formatos são aceitos?",
+            a: "A conversão pode ser feita entre PNG, JPEG, WebP, BMP e ICO. Se o navegador atual não puder exportar um formato, a página avisa diretamente e não finge que a conversão foi concluída.",
+          },
+          {
+            q: "A conversão de formato envia a imagem?",
+            a: "Não. A conversão de formato é feita no navegador deste dispositivo.",
+          },
+        ],
+      },
+      cropping: {
+        description: "Selecione uma área, gire ou espelhe no navegador e exporte PNG. A imagem não é enviada.",
+        faqs: [
+          {
+            q: "Qual é o formato do recorte?",
+            a: "Depois de selecionar, girar ou espelhar, o resultado é PNG. A seleção pode ser livre ou em proporção fixa.",
+          },
+          {
+            q: "O recorte envia a imagem?",
+            a: "Não. O recorte é feito no navegador deste dispositivo.",
+          },
+        ],
+      },
+      "id-photo": {
+        description: "Recorta para a proporção de foto de documento nos pixels de 1 polegada, 2 polegadas, passaporte ou visto americano, e aplica fundo branco, azul ou vermelho. Aqui só há recorte e cor de fundo, sem remoção de fundo.",
+        faqs: [
+          {
+            q: "Aqui o fundo é removido?",
+            a: "Não. O tamanho de foto de documento só recorta para pixels comuns e aplica fundo branco, azul ou vermelho. Para remover o fundo, use a remoção de fundo.",
+          },
+          {
+            q: "Quais são os tamanhos?",
+            a: "Inclui 1 polegada 295×413, 2 polegadas 413×626, passaporte 413×531 e visto americano 600×600.",
+          },
+        ],
+      },
+      sizes: {
+        description: "Coloca a imagem em tamanhos comuns, como Instagram, capa do YouTube ou Xiaohongshu. É possível deixar margens, preencher e cortar, ou esticar. O processamento é local no navegador.",
+        faqs: [
+          {
+            q: "Quais são os tamanhos sociais?",
+            a: "Inclui post do Instagram 1080×1080, imagem vertical 1080×1350, story 1080×1920, capa do YouTube 1280×720 e Xiaohongshu 1080×1440.",
+          },
+          {
+            q: "O que acontece se a imagem não couber no tamanho?",
+            a: "É possível mostrar a imagem inteira com margens, preencher e cortar, ou esticar até o tamanho definido. O processamento é local no navegador.",
+          },
+        ],
+      },
+      cutting: {
+        description: "Divide a imagem por linha vertical, horizontal, diagonal ou grade. Fora a grade, as partes podem ser unidas de novo. A divisão é feita localmente no navegador.",
+        faqs: [
+          {
+            q: "De que formas é possível cortar?",
+            a: "É possível cortar por linha vertical, horizontal, diagonal ou grade. Fora a grade, as partes cortadas ainda podem ser unidas de novo.",
+          },
+          {
+            q: "A divisão envia a imagem?",
+            a: "Não. A divisão é feita no navegador deste dispositivo.",
+          },
+        ],
+      },
+      watermark: {
+        description: "Adiciona uma marca d'água de texto localmente no navegador, com posição, tamanho, cor, opacidade e contorno ajustáveis. A imagem não é enviada.",
+        faqs: [
+          {
+            q: "Onde a marca d'água pode ficar?",
+            a: "O texto pode ficar no centro, no meio de cada lado, nos quatro cantos ou em posição aleatória. Também é possível ajustar tamanho, fonte, cor, opacidade e contorno.",
+          },
+          {
+            q: "A marca d'água envia a imagem?",
+            a: "Não. A marca d'água é aplicada no navegador deste dispositivo.",
+          },
+        ],
+      },
+      caption: {
+        description: "Adiciona uma linha grande no centro da imagem. O processamento é local no navegador. A imagem não é enviada.",
+        faqs: [
+          {
+            q: "Onde o texto é colocado?",
+            a: "Uma linha grande é adicionada no centro da imagem. É possível ajustar tamanho, fonte, cor, opacidade e contorno.",
+          },
+          {
+            q: "Adicionar texto envia a imagem?",
+            a: "Não. Adicionar texto é feito no navegador deste dispositivo.",
+          },
+        ],
+      },
+      fade: {
+        description: "Converte a imagem para escala de cinza localmente no navegador. A imagem não é enviada.",
+        faqs: [
+          {
+            q: "A escala de cinza mantém as cores originais?",
+            a: "Não. Esta ferramenta converte a imagem inteira para escala de cinza.",
+          },
+          {
+            q: "A escala de cinza envia a imagem?",
+            a: "Não. A escala de cinza é feita no navegador deste dispositivo.",
+          },
+        ],
+      },
+      tocircle: {
+        description: "Recorta a imagem em círculo pelo diâmetro. Diâmetro 0 usa o lado mais curto. O processamento é local no navegador.",
+        faqs: [
+          {
+            q: "Como o círculo é recortado?",
+            a: "A imagem é recortada em círculo pelo diâmetro. Diâmetro 0 usa o lado mais curto da imagem.",
+          },
+          {
+            q: "O recorte circular envia a imagem?",
+            a: "Não. O recorte circular é feito no navegador deste dispositivo.",
+          },
+        ],
+      },
+      pdf: {
+        description: "Reúne várias imagens em um PDF, com uma imagem por página. O arquivo é gerado localmente no navegador e não é enviado.",
+        faqs: [
+          {
+            q: "Como várias imagens são organizadas?",
+            a: "Cada imagem vira uma página do PDF, na ordem em que foi adicionada.",
+          },
+          {
+            q: "Gerar PDF envia as imagens?",
+            a: "Não. O PDF é gerado no navegador deste dispositivo.",
+          },
+        ],
+      },
+      favicon: {
+        description: "Exporta de uma imagem PNG de 16, 32, 48 e 180, e um ICO. A geração é local no navegador e não há envio.",
+        faqs: [
+          {
+            q: "Quais arquivos são exportados?",
+            a: "São exportados PNG com lados de 16, 32, 48 e 180, e um ICO.",
+          },
+          {
+            q: "Gerar Favicon envia a imagem?",
+            a: "Não. O Favicon é gerado no navegador deste dispositivo.",
+          },
+        ],
+      },
+      exif: {
+        description: "Mostra o EXIF da imagem e redesenha uma imagem nova sem metadados. O arquivo original não é alterado e não há envio.",
+        faqs: [
+          {
+            q: "O que a remoção de informações apaga?",
+            a: "Primeiro mostra o EXIF e depois redesenha uma imagem nova sem metadados. O arquivo original não é alterado.",
+          },
+          {
+            q: "Qual é a diferença para informações da imagem?",
+            a: "Remover informações exporta uma imagem nova. Informações da imagem só mostra os dados e exporta JSON, sem gerar uma imagem sem metadados.",
+          },
+        ],
+      },
+      pix: {
+        description: "Mostra o tamanho e o EXIF da imagem, e pode exportar JSON. Aqui só há leitura. Para remover metadados, use Remover informações. Não há envio.",
+        faqs: [
+          {
+            q: "O que as informações da imagem incluem?",
+            a: "Mostram o tamanho e o EXIF, e as informações lidas podem ser exportadas como JSON.",
+          },
+          {
+            q: "Aqui a imagem é alterada?",
+            a: "Não. Para obter uma imagem nova sem metadados, use Remover informações. A leitura é feita localmente no navegador.",
+          },
+        ],
+      },
+      prompt: {
+        description:
+          "Extração de prompt de IA: lê o prompt positivo, o prompt negativo e os parâmetros de geração incorporados em imagens PNG e JPEG, para localizar instruções de desenho gravadas no arquivo, como as do Stable Diffusion. É feito localmente no navegador, sem inferência de modelo.",
+        faqs: [
+          {
+            q: "Que conteúdo pode ser lido?",
+            a: "Lê o prompt positivo, o prompt negativo e os parâmetros de geração incorporados em PNG tEXt/iTXt e JPEG APP1/COM. Se o arquivo não tiver esse conteúdo, a página informa que nada foi lido.",
+          },
+          {
+            q: "Ele chama um modelo de desenho?",
+            a: "Não. Esta ferramenta não faz inferência e não envia a imagem.",
+          },
+        ],
+      },
+    },
+  },
+  ui: {
+    replace: "Trocar",
+    replaceFiles: "Escolher de novo",
+    exportPng: "Exportar PNG",
+    downloadResult: "Baixar resultado",
+    again: "Processar de novo",
+    repaint: "Continuar pintando",
+    remove: "Remover",
+    clearMask: "Limpar pintura",
+    startCutout: "Começar remoção de fundo",
+    startEnhance: "Começar otimização",
+    startErase: "Começar eliminação",
+    brush: "Espessura do pincel",
+    paintHint: "Pinte a área a eliminar. O traço branco é enviado ao mecanismo como máscara.",
+    needPaint: "Pinte primeiro a área a eliminar",
+    compare: "Arraste para os lados para comparar a original e o resultado",
+    original: "Original",
+    result: "Resultado",
+    ratio: "Proporção",
+    ratioFree: "Livre",
+    rotateLeft: "Girar à esquerda",
+    rotateRight: "Girar à direita",
+    flipX: "Espelhar na horizontal",
+    flipY: "Espelhar na vertical",
+    format: "Formato",
+    quality: "Qualidade",
+    maxEdge: "Lado mais longo",
+    maxEdgeHint: "0 é o tamanho original",
+    targetKb: "Tamanho alvo KB",
+    targetKbHint: "0 significa sem limite",
+    pngNote: "PNG é compactado por pixel, e o controle deslizante de qualidade não tem efeito.",
+    width: "Largura",
+    height: "Altura",
+    fit: "Modo de encaixe",
+    fitContain: "Mostrar inteira com margens",
+    fitCover: "Preencher e cortar",
+    fitStretch: "Esticar até o tamanho definido",
+    targetFormat: "Formato de destino",
+    needFormat: "Escolha pelo menos um formato",
+    cannotExport: "Estes formatos não podem ser exportados neste navegador",
+    diameter: "Diâmetro",
+    diameterHint: "0 usa o lado mais curto",
+    before: "Antes",
+    after: "Depois de redesenhar",
+    noExif: "Nenhum EXIF foi lido",
+    selected: "Selecionadas",
+    sheets: "imagens",
+    buildPdf: "Gerar PDF",
+    exportJson: "Exportar JSON",
+    noPrompt: "Nenhum prompt de IA incorporado foi lido",
+    preset: "Predefinição",
+    background: "Cor de fundo",
+    output: "Saída",
+    text: "Texto",
+    fontSize: "Tamanho da fonte",
+    position: "Posição",
+    font: "Fonte",
+    textColor: "Cor do texto",
+    opacity: "Opacidade",
+    stroke: "Contorno",
+    needText: "Preencha o texto primeiro",
+    cutWay: "Modo",
+    cutAction: "Ação",
+    pieceCount: "Número de partes",
+    rowCount: "Linhas",
+    colCount: "Colunas",
+    gridMergeUnsupported: "A grade só pode ser cortada e não oferece união automática.",
+    model: "Modelo",
+    effect: "Efeito",
+    scale: "Fator",
+    canvas: "Não é possível usar a tela",
+    maskExport: "Não é possível exportar a máscara",
+    cut: {
+      vertical: "Corte vertical",
+      horizontal: "Corte horizontal",
+      diagonalLeft: "Diagonal esquerda",
+      diagonalRight: "Diagonal direita",
+      diagonalX: "Em X",
+      grid: "Grade",
+      split: "Cortar",
+      auto: "Unir",
+    },
+    place: {
+      random: "Aleatório",
+      center: "Centro",
+      top: "Centro superior",
+      bottom: "Centro inferior",
+      left: "Centro esquerdo",
+      right: "Centro direito",
+      topLeft: "Superior esquerdo",
+      topRight: "Superior direito",
+      bottomLeft: "Inferior esquerdo",
+      bottomRight: "Inferior direito",
+    },
+    models: {
+      u2net: "Geral",
+      u2netp: "Leve",
+      human: "Retrato",
+      isnet: "Alta precisão",
+      anime: "Anime",
+    },
+    effects: {
+      balanced: "Melhoria geral",
+      standard: "Melhoria padrão",
+      premium: "Melhoria de alta qualidade",
+      anime: "Arte digital",
+      animePro: "Anime",
+    },
+  },
+};

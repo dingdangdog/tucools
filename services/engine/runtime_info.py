@@ -65,45 +65,76 @@ def missing(names: list[str]) -> list[str]:
     return [name for name in names if not (root / name).is_file()]
 
 
-def tool_status() -> dict:
-    cutout_missing = missing(CUTOUT_MODELS)
-    erase_missing = missing([ERASE_MODEL])
+def cutout_status() -> dict:
+    absent = missing(CUTOUT_MODELS)
+    available = [name[: -len(".onnx")] for name in CUTOUT_MODELS if name not in absent]
+    return {
+        "ready": len(available) > 0,
+        "missing": absent,
+        "available": available,
+    }
+
+
+def enhance_status() -> dict:
     binary = upscayl_path()
-    enhance_missing: list[str] = []
-    enhance_ready_models: list[str] = []
+    absent_files: list[str] = []
+    available: list[str] = []
     for name, files in ENHANCE_MODELS.items():
         absent = missing(list(files))
         if absent:
-            enhance_missing.extend(absent)
+            absent_files.extend(absent)
         else:
-            enhance_ready_models.append(name)
+            available.append(name)
     if not binary.is_file():
-        enhance_missing.append(str(binary))
-    cutout_ready_models = [
-        name[: -len(".onnx")]
-        for name in CUTOUT_MODELS
-        if name not in cutout_missing
-    ]
+        absent_files.append(str(binary))
+    return {
+        "ready": binary.is_file() and len(available) > 0,
+        "missing": absent_files,
+        "available": available,
+    }
+
+
+def erase_status() -> dict:
+    absent = missing([ERASE_MODEL])
+    return {
+        "ready": len(absent) == 0,
+        "missing": absent,
+        "available": [] if absent else ["lama"],
+    }
+
+
+TOOL_CHECKS = {
+    "cutout": cutout_status,
+    "enhance": enhance_status,
+    "erase": erase_status,
+}
+
+
+def tool_status() -> dict:
+    """三个功能一起列出。页面检查单个功能时不要走这里。"""
+    binary = upscayl_path()
     return {
         "modelPack": str(pack_root()),
         "modelsDir": str(models_dir()),
         "upscayl": str(binary),
-        "cutout": {
-            "ready": len(cutout_ready_models) > 0,
-            "missing": cutout_missing,
-            "available": cutout_ready_models,
-        },
-        "enhance": {
-            "ready": binary.is_file() and len(enhance_ready_models) > 0,
-            "missing": enhance_missing,
-            "available": enhance_ready_models,
-        },
-        "erase": {
-            "ready": len(erase_missing) == 0,
-            "missing": erase_missing,
-            "available": [] if erase_missing else ["lama"],
-        },
+        "cutout": cutout_status(),
+        "enhance": enhance_status(),
+        "erase": erase_status(),
     }
+
+
+def single_tool_status(tool: str) -> dict:
+    """只检查一个功能是否支持，不读取其他功能的模型。"""
+    status = TOOL_CHECKS[tool]()
+    body = {
+        "tool": tool,
+        "modelPack": str(pack_root()),
+        "modelsDir": str(models_dir()),
+        **status,
+    }
+    if tool == "enhance":
+        body["upscayl"] = str(upscayl_path())
+    return body
 
 
 def device_label() -> dict:

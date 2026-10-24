@@ -65,7 +65,7 @@ import FileBadge from "@/components/FileBadge.vue";
 import Stage from "@/components/Stage.vue";
 import StudioLayout from "@/components/StudioLayout.vue";
 import { useResults } from "@/composables/useResults";
-import { copy } from "@/content/zh";
+import { copy } from "@/content";
 import { formatBytes, isProcessableImage, stem } from "@/utils/image";
 
 const gate = ref<ToolGate>({ phase: "checking", available: [] });

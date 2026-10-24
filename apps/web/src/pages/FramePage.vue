@@ -43,7 +43,7 @@ import Chips from "@/components/Chips.vue";
 import FileBadge from "@/components/FileBadge.vue";
 import Stage from "@/components/Stage.vue";
 import StudioLayout from "@/components/StudioLayout.vue";
-import { copy } from "@/content/zh";
+import { copy } from "@/content";
 import { canvasToBlob, drawContainCover, fileToImage, isProcessableImage, stem } from "@/utils/image";
 import { idBackgrounds, idPhotoPresets, sizePresets } from "@/utils/presets";
 import { saveOrDownload } from "@/utils/save";

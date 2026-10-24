@@ -16,11 +16,15 @@ services:
     build:
       context: ..
       dockerfile: deploy/Dockerfile.web
+      args:
+        VITE_SITE_URL: ${TUCOOLS_SITE_URL:-}
     # 发布镜像时可设 TUCOOLS_WEB_IMAGE=ghcr.io/<owner>/tucools-web:<version>。
     image: ${TUCOOLS_WEB_IMAGE:-tucools-web:0.1.0}
     environment:
       # 逗号分隔的功能名。留空表示显示全部。说明见 docs/deploy.md。
       TUCOOLS_FEATURES: ${TUCOOLS_FEATURES:-}
+      # 公开站点根地址，不带路径。构建和容器启动时都会读取；已是绝对地址时不会重复加前缀。
+      TUCOOLS_SITE_URL: ${TUCOOLS_SITE_URL:-}
     ports:
       - "8080:8080"
     depends_on:

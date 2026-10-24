@@ -41,7 +41,7 @@
 import { ref } from "vue";
 import { PhotoIcon } from "@heroicons/vue/24/outline";
 import BusyCover from "@/components/BusyCover.vue";
-import { copy } from "@/content/zh";
+import { copy } from "@/content";
 
 const props = withDefaults(
   defineProps<{

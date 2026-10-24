@@ -1,13 +1,14 @@
-import { aiNav, localNav, type NavItem } from "@/nav";
+import { allNavIds, type NavItem } from "@/nav";
+import { stripLocale } from "@/locale";
 
 export const menuStorageKey = "tucools-features";
 
-export const allFeatureIds = [...localNav, ...aiNav].map((item) => item.id);
+export const allFeatureIds = [...allNavIds];
 
-const known = new Set(allFeatureIds);
+const known = new Set<string>(allFeatureIds);
 
 export function featureIdFromPath(path: string): string | null {
-  const id = path.replace(/^\/+/, "").replace(/\/+$/, "");
+  const id = stripLocale(path).replace(/^\/+|\/+$/g, "");
   return known.has(id) ? id : null;
 }
 

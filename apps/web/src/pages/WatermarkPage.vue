@@ -51,7 +51,7 @@ import Field from "@/components/Field.vue";
 import FileBadge from "@/components/FileBadge.vue";
 import Stage from "@/components/Stage.vue";
 import StudioLayout from "@/components/StudioLayout.vue";
-import { copy } from "@/content/zh";
+import { copy } from "@/content";
 import { canvasToBlob, fileToImage, isProcessableImage, stem } from "@/utils/image";
 import { saveOrDownload } from "@/utils/save";
 

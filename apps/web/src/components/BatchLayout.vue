@@ -11,9 +11,12 @@
     </div>
     <p v-if="error" class="text-sm text-danger" role="alert">{{ error }}</p>
     <slot />
+    <PageFacts />
   </div>
 </template>
 
 <script setup lang="ts">
+import PageFacts from "@/components/PageFacts.vue";
+
 defineProps<{ lead?: string; error?: string }>();
 </script>

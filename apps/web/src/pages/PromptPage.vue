@@ -17,7 +17,7 @@
 import { ref } from "vue";
 import BatchLayout from "@/components/BatchLayout.vue";
 import Stage from "@/components/Stage.vue";
-import { copy } from "@/content/zh";
+import { copy } from "@/content";
 import { isProcessableImage } from "@/utils/image";
 import { readEmbeddedPrompt } from "@/utils/prompt";
 import { saveOrDownload } from "@/utils/save";

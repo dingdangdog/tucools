@@ -28,7 +28,7 @@
 
 <script setup lang="ts">
 import { XMarkIcon } from "@heroicons/vue/24/outline";
-import { copy } from "@/content/zh";
+import { copy } from "@/content";
 
 export interface ResultItem {
   name: string;
