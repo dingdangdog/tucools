@@ -1,0 +1,23 @@
+services:
+  engine:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.engine
+    image: tucools-engine:0.1.0
+    environment:
+      TUCOOLS_MODEL_PACK: /model-pack
+    volumes:
+      # 宿主机上的模型包。可用 TUCOOLS_MODEL_PACK 指到解压目录，默认是仓库旁的 model-pack。
+      - ${TUCOOLS_MODEL_PACK:-../model-pack}:/model-pack:ro
+    restart: unless-stopped
+
+  web:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.web
+    image: tucools-web:0.1.0
+    ports:
+      - "8080:8080"
+    depends_on:
+      - engine
+    restart: unless-stopped

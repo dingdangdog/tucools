@@ -1,0 +1,17 @@
+{
+  "name": "tucools",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "apps/web",
+    "apps/desktop"
+  ],
+  "scripts": {
+    "dev:web": "npm run dev -w @tucools/web",
+    "build:web": "npm run build -w @tucools/web",
+    "typecheck": "npm run typecheck -w @tucools/web",
+    "dev:desktop": "npm run dev -w @tucools/desktop",
+    "package:win": "npm run build:web && npm run package:win -w @tucools/desktop",
+    "engine": ".venv\\Scripts\\python.exe -m uvicorn app:app --app-dir services/engine --host 127.0.0.1 --port 8787"
+  }
+}

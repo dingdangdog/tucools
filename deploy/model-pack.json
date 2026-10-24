@@ -1,0 +1,28 @@
+{
+  "name": "tucools-model-pack",
+  "layout": {
+    "models": [
+      "u2net.onnx",
+      "u2netp.onnx",
+      "u2net_human_seg.onnx",
+      "isnet-general-use.onnx",
+      "isnet-anime.onnx",
+      "big-lama.pt",
+      "upscayl-lite-4x.bin",
+      "upscayl-lite-4x.param",
+      "upscayl-standard-4x.bin",
+      "upscayl-standard-4x.param",
+      "realesrgan-x4plus.bin",
+      "realesrgan-x4plus.param",
+      "digital-art-4x.bin",
+      "digital-art-4x.param",
+      "realesrgan-x4plus-anime.bin",
+      "realesrgan-x4plus-anime.param"
+    ],
+    "bin": {
+      "windows": ["upscayl-bin.exe"],
+      "linux": ["upscayl-bin"],
+      "macos": ["upscayl-bin"]
+    }
+  }
+}

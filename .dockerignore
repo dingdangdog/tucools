@@ -1,0 +1,11 @@
+node_modules
+.git
+models
+bin
+model-pack
+apps/web/dist
+apps/desktop/release
+services/engine/tmp
+services/engine/**/__pycache__
+**/*.pyc
+**/.venv

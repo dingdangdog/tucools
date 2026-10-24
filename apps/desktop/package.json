@@ -1,0 +1,69 @@
+{
+  "name": "@tucools/desktop",
+  "private": true,
+  "version": "0.1.0",
+  "main": "main.js",
+  "author": {
+    "name": "图酷"
+  },
+  "scripts": {
+    "dev": "electron .",
+    "package:win": "electron-builder --win"
+  },
+  "dependencies": {
+    "busboy": "^1.6.0"
+  },
+  "devDependencies": {
+    "electron": "^35.7.5",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.tucools.app",
+    "productName": "图酷",
+    "asar": true,
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "host.js",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "../web/dist",
+        "to": "web"
+      },
+      {
+        "from": "../../services/engine",
+        "to": "engine",
+        "filter": [
+          "**/*",
+          "!**/__pycache__/**",
+          "!**/*.pyc",
+          "!**/tmp/**",
+          "!**/.venv/**",
+          "!**/models/**",
+          "!**/model-pack/**",
+          "!**/*.onnx",
+          "!**/*.pt",
+          "!**/*.param",
+          "!**/upscayl-bin*"
+        ]
+      }
+    ],
+    "win": {
+      "target": ["nsis"],
+      "icon": "build/icon.ico",
+      "artifactName": "图酷-Setup-${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": false,
+      "deleteAppDataOnUninstall": false
+    }
+  }
+}

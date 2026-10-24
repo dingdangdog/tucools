@@ -1,0 +1,15 @@
+node_modules/
+dist/
+release/
+models/
+bin/
+model-pack/
+.runtime/
+__pycache__/
+*.pyc
+.venv/
+.env
+*.log
+services/engine/tmp/
+.DS_Store
+apps/desktop/out/
