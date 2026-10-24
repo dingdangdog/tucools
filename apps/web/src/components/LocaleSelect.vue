@@ -37,7 +37,7 @@ import { computed, onMounted, onUnmounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { GlobeAltIcon } from "@heroicons/vue/24/outline";
 import { copy, currentLocale } from "@/content";
-import { localePath, locales, stripLocale, type LocaleCode } from "@/locale";
+import { localePath, localeStorageKey, locales, stripLocale, type LocaleCode } from "@/locale";
 
 const open = ref(false);
 const root = ref<HTMLElement | null>(null);
@@ -47,6 +47,11 @@ const currentName = computed(() => locales.find((item) => item.code === currentL
 
 function choose(code: LocaleCode) {
   open.value = false;
+  try {
+    localStorage.setItem(localeStorageKey, code);
+  } catch {
+    // 隐私模式仍按这次点击后的地址切换。
+  }
   void router.push(localePath(stripLocale(route.path), code));
 }
 

@@ -67,6 +67,7 @@ export const router = createRouter({
 function entryRedirect(to: RouteLocationNormalized): string | null {
   if (typeof to.params.locale === "string") return null;
   if (stripLocale(to.path) !== "/") return null;
+  // 只在进入根地址时采用已保存语言。语言菜单会先写入选择，避免切回简体中文时仍读到上一种语言。
   const saved = readSavedLocale();
   const next = saved ?? (window.tucools ? systemLocale() : null);
   if (!next || next === defaultLocale) return null;
