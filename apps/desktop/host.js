@@ -84,6 +84,20 @@ function parseAdsenseSlot(raw) {
   return /^\d{6,20}$/.test(text) ? text : "";
 }
 
+function parseAnalyticsId(raw) {
+  const text = String(raw || "").trim().toUpperCase();
+  return /^G-[A-Z0-9]{6,20}$/.test(text) ? text : "";
+}
+
+function analyticsFromProcess() {
+  const raw = String(process.env.TUCOOLS_ANALYTICS_ID || "").trim();
+  const analyticsId = parseAnalyticsId(raw);
+  if (raw && !analyticsId) {
+    console.error("忽略 TUCOOLS_ANALYTICS_ID：需要 G- 加 6 到 20 位字母或数字。");
+  }
+  return analyticsId;
+}
+
 function adsFromProcess() {
   const clientRaw = String(process.env.TUCOOLS_ADSENSE_CLIENT || "").trim();
   const slotRaw = String(process.env.TUCOOLS_ADSENSE_SLOT || "").trim();
@@ -102,11 +116,12 @@ function adsFromProcess() {
 
 function createStaticServer(webRoot, engine) {
   const ads = adsFromProcess();
+  const analyticsId = analyticsFromProcess();
   return http.createServer((req, res) => {
     const url = new URL(req.url || "/", "http://127.0.0.1");
     if (url.pathname === "/app-config.json") {
       const raw = String(process.env.TUCOOLS_FEATURES || "").replace(/[^A-Za-z0-9,-]/g, "");
-      const body = JSON.stringify({ features: raw, ...ads });
+      const body = JSON.stringify({ features: raw, ...ads, analyticsId });
       res.writeHead(200, {
         "content-type": "application/json; charset=utf-8",
         "cache-control": "no-store",

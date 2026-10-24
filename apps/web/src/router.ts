@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory, type RouteLocationNormalized, type RouteRecordRaw } from "vue-router";
+import { trackPageView } from "@/analytics";
 import { applyDocumentSeo } from "@/apply-seo";
 import { applyCatalog } from "@/content";
 import { featureIdFromPath } from "@/features";
@@ -89,4 +90,5 @@ router.beforeEach((to) => {
 
 router.afterEach((to) => {
   applyDocumentSeo(to.path);
+  trackPageView(to.fullPath);
 });

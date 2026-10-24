@@ -2,6 +2,7 @@ import { defineConfig, type Plugin } from "vite";
 import vue from "@vitejs/plugin-vue";
 import { fileURLToPath, URL } from "node:url";
 import { adsFromEnv, adsTxtForClient, parseAdsenseClient, parseAdsenseSlot } from "./src/ads";
+import { parseAnalyticsId } from "./src/analytics";
 import { seoPlugin } from "./seo-plugin";
 
 function appConfigPlugin(): Plugin {
@@ -17,7 +18,9 @@ function appConfigPlugin(): Plugin {
         }
         const clientRaw = String(process.env.TUCOOLS_ADSENSE_CLIENT || "").trim();
         const slotRaw = String(process.env.TUCOOLS_ADSENSE_SLOT || "").trim();
+        const analyticsRaw = String(process.env.TUCOOLS_ANALYTICS_ID || "").trim();
         const ads = adsFromEnv(process.env);
+        const analyticsId = parseAnalyticsId(analyticsRaw);
         if (!adsWarned) {
           adsWarned = true;
           if (clientRaw && !parseAdsenseClient(clientRaw)) {
@@ -27,6 +30,9 @@ function appConfigPlugin(): Plugin {
             console.warn("忽略 TUCOOLS_ADSENSE_SLOT：需要 6 到 20 位数字。");
           } else if (slotRaw && !ads.adsenseClient) {
             console.warn("忽略 TUCOOLS_ADSENSE_SLOT：还没有有效的 TUCOOLS_ADSENSE_CLIENT。");
+          }
+          if (analyticsRaw && !analyticsId) {
+            console.warn("忽略 TUCOOLS_ANALYTICS_ID：需要 G- 加 6 到 20 位字母或数字。");
           }
         }
         res.setHeader("cache-control", "no-store");
@@ -43,7 +49,7 @@ function appConfigPlugin(): Plugin {
         }
         const raw = String(process.env.TUCOOLS_FEATURES || "").replace(/[^A-Za-z0-9,-]/g, "");
         res.setHeader("content-type", "application/json; charset=utf-8");
-        res.end(JSON.stringify({ features: raw, ...ads }));
+        res.end(JSON.stringify({ features: raw, ...ads, analyticsId }));
       });
     },
   };

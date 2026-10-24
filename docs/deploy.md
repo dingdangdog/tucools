@@ -125,6 +125,21 @@ $env:TUCOOLS_ADSENSE_SLOT = "0000000000"
 
 改完环境变量后重新创建页面容器。同一份镜像可以给不同站点使用各自的编号。
 
+## 统计
+
+公开站点可以接入 Google Analytics 4。测量 ID 写在页面容器的环境变量里，容器启动时生效，不必为此重新构建镜像。不设置或格式不对时，页面不加载 `gtag.js`。安装包默认不设置这个变量。
+
+```powershell
+$env:TUCOOLS_ANALYTICS_ID = "G-XXXXXXXXXX"
+```
+
+`TUCOOLS_ANALYTICS_ID` 是 GA4 测量 ID，写成 `G-` 加 6 到 20 位字母或数字，大小写都可以。设置后页面会：
+
+- 先写入 `dataLayer` 和 `gtag('config', ID)`，再加载 `https://www.googletagmanager.com/gtag/js?id=ID`。这与 easyimage 的 gtag.js 相同。
+- 这次 `config` 不自动发送浏览。图酷在浏览器里切换工具，不整页刷新；等路由完成后再发送 `page_view`，地址、标题和查询参数用切换后的页面。语言跳转也只记最终地址。
+
+非法值会被忽略，并写到容器日志。开发页面读取启动 `npm run dev:web` 时的环境。测量 ID 不写入仓库或镜像。改完后重新创建页面容器。
+
 ## 独立地址和收录
 
 每个工具都有自己的地址，例如 `/compress`、`/cutout`、`/prompt`。构建页面时会为这些地址各写一份 HTML，并生成：
@@ -185,7 +200,31 @@ git push origin v0.2.0
 
 容器包第一次出现时默认是私有的。仓库给其他人使用时，到 GitHub 的 Packages 页面把 `tucools-web` 和 `tucools-engine` 改为公开。之后再次推送标签会更新这两个包。
 
-使用本次发布的镜像时不要加 `--build`：
+只部署、不在本机构建时，使用 `deploy/docker-compose.deploy.yml`。它没有 `build`，默认拉取 `ghcr.io/dingdangdog/tucools-web` 和 `ghcr.io/dingdangdog/tucools-engine` 的 `latest`。引擎只留在 Compose 网络内，页面仍监听 `8080`。模型包目录、功能菜单、站点根和广告变量与上面的构建用 Compose 相同。
+
+```powershell
+docker login ghcr.io
+docker compose -f deploy/docker-compose.deploy.yml up -d
+```
+
+固定版本时设置 `TUCOOLS_VERSION`，不要带 `v` 前缀：
+
+```powershell
+$env:TUCOOLS_VERSION = "0.2.0"
+docker compose -f deploy/docker-compose.deploy.yml up -d
+```
+
+要换仓库或标签时，再分别设置完整镜像名。设置后 `TUCOOLS_VERSION` 不再参与这两个镜像名：
+
+```powershell
+$env:TUCOOLS_WEB_IMAGE = "ghcr.io/<所有者>/tucools-web:0.2.0"
+$env:TUCOOLS_ENGINE_IMAGE = "ghcr.io/<所有者>/tucools-engine:0.2.0"
+docker compose -f deploy/docker-compose.deploy.yml up -d
+```
+
+私有包拉取前需要 `docker login ghcr.io`；公开包可以直接拉取。再推送一个更旧的标签也会把 `latest` 改到那个版本。本机没有对应镜像时，这条 Compose 只会拉取，不会回退到本地构建。
+
+`deploy/docker-compose.yml` 仍用于从源码构建。使用其中已填写的发布镜像、且不要构建时，可以不带 `--build`：
 
 ```powershell
 $env:TUCOOLS_WEB_IMAGE = "ghcr.io/<所有者>/tucools-web:0.2.0"
@@ -195,4 +234,4 @@ docker compose -f deploy/docker-compose.yml pull
 docker compose -f deploy/docker-compose.yml up -d
 ```
 
-没有设置这两个变量时，Compose 仍在本地构建 `tucools-web:0.1.0` 和 `tucools-engine:0.1.0`。私有包拉取前需要 `docker login ghcr.io`；公开包可以直接拉取。再推送一个更旧的标签也会把 `latest` 改到那个版本。
+没有设置这两个变量时，`deploy/docker-compose.yml` 仍在本地构建 `tucools-web:0.1.0` 和 `tucools-engine:0.1.0`。

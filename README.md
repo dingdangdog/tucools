@@ -32,9 +32,9 @@
 | 方式 | 打开地址 | 说明 |
 | --- | --- | --- |
 | Windows 安装包 | 本机窗口 | 页面和壳在安装包里。模型包解压到 `%APPDATA%\tucools\model-pack`，或设置 `TUCOOLS_MODEL_PACK`。 |
-| Docker | http://127.0.0.1:8080 | `docker compose -f deploy/docker-compose.yml up --build`。引擎留在 Compose 网络内。 |
+| Docker | http://127.0.0.1:8080 | 已发布镜像用 `docker compose -f deploy/docker-compose.deploy.yml up -d`。从源码构建用 `docker compose -f deploy/docker-compose.yml up --build`。引擎留在 Compose 网络内。 |
 
-部署、功能菜单、站点地址和广告见 [docs/deploy.md](docs/deploy.md)。
+部署、功能菜单、站点地址、广告和统计见 [docs/deploy.md](docs/deploy.md)。
 
 默认语言是简体中文，地址不带前缀。另有繁体中文、英语、西班牙语、德语、日语、巴西葡萄牙语、印地语、越南语、阿拉伯语和孟加拉语，对应 `/zh_hant`、`/en`、`/es`、`/de`、`/ja`、`/pt_br`、`/hi`、`/vn`、`/ar`、`/bn`。产品名在每种语言里都是「图酷」。
 

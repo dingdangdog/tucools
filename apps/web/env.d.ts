@@ -8,5 +8,7 @@ declare global {
       saveBytes: (filename: string, bytes: Uint8Array) => Promise<"saved" | "cancelled">;
     };
     adsbygoogle?: unknown[];
+    dataLayer?: unknown[];
+    gtag?: (...args: unknown[]) => void;
   }
 }

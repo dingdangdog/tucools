@@ -1,0 +1,48 @@
+# 只用已发布镜像启动图酷。这个文件没有 build，不会在本机构建页面或引擎。
+# 从源码构建仍使用 deploy/docker-compose.yml。说明见 docs/deploy.md。
+
+name: tucools
+
+services:
+  engine:
+    # 默认拉取 ghcr.io/dingdangdog/tucools-engine:latest。
+    # 指定版本：TUCOOLS_VERSION=0.2.0。换完整镜像名：TUCOOLS_ENGINE_IMAGE=...
+    image: ${TUCOOLS_ENGINE_IMAGE:-ghcr.io/dingdangdog/tucools-engine:${TUCOOLS_VERSION:-latest}}
+    pull_policy: always
+    environment:
+      TUCOOLS_MODEL_PACK: /model-pack
+    volumes:
+      # 宿主机上的模型包。可用 TUCOOLS_MODEL_PACK 指到解压目录，默认是仓库旁的 model-pack。
+      - ${TUCOOLS_MODEL_PACK:-../model-pack}:/model-pack:ro
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8787/api/engine/health', timeout=3)",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    restart: unless-stopped
+
+  web:
+    image: ${TUCOOLS_WEB_IMAGE:-ghcr.io/dingdangdog/tucools-web:${TUCOOLS_VERSION:-latest}}
+    pull_policy: always
+    environment:
+      # 逗号分隔的功能名。留空表示显示全部。说明见 docs/deploy.md。
+      TUCOOLS_FEATURES: ${TUCOOLS_FEATURES:-}
+      # 公开站点根地址，不带路径。容器启动时读取；已是绝对地址时不会重复加前缀。
+      TUCOOLS_SITE_URL: ${TUCOOLS_SITE_URL:-}
+      # AdSense 发布商编号。留空则不加载广告，也不提供 ads.txt。改完后重新创建页面容器即可。
+      TUCOOLS_ADSENSE_CLIENT: ${TUCOOLS_ADSENSE_CLIENT:-}
+      # 可选。右侧广告单元编号。未设置时不留广告区。
+      TUCOOLS_ADSENSE_SLOT: ${TUCOOLS_ADSENSE_SLOT:-}
+    ports:
+      - "8080:8080"
+    depends_on:
+      engine:
+        condition: service_healthy
+    restart: unless-stopped

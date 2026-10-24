@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-# 发布商与广告位规则与 apps/web/src/ads.ts 一致。
+# 发布商与广告位规则与 apps/web/src/ads.ts 一致。测量 ID 规则与 apps/web/src/analytics.ts 一致。
 normalize_client() {
   text=$(printf '%s' "$1" | tr -d '[:space:]' | tr '[:upper:]' '[:lower:]')
   case "$text" in
@@ -32,7 +32,16 @@ if [ -n "$slot" ] && [ -z "$client" ]; then
   echo "忽略 TUCOOLS_ADSENSE_SLOT：还没有有效的 TUCOOLS_ADSENSE_CLIENT。" >&2
   slot=""
 fi
-printf '{"features":"%s","adsenseClient":"%s","adsenseSlot":"%s"}\n' "$raw" "$client" "$slot" > /usr/share/nginx/html/app-config.json
+analytics=$(printf '%s' "${TUCOOLS_ANALYTICS_ID:-}" | tr -d '[:space:]' | tr '[:lower:]' '[:upper:]')
+if printf '%s' "$analytics" | grep -Eq '^G-[A-Z0-9]{6,20}$'; then
+  :
+else
+  if [ -n "$analytics" ]; then
+    echo "忽略 TUCOOLS_ANALYTICS_ID：需要 G- 加 6 到 20 位字母或数字。" >&2
+  fi
+  analytics=""
+fi
+printf '{"features":"%s","adsenseClient":"%s","adsenseSlot":"%s","analyticsId":"%s"}\n' "$raw" "$client" "$slot" "$analytics" > /usr/share/nginx/html/app-config.json
 if [ -n "$client" ]; then
   pub=${client#ca-}
   printf 'google.com, %s, DIRECT, f08c47fec0942fa0\n' "$pub" > /usr/share/nginx/html/ads.txt

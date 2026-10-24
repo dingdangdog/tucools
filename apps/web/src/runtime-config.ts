@@ -1,8 +1,9 @@
 import { installAds, parseAdsenseClient, parseAdsenseSlot, type AdsPublic } from "@/ads";
+import { installAnalytics, parseAnalyticsId } from "@/analytics";
 
-export type RuntimeConfig = AdsPublic & { features: string };
+export type RuntimeConfig = AdsPublic & { features: string; analyticsId: string };
 
-const empty: RuntimeConfig = { features: "", adsenseClient: "", adsenseSlot: "" };
+const empty: RuntimeConfig = { features: "", adsenseClient: "", adsenseSlot: "", analyticsId: "" };
 
 let current: RuntimeConfig | null = null;
 let pending: Promise<RuntimeConfig> | null = null;
@@ -16,6 +17,7 @@ export function loadRuntimeConfig(): Promise<RuntimeConfig> {
     pending = readRuntimeConfig().then((config) => {
       current = config;
       installAds(config);
+      installAnalytics(config.analyticsId);
       return config;
     });
   }
@@ -33,12 +35,14 @@ async function readRuntimeConfig(): Promise<RuntimeConfig> {
       features?: unknown;
       adsenseClient?: unknown;
       adsenseSlot?: unknown;
+      analyticsId?: unknown;
     };
     const adsenseClient = parseAdsenseClient(typeof data.adsenseClient === "string" ? data.adsenseClient : "");
     return {
       features: typeof data.features === "string" ? data.features : "",
       adsenseClient,
       adsenseSlot: adsenseClient && typeof data.adsenseSlot === "string" ? parseAdsenseSlot(data.adsenseSlot) : "",
+      analyticsId: parseAnalyticsId(typeof data.analyticsId === "string" ? data.analyticsId : ""),
     };
   } catch {
     return empty;
