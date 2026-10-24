@@ -232,6 +232,12 @@ html[dir="rtl"] .nav-drawer {
   filter: none;
 }
 
+.btn-icon {
+  width: 2.75rem;
+  min-height: 2.75rem;
+  padding: 0;
+}
+
 .btn-block {
   width: 100%;
 }

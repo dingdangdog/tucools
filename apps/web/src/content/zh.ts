@@ -8,6 +8,8 @@ export const zh = {
   infoGroup: "信息处理",
   openNav: "工具",
   closeNav: "关闭",
+  github: "GitHub 仓库",
+  adLabel: "广告",
   themeToDark: "切换到暗色",
   themeToLight: "切换到亮色",
   empty: "把图片拖到这里，或选择文件",

@@ -10,6 +10,8 @@ export const ar: Copy = {
   infoGroup: "معالجة المعلومات",
   openNav: "الأدوات",
   closeNav: "إغلاق",
+  github: "مستودع GitHub",
+  adLabel: "إعلان",
   themeToDark: "التبديل إلى الداكن",
   themeToLight: "التبديل إلى الفاتح",
   empty: "اسحب الصورة إلى هنا، أو اختر ملفًا",

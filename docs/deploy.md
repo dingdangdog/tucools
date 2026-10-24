@@ -107,6 +107,24 @@ $env:TUCOOLS_FEATURES = "compress,resize,cutout,enhance"
 | `pix` | 图片信息 |
 | `prompt` | AI提示词提取 |
 
+## 广告
+
+公开站点可以接入 Google AdSense。不设置时页面不加载广告脚本，`/ads.txt` 返回 404，工具页右侧只显示常见问题。编号写在页面容器的环境变量里，容器启动时生效，不必为此重新构建镜像。安装包默认不设置这两个变量。
+
+```powershell
+$env:TUCOOLS_ADSENSE_CLIENT = "ca-pub-0000000000000000"
+$env:TUCOOLS_ADSENSE_SLOT = "0000000000"
+```
+
+`TUCOOLS_ADSENSE_CLIENT` 是发布商编号，写成 `ca-pub-` 加 10 到 20 位数字，也可以只写 `pub-` 或数字。设置后页面会：
+
+- 在站点根提供 `ads.txt`，内容是 `google.com, pub-编号, DIRECT, f08c47fec0942fa0`。
+- 加载 `adsbygoogle.js`，并写入 `google-adsense-account`。这与 easyimage 的自动广告相同，具体位置由 AdSense 后台决定。
+
+`TUCOOLS_ADSENSE_SLOT` 是可选的展示广告单元编号，6 到 20 位数字。两个变量都有效时，工具页右侧上方显示这个单元，下面是常见问题。只设置发布商编号时，右侧不留空广告区。非法值会被忽略，并写到容器日志。开发页面读取启动 `npm run dev:web` 时的环境。
+
+改完环境变量后重新创建页面容器。同一份镜像可以给不同站点使用各自的编号。
+
 ## 独立地址和收录
 
 每个工具都有自己的地址，例如 `/compress`、`/cutout`、`/prompt`。构建页面时会为这些地址各写一份 HTML，并生成：
@@ -116,7 +134,7 @@ $env:TUCOOLS_FEATURES = "compress,resize,cutout,enhance"
 - `llms.txt`：给生成式引擎看的工具目录。每种语言各有一份，例如 `/llms.txt` 和 `/en/llms.txt`。
 - `llms-full.txt`：每个工具的说明和常见问题，同样按语言分开。
 
-不执行 JavaScript 的抓取程序直接读到该地址的标题、说明、canonical、hreflang 和常见问题。浏览器打开后仍是原来的工具页面，常见问题收在页面下方。
+不执行 JavaScript 的抓取程序直接读到该地址的标题、说明、canonical、hreflang 和常见问题。浏览器打开后仍是原来的工具页面。宽屏时常见问题在右侧，窄屏时排在功能区下面。
 
 简体中文是默认语言，地址不带前缀，例如 `/compress`。其余语言沿用原站的前缀：
 

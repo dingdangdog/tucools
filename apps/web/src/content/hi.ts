@@ -10,6 +10,8 @@ export const hi: Copy = {
   infoGroup: "जानकारी प्रसंस्करण",
   openNav: "उपकरण",
   closeNav: "बंद करें",
+  github: "GitHub रिपॉज़िटरी",
+  adLabel: "विज्ञापन",
   themeToDark: "गहरे रंग पर जाएँ",
   themeToLight: "हल्के रंग पर जाएँ",
   empty: "चित्र यहाँ खींचें, या फ़ाइल चुनें",

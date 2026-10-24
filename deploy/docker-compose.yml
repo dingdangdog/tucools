@@ -25,6 +25,10 @@ services:
       TUCOOLS_FEATURES: ${TUCOOLS_FEATURES:-}
       # 公开站点根地址，不带路径。构建和容器启动时都会读取；已是绝对地址时不会重复加前缀。
       TUCOOLS_SITE_URL: ${TUCOOLS_SITE_URL:-}
+      # AdSense 发布商编号。留空则不加载广告，也不提供 ads.txt。改完后重新创建页面容器即可，不必重新构建镜像。
+      TUCOOLS_ADSENSE_CLIENT: ${TUCOOLS_ADSENSE_CLIENT:-}
+      # 可选。右侧广告单元编号。未设置时不留广告区。
+      TUCOOLS_ADSENSE_SLOT: ${TUCOOLS_ADSENSE_SLOT:-}
     ports:
       - "8080:8080"
     depends_on:

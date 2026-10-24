@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import { createNavGroups } from "@/nav";
+import { loadRuntimeConfig } from "@/runtime-config";
 import {
   allFeatureIds,
   menuStorageKey,
@@ -24,17 +25,8 @@ function readSaved(): string[] | null {
 }
 
 async function readAllowRaw(): Promise<string> {
-  try {
-    const response = await fetch("/app-config.json", {
-      cache: "no-store",
-      signal: AbortSignal.timeout(3000),
-    });
-    if (!response.ok) return "";
-    const data = (await response.json()) as { features?: unknown };
-    return typeof data.features === "string" ? data.features : "";
-  } catch {
-    return "";
-  }
+  const config = await loadRuntimeConfig();
+  return config.features;
 }
 
 export const useMenuStore = defineStore("menus", () => {

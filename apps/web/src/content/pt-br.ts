@@ -10,6 +10,8 @@ export const ptBr: Copy = {
   infoGroup: "Processamento de informações",
   openNav: "Ferramentas",
   closeNav: "Fechar",
+  github: "Repositório no GitHub",
+  adLabel: "Anúncio",
   themeToDark: "Mudar para o tema escuro",
   themeToLight: "Mudar para o tema claro",
   empty: "Arraste imagens para cá, ou escolha arquivos",

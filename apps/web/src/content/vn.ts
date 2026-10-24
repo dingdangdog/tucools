@@ -10,6 +10,8 @@ export const vn: Copy = {
   infoGroup: "Xử lý thông tin",
   openNav: "Công cụ",
   closeNav: "Đóng",
+  github: "Kho GitHub",
+  adLabel: "Quảng cáo",
   themeToDark: "Chuyển sang nền tối",
   themeToLight: "Chuyển sang nền sáng",
   empty: "Kéo ảnh vào đây, hoặc chọn tệp",

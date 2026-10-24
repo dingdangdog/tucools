@@ -10,6 +10,8 @@ export const bn: Copy = {
   infoGroup: "তথ্য প্রক্রিয়াকরণ",
   openNav: "সরঞ্জাম",
   closeNav: "বন্ধ",
+  github: "GitHub রিপোজিটরি",
+  adLabel: "বিজ্ঞাপন",
   themeToDark: "গাঢ় রঙে যান",
   themeToLight: "হালকা রঙে যান",
   empty: "ছবি এখানে টেনে আনুন, অথবা ফাইল বেছে নিন",

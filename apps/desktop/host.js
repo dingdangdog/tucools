@@ -72,17 +72,57 @@ function resolveWebFile(webRoot, requested) {
   return fs.existsSync(fallback) ? fallback : null;
 }
 
+function parseAdsenseClient(raw) {
+  const text = String(raw || "").trim().toLowerCase();
+  const prefixed = /^(?:ca-)?pub-(\d{10,20})$/.exec(text);
+  const digits = (prefixed && prefixed[1]) || ((/^(\d{10,20})$/.exec(text) || [])[1] || "");
+  return digits ? `ca-pub-${digits}` : "";
+}
+
+function parseAdsenseSlot(raw) {
+  const text = String(raw || "").trim();
+  return /^\d{6,20}$/.test(text) ? text : "";
+}
+
+function adsFromProcess() {
+  const clientRaw = String(process.env.TUCOOLS_ADSENSE_CLIENT || "").trim();
+  const slotRaw = String(process.env.TUCOOLS_ADSENSE_SLOT || "").trim();
+  const adsenseClient = parseAdsenseClient(clientRaw);
+  const adsenseSlot = adsenseClient ? parseAdsenseSlot(slotRaw) : "";
+  if (clientRaw && !adsenseClient) {
+    console.error("忽略 TUCOOLS_ADSENSE_CLIENT：需要 ca-pub- 加 10 到 20 位数字，也可以只写数字。");
+  }
+  if (slotRaw && !parseAdsenseSlot(slotRaw)) {
+    console.error("忽略 TUCOOLS_ADSENSE_SLOT：需要 6 到 20 位数字。");
+  } else if (slotRaw && !adsenseClient) {
+    console.error("忽略 TUCOOLS_ADSENSE_SLOT：还没有有效的 TUCOOLS_ADSENSE_CLIENT。");
+  }
+  return { adsenseClient, adsenseSlot };
+}
+
 function createStaticServer(webRoot, engine) {
+  const ads = adsFromProcess();
   return http.createServer((req, res) => {
     const url = new URL(req.url || "/", "http://127.0.0.1");
     if (url.pathname === "/app-config.json") {
       const raw = String(process.env.TUCOOLS_FEATURES || "").replace(/[^A-Za-z0-9,-]/g, "");
-      const body = JSON.stringify({ features: raw });
+      const body = JSON.stringify({ features: raw, ...ads });
       res.writeHead(200, {
         "content-type": "application/json; charset=utf-8",
         "cache-control": "no-store",
       });
       res.end(body);
+      return;
+    }
+    if (url.pathname === "/ads.txt") {
+      if (!ads.adsenseClient) {
+        res.writeHead(404, { "content-type": "text/plain; charset=utf-8", "cache-control": "no-store" });
+        res.end("");
+        return;
+      }
+      const pub = ads.adsenseClient.replace(/^ca-/, "");
+      res.writeHead(200, { "content-type": "text/plain; charset=utf-8", "cache-control": "no-store" });
+      res.end(`google.com, ${pub}, DIRECT, f08c47fec0942fa0\n`);
       return;
     }
     if (url.pathname.startsWith("/api/engine")) {

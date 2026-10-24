@@ -40,8 +40,8 @@
 - 超分调用 upscayl-bin，不安装 Python 版 realesrgan。Linux 容器不能运行 `upscayl-bin.exe`。
 - 桌面引擎顺序：随包 `tucools-engine.exe`，否则 `TUCOOLS_RUNTIME` 里的旧命令行，否则本机 Python。旧命令行只组装参数，不重写算法。
 - 安装包只做 Windows NSIS。产品名「图酷」，`appId` 为 `com.tucools.app`。
-- 不做激活、支付、试用、博客、广告、上色、美颜、人脸修复。
-- 默认语言是简体中文，地址不带前缀。其他语言使用 `/en`、`/zh_hant`、`/es`、`/de`、`/ja`、`/pt_br`、`/hi`、`/vn`、`/ar`、`/bn`。产品名在每种语言里都是「图酷」。网页不按 `Accept-Language` 跳转；`localStorage` 键 `tucools-locale` 只在打开站点根 `/` 时生效。安装包第一次打开根地址、且没有保存语言时，按系统语言选择。阿拉伯语页面使用 `dir="rtl"`。公开站点的绝对规范地址在构建时读取 `VITE_SITE_URL`，容器启动时读取 `TUCOOLS_SITE_URL`。
+- 不做激活、支付、试用、博客、上色、美颜、人脸修复。广告默认关闭。公开站点用 `TUCOOLS_ADSENSE_CLIENT` 接入 AdSense 并生成 `/ads.txt`；再设置 `TUCOOLS_ADSENSE_SLOT` 时，工具页右侧显示该广告单元。未配置时不加载广告脚本。安装包默认不配置。
+- 默认语言是简体中文，地址不带前缀。其他语言使用 `/en`、`/zh_hant`、`/es`、`/de`、`/ja`、`/pt_br`、`/hi`、`/vn`、`/ar`、`/bn`。产品名在每种语言里都是「图酷」。网页不按 `Accept-Language` 跳转；`localStorage` 键 `tucools-locale` 只在打开站点根 `/` 时生效。安装包第一次打开根地址、且没有保存语言时，按系统语言选择。阿拉伯语页面使用 `dir="rtl"`。公开站点的绝对规范地址在构建时读取 `VITE_SITE_URL`，容器启动时读取 `TUCOOLS_SITE_URL`。广告编号也在容器启动时读取，不写进镜像。
 
 ## 接到需求后怎么改
 
@@ -57,6 +57,7 @@
 | 改文案 | 先改 `zh.ts`，再改 `content/` 里每一种语言，使它们继续符合 `Copy`。 |
 | 改模型文件名或目录 | `runtime_info.py`、`deploy/model-pack.json`、`docs/models.md`，以及安装包过滤和镜像忽略规则。 |
 | 改安装或 Docker | `apps/desktop`、`deploy/`、`docs/deploy.md`。镜像和安装包仍不包含模型包。 |
+| 改广告 | `TUCOOLS_ADSENSE_CLIENT`、`TUCOOLS_ADSENSE_SLOT`，以及入口脚本、`app-config.json`、`/ads.txt` 和工具页右侧。不把发布商编号写进仓库。 |
 
 新增本地工具时，批量工具沿用 `BatchLayout`、`Stage`、`Chips`、`Field`、`ResultGrid`；需要对照原图操作的工具沿用 `StudioLayout` 和 `Stage`。新增 AI 工具时，沿用 `StudioLayout`、`EngineStatus`，并用 `runEngineJob` 接收 SSE。`useResults()` 必须返回 `reactive({...})`；返回普通对象会导致模板拿到 Ref 本身。
 
@@ -68,7 +69,7 @@
 
 - 先看相关实现和 `git status`，不覆盖用户已有改动。
 - 说明和排障写入 `docs/`。复杂方案写入 `design/`，使用下一位编号。
-- 改了代码或可执行脚本后，在 `changelog/` 增加三位编号记录。先看已有编号，当前最大是 `016`。记录写明问题、改动、影响、兼容性和实际验证；未跑的检查写「未测试」。
+- 改了代码或可执行脚本后，在 `changelog/` 增加三位编号记录。先看已有编号，当前最大是 `017`。记录写明问题、改动、影响、兼容性和实际验证；未跑的检查写「未测试」。
 - 未经要求不启动开发服务器、Docker、安装包构建或长期进程。可以跑 `npm run typecheck`、`npm run build:web` 和针对改动文件的 Python 语法检查。
 - 不把未安装依赖时的推理、镜像构建或安装包打包写成已通过。
 - 不读取或提交 `.env`、密钥和真实用户图片。不修改两个旧项目。

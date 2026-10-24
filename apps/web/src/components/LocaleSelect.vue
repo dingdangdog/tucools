@@ -1,8 +1,8 @@
 <template>
-  <div ref="root" class="relative">
+  <div ref="root" class="relative min-w-0">
     <button
       type="button"
-      class="btn max-w-[9.5rem] shrink-0"
+      class="btn min-w-0 max-w-full"
       :aria-label="copy.language"
       aria-haspopup="listbox"
       :aria-expanded="open"

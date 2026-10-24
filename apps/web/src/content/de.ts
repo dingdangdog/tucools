@@ -10,6 +10,8 @@ export const de: Copy = {
   infoGroup: "Informationsverarbeitung",
   openNav: "Werkzeuge",
   closeNav: "Schließen",
+  github: "GitHub-Repository",
+  adLabel: "Anzeige",
   themeToDark: "Zum dunklen Design wechseln",
   themeToLight: "Zum hellen Design wechseln",
   empty: "Bilder hierher ziehen oder Dateien auswählen",

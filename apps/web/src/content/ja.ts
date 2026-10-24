@@ -10,6 +10,8 @@ export const ja: Copy = {
   infoGroup: "情報処理",
   openNav: "ツール",
   closeNav: "閉じる",
+  github: "GitHub リポジトリ",
+  adLabel: "広告",
   themeToDark: "ダークに切り替える",
   themeToLight: "ライトに切り替える",
   empty: "画像をここにドラッグするか、ファイルを選択してください",

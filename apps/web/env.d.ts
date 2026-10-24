@@ -7,5 +7,6 @@ declare global {
     tucools?: {
       saveBytes: (filename: string, bytes: Uint8Array) => Promise<"saved" | "cancelled">;
     };
+    adsbygoogle?: unknown[];
   }
 }

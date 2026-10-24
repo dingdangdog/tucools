@@ -10,6 +10,8 @@ export const zhHant: Copy = {
   infoGroup: "資訊處理",
   openNav: "工具",
   closeNav: "關閉",
+  github: "GitHub 倉庫",
+  adLabel: "廣告",
   themeToDark: "切換到深色",
   themeToLight: "切換到淺色",
   empty: "把圖片拖到這裡，或選擇檔案",
