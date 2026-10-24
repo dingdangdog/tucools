@@ -20,7 +20,7 @@ npm run dev:web
 
 打开 http://127.0.0.1:13175 。本地工具这时就能用。
 
-启动 Python 引擎。依赖装在仓库根目录的 `.venv`（Python 3.12，见 README），其中包含 CPU 版 torch。在仓库根目录运行时，引擎读取 `model-pack`：
+启动 Python 引擎。依赖装在仓库根目录的 `.venv`（Python 3.12，见 [develop.md](../develop.md)），其中包含 CPU 版 torch。在仓库根目录运行时，引擎读取 `model-pack`：
 
 ```powershell
 npm run engine

@@ -1,5 +1,5 @@
 <template>
-  <div class="text-sm">
+  <div v-if="phase !== 'ready' || status?.missing.length" class="text-sm">
     <p v-if="phase === 'checking'" class="text-muted">{{ copy.modelChecking }}</p>
     <p v-else-if="phase === 'down'" class="text-danger">{{ copy.engineDown }}</p>
     <template v-else-if="phase === 'blocked'">
@@ -22,16 +22,9 @@
         </p>
       </div>
     </template>
-    <template v-else>
-      <p class="text-muted">
-        {{ copy.featureReady }}
-        <template v-if="device">{{ copy.currentDevice }} {{ device }}。</template>
-      </p>
-      <p v-if="status?.missing.length" class="mt-1 break-all text-muted">
-        {{ copy.modelPartial }}：{{ status.missing.join("、") }}
-      </p>
-    </template>
-    <button type="button" class="btn mt-2" :disabled="checking" @click="load">{{ copy.refreshHealth }}</button>
+    <p v-else-if="status?.missing.length" class="break-all text-muted">
+      {{ copy.modelPartial }}：{{ status.missing.join("、") }}
+    </p>
   </div>
 </template>
 
@@ -49,19 +42,25 @@ const down = ref(false);
 const loaded = ref(false);
 const checking = ref(false);
 const status = computed(() => health.value ?? undefined);
-const device = computed(() => health.value?.device ?? "");
 const phase = computed(() => snapshot().phase);
 
 function snapshot(): ToolGate {
-  if (!loaded.value) return { phase: "checking", available: [] };
-  if (down.value || !health.value) return { phase: "down", available: [] };
-  if (!health.value.ready) return { phase: "blocked", available: [] };
-  return { phase: "ready", available: health.value.available };
+  const device = health.value?.device ?? "";
+  const busy = checking.value;
+  if (!loaded.value) return { phase: "checking", available: [], device, checking: busy };
+  if (down.value || !health.value) return { phase: "down", available: [], device, checking: busy };
+  if (!health.value.ready) return { phase: "blocked", available: [], device, checking: busy };
+  return { phase: "ready", available: health.value.available, device, checking: busy };
+}
+
+function publish() {
+  emit("gate", snapshot());
 }
 
 async function load() {
   if (checking.value) return;
   checking.value = true;
+  publish();
   try {
     health.value = await engineHealth(props.tool);
     down.value = false;
@@ -71,7 +70,7 @@ async function load() {
   } finally {
     checking.value = false;
     loaded.value = true;
-    emit("gate", snapshot());
+    publish();
   }
 }
 

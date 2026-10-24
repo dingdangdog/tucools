@@ -32,7 +32,7 @@
       <BusyCover :show="running" :text="progress" />
     </div>
     <template #panel>
-      <EngineStatus tool="erase" @gate="gate = $event" />
+      <EngineStatus ref="engine" tool="erase" @gate="gate = $event" />
       <template v-if="usable">
         <Field :label="`${copy.ui.brush} ${brush}`">
           <input v-model.number="brush" class="range" type="range" min="8" max="120" :disabled="running" />
@@ -49,6 +49,7 @@
       <button v-if="resultUrl" type="button" class="btn" :disabled="!usable || running" @click="state.reset()">{{ copy.ui.repaint }}</button>
       <button type="button" class="btn" :disabled="!usable || !imageUrl || running" @click="clearMask">{{ copy.ui.clearMask }}</button>
       <button type="button" class="btn" :disabled="!imageUrl || running" @click="reset">{{ copy.ui.replace }}</button>
+      <EngineHealthActions :gate="gate" @refresh="engine?.load()" />
     </template>
   </StudioLayout>
 </template>
@@ -59,6 +60,7 @@ import { runEngineJob } from "@/api/engine";
 import { type ToolGate } from "@/engine-gate";
 import BusyCover from "@/components/BusyCover.vue";
 import CompareView from "@/components/CompareView.vue";
+import EngineHealthActions from "@/components/EngineHealthActions.vue";
 import EngineStatus from "@/components/EngineStatus.vue";
 import Field from "@/components/Field.vue";
 import FileBadge from "@/components/FileBadge.vue";
@@ -68,7 +70,8 @@ import { useResults } from "@/composables/useResults";
 import { copy } from "@/content";
 import { formatBytes, isProcessableImage, stem } from "@/utils/image";
 
-const gate = ref<ToolGate>({ phase: "checking", available: [] });
+const engine = ref<{ load: () => Promise<void> } | null>(null);
+const gate = ref<ToolGate>({ phase: "checking", available: [], device: "", checking: true });
 const usable = computed(() => gate.value.phase === "ready");
 const stageHint = computed(() => {
   if (usable.value) return "";

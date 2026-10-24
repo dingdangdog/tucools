@@ -24,7 +24,7 @@
       </div>
     </Stage>
     <template #panel>
-      <EngineStatus tool="cutout" @gate="gate = $event" />
+      <EngineStatus ref="engine" tool="cutout" @gate="gate = $event" />
       <div v-if="usable">
         <p class="mb-2 text-sm text-muted">{{ copy.ui.model }}</p>
         <Chips v-model="model" :options="modelOptions" :label="copy.ui.model" :disabled="running" />
@@ -38,6 +38,7 @@
       </button>
       <button v-if="resultUrl" type="button" class="btn" :disabled="!usable || running" @click="run">{{ copy.ui.again }}</button>
       <button v-if="sourceUrl" type="button" class="btn" :disabled="running" @click="clear">{{ copy.ui.replace }}</button>
+      <EngineHealthActions :gate="gate" @refresh="engine?.load()" />
     </template>
   </StudioLayout>
 </template>
@@ -48,6 +49,7 @@ import { runEngineJob } from "@/api/engine";
 import { type ToolGate } from "@/engine-gate";
 import Chips from "@/components/Chips.vue";
 import CompareView from "@/components/CompareView.vue";
+import EngineHealthActions from "@/components/EngineHealthActions.vue";
 import EngineStatus from "@/components/EngineStatus.vue";
 import FileBadge from "@/components/FileBadge.vue";
 import Stage from "@/components/Stage.vue";
@@ -63,7 +65,8 @@ const models = [
   { value: "isnet-general-use", label: copy.ui.models.isnet },
   { value: "isnet-anime", label: copy.ui.models.anime },
 ];
-const gate = ref<ToolGate>({ phase: "checking", available: [] });
+const engine = ref<{ load: () => Promise<void> } | null>(null);
+const gate = ref<ToolGate>({ phase: "checking", available: [], device: "", checking: true });
 const usable = computed(() => gate.value.phase === "ready");
 const stageHint = computed(() => {
   if (usable.value) return "";

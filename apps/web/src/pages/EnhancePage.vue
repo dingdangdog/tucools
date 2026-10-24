@@ -24,7 +24,7 @@
       </div>
     </Stage>
     <template #panel>
-      <EngineStatus tool="enhance" @gate="gate = $event" />
+      <EngineStatus ref="engine" tool="enhance" @gate="gate = $event" />
       <template v-if="usable">
         <div>
           <p class="mb-2 text-sm text-muted">{{ copy.ui.effect }}</p>
@@ -44,6 +44,7 @@
       </button>
       <button v-if="resultUrl" type="button" class="btn" :disabled="!usable || running" @click="run">{{ copy.ui.again }}</button>
       <button v-if="sourceUrl" type="button" class="btn" :disabled="running" @click="clear">{{ copy.ui.replace }}</button>
+      <EngineHealthActions :gate="gate" @refresh="engine?.load()" />
     </template>
   </StudioLayout>
 </template>
@@ -54,6 +55,7 @@ import { runEngineJob } from "@/api/engine";
 import { type ToolGate } from "@/engine-gate";
 import Chips from "@/components/Chips.vue";
 import CompareView from "@/components/CompareView.vue";
+import EngineHealthActions from "@/components/EngineHealthActions.vue";
 import EngineStatus from "@/components/EngineStatus.vue";
 import FileBadge from "@/components/FileBadge.vue";
 import Stage from "@/components/Stage.vue";
@@ -75,7 +77,8 @@ const scales = [
   { value: 3, label: "3" },
   { value: 4, label: "4" },
 ];
-const gate = ref<ToolGate>({ phase: "checking", available: [] });
+const engine = ref<{ load: () => Promise<void> } | null>(null);
+const gate = ref<ToolGate>({ phase: "checking", available: [], device: "", checking: true });
 const usable = computed(() => gate.value.phase === "ready");
 const stageHint = computed(() => {
   if (usable.value) return "";
