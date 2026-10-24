@@ -127,6 +127,10 @@ textarea {
   border-color: var(--accent);
 }
 
+.stage.is-disabled {
+  opacity: 0.72;
+}
+
 .checker {
   background-color: var(--checker-alt);
   background-image:
@@ -157,6 +161,17 @@ textarea {
 
 .stage-pick:hover {
   background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+
+.stage-pick:disabled,
+.stage-pick:disabled:hover {
+  cursor: not-allowed;
+  background: transparent;
+}
+
+.stage-pick:disabled .btn {
+  cursor: not-allowed;
+  opacity: 0.45;
 }
 
 .btn {
@@ -308,6 +323,20 @@ input[type="color"].field-input::-moz-color-swatch {
 
 .text-danger {
   color: var(--danger);
+}
+
+.text-link {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.menu-check {
+  width: 1.125rem;
+  height: 1.125rem;
+  margin-top: 0.15rem;
+  flex-shrink: 0;
+  accent-color: var(--accent);
 }
 
 @media (prefers-reduced-motion: reduce) {

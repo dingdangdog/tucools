@@ -2,9 +2,16 @@ import { createApp } from "vue";
 import { createPinia } from "pinia";
 import App from "./App.vue";
 import { router } from "./router";
+import { useMenuStore } from "@/stores/menus";
 import "./styles.css";
 
-const app = createApp(App);
-app.use(createPinia());
-app.use(router);
-app.mount("#app");
+async function boot() {
+  const app = createApp(App);
+  const pinia = createPinia();
+  app.use(pinia);
+  await useMenuStore().load();
+  app.use(router);
+  app.mount("#app");
+}
+
+void boot();

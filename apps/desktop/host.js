@@ -54,6 +54,16 @@ function proxyTo(req, res, port) {
 function createStaticServer(webRoot, engine) {
   return http.createServer((req, res) => {
     const url = new URL(req.url || "/", "http://127.0.0.1");
+    if (url.pathname === "/app-config.json") {
+      const raw = String(process.env.TUCOOLS_FEATURES || "").replace(/[^A-Za-z0-9,-]/g, "");
+      const body = JSON.stringify({ features: raw });
+      res.writeHead(200, {
+        "content-type": "application/json; charset=utf-8",
+        "cache-control": "no-store",
+      });
+      res.end(body);
+      return;
+    }
     if (url.pathname.startsWith("/api/engine")) {
       if (engine.mode === "legacy") {
         handleLegacy(req, res, engine.runtime);

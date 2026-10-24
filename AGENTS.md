@@ -67,7 +67,7 @@
 
 - 先看相关实现和 `git status`，不覆盖用户已有改动。
 - 说明和排障写入 `docs/`。复杂方案写入 `design/`，使用下一位编号。
-- 改了代码或可执行脚本后，在 `changelog/` 增加三位编号记录。先看已有编号，当前最大是 `005`。记录写明问题、改动、影响、兼容性和实际验证；未跑的检查写「未测试」。
+- 改了代码或可执行脚本后，在 `changelog/` 增加三位编号记录。先看已有编号，当前最大是 `008`。记录写明问题、改动、影响、兼容性和实际验证；未跑的检查写「未测试」。
 - 未经要求不启动开发服务器、Docker、安装包构建或长期进程。可以跑 `npm run typecheck`、`npm run build:web` 和针对改动文件的 Python 语法检查。
 - 不把未安装依赖时的推理、镜像构建或安装包打包写成已通过。
 - 不读取或提交 `.env`、密钥和真实用户图片。不修改两个旧项目。
@@ -88,3 +88,5 @@ docker compose -f deploy/docker-compose.yml up --build
 ```
 
 `npm run engine` 使用仓库根目录 `.venv` 里的 Python 3.12，依赖按 `services/engine/requirements.txt` 装进这个环境。模型包默认是仓库根目录的 `model-pack`；已有旧运行时时可用 `scripts/link-models.ps1` 在本机准备，该脚本不会把模型放进安装包或镜像。
+
+推送 `v主版本.次版本.修订号` 标签后，`.github/workflows/release.yml` 构建镜像和 Windows 安装包并发布 Release。说明见 `docs/deploy.md`。

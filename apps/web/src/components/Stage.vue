@@ -5,8 +5,9 @@
       compact ? 'h-32 shrink-0' : 'min-h-[18rem] flex-1 lg:h-full lg:min-h-0',
       filled ? '' : 'is-empty',
       over ? 'is-over' : '',
+      disabled ? 'is-disabled' : '',
     ]"
-    @dragover.prevent="over = true"
+    @dragover.prevent="onDragOver"
     @dragleave="onDragLeave"
     @drop.prevent="onDrop"
   >
@@ -22,6 +23,7 @@
       v-if="!filled"
       type="button"
       class="stage-pick absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center"
+      :disabled="disabled"
       @click="openPicker"
     >
       <PhotoIcon class="h-10 w-10 text-muted" />
@@ -50,20 +52,26 @@ const props = withDefaults(
     busy?: boolean;
     progress?: string;
     hint?: string;
+    disabled?: boolean;
   }>(),
-  { filled: false, multiple: true, accept: "image/*", compact: false, busy: false, progress: "", hint: "" }
+  { filled: false, multiple: true, accept: "image/*", compact: false, busy: false, progress: "", hint: "", disabled: false }
 );
 const emit = defineEmits<{ files: [File[]] }>();
 const over = ref(false);
 const input = ref<HTMLInputElement | null>(null);
 
+function onDragOver() {
+  if (!props.disabled && !props.busy) over.value = true;
+}
+
 function openPicker() {
+  if (props.disabled || props.busy) return;
   input.value?.click();
 }
 
 function emitFiles(list: FileList | null | undefined) {
   over.value = false;
-  if (props.busy || !list?.length) return;
+  if (props.disabled || props.busy || !list?.length) return;
   emit("files", Array.from(list));
   if (input.value) input.value.value = "";
 }

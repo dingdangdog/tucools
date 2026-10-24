@@ -1,6 +1,6 @@
 <template>
   <StudioLayout :lead="copy.tools.erase.lead">
-    <Stage v-if="!imageUrl" :multiple="false" @files="open" />
+    <Stage v-if="!imageUrl" :multiple="false" :disabled="!usable" :hint="stageHint" @files="open" />
     <div v-else class="stage relative min-h-[18rem] flex-1 overflow-hidden lg:h-full lg:min-h-0">
       <div v-show="!resultUrl" ref="frame" class="absolute inset-0">
         <img
@@ -13,6 +13,7 @@
         <canvas
           ref="maskCanvas"
           class="absolute cursor-crosshair touch-none opacity-70"
+          :class="{ 'pointer-events-none': !usable }"
           :style="maskStyle"
           @pointerdown="drawStart"
           @pointermove="drawMove"
@@ -31,20 +32,22 @@
       <BusyCover :show="running" :text="progress" />
     </div>
     <template #panel>
-      <EngineStatus tool="erase" />
-      <Field :label="`${copy.ui.brush} ${brush}`">
-        <input v-model.number="brush" class="range" type="range" min="8" max="120" :disabled="running" />
-      </Field>
-      <p class="text-sm text-muted">{{ copy.ui.paintHint }}</p>
+      <EngineStatus tool="erase" @gate="gate = $event" />
+      <template v-if="usable">
+        <Field :label="`${copy.ui.brush} ${brush}`">
+          <input v-model.number="brush" class="range" type="range" min="8" max="120" :disabled="running" />
+        </Field>
+        <p class="text-sm text-muted">{{ copy.ui.paintHint }}</p>
+      </template>
       <p v-if="error" class="text-sm text-danger" role="alert">{{ error }}</p>
     </template>
     <template #actions>
       <button v-if="resultUrl" type="button" class="btn btn-primary" @click="download">{{ copy.ui.downloadResult }}</button>
-      <button v-else type="button" class="btn btn-primary" :disabled="!fileRef || running" @click="submit">
+      <button v-else type="button" class="btn btn-primary" :disabled="!usable || !fileRef || running" @click="submit">
         {{ copy.ui.startErase }}
       </button>
-      <button v-if="resultUrl" type="button" class="btn" :disabled="running" @click="state.reset()">{{ copy.ui.repaint }}</button>
-      <button type="button" class="btn" :disabled="!imageUrl || running" @click="clearMask">{{ copy.ui.clearMask }}</button>
+      <button v-if="resultUrl" type="button" class="btn" :disabled="!usable || running" @click="state.reset()">{{ copy.ui.repaint }}</button>
+      <button type="button" class="btn" :disabled="!usable || !imageUrl || running" @click="clearMask">{{ copy.ui.clearMask }}</button>
       <button type="button" class="btn" :disabled="!imageUrl || running" @click="reset">{{ copy.ui.replace }}</button>
     </template>
   </StudioLayout>
@@ -53,6 +56,7 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 import { runEngineJob } from "@/api/engine";
+import { type ToolGate } from "@/engine-gate";
 import BusyCover from "@/components/BusyCover.vue";
 import CompareView from "@/components/CompareView.vue";
 import EngineStatus from "@/components/EngineStatus.vue";
@@ -64,6 +68,12 @@ import { useResults } from "@/composables/useResults";
 import { copy } from "@/content/zh";
 import { formatBytes, isProcessableImage, stem } from "@/utils/image";
 
+const gate = ref<ToolGate>({ phase: "checking", available: [] });
+const usable = computed(() => gate.value.phase === "ready");
+const stageHint = computed(() => {
+  if (usable.value) return "";
+  return gate.value.phase === "checking" ? copy.modelChecking : copy.modelUnavailable;
+});
 const brush = ref(36);
 const error = ref("");
 const progress = ref("");
@@ -84,6 +94,7 @@ const resultLabel = computed(() => `${copy.ui.result} · ${formatBytes(state.ite
 let observer: ResizeObserver | undefined;
 
 function open(files: File[]) {
+  if (!usable.value) return;
   const file = files.find(isProcessableImage);
   if (!file) {
     error.value = copy.noImage;
@@ -142,6 +153,7 @@ function paint(event: PointerEvent) {
 }
 
 function drawStart(event: PointerEvent) {
+  if (!usable.value) return;
   drawing.value = true;
   (event.target as HTMLCanvasElement).setPointerCapture(event.pointerId);
   paint(event);
@@ -199,7 +211,7 @@ async function maskBlob() {
 
 async function submit() {
   const file = fileRef.value;
-  if (!file) return;
+  if (!usable.value || !file) return;
   error.value = "";
   progress.value = copy.processing;
   running.value = true;

@@ -40,7 +40,7 @@ npm run dev:desktop
 $env:TUCOOLS_RUNTIME = "E:\work-gt\gt-tucools\desktop\.runtime"
 ```
 
-安装包会优先使用随包的 `tucools-engine.exe`，否则使用 `TUCOOLS_RUNTIME` 里的 `erembg.exe`、`eenhance.exe`、`eerase.exe`。没有这些文件时，本地工具仍可用，AI 页会说明引擎未就绪。
+安装包会优先使用随包的 `tucools-engine.exe`，否则使用 `TUCOOLS_RUNTIME` 里的 `erembg.exe`、`eenhance.exe`、`eerase.exe`。没有这些文件时，本地工具仍可用。AI 页在引擎未响应或没有可用模型时不能开始处理。
 
 生成引擎可执行文件的入口脚本是 `scripts/build-engine.ps1`。它不会把模型包打进安装包。
 
@@ -69,3 +69,70 @@ npm run package:win
 安装包在 `apps/desktop/release`。里面是页面和壳，不含模型包。安装后把模型包解压到 `%APPDATA%\tucools\model-pack`，或在启动前设置 `TUCOOLS_MODEL_PACK`。
 
 安装包里的「保存到…」会调用系统保存对话框。浏览器部署仍是直接下载。
+
+安装包顶栏有「功能菜单」。勾选保存在这台 Windows 用户的本机数据里。启动前设置的 `TUCOOLS_FEATURES` 是允许显示的上限，配置页不能打开上限以外的工具。
+
+## 功能菜单
+
+`TUCOOLS_FEATURES` 用逗号列出要显示的功能名。不设置或留空时显示全部。未知名称会被忽略；写了内容但没有一个已知名称时，不显示工具。
+
+```powershell
+$env:TUCOOLS_FEATURES = "compress,resize,cutout,enhance"
+```
+
+开发页面读取运行 `npm run dev:web` 的环境。Docker 读取页面容器的环境，改完后需要重新创建页面容器。安装包读取启动图酷时的环境。客户端在这个上限里再做本机选择，键名是 `tucools-features`。浏览器部署没有配置页，只服从环境变量。直接打开未显示功能的地址会回到首页。
+
+| 功能名 | 工具 |
+| --- | --- |
+| `compress` | 压缩 |
+| `resize` | 缩放 |
+| `converter` | 转格式 |
+| `cropping` | 裁剪 |
+| `id-photo` | 证件照尺寸 |
+| `sizes` | 社交尺寸 |
+| `cutting` | 切图 |
+| `watermark` | 水印 |
+| `caption` | 加字 |
+| `fade` | 灰度 |
+| `tocircle` | 圆形 |
+| `exif` | 去除信息 |
+| `pdf` | 图转 PDF |
+| `favicon` | Favicon |
+| `prompt` | 嵌入提示 |
+| `pix` | 图片信息 |
+| `cutout` | 抠图 |
+| `enhance` | 优化 |
+| `erase` | 消除 |
+
+## 按标签发布
+
+推送形如 `v0.2.0` 的标签后，`.github/workflows/release.yml` 会读取版本号，构建并发布。`v1.2`、`v1.2.3-beta` 这类标签会在校验步骤失败，不会发版。
+
+```powershell
+git tag v0.2.0
+git push origin v0.2.0
+```
+
+版本号来自标签本身。工作流会在构建安装包前把这个版本写入当次运行的 `package.json`，不会把版本提交回分支。
+
+发布内容：
+
+- Windows x64 NSIS 安装包，附在 GitHub Release 上，并带有 SHA256 校验文件。安装包没有代码签名，Windows 可能提示未知发布者。
+- 页面镜像 `ghcr.io/<所有者>/tucools-web:<版本>`，以及同名 `latest`。
+- 引擎镜像 `ghcr.io/<所有者>/tucools-engine:<版本>`，以及同名 `latest`。
+
+镜像推送到 GitHub Container Registry，使用工作流自带的 `GITHUB_TOKEN`，不需要 Docker Hub 账号。两个镜像都构建 `linux/amd64` 和 `linux/arm64`。镜像和安装包都不含模型包。安装包沿用 `npm run package:win`，不包含 `tucools-engine.exe`。
+
+容器包第一次出现时默认是私有的。仓库给其他人使用时，到 GitHub 的 Packages 页面把 `tucools-web` 和 `tucools-engine` 改为公开。之后再次推送标签会更新这两个包。
+
+使用本次发布的镜像时不要加 `--build`：
+
+```powershell
+$env:TUCOOLS_WEB_IMAGE = "ghcr.io/<所有者>/tucools-web:0.2.0"
+$env:TUCOOLS_ENGINE_IMAGE = "ghcr.io/<所有者>/tucools-engine:0.2.0"
+docker login ghcr.io
+docker compose -f deploy/docker-compose.yml pull
+docker compose -f deploy/docker-compose.yml up -d
+```
+
+没有设置这两个变量时，Compose 仍在本地构建 `tucools-web:0.1.0` 和 `tucools-engine:0.1.0`。私有包拉取前需要 `docker login ghcr.io`；公开包可以直接拉取。再推送一个更旧的标签也会把 `latest` 改到那个版本。

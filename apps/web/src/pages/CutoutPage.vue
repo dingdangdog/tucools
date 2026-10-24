@@ -1,6 +1,14 @@
 <template>
   <StudioLayout :lead="copy.tools.cutout.lead">
-    <Stage :filled="Boolean(sourceUrl)" :multiple="false" :busy="running" :progress="progress" @files="open">
+    <Stage
+      :filled="Boolean(sourceUrl)"
+      :multiple="false"
+      :busy="running"
+      :progress="progress"
+      :disabled="!usable"
+      :hint="stageHint"
+      @files="open"
+    >
       <div class="relative h-full w-full">
         <CompareView
           v-if="resultUrl"
@@ -16,27 +24,28 @@
       </div>
     </Stage>
     <template #panel>
-      <EngineStatus tool="cutout" />
-      <div>
+      <EngineStatus tool="cutout" @gate="gate = $event" />
+      <div v-if="usable">
         <p class="mb-2 text-sm text-muted">{{ copy.ui.model }}</p>
-        <Chips v-model="model" :options="models" :label="copy.ui.model" :disabled="running" />
+        <Chips v-model="model" :options="modelOptions" :label="copy.ui.model" :disabled="running" />
       </div>
       <p v-if="error" class="text-sm text-danger" role="alert">{{ error }}</p>
     </template>
     <template #actions>
       <button v-if="resultUrl" type="button" class="btn btn-primary" @click="download">{{ copy.ui.downloadResult }}</button>
-      <button v-else type="button" class="btn btn-primary" :disabled="!sourceFile || running" @click="run">
+      <button v-else type="button" class="btn btn-primary" :disabled="!usable || !sourceFile || running" @click="run">
         {{ copy.ui.startCutout }}
       </button>
-      <button v-if="resultUrl" type="button" class="btn" :disabled="running" @click="run">{{ copy.ui.again }}</button>
+      <button v-if="resultUrl" type="button" class="btn" :disabled="!usable || running" @click="run">{{ copy.ui.again }}</button>
       <button v-if="sourceUrl" type="button" class="btn" :disabled="running" @click="clear">{{ copy.ui.replace }}</button>
     </template>
   </StudioLayout>
 </template>
 
 <script setup lang="ts">
-import { computed, onUnmounted, ref } from "vue";
+import { computed, onUnmounted, ref, watch } from "vue";
 import { runEngineJob } from "@/api/engine";
+import { type ToolGate } from "@/engine-gate";
 import Chips from "@/components/Chips.vue";
 import CompareView from "@/components/CompareView.vue";
 import EngineStatus from "@/components/EngineStatus.vue";
@@ -54,7 +63,22 @@ const models = [
   { value: "isnet-general-use", label: copy.ui.models.isnet },
   { value: "isnet-anime", label: copy.ui.models.anime },
 ];
+const gate = ref<ToolGate>({ phase: "checking", available: [] });
+const usable = computed(() => gate.value.phase === "ready");
+const stageHint = computed(() => {
+  if (usable.value) return "";
+  return gate.value.phase === "checking" ? copy.modelChecking : copy.modelUnavailable;
+});
+const modelOptions = computed(() => {
+  const names = new Set(gate.value.available);
+  return models.filter((item) => names.has(item.value));
+});
 const model = ref("u2net");
+
+watch(modelOptions, (options) => {
+  if (!options.length) return;
+  if (!options.some((item) => item.value === model.value)) model.value = options[0].value;
+});
 const error = ref("");
 const progress = ref("");
 const running = ref(false);
@@ -68,6 +92,7 @@ const originalLabel = computed(() => `${copy.ui.original} · ${formatBytes(sourc
 const resultLabel = computed(() => `${copy.ui.result} · ${formatBytes(state.items[0]?.blob.size ?? 0)}`);
 
 function open(files: File[]) {
+  if (!usable.value) return;
   const file = files.find(isProcessableImage);
   if (!file) {
     error.value = copy.noImage;
@@ -85,7 +110,7 @@ function open(files: File[]) {
 
 async function run() {
   const file = sourceFile.value;
-  if (!file) return;
+  if (!usable.value || !file) return;
   error.value = "";
   progress.value = copy.processing;
   running.value = true;

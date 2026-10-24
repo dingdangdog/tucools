@@ -1,6 +1,14 @@
 <template>
   <StudioLayout :lead="copy.tools.enhance.lead">
-    <Stage :filled="Boolean(sourceUrl)" :multiple="false" :busy="running" :progress="progress" @files="open">
+    <Stage
+      :filled="Boolean(sourceUrl)"
+      :multiple="false"
+      :busy="running"
+      :progress="progress"
+      :disabled="!usable"
+      :hint="stageHint"
+      @files="open"
+    >
       <div class="relative h-full w-full">
         <CompareView
           v-if="resultUrl"
@@ -16,31 +24,34 @@
       </div>
     </Stage>
     <template #panel>
-      <EngineStatus tool="enhance" />
-      <div>
-        <p class="mb-2 text-sm text-muted">{{ copy.ui.effect }}</p>
-        <Chips v-model="model" :options="models" :label="copy.ui.effect" :disabled="running" />
-      </div>
-      <div>
-        <p class="mb-2 text-sm text-muted">{{ copy.ui.scale }}</p>
-        <Chips v-model="scale" :options="scales" :label="copy.ui.scale" :disabled="running" />
-      </div>
+      <EngineStatus tool="enhance" @gate="gate = $event" />
+      <template v-if="usable">
+        <div>
+          <p class="mb-2 text-sm text-muted">{{ copy.ui.effect }}</p>
+          <Chips v-model="model" :options="modelOptions" :label="copy.ui.effect" :disabled="running" />
+        </div>
+        <div>
+          <p class="mb-2 text-sm text-muted">{{ copy.ui.scale }}</p>
+          <Chips v-model="scale" :options="scales" :label="copy.ui.scale" :disabled="running" />
+        </div>
+      </template>
       <p v-if="error" class="text-sm text-danger" role="alert">{{ error }}</p>
     </template>
     <template #actions>
       <button v-if="resultUrl" type="button" class="btn btn-primary" @click="download">{{ copy.ui.downloadResult }}</button>
-      <button v-else type="button" class="btn btn-primary" :disabled="!sourceFile || running" @click="run">
+      <button v-else type="button" class="btn btn-primary" :disabled="!usable || !sourceFile || running" @click="run">
         {{ copy.ui.startEnhance }}
       </button>
-      <button v-if="resultUrl" type="button" class="btn" :disabled="running" @click="run">{{ copy.ui.again }}</button>
+      <button v-if="resultUrl" type="button" class="btn" :disabled="!usable || running" @click="run">{{ copy.ui.again }}</button>
       <button v-if="sourceUrl" type="button" class="btn" :disabled="running" @click="clear">{{ copy.ui.replace }}</button>
     </template>
   </StudioLayout>
 </template>
 
 <script setup lang="ts">
-import { computed, onUnmounted, ref } from "vue";
+import { computed, onUnmounted, ref, watch } from "vue";
 import { runEngineJob } from "@/api/engine";
+import { type ToolGate } from "@/engine-gate";
 import Chips from "@/components/Chips.vue";
 import CompareView from "@/components/CompareView.vue";
 import EngineStatus from "@/components/EngineStatus.vue";
@@ -64,7 +75,22 @@ const scales = [
   { value: 3, label: "3" },
   { value: 4, label: "4" },
 ];
+const gate = ref<ToolGate>({ phase: "checking", available: [] });
+const usable = computed(() => gate.value.phase === "ready");
+const stageHint = computed(() => {
+  if (usable.value) return "";
+  return gate.value.phase === "checking" ? copy.modelChecking : copy.modelUnavailable;
+});
+const modelOptions = computed(() => {
+  const names = new Set(gate.value.available);
+  return models.filter((item) => names.has(item.value));
+});
 const model = ref("balanced");
+
+watch(modelOptions, (options) => {
+  if (!options.length) return;
+  if (!options.some((item) => item.value === model.value)) model.value = options[0].value;
+});
 const scale = ref(2);
 const error = ref("");
 const progress = ref("");
@@ -79,6 +105,7 @@ const originalLabel = computed(() => `${copy.ui.original} · ${formatBytes(sourc
 const resultLabel = computed(() => `${copy.ui.result} · ${formatBytes(state.items[0]?.blob.size ?? 0)}`);
 
 function open(files: File[]) {
+  if (!usable.value) return;
   const file = files.find(isProcessableImage);
   if (!file) {
     error.value = copy.noImage;
@@ -96,7 +123,7 @@ function open(files: File[]) {
 
 async function run() {
   const file = sourceFile.value;
-  if (!file) return;
+  if (!usable.value || !file) return;
   error.value = "";
   progress.value = copy.processing;
   running.value = true;

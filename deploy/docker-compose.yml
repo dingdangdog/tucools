@@ -3,7 +3,8 @@ services:
     build:
       context: ..
       dockerfile: deploy/Dockerfile.engine
-    image: tucools-engine:0.1.0
+    # 发布镜像时可设 TUCOOLS_ENGINE_IMAGE=ghcr.io/<owner>/tucools-engine:<version>。
+    image: ${TUCOOLS_ENGINE_IMAGE:-tucools-engine:0.1.0}
     environment:
       TUCOOLS_MODEL_PACK: /model-pack
     volumes:
@@ -15,7 +16,11 @@ services:
     build:
       context: ..
       dockerfile: deploy/Dockerfile.web
-    image: tucools-web:0.1.0
+    # 发布镜像时可设 TUCOOLS_WEB_IMAGE=ghcr.io/<owner>/tucools-web:<version>。
+    image: ${TUCOOLS_WEB_IMAGE:-tucools-web:0.1.0}
+    environment:
+      # 逗号分隔的功能名。留空表示显示全部。说明见 docs/deploy.md。
+      TUCOOLS_FEATURES: ${TUCOOLS_FEATURES:-}
     ports:
       - "8080:8080"
     depends_on:

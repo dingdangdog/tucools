@@ -33,7 +33,7 @@ powershell -File scripts/link-models.ps1
 npm run engine
 ```
 
-确认 http://127.0.0.1:8787/api/engine/health 能打开。缺模型时这里会列出文件名，页面仍可打开。
+确认 http://127.0.0.1:8787/api/engine/health 能打开。缺模型时这里会列出文件名。对应的 AI 页面可以打开，但在没有可用模型时不能开始处理。
 
 5. 另开一个终端，启动页面：
 
@@ -58,6 +58,16 @@ npm run dev:desktop
 $env:TUCOOLS_RUNTIME = "E:\work-gt\gt-tucools\desktop\.runtime"
 ```
 
+## 功能菜单
+
+未设置时显示全部工具。要只开放一部分，在提供页面的进程里设置 `TUCOOLS_FEATURES`，值是逗号分隔的功能名：
+
+```powershell
+$env:TUCOOLS_FEATURES = "compress,resize,cutout"
+```
+
+开发时写在运行 `npm run dev:web` 的终端里。Docker 写在启动 Compose 的环境里。安装包读取启动时的环境变量；客户端还可以打开「功能菜单」，选择保存在本机。功能名见 [docs/deploy.md](docs/deploy.md)。
+
 ## Docker
 
 先放好模型包，再启动。Compose 会先起引擎，再起页面。引擎不映射到宿主机。
@@ -68,4 +78,6 @@ docker compose -f deploy/docker-compose.yml up --build
 
 打开 http://127.0.0.1:8080 。
 
-安装包和更多部署说明见 [docs/deploy.md](docs/deploy.md)。
+## 发布
+
+推送 `v0.2.0` 这样的标签后，GitHub Actions 会按标签中的版本构建 Windows 安装包和两个 Docker 镜像，并创建 Release。镜像发布到 GitHub Container Registry。步骤、拉取方式和安装包限制见 [docs/deploy.md](docs/deploy.md)。

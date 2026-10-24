@@ -2,6 +2,8 @@
 
 抠图、优化和消除的模型文件单独发布。用户自己下载并解压，不放进 Windows 安装包，也不放进 Docker 镜像。
 
+模型包和 Windows 客户端的新版本发布在 [图酷仓库](https://github.com/dingdangdog/tucools) 的 [发布页](https://github.com/dingdangdog/tucools/releases)。某个 AI 功能没有可用模型时，页面会停用该功能，并给出这两个地址。
+
 解压后的目录名可以自定，结构固定如下：
 
 ```text
@@ -53,4 +55,4 @@ $env:TUCOOLS_MODEL_PACK = "D:\downloads\model-pack"
 
 Docker 把宿主机上的同一个目录只读挂到容器内的 `/model-pack`。镜像构建不会复制这些文件。没有设置变量时，挂载仓库根目录的 `model-pack`。
 
-AI 页面在模型不齐时会写出这个目录。放好文件后点「重新检查」。
+AI 页面在没有可用模型时会停用对应功能，并写上这个目录。放好文件后点「重新检查」。只缺一部分模型时，功能仍可用，侧栏会列出还没安装的文件。

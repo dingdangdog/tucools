@@ -1,8 +1,11 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { copy } from "@/content/zh";
+import { featureIdFromPath } from "@/features";
+import { useMenuStore } from "@/stores/menus";
 
 const routes = [
   { path: "/", name: "home", component: () => import("@/pages/HomePage.vue"), meta: { title: copy.tools.home.title } },
+  { path: "/menus", component: () => import("@/pages/MenusPage.vue"), meta: { title: copy.menus.title } },
   { path: "/compress", component: () => import("@/pages/CompressPage.vue"), meta: { title: copy.tools.compress.title } },
   { path: "/resize", component: () => import("@/pages/ResizePage.vue"), meta: { title: copy.tools.resize.title } },
   { path: "/converter", component: () => import("@/pages/ConverterPage.vue"), meta: { title: copy.tools.converter.title } },
@@ -27,6 +30,14 @@ const routes = [
 export const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+router.beforeEach((to) => {
+  const id = featureIdFromPath(to.path);
+  if (!id) return true;
+  const menus = useMenuStore();
+  if (!menus.ready || menus.isVisible(id)) return true;
+  return "/";
 });
 
 router.afterEach((to) => {

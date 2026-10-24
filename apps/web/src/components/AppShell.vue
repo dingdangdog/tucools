@@ -20,28 +20,32 @@
         </button>
       </div>
       <nav class="min-h-0 flex-1 overflow-y-auto px-2 pb-4">
-        <p class="nav-label">{{ copy.localGroup }}</p>
-        <RouterLink
-          v-for="item in localNav"
-          :key="item.to"
-          :to="item.to"
-          class="nav-link"
-          @click="ui.navOpen = false"
-        >
-          <component :is="item.icon" class="h-4 w-4 shrink-0" />
-          <span class="truncate">{{ item.label }}</span>
-        </RouterLink>
-        <p class="nav-label">{{ copy.aiGroup }}</p>
-        <RouterLink
-          v-for="item in aiNav"
-          :key="item.to"
-          :to="item.to"
-          class="nav-link"
-          @click="ui.navOpen = false"
-        >
-          <component :is="item.icon" class="h-4 w-4 shrink-0" />
-          <span class="truncate">{{ item.label }}</span>
-        </RouterLink>
+        <template v-if="menus.localItems.length">
+          <p class="nav-label">{{ copy.localGroup }}</p>
+          <RouterLink
+            v-for="item in menus.localItems"
+            :key="item.to"
+            :to="item.to"
+            class="nav-link"
+            @click="ui.navOpen = false"
+          >
+            <component :is="item.icon" class="h-4 w-4 shrink-0" />
+            <span class="truncate">{{ item.label }}</span>
+          </RouterLink>
+        </template>
+        <template v-if="menus.aiItems.length">
+          <p class="nav-label">{{ copy.aiGroup }}</p>
+          <RouterLink
+            v-for="item in menus.aiItems"
+            :key="item.to"
+            :to="item.to"
+            class="nav-link"
+            @click="ui.navOpen = false"
+          >
+            <component :is="item.icon" class="h-4 w-4 shrink-0" />
+            <span class="truncate">{{ item.label }}</span>
+          </RouterLink>
+        </template>
       </nav>
     </aside>
     <div class="flex min-w-0 flex-1 flex-col">
@@ -51,6 +55,10 @@
           {{ copy.openNav }}
         </button>
         <h1 class="min-w-0 flex-1 truncate text-sm font-semibold">{{ title }}</h1>
+        <RouterLink v-if="menus.client" to="/menus" class="btn shrink-0" :aria-label="copy.menus.open">
+          <Cog6ToothIcon class="h-4 w-4" />
+          <span class="hidden sm:inline">{{ copy.menus.open }}</span>
+        </RouterLink>
         <button type="button" class="btn shrink-0" :aria-label="themeLabel" @click="ui.toggleTheme()">
           <SunIcon v-if="ui.theme === 'dark'" class="h-4 w-4" />
           <MoonIcon v-else class="h-4 w-4" />
@@ -67,12 +75,13 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useRoute } from "vue-router";
-import { Bars3Icon, MoonIcon, SunIcon, XMarkIcon } from "@heroicons/vue/24/outline";
+import { Bars3Icon, Cog6ToothIcon, MoonIcon, SunIcon, XMarkIcon } from "@heroicons/vue/24/outline";
 import { copy } from "@/content/zh";
-import { aiNav, localNav } from "@/nav";
+import { useMenuStore } from "@/stores/menus";
 import { useUiStore } from "@/stores/ui";
 
 const ui = useUiStore();
+const menus = useMenuStore();
 const route = useRoute();
 const title = computed(() => (route.path === "/" ? copy.appName : String(route.meta.title ?? copy.appName)));
 const themeLabel = computed(() => (ui.theme === "dark" ? copy.themeToLight : copy.themeToDark));

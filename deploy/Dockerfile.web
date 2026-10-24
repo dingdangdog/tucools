@@ -8,5 +8,8 @@ RUN npm install && npm run build
 FROM nginx:1.27-alpine
 
 COPY deploy/nginx.conf /etc/nginx/conf.d/default.conf
+COPY deploy/web-entrypoint.sh /web-entrypoint.sh
+RUN chmod +x /web-entrypoint.sh
 COPY --from=build /src/dist /usr/share/nginx/html
 EXPOSE 8080
+ENTRYPOINT ["/web-entrypoint.sh"]
