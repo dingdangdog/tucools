@@ -9,7 +9,7 @@
 1. 本文件。
 2. 与需求相关的现有页面、路由和工具函数，再改。
 3. 架构边界看 `design/001-unified-runtime.md`。其中 4.4 的暖纸色、深青和「暗色不是默认」已过时；配色以 `apps/web/src/styles.css` 和 `apps/web/index.html` 为准。
-4. 启动顺序看根目录 `README.md`。部署和模型包看 `docs/deploy.md`、`docs/models.md`。
+4. 启动顺序看根目录 `develop.md`。部署和模型包看 `docs/deploy.md`、`docs/models.md`。
 5. 旧项目只作对照，不修改：`E:\work-gt\gt-tucools\desktop`、`E:\Code\easyimage.work`。
 
 ## 目录
