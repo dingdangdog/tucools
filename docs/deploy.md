@@ -95,6 +95,7 @@ $env:TUCOOLS_FEATURES = "compress,resize,cutout,enhance"
 | `cropping` | 裁剪 |
 | `id-photo` | 证件照尺寸 |
 | `sizes` | 社交尺寸 |
+| `store` | 应用商店尺寸 |
 | `cutting` | 切图 |
 | `watermark` | 水印 |
 | `caption` | 加字 |

@@ -23,6 +23,7 @@ const pageRoutes: RouteRecordRaw[] = [
   { path: "/cropping", component: () => import("@/pages/CropPage.vue") },
   { path: "/id-photo", component: () => import("@/pages/FramePage.vue"), props: { kind: "id" } },
   { path: "/sizes", component: () => import("@/pages/FramePage.vue"), props: { kind: "social" } },
+  { path: "/store", component: () => import("@/pages/StorePage.vue") },
   { path: "/cutting", component: () => import("@/pages/CuttingPage.vue") },
   { path: "/watermark", component: () => import("@/pages/WatermarkPage.vue"), props: { variant: "watermark" } },
   { path: "/caption", component: () => import("@/pages/WatermarkPage.vue"), props: { variant: "caption" } },

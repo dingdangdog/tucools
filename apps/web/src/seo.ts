@@ -46,6 +46,7 @@ function toolSpecs(messages: Copy): ToolSpec[] {
     { id: "cropping", path: "/cropping", group: "local", title: messages.tools.cropping.title, ...messages.seo.tools.cropping },
     { id: "id-photo", path: "/id-photo", group: "local", title: messages.tools.idPhoto.title, ...messages.seo.tools["id-photo"] },
     { id: "sizes", path: "/sizes", group: "local", title: messages.tools.sizes.title, ...messages.seo.tools.sizes },
+    { id: "store", path: "/store", group: "local", title: messages.tools.store.title, ...messages.seo.tools.store },
     { id: "cutting", path: "/cutting", group: "local", title: messages.tools.cutting.title, ...messages.seo.tools.cutting },
     { id: "watermark", path: "/watermark", group: "local", title: messages.tools.watermark.title, ...messages.seo.tools.watermark },
     { id: "caption", path: "/caption", group: "local", title: messages.tools.caption.title, ...messages.seo.tools.caption },
