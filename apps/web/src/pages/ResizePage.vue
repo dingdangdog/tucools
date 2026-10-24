@@ -1,5 +1,8 @@
 <template>
   <BatchLayout :lead="copy.tools.resize.lead" :error="state.error">
+    <template #stage>
+      <Stage docked :compact="state.items.length > 0" :busy="state.busy" @files="run" />
+    </template>
     <template #settings>
       <div class="grid gap-3 sm:grid-cols-2">
         <Field :label="copy.ui.width">
@@ -14,7 +17,6 @@
         <Chips v-model="fit" :options="fits" :label="copy.ui.fit" />
       </div>
     </template>
-    <Stage :compact="state.items.length > 0" :busy="state.busy" @files="run" />
     <ResultGrid
       :items="state.items"
       @clear="state.reset()"

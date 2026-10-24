@@ -4,14 +4,16 @@
       <button v-if="names.length" type="button" class="btn btn-primary" :disabled="busy" @click="build">{{ copy.ui.buildPdf }}</button>
       <button v-if="names.length" type="button" class="btn" :disabled="busy" @click="clear">{{ copy.ui.replaceFiles }}</button>
     </template>
-    <Stage :filled="names.length > 0" :busy="busy" :progress="copy.processing" @files="remember">
-      <div class="flex h-full flex-col justify-center gap-2 p-6">
-        <p class="text-sm">{{ copy.ui.selected }} {{ names.length }} {{ copy.ui.sheets }}</p>
-        <ul class="max-h-64 overflow-auto text-sm text-muted">
-          <li v-for="name in names" :key="name" class="truncate">{{ name }}</li>
-        </ul>
-      </div>
-    </Stage>
+    <template #stage>
+      <Stage :filled="names.length > 0" :busy="busy" :progress="copy.processing" @files="remember">
+        <div class="flex h-full flex-col justify-center gap-2 p-6">
+          <p class="text-sm">{{ copy.ui.selected }} {{ names.length }} {{ copy.ui.sheets }}</p>
+          <ul class="max-h-64 overflow-auto text-sm text-muted">
+            <li v-for="name in names" :key="name" class="truncate">{{ name }}</li>
+          </ul>
+        </div>
+      </Stage>
+    </template>
   </BatchLayout>
 </template>
 

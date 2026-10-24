@@ -1,12 +1,14 @@
 <template>
   <BatchLayout :lead="copy.tools.converter.lead" :error="state.error">
+    <template #stage>
+      <Stage docked :compact="state.items.length > 0" :busy="state.busy" @files="run" />
+    </template>
     <template #settings>
       <div>
         <p class="mb-2 text-sm text-muted">{{ copy.ui.targetFormat }}</p>
         <Chips v-model="selected" :options="formats" :label="copy.ui.targetFormat" />
       </div>
     </template>
-    <Stage :compact="state.items.length > 0" :busy="state.busy" @files="run" />
     <ResultGrid
       :items="state.items"
       @clear="state.reset()"

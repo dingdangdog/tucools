@@ -1,6 +1,8 @@
 <template>
   <BatchLayout :lead="copy.tools.favicon.lead" :error="state.error">
-    <Stage :compact="state.items.length > 0" :multiple="false" :busy="state.busy" @files="run" />
+    <template #stage>
+      <Stage :compact="state.items.length > 0" :multiple="false" :busy="state.busy" @files="run" />
+    </template>
     <ResultGrid
       :items="state.items"
       @clear="state.reset()"

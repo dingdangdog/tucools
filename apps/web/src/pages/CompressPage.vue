@@ -1,5 +1,8 @@
 <template>
   <BatchLayout :lead="copy.tools.compress.lead" :error="state.error">
+    <template #stage>
+      <Stage docked :compact="state.items.length > 0" :busy="state.busy" @files="run" />
+    </template>
     <template #settings>
       <div>
         <p class="mb-2 text-sm text-muted">{{ copy.ui.format }}</p>
@@ -18,7 +21,6 @@
       </div>
       <p v-if="format === 'png'" class="text-sm text-muted">{{ copy.ui.pngNote }}</p>
     </template>
-    <Stage :compact="state.items.length > 0" :busy="state.busy" @files="run" />
     <ResultGrid
       :items="state.items"
       @clear="state.reset()"

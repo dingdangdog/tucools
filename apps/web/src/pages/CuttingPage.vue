@@ -1,5 +1,8 @@
 <template>
   <BatchLayout :lead="copy.tools.cutting.lead" :error="state.error">
+    <template #stage>
+      <Stage docked :compact="state.items.length > 0" :busy="state.busy" @files="run" />
+    </template>
     <template #settings>
       <div>
         <p class="mb-2 text-sm text-muted">{{ copy.ui.cutAction }}</p>
@@ -18,7 +21,6 @@
         </Field>
       </div>
     </template>
-    <Stage :compact="state.items.length > 0" :busy="state.busy" @files="run" />
     <ResultGrid
       :items="state.items"
       @clear="state.reset()"

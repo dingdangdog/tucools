@@ -1,6 +1,8 @@
 <template>
   <BatchLayout :lead="copy.tools.exif.lead" :error="state.error">
-    <Stage :compact="Boolean(before || after || state.items.length)" :multiple="false" :busy="state.busy" @files="run" />
+    <template #stage>
+      <Stage :compact="Boolean(before || after || state.items.length)" :multiple="false" :busy="state.busy" @files="run" />
+    </template>
     <div v-if="before || after" class="grid gap-3 md:grid-cols-2">
       <section class="panel p-3">
         <h2 class="mb-2 text-sm font-medium">{{ copy.ui.before }}</h2>

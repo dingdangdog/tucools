@@ -1,5 +1,8 @@
 <template>
   <BatchLayout :lead="copy.tools.store.lead" :error="state.error">
+    <template #stage>
+      <Stage docked :compact="state.items.length > 0" :multiple="false" :busy="state.busy" @files="open" />
+    </template>
     <template #settings>
       <div>
         <p class="mb-2 text-sm text-muted">{{ copy.ui.store.platform }}</p>
@@ -64,7 +67,6 @@
         </button>
       </div>
     </template>
-    <Stage :compact="state.items.length > 0" :multiple="false" :busy="state.busy" @files="open" />
     <ResultGrid
       :items="state.items"
       show-copy

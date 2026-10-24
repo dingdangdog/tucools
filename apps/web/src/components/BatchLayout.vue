@@ -7,10 +7,11 @@
           <slot name="actions" />
         </div>
       </div>
+      <slot name="stage" />
+      <p v-if="error" class="text-sm text-danger" role="alert">{{ error }}</p>
       <div v-if="$slots.settings" class="panel flex shrink-0 flex-col gap-3 p-3">
         <slot name="settings" />
       </div>
-      <p v-if="error" class="text-sm text-danger" role="alert">{{ error }}</p>
       <slot />
     </div>
     <ToolRail />

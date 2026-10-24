@@ -1,11 +1,13 @@
 <template>
   <BatchLayout :lead="copy.tools.tocircle.lead" :error="state.error">
+    <template #stage>
+      <Stage docked :compact="state.items.length > 0" :busy="state.busy" @files="run" />
+    </template>
     <template #settings>
       <Field :label="`${copy.ui.diameter}（${copy.ui.diameterHint}）`">
         <input v-model.number="diameter" class="field-input max-w-xs" type="number" min="0" />
       </Field>
     </template>
-    <Stage :compact="state.items.length > 0" :busy="state.busy" @files="run" />
     <ResultGrid
       :items="state.items"
       @clear="state.reset()"

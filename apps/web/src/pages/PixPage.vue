@@ -3,7 +3,9 @@
     <template #actions>
       <button v-if="text" type="button" class="btn" @click="downloadJson">{{ copy.ui.exportJson }}</button>
     </template>
-    <Stage :compact="Boolean(text)" :multiple="false" @files="run" />
+    <template #stage>
+      <Stage :compact="Boolean(text)" :multiple="false" @files="run" />
+    </template>
     <pre v-if="text" class="panel max-h-[70vh] overflow-auto whitespace-pre-wrap p-3 text-xs">{{ text }}</pre>
   </BatchLayout>
 </template>

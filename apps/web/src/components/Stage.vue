@@ -2,7 +2,7 @@
   <div
     class="stage relative overflow-hidden"
     :class="[
-      compact ? 'h-32 shrink-0' : 'min-h-[18rem] flex-1 lg:h-full lg:min-h-0',
+      compact ? 'h-32 shrink-0' : docked ? 'h-52 shrink-0' : 'min-h-[18rem] flex-1 lg:h-full lg:min-h-0',
       filled ? '' : 'is-empty',
       over ? 'is-over' : '',
       disabled ? 'is-disabled' : '',
@@ -53,8 +53,19 @@ const props = withDefaults(
     progress?: string;
     hint?: string;
     disabled?: boolean;
+    docked?: boolean;
   }>(),
-  { filled: false, multiple: true, accept: "image/*", compact: false, busy: false, progress: "", hint: "", disabled: false }
+  {
+    filled: false,
+    multiple: true,
+    accept: "image/*",
+    compact: false,
+    busy: false,
+    progress: "",
+    hint: "",
+    disabled: false,
+    docked: false,
+  }
 );
 const emit = defineEmits<{ files: [File[]] }>();
 const over = ref(false);
