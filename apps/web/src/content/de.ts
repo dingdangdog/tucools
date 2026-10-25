@@ -13,6 +13,8 @@ export const de: Copy = {
   collapseNav: "Seitenleiste einklappen",
   expandNav: "Seitenleiste ausklappen",
   filterAll: "Alle",
+  cropModes: "Zuschneidemodi",
+  cropFamilyLead: "Bereich zuschneiden oder Passbildgröße, Zerteilen und Kreis verwenden.",
   github: "GitHub-Repository",
   adLabel: "Anzeige",
   themeToDark: "Zum dunklen Design wechseln",
@@ -55,7 +57,7 @@ export const de: Copy = {
     compress: { title: "Komprimieren", lead: "JPEG, PNG und WebP nach Qualität, längster Seite oder Zielgröße komprimieren." },
     resize: { title: "Skalieren", lead: "Auf die angegebene Breite und Höhe skalieren oder mit Rand auf die Leinwand setzen." },
     converter: { title: "Format umwandeln", lead: "Zwischen PNG, JPEG, WebP, BMP und ICO umwandeln." },
-    cropping: { title: "Zuschneiden", lead: "Rahmen wählen, drehen und als PNG exportieren." },
+    cropping: { title: "Zuschneiden", lead: "Die Auswahl wird live angezeigt. Klicken vergrößert, danach PNG exportieren." },
     idPhoto: { title: "Passbildgröße", lead: "Nach gängigen Pixeln auf die Passbildproportion zuschneiden und eine Hintergrundfarbe legen. Hier wird nicht freigestellt." },
     sizes: { title: "Social-Media-Größen", lead: "Bilder in gängige Größen sozialer Plattformen setzen." },
     store: {
@@ -191,11 +193,11 @@ export const de: Copy = {
       },
       cropping: {
         documentTitle: "Bilder online zuschneiden · 图酷",
-        description: "Im Browser einen Rahmen wählen, drehen oder spiegeln und als PNG exportieren. Bilder werden nicht hochgeladen.",
+        description: "Im Browser einen Rahmen wählen, drehen oder spiegeln, den Ausschnitt live sehen, zum Vergrößern klicken und als PNG exportieren. Bilder werden nicht hochgeladen.",
         faqs: [
           {
             q: "Welches Format hat das Ergebnis des Zuschneidens?",
-            a: "Nach Rahmenwahl, Drehen oder Spiegeln wird PNG exportiert. Der Rahmen kann frei gewählt oder auf ein festes Seitenverhältnis gesetzt werden.",
+            a: "Der Ausschnitt aktualisiert sich mit dem Rahmen. Ein Klick auf die Vorschau vergrößert ihn. Nach Drehen oder Spiegeln wird PNG exportiert. Der Rahmen kann frei gewählt oder auf ein festes Seitenverhältnis gesetzt werden.",
           },
           {
             q: "Lädt das Zuschneiden das Bild hoch?",
@@ -413,6 +415,9 @@ export const de: Copy = {
     rotateRight: "Nach rechts drehen",
     flipX: "Horizontal spiegeln",
     flipY: "Vertikal spiegeln",
+    previewCrop: "Vorschau",
+    previewCropHint: "Zum Vergrößern klicken",
+    closePreview: "Vorschau schließen",
     format: "Format",
     quality: "Qualität",
     maxEdge: "Längste Seite",

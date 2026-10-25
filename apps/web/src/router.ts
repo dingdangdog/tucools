@@ -3,6 +3,7 @@ import { trackPageView } from "@/analytics";
 import { applyDocumentSeo } from "@/apply-seo";
 import { applyCatalog } from "@/content";
 import { featureIdFromPath } from "@/features";
+import { isCropMode } from "@/nav";
 import {
   defaultLocale,
   localeFromParam,
@@ -84,7 +85,9 @@ router.beforeEach((to) => {
   const id = featureIdFromPath(to.path);
   if (!id) return true;
   const menus = useMenuStore();
-  if (!menus.ready || menus.isVisible(id)) return true;
+  if (!menus.ready) return true;
+  const open = isCropMode(id) ? menus.allowsCropMode(id) : menus.isVisible(id);
+  if (open) return true;
   return localePath("/", code);
 });
 

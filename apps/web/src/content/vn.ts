@@ -13,6 +13,8 @@ export const vn: Copy = {
   collapseNav: "Thu gọn thanh bên",
   expandNav: "Mở thanh bên",
   filterAll: "Tất cả",
+  cropModes: "Cách cắt",
+  cropFamilyLead: "Khoanh vùng để cắt, hoặc dùng kích thước ảnh thẻ, chia ảnh và hình tròn.",
   github: "Kho GitHub",
   adLabel: "Quảng cáo",
   themeToDark: "Chuyển sang nền tối",
@@ -55,7 +57,7 @@ export const vn: Copy = {
     compress: { title: "Nén", lead: "Nén JPEG, PNG và WebP theo chất lượng, cạnh dài nhất hoặc dung lượng đích." },
     resize: { title: "Đổi kích thước", lead: "Đổi theo chiều rộng và chiều cao chỉ định, hoặc đặt vào khung với phần để trống." },
     converter: { title: "Đổi định dạng", lead: "Chuyển giữa PNG, JPEG, WebP, BMP và ICO." },
-    cropping: { title: "Cắt", lead: "Khoanh vùng, xoay, rồi xuất PNG." },
+    cropping: { title: "Cắt", lead: "Xem trước khi khoanh. Bấm để xem lớn, rồi xuất PNG." },
     idPhoto: { title: "Kích thước ảnh thẻ", lead: "Cắt theo tỷ lệ ảnh thẻ với số điểm ảnh thường gặp và tô màu nền. Ở đây không tách nền." },
     sizes: { title: "Kích thước mạng xã hội", lead: "Đặt ảnh vào các kích thước mạng xã hội thường gặp." },
     store: {
@@ -191,11 +193,11 @@ export const vn: Copy = {
       },
       cropping: {
         documentTitle: "Cắt ảnh trực tuyến · 图酷",
-        description: "Khoanh vùng, xoay hoặc lật trên trình duyệt rồi xuất PNG. Ảnh không được tải lên.",
+        description: "Khoanh vùng, xoay hoặc lật trên trình duyệt, xem kết quả ngay, bấm để xem lớn, rồi xuất PNG. Ảnh không được tải lên.",
         faqs: [
           {
             q: "Kết quả cắt là định dạng gì?",
-            a: "Sau khi khoanh vùng, xoay hoặc lật, kết quả là PNG. Có thể khoanh tự do hoặc chọn tỷ lệ cố định.",
+            a: "Kết quả cập nhật theo vùng khoanh. Bấm vào phần xem trước để xem lớn. Sau khi xoay hoặc lật, kết quả là PNG. Có thể khoanh tự do hoặc chọn tỷ lệ cố định.",
           },
           {
             q: "Cắt có tải ảnh lên không?",
@@ -413,6 +415,9 @@ export const vn: Copy = {
     rotateRight: "Xoay phải",
     flipX: "Lật ngang",
     flipY: "Lật dọc",
+    previewCrop: "Xem trước",
+    previewCropHint: "Bấm để xem lớn",
+    closePreview: "Đóng xem trước",
     format: "Định dạng",
     quality: "Chất lượng",
     maxEdge: "Cạnh dài nhất",

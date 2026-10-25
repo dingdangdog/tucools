@@ -131,7 +131,7 @@ $env:TUCOOLS_FEATURES = "compress,resize,cutout,enhance"
 
 开发页面读取运行 `npm run dev:web` 的环境。Docker 读取页面容器的环境，改完后需要重新创建页面容器。安装包读取启动图酷时的环境。客户端在这个上限里再做本机选择，键名是 `tucools-features`。浏览器部署没有配置页，只服从环境变量。直接打开未显示功能的地址会回到首页。
 
-侧栏最上是「全部功能」，点击回到首页。下面依次是「AI 处理」「常规处理」「信息处理」。
+侧栏最上是「全部功能」，点击回到首页。下面依次是「AI 处理」「常规处理」「信息处理」。裁剪、证件照尺寸、切图和圆形在侧栏和首页里只占一个「裁剪」；进入后在页面上方切换，四个地址仍然分开。只把 `id-photo`、`cutting` 或 `tocircle` 写进变量、不写 `cropping` 时，侧栏仍显示「裁剪」，但只能打开写出来的那些地址。
 
 | 功能名 | 工具 |
 | --- | --- |
@@ -141,15 +141,15 @@ $env:TUCOOLS_FEATURES = "compress,resize,cutout,enhance"
 | `compress` | 压缩 |
 | `resize` | 缩放 |
 | `converter` | 转格式 |
-| `cropping` | 裁剪 |
-| `id-photo` | 证件照尺寸 |
+| `cropping` | 裁剪。侧栏和首页只显示这一项；写出它会同时开放下面三项裁剪地址 |
+| `id-photo` | 证件照尺寸。地址 `/id-photo`，在裁剪页里切换 |
 | `sizes` | 社交尺寸 |
 | `store` | 应用商店尺寸 |
-| `cutting` | 切图 |
+| `cutting` | 切图。地址 `/cutting`，在裁剪页里切换 |
 | `watermark` | 水印 |
 | `caption` | 加字 |
 | `fade` | 灰度 |
-| `tocircle` | 圆形 |
+| `tocircle` | 圆形。地址 `/tocircle`，在裁剪页里切换 |
 | `pdf` | 图转 PDF |
 | `favicon` | Favicon |
 | `exif` | 去除信息 |

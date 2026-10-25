@@ -13,6 +13,8 @@ export const en: Copy = {
   collapseNav: "Collapse sidebar",
   expandNav: "Expand sidebar",
   filterAll: "All",
+  cropModes: "Crop modes",
+  cropFamilyLead: "Crop a selection, or use ID photo size, split, and circle.",
   github: "GitHub repository",
   adLabel: "Ad",
   themeToDark: "Switch to dark",
@@ -57,7 +59,7 @@ export const en: Copy = {
     compress: { title: "Compress", lead: "Compress JPEG, PNG, or WebP by quality, longest edge, or target size." },
     resize: { title: "Resize", lead: "Scale to a given width and height, or place the image on a canvas with margins." },
     converter: { title: "Convert", lead: "Convert between PNG, JPEG, WebP, BMP, and ICO." },
-    cropping: { title: "Crop", lead: "Select an area, rotate, then export PNG." },
+    cropping: { title: "Crop", lead: "Preview the crop as you select. Click it to enlarge, then export PNG." },
     idPhoto: {
       title: "ID photo size",
       lead: "Crop to common ID-photo pixel sizes and fill a background color. This does not remove the background.",
@@ -205,11 +207,11 @@ export const en: Copy = {
       },
       cropping: {
         documentTitle: "Crop images online · 图酷",
-        description: "Select an area, rotate, or flip in the browser, then export PNG. The image is not uploaded.",
+        description: "Select an area, rotate, or flip in the browser, watch the crop update live, click to enlarge, then export PNG. The image is not uploaded.",
         faqs: [
           {
             q: "What format does the crop use?",
-            a: "After you select an area, rotate, or flip, it exports PNG. You can select freely or use a fixed ratio.",
+            a: "The crop updates live as you select. Click the preview to enlarge it. After rotating or flipping, it exports PNG. You can select freely or use a fixed ratio.",
           },
           {
             q: "Does cropping upload the image?",
@@ -433,6 +435,9 @@ export const en: Copy = {
     rotateRight: "Rotate right",
     flipX: "Flip horizontal",
     flipY: "Flip vertical",
+    previewCrop: "Preview",
+    previewCropHint: "Click to view larger",
+    closePreview: "Close preview",
     format: "Format",
     quality: "Quality",
     maxEdge: "Longest edge",

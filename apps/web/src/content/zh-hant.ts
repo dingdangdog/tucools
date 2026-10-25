@@ -13,6 +13,8 @@ export const zhHant: Copy = {
   collapseNav: "收起側欄",
   expandNav: "展開側欄",
   filterAll: "全部",
+  cropModes: "裁切方式",
+  cropFamilyLead: "框選裁切，也可做證件照尺寸、切圖和圓形。",
   github: "GitHub 倉庫",
   adLabel: "廣告",
   themeToDark: "切換到深色",
@@ -57,7 +59,7 @@ export const zhHant: Copy = {
     compress: { title: "壓縮", lead: "依品質、最長邊或目標大小壓縮 JPEG、PNG、WebP。" },
     resize: { title: "縮放", lead: "依指定的寬高縮放，也可以留白放進畫布。" },
     converter: { title: "轉格式", lead: "在 PNG、JPEG、WebP、BMP、ICO 之間轉換。" },
-    cropping: { title: "裁切", lead: "框選、旋轉後匯出 PNG。" },
+    cropping: { title: "裁切", lead: "框選時即時預覽，點擊可看大圖，再匯出 PNG。" },
     idPhoto: { title: "證件照尺寸", lead: "依常見像素裁成證件照比例，並鋪上底色。這裡不去背。" },
     sizes: { title: "社群尺寸", lead: "把圖片放到常見的社群平台尺寸裡。" },
     store: { title: "應用商店尺寸", lead: "把一張圖片放進 App Store、Google Play 和 Chrome 線上應用程式商店的常見尺寸，可選留白、鋪滿裁切、拉伸或平鋪。" },
@@ -190,11 +192,11 @@ export const zhHant: Copy = {
       },
       cropping: {
         documentTitle: "線上裁切圖片 · 图酷",
-        description: "在瀏覽器裡框選、旋轉或翻轉後匯出 PNG。圖片不會上傳。",
+        description: "在瀏覽器裡框選、旋轉或翻轉，即時預覽裁切結果，點擊可查看大圖，再匯出 PNG。圖片不會上傳。",
         faqs: [
           {
             q: "裁切結果是什麼格式？",
-            a: "框選、旋轉或翻轉後匯出 PNG。可以自由框選，也可以選擇固定比例。",
+            a: "框選時會即時顯示裁切結果，點擊預覽可以查看大圖。旋轉或翻轉後匯出 PNG。可以自由框選，也可以選擇固定比例。",
           },
           {
             q: "裁切會上傳圖片嗎？",
@@ -412,6 +414,9 @@ export const zhHant: Copy = {
     rotateRight: "向右旋轉",
     flipX: "水平翻轉",
     flipY: "垂直翻轉",
+    previewCrop: "預覽",
+    previewCropHint: "點擊查看大圖",
+    closePreview: "關閉預覽",
     format: "格式",
     quality: "品質",
     maxEdge: "最長邊",

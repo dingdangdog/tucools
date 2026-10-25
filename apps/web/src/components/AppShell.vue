@@ -29,16 +29,18 @@
         </RouterLink>
         <template v-for="group in menus.groups" :key="group.id">
           <p class="nav-label">{{ group.label }}</p>
-          <RouterLink
-            v-for="item in group.items"
-            :key="item.to"
-            :to="item.to"
-            class="nav-link"
-            :title="ui.navRail ? item.label : undefined"
-            @click="ui.navOpen = false"
-          >
-            <component :is="item.icon" class="h-4 w-4 shrink-0" />
-            <span class="nav-text truncate">{{ item.label }}</span>
+          <RouterLink v-for="item in group.items" :key="item.id" :to="target(item)" custom v-slot="{ href, navigate }">
+            <a
+              :href="href"
+              class="nav-link"
+              :class="{ 'router-link-active': itemActive(item) }"
+              :aria-current="itemActive(item) ? 'page' : undefined"
+              :title="ui.navRail ? item.label : undefined"
+              @click="onNav(navigate, $event)"
+            >
+              <component :is="item.icon" class="h-4 w-4 shrink-0" />
+              <span class="nav-text truncate">{{ item.label }}</span>
+            </a>
           </RouterLink>
         </template>
       </nav>
@@ -84,6 +86,7 @@
         <h1 class="min-w-0 flex-1 truncate text-lg font-medium">{{ title }}</h1>
         <LocaleSelect />
       </header>
+      <CropModes />
       <main class="min-h-0 flex-1 overflow-hidden">
         <RouterView :key="$route.fullPath" />
       </main>
@@ -105,9 +108,12 @@ import {
   XMarkIcon,
 } from "@heroicons/vue/24/outline";
 import { copy, currentLocale } from "@/content";
+import { featureIdFromPath } from "@/features";
 import { localeByCode, localePath } from "@/locale";
+import { isCropMode, type NavItem } from "@/nav";
 import { projectRepo } from "@/release";
 import { seoPageFor } from "@/seo";
+import CropModes from "@/components/CropModes.vue";
 import LocaleSelect from "@/components/LocaleSelect.vue";
 import { useMenuStore } from "@/stores/menus";
 import { useUiStore } from "@/stores/ui";
@@ -117,6 +123,22 @@ const menus = useMenuStore();
 const route = useRoute();
 const homeTo = computed(() => localePath("/", currentLocale.value));
 const menusTo = computed(() => localePath("/menus", currentLocale.value));
+function target(item: NavItem) {
+  if (item.id !== "cropping") return item.to;
+  return localePath(menus.cropEntryPath, currentLocale.value);
+}
+
+function itemActive(item: NavItem) {
+  const id = featureIdFromPath(route.path);
+  if (!id) return false;
+  if (item.id === "cropping") return isCropMode(id);
+  return id === item.id;
+}
+
+function onNav(navigate: (event?: MouseEvent) => void, event: MouseEvent) {
+  navigate(event);
+  ui.navOpen = false;
+}
 const page = computed(() => seoPageFor(copy, route.path));
 const title = computed(() => (page.value.id === "home" ? copy.allFeatures : page.value.heading));
 const themeLabel = computed(() => (ui.theme === "dark" ? copy.themeToLight : copy.themeToDark));

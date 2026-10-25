@@ -11,6 +11,8 @@ export const zh = {
   collapseNav: "收起侧栏",
   expandNav: "展开侧栏",
   filterAll: "全部",
+  cropModes: "裁剪方式",
+  cropFamilyLead: "框选裁剪，也可做证件照尺寸、切图和圆形。",
   github: "GitHub 仓库",
   adLabel: "广告",
   themeToDark: "切换到暗色",
@@ -53,7 +55,7 @@ export const zh = {
     compress: { title: "压缩", lead: "按质量、最长边或目标体积压缩 JPEG、PNG、WebP。" },
     resize: { title: "缩放", lead: "按指定宽高缩放，也可以留白放入画布。" },
     converter: { title: "转格式", lead: "在 PNG、JPEG、WebP、BMP、ICO 之间转换。" },
-    cropping: { title: "裁剪", lead: "框选、旋转后导出 PNG。" },
+    cropping: { title: "裁剪", lead: "框选时实时预览，点击可看大图，再导出 PNG。" },
     idPhoto: { title: "证件照尺寸", lead: "按常见像素裁成证件照比例，并铺上底色。这里不抠图。" },
     sizes: { title: "社交尺寸", lead: "把图片放到常见的社交平台尺寸里。" },
     store: { title: "应用商店尺寸", lead: "把一张图片放进 App Store、Google Play 和 Chrome 网上应用店的常见尺寸，可选留白、铺满裁切、拉伸或平铺。" },
@@ -186,11 +188,11 @@ export const zh = {
       },
       cropping: {
         documentTitle: "在线裁剪图片 · 图酷",
-        description: "在浏览器里框选、旋转或翻转后导出 PNG。图片不会上传。",
+        description: "在浏览器里框选、旋转或翻转，实时预览裁剪结果，点击可查看大图，再导出 PNG。图片不会上传。",
         faqs: [
           {
             q: "裁剪结果是什么格式？",
-            a: "框选、旋转或翻转后导出 PNG。可以自由框选，也可以选择固定比例。",
+            a: "框选时会实时显示裁剪结果，点击预览可以查看大图。旋转或翻转后导出 PNG。可以自由框选，也可以选择固定比例。",
           },
           {
             q: "裁剪会上传图片吗？",
@@ -408,6 +410,9 @@ export const zh = {
     rotateRight: "向右旋转",
     flipX: "水平翻转",
     flipY: "垂直翻转",
+    previewCrop: "预览",
+    previewCropHint: "点击查看大图",
+    closePreview: "关闭预览",
     format: "格式",
     quality: "质量",
     maxEdge: "最长边",

@@ -13,6 +13,8 @@ export const ja: Copy = {
   collapseNav: "サイドバーを畳む",
   expandNav: "サイドバーを広げる",
   filterAll: "すべて",
+  cropModes: "トリミングの種類",
+  cropFamilyLead: "範囲を切り抜くほか、証明写真サイズ、分割、円形も使えます。",
   github: "GitHub リポジトリ",
   adLabel: "広告",
   themeToDark: "ダークに切り替える",
@@ -55,7 +57,7 @@ export const ja: Copy = {
     compress: { title: "圧縮", lead: "品質、最長辺、または目標サイズで JPEG、PNG、WebP を圧縮します。" },
     resize: { title: "拡大縮小", lead: "指定した幅と高さに拡大縮小するか、余白を付けてキャンバスに収めます。" },
     converter: { title: "形式変換", lead: "PNG、JPEG、WebP、BMP、ICO の間で変換します。" },
-    cropping: { title: "トリミング", lead: "範囲を選び、回転してから PNG を書き出します。" },
+    cropping: { title: "トリミング", lead: "範囲に合わせて結果を即時プレビュー。クリックで拡大し、PNG を書き出します。" },
     idPhoto: { title: "証明写真サイズ", lead: "一般的なピクセルで証明写真の比率に切り、背景色を敷きます。ここでは背景除去をしません。" },
     sizes: { title: "SNSサイズ", lead: "画像を一般的なソーシャル向けサイズに収めます。" },
     store: {
@@ -191,11 +193,11 @@ export const ja: Copy = {
       },
       cropping: {
         documentTitle: "オンラインで画像を切り抜く · 图酷",
-        description: "ブラウザで範囲を選び、回転または反転してから PNG を書き出します。画像はアップロードされません。",
+        description: "ブラウザで範囲を選び、回転または反転し、結果を即時プレビューします。クリックで拡大してから PNG を書き出します。画像はアップロードされません。",
         faqs: [
           {
             q: "トリミング結果はどの形式ですか？",
-            a: "範囲選択、回転、または反転のあと PNG を書き出します。自由に範囲を選ぶことも、固定比率を選ぶこともできます。",
+            a: "範囲に合わせて結果が即時に更新されます。プレビューをクリックすると拡大できます。回転または反転のあと PNG を書き出します。自由に範囲を選ぶことも、固定比率を選ぶこともできます。",
           },
           {
             q: "トリミングは画像をアップロードしますか？",
@@ -413,6 +415,9 @@ export const ja: Copy = {
     rotateRight: "右に回転",
     flipX: "左右反転",
     flipY: "上下反転",
+    previewCrop: "プレビュー",
+    previewCropHint: "クリックで拡大",
+    closePreview: "プレビューを閉じる",
     format: "形式",
     quality: "品質",
     maxEdge: "最長辺",

@@ -1,9 +1,10 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
-import { createNavGroups } from "@/nav";
+import { createNavGroups, isCropMode, type CropModeId } from "@/nav";
 import { loadRuntimeConfig } from "@/runtime-config";
 import {
   allFeatureIds,
+  allowedCropModes,
   menuStorageKey,
   parseFeatureAllowList,
   visibleItems,
@@ -17,6 +18,8 @@ function readSaved(): string[] | null {
     if (!Array.isArray(parsed)) return null;
     const known = new Set<string>(allFeatureIds);
     const ids = parsed.filter((id): id is string => typeof id === "string" && known.has(id));
+    const keptCrop = parsed.some((id) => typeof id === "string" && isCropMode(id));
+    if (keptCrop && known.has("cropping") && !ids.includes("cropping")) ids.push("cropping");
     if (!ids.length && parsed.length) return null;
     return ids;
   } catch {
@@ -47,6 +50,12 @@ export const useMenuStore = defineStore("menus", () => {
     return cap.filter((id) => chosen.has(id));
   });
 
+  const openCropModes = computed((): CropModeId[] => {
+    if (!visibleIds.value.includes("cropping")) return [];
+    return allowedCropModes(allowRaw.value);
+  });
+  const cropEntryPath = computed(() => `/${openCropModes.value[0] ?? "cropping"}`);
+
   const groups = computed(() =>
     createNavGroups()
       .map((group) => ({
@@ -68,6 +77,10 @@ export const useMenuStore = defineStore("menus", () => {
 
   function isVisible(id: string) {
     return visibleIds.value.includes(id);
+  }
+
+  function allowsCropMode(id: string) {
+    return isCropMode(id) && openCropModes.value.includes(id);
   }
 
   function toggle(id: string, on: boolean) {
@@ -99,7 +112,10 @@ export const useMenuStore = defineStore("menus", () => {
     customized,
     groups,
     optionGroups,
+    openCropModes,
+    cropEntryPath,
     isVisible,
+    allowsCropMode,
     toggle,
     showAllowed,
     load,

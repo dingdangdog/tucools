@@ -13,6 +13,8 @@ export const ptBr: Copy = {
   collapseNav: "Recolher barra",
   expandNav: "Expandir barra",
   filterAll: "Tudo",
+  cropModes: "Modos de recorte",
+  cropFamilyLead: "Recorte uma área ou use tamanho de foto de documento, dividir e círculo.",
   github: "Repositório no GitHub",
   adLabel: "Anúncio",
   themeToDark: "Mudar para o tema escuro",
@@ -55,7 +57,7 @@ export const ptBr: Copy = {
     compress: { title: "Compactar", lead: "Compacte JPEG, PNG e WebP por qualidade, lado mais longo ou tamanho alvo." },
     resize: { title: "Redimensionar", lead: "Redimensione para a largura e a altura definidas, ou coloque a imagem na tela com margens." },
     converter: { title: "Converter formato", lead: "Converta entre PNG, JPEG, WebP, BMP e ICO." },
-    cropping: { title: "Recortar", lead: "Selecione uma área, gire e exporte PNG." },
+    cropping: { title: "Recortar", lead: "A prévia acompanha a seleção. Clique para ampliar e exporte PNG." },
     idPhoto: { title: "Tamanho de foto de documento", lead: "Recorte para proporções comuns de foto de documento e aplique a cor de fundo. Aqui não há remoção de fundo." },
     sizes: { title: "Tamanhos sociais", lead: "Coloque a imagem em tamanhos comuns de redes sociais." },
     store: {
@@ -191,11 +193,11 @@ export const ptBr: Copy = {
       },
       cropping: {
         documentTitle: "Recortar imagens · 图酷",
-        description: "Selecione uma área, gire ou espelhe no navegador e exporte PNG. A imagem não é enviada.",
+        description: "Selecione uma área, gire ou espelhe no navegador, veja o recorte ao vivo, clique para ampliar e exporte PNG. A imagem não é enviada.",
         faqs: [
           {
             q: "Qual é o formato do recorte?",
-            a: "Depois de selecionar, girar ou espelhar, o resultado é PNG. A seleção pode ser livre ou em proporção fixa.",
+            a: "O recorte acompanha a seleção. Clique na prévia para ampliar. Depois de girar ou espelhar, o resultado é PNG. A seleção pode ser livre ou em proporção fixa.",
           },
           {
             q: "O recorte envia a imagem?",
@@ -413,6 +415,9 @@ export const ptBr: Copy = {
     rotateRight: "Girar à direita",
     flipX: "Espelhar na horizontal",
     flipY: "Espelhar na vertical",
+    previewCrop: "Prévia",
+    previewCropHint: "Clique para ampliar",
+    closePreview: "Fechar prévia",
     format: "Formato",
     quality: "Qualidade",
     maxEdge: "Lado mais longo",

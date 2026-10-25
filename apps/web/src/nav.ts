@@ -64,14 +64,11 @@ export const allNavIds = [
   "resize",
   "converter",
   "cropping",
-  "id-photo",
   "sizes",
   "store",
-  "cutting",
   "watermark",
   "caption",
   "fade",
-  "tocircle",
   "pdf",
   "favicon",
   "exif",
@@ -79,16 +76,36 @@ export const allNavIds = [
   "prompt",
 ] as const;
 
+/** 侧栏和首页只出现一次「裁剪」。这些地址仍各自独立，在裁剪页里切换。 */
+export const cropModeIds = ["cropping", "id-photo", "cutting", "tocircle"] as const;
+
+export type CropModeId = (typeof cropModeIds)[number];
+
+export function isCropMode(id: string): id is CropModeId {
+  return (cropModeIds as readonly string[]).includes(id);
+}
+
 function present(id: keyof typeof toolKey, tone: string, icon: Component): NavItem {
   const tool = copy.tools[toolKey[id]];
   return {
     id,
     to: localePath(`/${id}`, currentLocale.value),
     label: tool.title,
-    lead: tool.lead,
+    lead: id === "cropping" ? copy.cropFamilyLead : tool.lead,
     tone,
     icon: markRaw(icon),
   };
+}
+
+const cropModeIcon = {
+  cropping: ViewfinderCircleIcon,
+  "id-photo": IdentificationIcon,
+  cutting: Squares2X2Icon,
+  tocircle: StopCircleIcon,
+} as const;
+
+export function cropModeNav(ids: readonly string[]): NavItem[] {
+  return cropModeIds.filter((id) => ids.includes(id)).map((id) => present(id, "violet", cropModeIcon[id]));
 }
 
 export function createNavGroups() {
@@ -110,14 +127,11 @@ export function createNavGroups() {
         present("resize", "orange", ArrowsPointingOutIcon),
         present("converter", "pink", ArrowPathRoundedSquareIcon),
         present("cropping", "violet", ViewfinderCircleIcon),
-        present("id-photo", "sky", IdentificationIcon),
         present("sizes", "indigo", DevicePhoneMobileIcon),
         present("store", "violet", BuildingStorefrontIcon),
-        present("cutting", "blue", Squares2X2Icon),
         present("watermark", "blue", ChatBubbleBottomCenterTextIcon),
         present("caption", "sky", PencilSquareIcon),
         present("fade", "slate", SwatchIcon),
-        present("tocircle", "cyan", StopCircleIcon),
         present("pdf", "rose", DocumentTextIcon),
         present("favicon", "orange", GlobeAltIcon),
       ],

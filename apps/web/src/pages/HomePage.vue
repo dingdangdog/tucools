@@ -22,14 +22,19 @@
     </p>
     <section v-for="group in visibleGroups" :key="group.id" class="mb-7">
       <h2 v-if="filter === 'all'" class="mb-3 text-xs text-muted">{{ group.label }}</h2>
-      <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-        <RouterLink v-for="item in group.items" :key="item.to" :to="item.to" class="tool-card">
-          <span class="tool-card-well">
-            <component :is="item.icon" class="h-8 w-8" />
+      <div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+        <RouterLink
+          v-for="item in group.items"
+          :key="item.to"
+          :to="target(item)"
+          class="panel flex items-start gap-3 p-3 hover:bg-[var(--nav-hover)]"
+        >
+          <span class="tile" :data-tone="item.tone">
+            <component :is="item.icon" class="h-5 w-5" />
           </span>
-          <span class="tool-card-body">
-            <span class="tool-card-title">{{ item.label }}</span>
-            <span class="tool-card-lead">{{ item.lead }}</span>
+          <span class="min-w-0">
+            <span class="block text-sm font-medium">{{ item.label }}</span>
+            <span class="mt-1 block text-sm text-muted">{{ item.lead }}</span>
           </span>
         </RouterLink>
       </div>
@@ -43,6 +48,7 @@ import { computed, ref } from "vue";
 import PageFacts from "@/components/PageFacts.vue";
 import { copy, currentLocale } from "@/content";
 import { localePath } from "@/locale";
+import type { NavItem } from "@/nav";
 import { useMenuStore } from "@/stores/menus";
 
 const menus = useMenuStore();
@@ -51,4 +57,9 @@ const filter = ref("all");
 const visibleGroups = computed(() =>
   filter.value === "all" ? menus.groups : menus.groups.filter((group) => group.id === filter.value),
 );
+
+function target(item: NavItem) {
+  if (item.id !== "cropping") return item.to;
+  return localePath(menus.cropEntryPath, currentLocale.value);
+}
 </script>

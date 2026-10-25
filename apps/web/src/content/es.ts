@@ -13,6 +13,8 @@ export const es: Copy = {
   collapseNav: "Ocultar barra",
   expandNav: "Mostrar barra",
   filterAll: "Todas",
+  cropModes: "Modos de recorte",
+  cropFamilyLead: "Recorta un área, o usa el tamaño de foto de carné, dividir y círculo.",
   github: "Repositorio de GitHub",
   adLabel: "Anuncio",
   themeToDark: "Cambiar a oscuro",
@@ -55,7 +57,7 @@ export const es: Copy = {
     compress: { title: "Comprimir", lead: "Comprime JPEG, PNG y WebP por calidad, lado más largo o tamaño objetivo." },
     resize: { title: "Escalar", lead: "Escala al ancho y alto indicados, o déjala con márgenes en el lienzo." },
     converter: { title: "Convertir formato", lead: "Convierte entre PNG, JPEG, WebP, BMP e ICO." },
-    cropping: { title: "Recortar", lead: "Tras enmarcar y girar, exporta PNG." },
+    cropping: { title: "Recortar", lead: "La vista previa sigue el marco. Haz clic para ampliar y exporta PNG." },
     idPhoto: { title: "Tamaño de foto de carné", lead: "Recorta a la proporción de foto de carné según píxeles habituales y aplica un color de fondo. Aquí no se quita el fondo." },
     sizes: { title: "Tamaños para redes", lead: "Coloca la imagen en tamaños habituales de redes sociales." },
     store: {
@@ -191,11 +193,11 @@ export const es: Copy = {
       },
       cropping: {
         documentTitle: "Recortar imágenes · 图酷",
-        description: "En el navegador, enmarca, gira o voltea y exporta PNG. Las imágenes no se suben.",
+        description: "En el navegador, enmarca, gira o voltea, mira el recorte al momento, haz clic para ampliar y exporta PNG. Las imágenes no se suben.",
         faqs: [
           {
             q: "¿En qué formato queda el recorte?",
-            a: "Tras enmarcar, girar o voltear se exporta PNG. Se puede enmarcar con libertad o elegir una proporción fija.",
+            a: "El recorte se actualiza al enmarcar. Haz clic en la vista previa para ampliarla. Tras girar o voltear se exporta PNG. Se puede enmarcar con libertad o elegir una proporción fija.",
           },
           {
             q: "¿El recorte sube la imagen?",
@@ -413,6 +415,9 @@ export const es: Copy = {
     rotateRight: "Girar a la derecha",
     flipX: "Voltear en horizontal",
     flipY: "Voltear en vertical",
+    previewCrop: "Vista previa",
+    previewCropHint: "Clic para ver en grande",
+    closePreview: "Cerrar vista previa",
     format: "Formato",
     quality: "Calidad",
     maxEdge: "Lado más largo",
