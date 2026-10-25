@@ -461,18 +461,28 @@ function handleLegacy(req, res, runtime) {
 
 function pythonCommand() {
   if (process.env.TUCOOLS_PYTHON) return { command: process.env.TUCOOLS_PYTHON, prefix: [] };
-  const venv = path.resolve(__dirname, "../../.venv/Scripts/python.exe");
+  if (process.platform === "win32") {
+    const venv = path.resolve(__dirname, "../../.venv/Scripts/python.exe");
+    if (fs.existsSync(venv)) return { command: venv, prefix: [] };
+    return { command: "py", prefix: ["-3"] };
+  }
+  const venv = path.resolve(__dirname, "../../.venv/bin/python");
   if (fs.existsSync(venv)) return { command: venv, prefix: [] };
-  return { command: "py", prefix: ["-3"] };
+  return { command: "python3", prefix: [] };
 }
 
 function modelPackDir(isPackaged) {
   if (process.env.TUCOOLS_MODEL_PACK) return path.resolve(process.env.TUCOOLS_MODEL_PACK);
-  if (isPackaged) {
+  if (!isPackaged) return path.resolve(__dirname, "../../model-pack");
+  if (process.platform === "win32") {
     const base = process.env.APPDATA || path.join(os.homedir(), "AppData", "Roaming");
     return path.join(base, "tucools", "model-pack");
   }
-  return path.resolve(__dirname, "../../model-pack");
+  if (process.platform === "darwin") {
+    return path.join(os.homedir(), "Library", "Application Support", "tucools", "model-pack");
+  }
+  const base = process.env.XDG_DATA_HOME || path.join(os.homedir(), ".local", "share");
+  return path.join(base, "tucools", "model-pack");
 }
 
 function startPythonEngine(engineDir, port, packDir = modelPackDir(false)) {
@@ -526,4 +536,4 @@ async function startHost({ webRoot, resourcesPath, isPackaged }) {
   };
 }
 
-module.exports = { startHost, startPythonEngine };
+module.exports = { startHost, startPythonEngine, modelPackDir, pythonCommand };

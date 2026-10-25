@@ -1,8 +1,8 @@
 # 模型包
 
-抠图、优化和消除的模型文件单独发布。用户自己下载并解压，不放进 Windows 安装包，也不放进 Docker 镜像。
+抠图、优化和消除的模型文件单独发布。用户自己下载并解压，不放进安装包，也不放进 Docker 镜像。
 
-模型包和 Windows 客户端的新版本发布在 [图酷仓库](https://github.com/dingdangdog/tucools) 的 [发布页](https://github.com/dingdangdog/tucools/releases)。某个 AI 功能没有可用模型时，页面只停用该功能，并给出这两个地址。
+模型包和客户端的新版本发布在 [图酷仓库](https://github.com/dingdangdog/tucools) 的 [发布页](https://github.com/dingdangdog/tucools/releases)。某个 AI 功能没有可用模型时，页面只停用该功能，并给出这两个地址。
 
 解压后的目录名可以自定，结构固定如下：
 
@@ -41,11 +41,13 @@ model-pack/
 powershell -File scripts/link-models.ps1
 ```
 
-安装后的 Windows 程序默认读取：
+安装后的程序默认读取：
 
-```text
-%APPDATA%\tucools\model-pack
-```
+| 系统 | 目录 |
+| --- | --- |
+| Windows | `%APPDATA%\tucools\model-pack` |
+| macOS | `~/Library/Application Support/tucools/model-pack` |
+| Linux | `~/.local/share/tucools/model-pack`。如果设置了 `XDG_DATA_HOME`，则放在它下面的 `tucools/model-pack`。 |
 
 也可以把解压目录指到别的位置：
 

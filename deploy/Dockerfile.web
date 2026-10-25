@@ -9,6 +9,8 @@ RUN npm install && npm run build
 
 FROM nginx:1.27-alpine
 
+LABEL org.opencontainers.image.description="图酷页面，在浏览器里完成本地图像处理，并把抠图、优化和消除转发到同源引擎。"
+
 COPY deploy/nginx.conf /etc/nginx/conf.d/default.conf
 COPY deploy/web-entrypoint.sh /web-entrypoint.sh
 RUN chmod +x /web-entrypoint.sh

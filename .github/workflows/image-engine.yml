@@ -1,0 +1,38 @@
+name: 发布引擎镜像
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 版本号，例如 0.3.0。从对应的 v 标签运行时可留空。
+        required: false
+        type: string
+      latest:
+        description: 是否把这次镜像标为 latest。auto 只在没有更高版本标签时移动。
+        required: true
+        type: choice
+        default: auto
+        options:
+          - auto
+          - yes
+          - no
+
+permissions:
+  contents: write
+  packages: write
+
+concurrency:
+  group: image-engine-${{ github.repository }}-${{ inputs.version || github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: 推送引擎镜像
+    uses: ./.github/workflows/image-reusable.yml
+    with:
+      kind: engine
+      dockerfile: deploy/Dockerfile.engine
+      timeout_minutes: 360
+      version: ${{ inputs.version }}
+      latest: ${{ inputs.latest }}
+      site_url: ""

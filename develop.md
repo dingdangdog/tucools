@@ -82,4 +82,4 @@ docker compose -f deploy/docker-compose.yml up --build
 
 ## 发布
 
-推送 `v0.2.0` 这样的标签后，GitHub Actions 会按标签中的版本构建 Windows 安装包和两个 Docker 镜像，并创建 Release。镜像发布到 GitHub Container Registry。步骤、拉取方式和安装包限制见 [docs/deploy.md](docs/deploy.md)。
+先把版本标签推上去。推送标签不会构建。再到 GitHub Actions 按需要手动运行「发布页面镜像」「发布引擎镜像」和「发布安装包」。安装包里的 Windows、macOS、Linux 会同时开始，互不等待。步骤见 [docs/deploy.md](docs/deploy.md)。

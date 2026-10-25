@@ -12,6 +12,8 @@
     "typecheck": "npm run typecheck -w @tucools/web",
     "dev:desktop": "npm run dev -w @tucools/desktop",
     "package:win": "npm run build:web && npm run package:win -w @tucools/desktop",
+    "package:mac": "npm run build:web && npm run package:mac -w @tucools/desktop",
+    "package:linux": "npm run build:web && npm run package:linux -w @tucools/desktop",
     "engine": ".venv\\Scripts\\python.exe -m uvicorn app:app --app-dir services/engine --host 127.0.0.1 --port 8787"
   }
 }

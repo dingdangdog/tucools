@@ -1,6 +1,6 @@
 # 图酷
 
-图酷是一套图像工具。同一份页面有两种用法：Windows 安装包在本机打开，Docker 用浏览器打开。
+图酷是一套图像工具。同一份页面有两种用法：安装包在本机打开，Docker 用浏览器打开。安装包有 Windows、macOS 和 Linux。
 
 常规处理和信息处理在浏览器里完成，图片留在本机。抠图、优化和消除由引擎处理，页面只请求同源 `/api/engine`。模型包单独下载，说明见 [docs/models.md](docs/models.md)。
 
@@ -31,7 +31,7 @@
 
 | 方式 | 打开地址 | 说明 |
 | --- | --- | --- |
-| Windows 安装包 | 本机窗口 | 页面和壳在安装包里。模型包解压到 `%APPDATA%\tucools\model-pack`，或设置 `TUCOOLS_MODEL_PACK`。 |
+| 安装包 | 本机窗口 | 页面和壳在安装包里，有 Windows、macOS 和 Linux。模型包目录见 [docs/models.md](docs/models.md)，也可以设置 `TUCOOLS_MODEL_PACK`。 |
 | Docker | http://127.0.0.1:8080 | 已发布镜像用 `docker compose -f deploy/docker-compose.deploy.yml up -d`。从源码构建用 `docker compose -f deploy/docker-compose.yml up --build`。引擎留在 Compose 网络内。 |
 
 部署、功能菜单、站点地址、广告和统计见 [docs/deploy.md](docs/deploy.md)。
@@ -44,7 +44,7 @@
 | --- | --- |
 | `apps/web` | 页面。Vite、Vue 3、Vue Router、Pinia、Tailwind。 |
 | `services/engine` | 引擎。FastAPI，提供抠图、优化和消除。 |
-| `apps/desktop` | Windows 安装包。Electron 提供静态页并转发 `/api/engine`。 |
+| `apps/desktop` | 安装包。Electron 提供静态页并转发 `/api/engine`。 |
 | `deploy/` | nginx、Dockerfile、Compose 和模型包清单。 |
 | `docs/` | 部署与模型包说明。 |
 

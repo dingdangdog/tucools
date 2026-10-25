@@ -5,6 +5,16 @@ const { startHost, startPythonEngine } = require("./host");
 
 let host;
 let engineChild;
+let lastUrl = "";
+
+function stopChildren() {
+  if (host) {
+    host.stop();
+    host = null;
+  }
+  if (engineChild && !engineChild.killed) engineChild.kill();
+  engineChild = null;
+}
 
 function webDevUrl() {
   return process.env.TUCOOLS_WEB_URL || "http://127.0.0.1:13175";
@@ -28,13 +38,14 @@ async function waitFor(url, tries = 40) {
 }
 
 function createWindow(url) {
+  lastUrl = url;
   const window = new BrowserWindow({
     width: 1280,
     height: 840,
     minWidth: 880,
     minHeight: 640,
     title: "图酷",
-    icon: path.join(__dirname, "build", "icon.ico"),
+    icon: path.join(__dirname, "build", "icon.png"),
     autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
@@ -59,6 +70,10 @@ ipcMain.handle("dialog:save-bytes", async (_event, filename, bytes) => {
 });
 
 app.whenReady().then(async () => {
+  app.on("activate", () => {
+    if (BrowserWindow.getAllWindows().length === 0 && lastUrl) createWindow(lastUrl);
+  });
+
   if (app.isPackaged) {
     host = await startHost({
       webRoot: path.join(process.resourcesPath, "web"),
@@ -82,7 +97,12 @@ app.whenReady().then(async () => {
 });
 
 app.on("window-all-closed", () => {
-  if (host) host.stop();
-  if (engineChild && !engineChild.killed) engineChild.kill();
-  if (process.platform !== "darwin") app.quit();
+  if (process.platform !== "darwin") {
+    stopChildren();
+    app.quit();
+  }
+});
+
+app.on("before-quit", () => {
+  stopChildren();
 });

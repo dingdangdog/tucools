@@ -9,7 +9,9 @@
   },
   "scripts": {
     "dev": "electron .",
-    "package:win": "electron-builder --win"
+    "package:win": "electron-builder --win nsis --x64",
+    "package:mac": "electron-builder --mac dmg zip --arm64 --x64",
+    "package:linux": "electron-builder --linux AppImage deb --x64"
   },
   "dependencies": {
     "busboy": "^1.6.0"
@@ -23,6 +25,7 @@
     "productName": "图酷",
     "electronVersion": "35.7.5",
     "asar": true,
+    "npmRebuild": false,
     "directories": {
       "output": "release",
       "buildResources": "build"
@@ -31,7 +34,8 @@
       "main.js",
       "preload.js",
       "host.js",
-      "package.json"
+      "package.json",
+      "build/icon.png"
     ],
     "extraResources": [
       {
@@ -57,9 +61,36 @@
       }
     ],
     "win": {
-      "target": ["nsis"],
+      "target": [{ "target": "nsis", "arch": ["x64"] }],
       "icon": "build/icon.ico",
-      "artifactName": "图酷-Setup-${version}.${ext}"
+      "artifactName": "图酷-${version}-windows-${arch}.${ext}"
+    },
+    "mac": {
+      "category": "public.app-category.graphics-design",
+      "icon": "build/icon.png",
+      "identity": null,
+      "gatekeeperAssess": false,
+      "hardenedRuntime": false,
+      "target": [
+        { "target": "dmg", "arch": ["arm64", "x64"] },
+        { "target": "zip", "arch": ["arm64", "x64"] }
+      ],
+      "artifactName": "图酷-${version}-mac-${arch}.${ext}"
+    },
+    "dmg": {
+      "sign": false
+    },
+    "linux": {
+      "category": "Graphics",
+      "icon": "build/icon.png",
+      "executableName": "tucools",
+      "synopsis": "本地图像工具",
+      "maintainer": "图酷",
+      "target": [
+        { "target": "AppImage", "arch": ["x64"] },
+        { "target": "deb", "arch": ["x64"] }
+      ],
+      "artifactName": "图酷-${version}-linux-${arch}.${ext}"
     },
     "nsis": {
       "oneClick": false,

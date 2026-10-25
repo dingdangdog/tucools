@@ -70,19 +70,56 @@ docker compose -f deploy/docker-compose.yml up --build
 
 Linux 容器里的优化需要模型包中的 `bin/linux/upscayl-bin`。只有 Windows 程序时，抠图和消除仍可使用。
 
-## Windows 安装包
+## 安装包
+
+发布用的安装包在 GitHub Actions 上构建，见下面的「分开发布」。当前系统也可以在本机打自己的包。Windows：
 
 ```powershell
 npm run package:win
 ```
 
-安装包在 `apps/desktop/release`。里面是页面和壳，不含模型包。安装后把模型包解压到 `%APPDATA%\tucools\model-pack`，或在启动前设置 `TUCOOLS_MODEL_PACK`。
+macOS：
+
+```bash
+npm run package:mac
+```
+
+Linux：
+
+```bash
+npm run package:linux
+```
+
+产物在 `apps/desktop/release`。里面是页面和壳，不含模型包，也不含 `tucools-engine.exe`。本地图像工具可以离线使用。AI 功能需要本机另有引擎：Windows 沿用随包的 `tucools-engine.exe` 或 `TUCOOLS_RUNTIME`；macOS 和 Linux 调用 `python3`（也可用 `TUCOOLS_PYTHON`）运行随包的引擎源码，依赖要装在那个 Python 里。
+
+安装后的模型包目录：
+
+| 系统 | 默认目录 |
+| --- | --- |
+| Windows | `%APPDATA%\tucools\model-pack` |
+| macOS | `~/Library/Application Support/tucools/model-pack` |
+| Linux | `$XDG_DATA_HOME/tucools/model-pack`，未设置时是 `~/.local/share/tucools/model-pack` |
+
+也可以在启动前设置 `TUCOOLS_MODEL_PACK`。
+
+正式发布的文件名：
+
+| 平台 | 文件 |
+| --- | --- |
+| Windows x64 | `图酷-<版本>-windows-x64.exe` |
+| macOS Apple 芯片 | `图酷-<版本>-mac-arm64.dmg`，另有同名 zip |
+| macOS Intel | `图酷-<版本>-mac-x64.dmg`，另有同名 zip |
+| Linux x64 | `图酷-<版本>-linux-x64.AppImage` 和 `图酷-<版本>-linux-x64.deb` |
+
+这些包都没有代码签名。Windows 可能提示未知发布者。macOS 若拦截，到「系统设置 → 隐私与安全性」允许，或对应用执行 `xattr -dr com.apple.quarantine`。Linux 的 AppImage 先加上可执行权限；有的系统还要 `libfuse2`。deb 用 `dpkg -i` 安装，缺依赖时再执行 `apt-get install -f`。
 
 `apps/desktop` 里的 Electron 必须写成不带 `^` 或 `~` 的固定版本，并在 `build.electronVersion` 里写同一个版本。npm workspaces 会把 `electron` 安装到仓库根目录的 `node_modules`，electron-builder 只在 `apps/desktop/node_modules` 里查找。找不到模块、版本又是范围时，安装包构建会直接失败。升级 Electron 时两处一起改。
 
+`build.npmRebuild` 必须保持 `false`。桌面壳没有原生模块，生产依赖只有 `busboy`。工作区不会在 `apps/desktop` 下建立 `node_modules`。electron-builder 发现这个目录不存在时，会在该目录执行 `npm install --production`，并删掉仓库根目录中的开发依赖，其中包括 `app-builder-bin`。下一步再启动 `app-builder.exe` 就会失败。关闭重建后，已经提升到仓库根目录的 `busboy` 仍会打进安装包。
+
 安装包里的「保存到…」会调用系统保存对话框。浏览器部署仍是直接下载。
 
-安装包顶栏有「功能菜单」。勾选保存在这台 Windows 用户的本机数据里。启动前设置的 `TUCOOLS_FEATURES` 是允许显示的上限，配置页不能打开上限以外的工具。
+安装包顶栏有「功能菜单」。勾选保存在这台电脑的当前用户数据里。启动前设置的 `TUCOOLS_FEATURES` 是允许显示的上限，配置页不能打开上限以外的工具。
 
 ## 功能菜单
 
@@ -179,7 +216,7 @@ $env:TUCOOLS_ANALYTICS_ID = "G-XXXXXXXXXX"
 | `ar` | العربية，从右到左 |
 | `bn` | বাংলা |
 
-`/zh` 和 `/zh/compress` 会转到不带前缀的简体中文地址。网页不按浏览器语言跳转。顶栏选择的语言记在 `tucools-locale`，只在下次打开站点根 `/` 时使用。Windows 安装包第一次打开根地址、且没有保存语言时，按系统语言打开。产品名在每种语言里都是「图酷」。
+`/zh` 和 `/zh/compress` 会转到不带前缀的简体中文地址。网页不按浏览器语言跳转。顶栏选择的语言记在 `tucools-locale`，只在下次打开站点根 `/` 时使用。安装包第一次打开根地址、且没有保存语言时，按系统语言打开。产品名在每种语言里都是「图酷」。
 
 安装包和 Docker 可以部署在不同域名，所以未设置站点根时，规范地址写成站内路径，例如 `/en/compress`。页面在浏览器里会改成当前域名的绝对地址。公开站点要让 sitemap、hreflang 和 `llms.txt` 使用绝对地址时，设置不带路径的站点根：
 
@@ -191,26 +228,64 @@ $env:TUCOOLS_SITE_URL = "https://图片站点.example"
 
 `TUCOOLS_FEATURES` 只影响浏览器里显示哪些工具。静态说明和站点地图仍包含全部工具。只打算公开一部分工具时，不要把收起的地址暴露到公网。
 
-## 按标签发布
+## 分开发布
 
-推送形如 `v0.2.0` 的标签后，`.github/workflows/release.yml` 会读取版本号，构建并发布。`v1.2`、`v1.2.3-beta` 这类标签会在校验步骤失败，不会发版。
+推送版本标签不会构建镜像，也不会打安装包。页面镜像、引擎镜像、Windows、macOS、Linux 可以同时跑：两个镜像各是一个工作流，三个安装包在「发布安装包」里各是一个任务。一个失败不会取消其余的。
+
+工作流文件要先在默认分支上，Actions 页面才会出现按钮。运行时再选择含有这些文件的标签。旧标签上没有这些工作流，不能用来发布。
+
+### 1. 推送标签
+
+标签必须是 `v主版本.次版本.修订号`，例如 `v0.3.0`。`v1.2`、`v1.2.3-beta`、`v01.2.3` 会被拒绝。工作流不会创建标签，也不会把已有标签移到别的提交。
 
 ```powershell
-git tag v0.2.0
-git push origin v0.2.0
+git tag v0.3.0
+git push origin v0.3.0
 ```
 
-版本号来自标签本身。工作流会在构建安装包前把这个版本写入当次运行的 `package.json`，不会把版本提交回分支。
+这一步只标记提交。仓库里不会出现新的构建。
 
-发布内容：
+### 2. 按需要运行
 
-- Windows x64 NSIS 安装包，附在 GitHub Release 上，并带有 SHA256 校验文件。安装包没有代码签名，Windows 可能提示未知发布者。
-- 页面镜像 `ghcr.io/<所有者>/tucools-web:<版本>`，以及同名 `latest`。
-- 引擎镜像 `ghcr.io/<所有者>/tucools-engine:<版本>`，以及同名 `latest`。
+打开 GitHub 仓库的 Actions。下面三个工作流可以连续点开。它们使用不同的并发组，会同时执行。
 
-镜像推送到 GitHub Container Registry，使用工作流自带的 `GITHUB_TOKEN`，不需要 Docker Hub 账号。两个镜像都构建 `linux/amd64` 和 `linux/arm64`。amd64 引擎镜像包含 CUDA 12.8，arm64 引擎镜像仍是 CPU 版。镜像和安装包都不含模型包。安装包沿用 `npm run package:win`，不包含 `tucools-engine.exe`。本机 `npm run engine` 仍安装 CPU 依赖。
+| 工作流 | 跑什么 | 什么时候跑 |
+| --- | --- | --- |
+| 发布页面镜像 | `ghcr.io/<所有者>/tucools-web:<版本>`，`linux/amd64` 和 `linux/arm64` | 页面、nginx 或站点构建参数变了 |
+| 发布引擎镜像 | `ghcr.io/<所有者>/tucools-engine:<版本>`。amd64 含 CUDA 12.8，arm64 是 CPU。这一步最慢 | 引擎、依赖或引擎镜像变了 |
+| 发布安装包 | Windows x64、macOS arm64/x64、Linux x64 三个任务同时开始 | 需要新的安装包 |
 
-容器包第一次出现时默认是私有的。仓库给其他人使用时，到 GitHub 的 Packages 页面把 `tucools-web` 和 `tucools-engine` 改为公开。之后再次推送标签会更新这两个包。
+每个工作流的「Use workflow from」选择标签 `v0.3.0`，版本号留空。这样构建的就是标签指向的那一次提交。
+
+从分支运行时必须填写版本号，例如 `0.3.0` 或 `v0.3.0`。远程标签 `v0.3.0` 必须已经指向这次提交，否则工作流失败。不要选一个和标签不一致的分支再填这个版本。
+
+镜像工作流还有「是否把这次镜像标为 latest」：
+
+| 选项 | 行为 |
+| --- | --- |
+| `auto` | 默认。没有更高的 `vX.Y.Z` 标签时，才把 `latest` 指到这次版本 |
+| `yes` | 总是移动 `latest` |
+| `no` | 不移动 `latest` |
+
+安装包工作流默认勾选三个平台。只重做其中一个时，取消另外两个。三个任务之间没有依赖。macOS 失败时，Windows 和 Linux 仍会上传自己的附件。要重跑失败的平台，可以在那次运行里选择 Re-run failed jobs，或重新运行工作流并只勾选该平台。
+
+同一件产物的第二次运行会排队，不会取消正在进行的那一次。页面镜像、引擎镜像和安装包互不排队。
+
+### 3. 发布页上有什么
+
+任一工作流成功后，都会给这个已有标签创建 GitHub Release。说明只在第一次创建时写入，之后的任务只追加自己的附件，不覆盖说明。
+
+安装包附件使用上面的文件名。每个平台另有 `SHA256SUMS-windows.txt`、`SHA256SUMS-macos.txt` 或 `SHA256SUMS-linux.txt`，所以三个任务同时上传也不会改写对方的校验文件。
+
+镜像不放进 Release 的二进制附件。坐标写在说明里。摘要写在 `tucools-web-<版本>.txt` 或 `tucools-engine-<版本>.txt`，也写在对应 Actions 运行的摘要里。
+
+版本号只写进当次运行的 `package.json`，不会提交回分支。镜像使用工作流自带的 `GITHUB_TOKEN`，不需要 Docker Hub 账号。两个镜像都包含 `linux/amd64` 和 `linux/arm64`。安装包和镜像都不含模型包。本机 `npm run engine` 仍安装 CPU 依赖。
+
+GitHub 包页面上的描述来自多架构清单索引的 `org.opencontainers.image.description`。各架构镜像里的 `LABEL` 不会显示在这个页面上。发布镜像时会把描述写到索引注解；页面镜像是「图酷页面」，引擎镜像是「图酷图像处理引擎」。推送后工作流会读取清单，没有描述就失败。已经推送的旧清单不会自动补上描述，需要重新运行对应的镜像工作流。
+
+容器包第一次出现时默认是私有的。仓库给其他人使用时，到 GitHub 的 Packages 页面把 `tucools-web` 和 `tucools-engine` 改为公开。之后再次发布会更新已有的包。
+
+以前的 Windows 附件名是 `图酷-Setup-<版本>.exe`。从这套工作流开始，Windows 文件名是 `图酷-<版本>-windows-x64.exe`。已经发出的旧 Release 不会改名。
 
 只部署、不在本机构建时，使用 `deploy/docker-compose.deploy.yml`。它没有 `build`，默认拉取 `ghcr.io/dingdangdog/tucools-web` 和 `ghcr.io/dingdangdog/tucools-engine` 的 `latest`。引擎只留在 Compose 网络内，页面仍监听 `8080`。模型包目录、功能菜单、站点根和广告变量与上面的构建用 Compose 相同。
 
@@ -236,7 +311,7 @@ $env:TUCOOLS_ENGINE_IMAGE = "ghcr.io/<所有者>/tucools-engine:0.2.0"
 docker compose -f deploy/docker-compose.deploy.yml -f deploy/docker-compose.gpu.yml up -d
 ```
 
-私有包拉取前需要 `docker login ghcr.io`；公开包可以直接拉取。再推送一个更旧的标签也会把 `latest` 改到那个版本。本机没有对应镜像时，这条 Compose 只会拉取，不会回退到本地构建。
+私有包拉取前需要 `docker login ghcr.io`；公开包可以直接拉取。重发旧版本时，镜像工作流的 `auto` 不会把 `latest` 改到更旧的版本；只有选择 `yes` 才会。本机没有对应镜像时，这条 Compose 只会拉取，不会回退到本地构建。
 
 `deploy/docker-compose.yml` 仍用于从源码构建。使用其中已填写的发布镜像、且不要构建时，可以不带 `--build`：
 

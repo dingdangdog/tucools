@@ -1,6 +1,6 @@
 # 图酷仓库说明
 
-图酷是一份页面、两种部署：Windows 安装包在本机打开，Docker 用浏览器打开。本地图像工具在页面里完成；抠图、优化、消除只请求同源 `/api/engine`。算法以 `services/engine` 为准。
+图酷是一份页面、两种部署：安装包在本机打开，Docker 用浏览器打开。本地图像工具在页面里完成；抠图、优化、消除只请求同源 `/api/engine`。算法以 `services/engine` 为准。
 
 面向用户的回复和仓库文档用简体中文。代码标识保持现有英文命名。
 
@@ -39,7 +39,7 @@
 - 引擎只监听本机，或只留在 Compose 网络内。不要把引擎端口暴露到公网。没有登录。
 - 超分调用 upscayl-bin，不安装 Python 版 realesrgan。Linux 容器不能运行 `upscayl-bin.exe`。
 - 桌面引擎顺序：随包 `tucools-engine.exe`，否则 `TUCOOLS_RUNTIME` 里的旧命令行，否则本机 Python。旧命令行只组装参数，不重写算法。
-- 安装包只做 Windows NSIS。产品名「图酷」，`appId` 为 `com.tucools.app`。
+- 安装包做 Windows x64 NSIS、macOS dmg/zip（arm64 与 x64）和 Linux x64 AppImage/deb。产品名「图酷」，`appId` 为 `com.tucools.app`。没有代码签名。三个平台的构建互不依赖。
 - 不做激活、支付、试用、博客、上色、美颜、人脸修复。广告默认关闭。公开站点用 `TUCOOLS_ADSENSE_CLIENT` 接入 AdSense 并生成 `/ads.txt`；再设置 `TUCOOLS_ADSENSE_SLOT` 时，工具页右侧显示该广告单元。未配置时不加载广告脚本。安装包默认不配置。统计默认关闭。公开站点用 `TUCOOLS_ANALYTICS_ID` 接入 Google Analytics 4。未配置时不加载 gtag.js。安装包默认不配置。
 - 默认语言是简体中文，地址不带前缀。其他语言使用 `/en`、`/zh_hant`、`/es`、`/de`、`/ja`、`/pt_br`、`/hi`、`/vn`、`/ar`、`/bn`。产品名在每种语言里都是「图酷」。网页不按 `Accept-Language` 跳转；`localStorage` 键 `tucools-locale` 只在打开站点根 `/` 时生效。安装包第一次打开根地址、且没有保存语言时，按系统语言选择。阿拉伯语页面使用 `dir="rtl"`。公开站点的绝对规范地址在构建时读取 `VITE_SITE_URL`，容器启动时读取 `TUCOOLS_SITE_URL`。广告编号和统计测量 ID 也在容器启动时读取，不写进镜像。
 
@@ -69,7 +69,7 @@
 
 - 先看相关实现和 `git status`，不覆盖用户已有改动。
 - 说明和排障写入 `docs/`。复杂方案写入 `design/`，使用下一位编号。
-- 改了代码或可执行脚本后，在 `changelog/` 增加三位编号记录。先看已有编号，当前最大是 `023`。记录写明问题、改动、影响、兼容性和实际验证；未跑的检查写「未测试」。
+- 改了代码或可执行脚本后，在 `changelog/` 增加三位编号记录。先看已有编号，当前最大是 `026`。记录写明问题、改动、影响、兼容性和实际验证；未跑的检查写「未测试」。
 - 未经要求不启动开发服务器、Docker、安装包构建或长期进程。可以跑 `npm run typecheck`、`npm run build:web` 和针对改动文件的 Python 语法检查。
 - 不把未安装依赖时的推理、镜像构建或安装包打包写成已通过。
 - 不读取或提交 `.env`、密钥和真实用户图片。不修改两个旧项目。
@@ -86,10 +86,12 @@ npm run dev:desktop
 npm run typecheck
 npm run build:web
 npm run package:win
+npm run package:mac
+npm run package:linux
 docker compose -f deploy/docker-compose.yml -f deploy/docker-compose.gpu.yml up --build
 docker compose -f deploy/docker-compose.deploy.yml -f deploy/docker-compose.gpu.yml up -d
 ```
 
 `npm run engine` 使用仓库根目录 `.venv` 里的 Python 3.12，依赖按 `services/engine/requirements.txt` 装进这个环境。模型包默认是仓库根目录的 `model-pack`；已有旧运行时时可用 `scripts/link-models.ps1` 在本机准备，该脚本不会把模型放进安装包或镜像。没有 NVIDIA GPU 时，去掉上面 Docker 命令里的 `-f deploy/docker-compose.gpu.yml`。
 
-推送 `v主版本.次版本.修订号` 标签后，`.github/workflows/release.yml` 构建镜像和 Windows 安装包并发布 Release。说明见 `docs/deploy.md`。
+`npm run package:mac` 在 macOS 上使用，`npm run package:linux` 在 Linux 上使用。推送版本标签不会构建。页面镜像、引擎镜像和三个平台的安装包在 GitHub Actions 里分开手动运行，可以同时进行。说明见 `docs/deploy.md`。

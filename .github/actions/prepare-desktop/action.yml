@@ -1,0 +1,44 @@
+name: 准备桌面构建
+description: 安装依赖，把版本写入本次运行的 package.json，并构建页面。调用前需要先 checkout。
+
+inputs:
+  version:
+    description: 不带 v 的版本号
+    required: true
+  site_url:
+    description: 构建页面时的 VITE_SITE_URL
+    required: false
+    default: ""
+
+runs:
+  using: composite
+  steps:
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22
+        cache: npm
+
+    - name: Install dependencies
+      shell: bash
+      run: npm ci
+
+    - name: Write version
+      shell: bash
+      env:
+        VERSION: ${{ inputs.version }}
+      run: |
+        set -euo pipefail
+        if [[ ! "$VERSION" =~ ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]]; then
+          echo "版本号无效：${VERSION}"
+          exit 1
+        fi
+        npm pkg set "version=${VERSION}"
+        npm pkg set "version=${VERSION}" --workspace @tucools/web
+        npm pkg set "version=${VERSION}" --workspace @tucools/desktop
+
+    - name: Build web
+      shell: bash
+      env:
+        VITE_SITE_URL: ${{ inputs.site_url }}
+      run: npm run build:web

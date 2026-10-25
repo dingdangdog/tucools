@@ -43,6 +43,8 @@ FROM gpu-runtime AS runtime-amd64
 ARG TARGETARCH
 FROM runtime-${TARGETARCH}
 
+LABEL org.opencontainers.image.description="图酷图像处理引擎，提供抠图、优化和消除。镜像不含模型包。"
+
 COPY services/engine /app
 
 # 模型包由卷挂到 /model-pack，不复制进镜像。

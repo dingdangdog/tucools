@@ -1,0 +1,161 @@
+name: 发布安装包
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 版本号，例如 0.3.0。从对应的 v 标签运行时可留空。
+        required: false
+        type: string
+      windows:
+        description: 构建 Windows x64 安装包
+        required: true
+        type: boolean
+        default: true
+      macos:
+        description: 构建 macOS arm64 和 x64 安装包
+        required: true
+        type: boolean
+        default: true
+      linux:
+        description: 构建 Linux x64 安装包
+        required: true
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: desktop-${{ github.repository }}-${{ inputs.version || github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  selection:
+    name: 检查平台
+    runs-on: ubuntu-latest
+    steps:
+      - name: 至少选择一个平台
+        if: ${{ !inputs.windows && !inputs.macos && !inputs.linux }}
+        run: |
+          echo "至少选择 Windows、macOS、Linux 中的一个。"
+          exit 1
+      - name: 记录选择
+        run: |
+          echo "windows=${{ inputs.windows }} macos=${{ inputs.macos }} linux=${{ inputs.linux }}"
+
+  windows:
+    name: Windows
+    if: ${{ inputs.windows }}
+    runs-on: windows-latest
+    timeout-minutes: 90
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Resolve version
+        id: version
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
+        run: bash .github/scripts/resolve-version.sh
+
+      - name: Prepare desktop
+        uses: ./.github/actions/prepare-desktop
+        with:
+          version: ${{ steps.version.outputs.version }}
+          site_url: ${{ vars.TUCOOLS_SITE_URL }}
+
+      - name: Package NSIS installer
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: "false"
+        run: npm run package:win -w @tucools/desktop
+
+      - name: Publish installer
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.version.outputs.tag }}
+          VERSION: ${{ steps.version.outputs.version }}
+          WEB_IMAGE: ${{ steps.version.outputs.web_image }}
+          ENGINE_IMAGE: ${{ steps.version.outputs.engine_image }}
+        run: bash .github/scripts/publish-desktop-assets.sh windows
+
+  macos:
+    name: macOS
+    if: ${{ inputs.macos }}
+    runs-on: macos-latest
+    timeout-minutes: 90
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Resolve version
+        id: version
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
+        run: bash .github/scripts/resolve-version.sh
+
+      - name: Prepare desktop
+        uses: ./.github/actions/prepare-desktop
+        with:
+          version: ${{ steps.version.outputs.version }}
+          site_url: ${{ vars.TUCOOLS_SITE_URL }}
+
+      - name: Package disk images
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: "false"
+        run: npm run package:mac -w @tucools/desktop
+
+      - name: Publish installer
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.version.outputs.tag }}
+          VERSION: ${{ steps.version.outputs.version }}
+          WEB_IMAGE: ${{ steps.version.outputs.web_image }}
+          ENGINE_IMAGE: ${{ steps.version.outputs.engine_image }}
+        run: bash .github/scripts/publish-desktop-assets.sh macos
+
+  linux:
+    name: Linux
+    if: ${{ inputs.linux }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Resolve version
+        id: version
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
+        run: bash .github/scripts/resolve-version.sh
+
+      - name: Prepare desktop
+        uses: ./.github/actions/prepare-desktop
+        with:
+          version: ${{ steps.version.outputs.version }}
+          site_url: ${{ vars.TUCOOLS_SITE_URL }}
+
+      - name: Install packaging libraries
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends fakeroot
+          sudo apt-get install -y --no-install-recommends libfuse2 || sudo apt-get install -y --no-install-recommends libfuse2t64
+
+      - name: Package AppImage and deb
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: "false"
+          APPIMAGE_EXTRACT_AND_RUN: "1"
+        run: npm run package:linux -w @tucools/desktop
+
+      - name: Publish installer
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.version.outputs.tag }}
+          VERSION: ${{ steps.version.outputs.version }}
+          WEB_IMAGE: ${{ steps.version.outputs.web_image }}
+          ENGINE_IMAGE: ${{ steps.version.outputs.engine_image }}
+        run: bash .github/scripts/publish-desktop-assets.sh linux
