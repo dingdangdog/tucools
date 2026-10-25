@@ -41,7 +41,7 @@
 - 桌面引擎顺序：随包 `tucools-engine.exe`，否则 `TUCOOLS_RUNTIME` 里的旧命令行，否则本机 Python。旧命令行只组装参数，不重写算法。
 - 安装包做 Windows x64 NSIS、macOS dmg/zip（arm64 与 x64）和 Linux x64 AppImage/deb。产品名「图酷」，`appId` 为 `com.tucools.app`。没有代码签名。三个平台的构建互不依赖。
 - 不做激活、支付、试用、博客、上色、美颜、人脸修复。广告默认关闭。公开站点用 `TUCOOLS_ADSENSE_CLIENT` 接入 AdSense 并生成 `/ads.txt`；再设置 `TUCOOLS_ADSENSE_SLOT` 时，工具页右侧显示该广告单元。未配置时不加载广告脚本。安装包默认不配置。统计默认关闭。公开站点用 `TUCOOLS_ANALYTICS_ID` 接入 Google Analytics 4。未配置时不加载 gtag.js。安装包默认不配置。
-- 默认语言是简体中文，地址不带前缀。其他语言使用 `/en`、`/zh_hant`、`/es`、`/de`、`/ja`、`/pt_br`、`/hi`、`/vn`、`/ar`、`/bn`。产品名在每种语言里都是「图酷」。网页不按 `Accept-Language` 跳转；`localStorage` 键 `tucools-locale` 只在打开站点根 `/` 时生效。安装包第一次打开根地址、且没有保存语言时，按系统语言选择。阿拉伯语页面使用 `dir="rtl"`。公开站点的绝对规范地址在构建时读取 `VITE_SITE_URL`，容器启动时读取 `TUCOOLS_SITE_URL`。广告编号和统计测量 ID 也在容器启动时读取，不写进镜像。
+- 默认语言是简体中文，地址不带前缀。其他语言使用 `/en`、`/zh_hant`、`/es`、`/de`、`/ja`、`/pt_br`、`/hi`、`/vn`、`/ar`、`/bn`。产品名在每种语言里都是「图酷」。网页不按 `Accept-Language` 跳转；`localStorage` 键 `tucools-locale` 只在打开站点根 `/` 时生效。安装包第一次打开根地址、且没有保存语言时，按系统语言选择。阿拉伯语页面使用 `dir="rtl"`。公开站点的绝对规范地址在构建时读取 `VITE_SITE_URL`，容器启动时读取 `TUCOOLS_SITE_URL`。每个可索引页面另有 Markdown，`llms.txt` 指向这些文件。`robots.txt` 用 Content-Signal 允许搜索、生成式引用和训练。广告编号和统计测量 ID 也在容器启动时读取，不写进镜像。
 
 ## 接到需求后怎么改
 
@@ -61,7 +61,7 @@
 
 新增本地工具时，批量工具沿用 `BatchLayout`、`Stage`、`Chips`、`Field`、`ResultGrid`；需要对照原图操作的工具沿用 `StudioLayout` 和 `Stage`。新增 AI 工具时，沿用 `StudioLayout`、`EngineStatus`，并用 `runEngineJob` 接收 SSE。`useResults()` 必须返回 `reactive({...})`；返回普通对象会导致模板拿到 Ref 本身。
 
-主题：`localStorage` 键是 `tucools-theme`。显式 `light`、`dark`、`system` 按其值生效；没有保存值时默认暗色。亮色是石板底和蓝色强调，暗色是中性黑底和蓝色强调。窄屏收起侧栏。
+主题：`localStorage` 键是 `tucools-theme`。显式 `light`、`dark`、`system` 按其值生效；没有保存值时默认暗色。亮色是浅灰底、白表面和蓝色强调，暗色是近黑底、抬升表面和蓝色强调。窄屏收起侧栏。宽屏可收成图标栏，状态在 `tucools-nav-rail`。
 
 保存文件：安装包里走 `window.tucools.saveBytes`；浏览器里直接下载。不要在页面里分叉两套结果数据。
 
@@ -69,7 +69,7 @@
 
 - 先看相关实现和 `git status`，不覆盖用户已有改动。
 - 说明和排障写入 `docs/`。复杂方案写入 `design/`，使用下一位编号。
-- 改了代码或可执行脚本后，在 `changelog/` 增加三位编号记录。先看已有编号，当前最大是 `026`。记录写明问题、改动、影响、兼容性和实际验证；未跑的检查写「未测试」。
+- 改了代码或可执行脚本后，在 `changelog/` 增加三位编号记录。先看已有编号，当前最大是 `028`。记录写明问题、改动、影响、兼容性和实际验证；未跑的检查写「未测试」。
 - 未经要求不启动开发服务器、Docker、安装包构建或长期进程。可以跑 `npm run typecheck`、`npm run build:web` 和针对改动文件的 Python 语法检查。
 - 不把未安装依赖时的推理、镜像构建或安装包打包写成已通过。
 - 不读取或提交 `.env`、密钥和真实用户图片。不修改两个旧项目。

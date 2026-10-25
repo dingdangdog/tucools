@@ -7,17 +7,27 @@
         <p class="mt-1 text-sm text-muted">{{ item.a }}</p>
       </details>
     </div>
+    <nav v-if="related.length" class="mt-3" :aria-label="copy.seo.relatedHeading">
+      <h2 class="mb-1 text-sm text-muted">{{ copy.seo.relatedHeading }}</h2>
+      <ul class="flex flex-col gap-1">
+        <li v-for="item in related" :key="item.path">
+          <RouterLink class="text-sm text-link" :to="localePath(item.path, currentLocale)">{{ item.heading }}</RouterLink>
+        </li>
+      </ul>
+    </nav>
   </section>
 </template>
 
 <script setup lang="ts">
 import { computed } from "vue";
 import { useRoute } from "vue-router";
-import { copy } from "@/content";
-import { seoPageFor } from "@/seo";
+import { copy, currentLocale } from "@/content";
+import { localePath } from "@/locale";
+import { relatedSeoPages, seoPageFor } from "@/seo";
 
 defineProps<{ embedded?: boolean }>();
 
 const route = useRoute();
 const page = computed(() => seoPageFor(copy, route.path));
+const related = computed(() => relatedSeoPages(copy, page.value));
 </script>

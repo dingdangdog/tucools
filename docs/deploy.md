@@ -193,12 +193,15 @@ $env:TUCOOLS_ANALYTICS_ID = "G-XXXXXXXXXX"
 
 每个工具都有自己的地址，例如 `/compress`、`/cutout`、`/prompt`。构建页面时会为这些地址各写一份 HTML，并生成：
 
-- `robots.txt`：允许搜索引擎和生成式引擎抓取。
-- `sitemap.xml`：列出首页和全部工具页的每种语言。功能菜单不进入站点地图。
-- `llms.txt`：给生成式引擎看的工具目录。每种语言各有一份，例如 `/llms.txt` 和 `/en/llms.txt`。
+- `robots.txt`：允许搜索引擎和生成式引擎抓取，并用 `Content-Signal` 同时允许普通搜索、生成式回答引用和模型训练。
+- `sitemap.xml`：列出首页和全部工具页的每种语言，并带 `lastmod`。功能菜单和 Markdown 不进入站点地图。
+- `llms.txt`：给生成式引擎看的工具目录。链接指向各页的 Markdown。每种语言各有一份，例如 `/llms.txt` 和 `/en/llms.txt`。
 - `llms-full.txt`：每个工具的说明和常见问题，同样按语言分开。
+- 每个可索引页面的 Markdown，例如 `/compress.md` 和 `/en/compress.md`。首页是 `/index.md`。
 
-不执行 JavaScript 的抓取程序直接读到该地址的标题、说明、canonical、hreflang 和常见问题。浏览器打开后仍是原来的工具页面。宽屏时常见问题在右侧，窄屏时排在功能区下面。
+不执行 JavaScript 的抓取程序直接读到该地址的标题、说明、canonical、hreflang、常见问题和工具链接。这些内容写在页面正文里，脚本运行后换成原来的工具界面。网页里还有指向 Markdown 的 `rel="alternate"` 和指向本语言 `llms.txt` 的 `rel="describedby"`。宽屏时常见问题和相关工具在右侧，窄屏时排在功能区下面。
+
+页面容器对 `.md` 使用 `text/markdown`，并加上 `noindex`，避免 Markdown 和网页在搜索结果里各占一条。生成式引擎仍然可以抓取。`llms.txt` 同样 `noindex`。
 
 简体中文是默认语言，地址不带前缀，例如 `/compress`。其余语言沿用原站的前缀：
 
@@ -218,13 +221,15 @@ $env:TUCOOLS_ANALYTICS_ID = "G-XXXXXXXXXX"
 
 `/zh` 和 `/zh/compress` 会转到不带前缀的简体中文地址。网页不按浏览器语言跳转。顶栏选择的语言记在 `tucools-locale`，只在下次打开站点根 `/` 时使用。安装包第一次打开根地址、且没有保存语言时，按系统语言打开。产品名在每种语言里都是「图酷」。
 
-安装包和 Docker 可以部署在不同域名，所以未设置站点根时，规范地址写成站内路径，例如 `/en/compress`。页面在浏览器里会改成当前域名的绝对地址。公开站点要让 sitemap、hreflang 和 `llms.txt` 使用绝对地址时，设置不带路径的站点根：
+安装包和 Docker 可以部署在不同域名，所以未设置站点根时，规范地址写成站内路径，例如 `/en/compress`。页面在浏览器里会改成当前域名的绝对地址。公开站点要让 sitemap、hreflang、`llms.txt` 和 Markdown 使用绝对地址时，设置不带路径的站点根：
 
 ```powershell
 $env:TUCOOLS_SITE_URL = "https://图片站点.example"
 ```
 
-地址必须是 `http://` 或 `https://` 开头，不能带路径。不符合时容器会忽略它。这个变量在本地 `docker compose up --build` 时会进入页面构建；容器启动时，入口脚本还会把仍然是站内路径的规范地址、hreflang 和收录链接改成绝对地址。已经是绝对地址的链接不会再加一遍前缀。发布镜像和安装包时，仓库变量 `TUCOOLS_SITE_URL` 会作为构建参数 `VITE_SITE_URL`。
+地址必须是 `http://` 或 `https://` 开头，不能带路径。不符合时容器会忽略它。这个变量在本地 `docker compose up --build` 时会进入页面构建；容器启动时，入口脚本还会把仍然是站内路径的规范地址、hreflang、Markdown 链接和收录链接改成绝对地址。已经是绝对地址的链接不会再加一遍前缀。发布镜像和安装包时，仓库变量 `TUCOOLS_SITE_URL` 会作为构建参数 `VITE_SITE_URL`。
+
+公开站点上线后，在 Google Search Console 和 Bing Webmaster Tools 提交 `https://站点/sitemap.xml`。这不能代替页面本身的标题和说明，只是让搜索引擎知道地址清单。
 
 `TUCOOLS_FEATURES` 只影响浏览器里显示哪些工具。静态说明和站点地图仍包含全部工具。只打算公开一部分工具时，不要把收起的地址暴露到公网。
 

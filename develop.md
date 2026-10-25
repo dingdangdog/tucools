@@ -78,7 +78,7 @@ docker compose -f deploy/docker-compose.yml up --build
 
 打开 http://127.0.0.1:8080 。
 
-每个工具有独立地址，并提供简体中文、繁体中文、英语、西语、德语、日语、巴西葡语、印地语、越南语、阿拉伯语和孟加拉语。公开到自己的域名时，设置 `TUCOOLS_SITE_URL` 后再启动，站点地图、hreflang 和 `llms.txt` 会写成这个绝对地址。要接入 AdSense，再设置 `TUCOOLS_ADSENSE_CLIENT`。要接入 Google Analytics，再设置 `TUCOOLS_ANALYTICS_ID`。说明见 [docs/deploy.md](docs/deploy.md)。
+每个工具有独立地址，并提供简体中文、繁体中文、英语、西语、德语、日语、巴西葡语、印地语、越南语、阿拉伯语和孟加拉语。公开到自己的域名时，设置 `TUCOOLS_SITE_URL` 后再启动，站点地图、hreflang、`llms.txt` 和各页 Markdown 会写成这个绝对地址。要接入 AdSense，再设置 `TUCOOLS_ADSENSE_CLIENT`。要接入 Google Analytics，再设置 `TUCOOLS_ANALYTICS_ID`。说明见 [docs/deploy.md](docs/deploy.md)。
 
 ## 发布
 

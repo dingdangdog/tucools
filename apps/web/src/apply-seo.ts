@@ -21,7 +21,10 @@ export function applyDocumentSeo(path: string) {
   document.documentElement.lang = locale.language;
   document.documentElement.dir = locale.dir;
   document.getElementById("tucools-hreflang")?.remove();
-  for (const tag of headTags(page, origin, copy, code)) upsert(tag.tag, tag.id, tag.attrs);
+  const tags = headTags(page, origin, copy, code);
+  const nextIds = new Set(tags.map((tag) => tag.id));
+  if (!nextIds.has("tucools-md")) document.getElementById("tucools-md")?.remove();
+  for (const tag of tags) upsert(tag.tag, tag.id, tag.attrs);
   const scriptId = "tucools-jsonld";
   let script = document.getElementById(scriptId);
   if (!(script instanceof HTMLScriptElement)) {

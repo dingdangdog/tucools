@@ -10,6 +10,9 @@ export const ptBr: Copy = {
   infoGroup: "Processamento de informações",
   openNav: "Ferramentas",
   closeNav: "Fechar",
+  collapseNav: "Recolher barra",
+  expandNav: "Expandir barra",
+  filterAll: "Tudo",
   github: "Repositório no GitHub",
   adLabel: "Anúncio",
   themeToDark: "Mudar para o tema escuro",
@@ -78,6 +81,9 @@ export const ptBr: Copy = {
   },
   seo: {
     faqHeading: "Perguntas frequentes",
+    relatedHeading: "Ferramentas relacionadas",
+    htmlLabel: "Página web",
+    fullLabel: "Guia completo",
     listName: "Ferramentas de imagem do 图酷",
     boundary:
       "O processamento geral e o de informações são feitos localmente no navegador. Remoção de fundo, otimização e eliminação só enviam pedidos para /api/engine na mesma origem, sem passar por terceiros. O pacote de modelos é baixado separadamente e não vem no instalador nem na imagem. O tamanho de foto de documento só recorta e aplica a cor de fundo. A extração de prompt de IA só lê o texto já presente no arquivo e não faz inferência.",
@@ -85,6 +91,7 @@ export const ptBr: Copy = {
     missingTitle: "A página não existe",
     missingBody: "Este endereço não corresponde a nenhuma ferramenta.",
     backHome: "Voltar ao início",
+    homeDocumentTitle: "图酷 · Ferramentas de imagem grátis no navegador",
     homeDescription:
       "图酷 oferece endereços separados para compactar, redimensionar, converter formato, recortar, tamanho de foto de documento, tamanhos sociais, tamanhos de lojas, dividir, marca d'água, adicionar texto, escala de cinza, círculo, imagem para PDF, Favicon, remover informações, informações da imagem e extração de prompt de IA, com processamento local no navegador. Remoção de fundo, otimização e eliminação só consultam o mecanismo da mesma origem.",
     homeFaqs: [
@@ -99,6 +106,7 @@ export const ptBr: Copy = {
     ],
     tools: {
       cutout: {
+        documentTitle: "Remover o fundo da imagem · 图酷",
         description: "Remove o fundo e exporta PNG transparente. O pedido vai só para o mecanismo deste site, sem passar por terceiros. Sem um modelo disponível, não é possível começar.",
         faqs: [
           {
@@ -112,6 +120,7 @@ export const ptBr: Copy = {
         ],
       },
       enhance: {
+        documentTitle: "Ampliar e melhorar imagens · 图酷",
         description: "Amplia e melhora a imagem conforme o efeito instalado. O pedido vai só para o mecanismo deste site. Sem um modelo disponível, não é possível começar.",
         faqs: [
           {
@@ -125,6 +134,7 @@ export const ptBr: Copy = {
         ],
       },
       erase: {
+        documentTitle: "Apagar partes de uma imagem · 图酷",
         description: "Pinte a área a remover. O mecanismo deste site completa essa área. Sem um modelo disponível, não é possível começar, e a imagem não passa por terceiros.",
         faqs: [
           {
@@ -138,6 +148,7 @@ export const ptBr: Copy = {
         ],
       },
       compress: {
+        documentTitle: "Comprimir imagens sem enviar · 图酷",
         description: "Compacta JPEG, PNG e WebP localmente no navegador, por qualidade, lado mais longo ou tamanho alvo. A imagem não é enviada.",
         faqs: [
           {
@@ -151,6 +162,7 @@ export const ptBr: Copy = {
         ],
       },
       resize: {
+        documentTitle: "Redimensionar imagens · 图酷",
         description: "Redimensiona a imagem localmente no navegador para a largura e a altura definidas. É possível mostrar tudo com margens, preencher e cortar, ou esticar. A imagem não é enviada.",
         faqs: [
           {
@@ -164,6 +176,7 @@ export const ptBr: Copy = {
         ],
       },
       converter: {
+        documentTitle: "Converter o formato da imagem · 图酷",
         description: "Converte imagens localmente no navegador entre PNG, JPEG, WebP, BMP e ICO. Os formatos que o navegador atual não exporta são indicados na página.",
         faqs: [
           {
@@ -177,6 +190,7 @@ export const ptBr: Copy = {
         ],
       },
       cropping: {
+        documentTitle: "Recortar imagens · 图酷",
         description: "Selecione uma área, gire ou espelhe no navegador e exporte PNG. A imagem não é enviada.",
         faqs: [
           {
@@ -190,6 +204,7 @@ export const ptBr: Copy = {
         ],
       },
       "id-photo": {
+        documentTitle: "Tamanho de foto de documento · 图酷",
         description: "Recorta para a proporção de foto de documento nos pixels de 1 polegada, 2 polegadas, passaporte ou visto americano, e aplica fundo branco, azul ou vermelho. Aqui só há recorte e cor de fundo, sem remoção de fundo.",
         faqs: [
           {
@@ -203,6 +218,7 @@ export const ptBr: Copy = {
         ],
       },
       sizes: {
+        documentTitle: "Tamanhos para redes sociais · 图酷",
         description: "Coloca a imagem em tamanhos comuns, como Instagram, capa do YouTube ou Xiaohongshu. É possível deixar margens, preencher e cortar, ou esticar. O processamento é local no navegador.",
         faqs: [
           {
@@ -216,6 +232,7 @@ export const ptBr: Copy = {
         ],
       },
       store: {
+        documentTitle: "Tamanhos para lojas de aplicativos · 图酷",
         description:
           "Coloque uma imagem nos tamanhos comuns da App Store, do Google Play e da Chrome Web Store. É possível deixar margens, preencher e cortar, esticar ou repetir em mosaico, e baixar ou copiar o resultado. O processamento é local no navegador.",
         faqs: [
@@ -230,6 +247,7 @@ export const ptBr: Copy = {
         ],
       },
       cutting: {
+        documentTitle: "Dividir uma imagem · 图酷",
         description: "Divide a imagem por linha vertical, horizontal, diagonal ou grade. Fora a grade, as partes podem ser unidas de novo. A divisão é feita localmente no navegador.",
         faqs: [
           {
@@ -243,6 +261,7 @@ export const ptBr: Copy = {
         ],
       },
       watermark: {
+        documentTitle: "Colocar marca d'água de texto · 图酷",
         description: "Adiciona uma marca d'água de texto localmente no navegador, com posição, tamanho, cor, opacidade e contorno ajustáveis. A imagem não é enviada.",
         faqs: [
           {
@@ -256,6 +275,7 @@ export const ptBr: Copy = {
         ],
       },
       caption: {
+        documentTitle: "Adicionar texto à imagem · 图酷",
         description: "Adiciona uma linha grande no centro da imagem. O processamento é local no navegador. A imagem não é enviada.",
         faqs: [
           {
@@ -269,6 +289,7 @@ export const ptBr: Copy = {
         ],
       },
       fade: {
+        documentTitle: "Converter imagem para escala de cinza · 图酷",
         description: "Converte a imagem para escala de cinza localmente no navegador. A imagem não é enviada.",
         faqs: [
           {
@@ -282,6 +303,7 @@ export const ptBr: Copy = {
         ],
       },
       tocircle: {
+        documentTitle: "Recortar a imagem em círculo · 图酷",
         description: "Recorta a imagem em círculo pelo diâmetro. Diâmetro 0 usa o lado mais curto. O processamento é local no navegador.",
         faqs: [
           {
@@ -295,6 +317,7 @@ export const ptBr: Copy = {
         ],
       },
       pdf: {
+        documentTitle: "Converter imagens em PDF · 图酷",
         description: "Reúne várias imagens em um PDF, com uma imagem por página. O arquivo é gerado localmente no navegador e não é enviado.",
         faqs: [
           {
@@ -308,6 +331,7 @@ export const ptBr: Copy = {
         ],
       },
       favicon: {
+        documentTitle: "Criar um favicon · 图酷",
         description: "Exporta de uma imagem PNG de 16, 32, 48 e 180, e um ICO. A geração é local no navegador e não há envio.",
         faqs: [
           {
@@ -321,6 +345,7 @@ export const ptBr: Copy = {
         ],
       },
       exif: {
+        documentTitle: "Remover o EXIF da imagem · 图酷",
         description: "Mostra o EXIF da imagem e redesenha uma imagem nova sem metadados. O arquivo original não é alterado e não há envio.",
         faqs: [
           {
@@ -334,6 +359,7 @@ export const ptBr: Copy = {
         ],
       },
       pix: {
+        documentTitle: "Ver informações e EXIF da imagem · 图酷",
         description: "Mostra o tamanho e o EXIF da imagem, e pode exportar JSON. Aqui só há leitura. Para remover metadados, use Remover informações. Não há envio.",
         faqs: [
           {
@@ -347,6 +373,7 @@ export const ptBr: Copy = {
         ],
       },
       prompt: {
+        documentTitle: "Extrair prompts de IA da imagem · 图酷",
         description:
           "Extração de prompt de IA: lê o prompt positivo, o prompt negativo e os parâmetros de geração incorporados em imagens PNG e JPEG, para localizar instruções de desenho gravadas no arquivo, como as do Stable Diffusion. É feito localmente no navegador, sem inferência de modelo.",
         faqs: [

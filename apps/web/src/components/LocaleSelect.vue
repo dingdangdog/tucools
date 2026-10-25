@@ -2,7 +2,7 @@
   <div ref="root" class="relative min-w-0">
     <button
       type="button"
-      class="btn min-w-0 max-w-full"
+      class="btn btn-ghost min-w-0 max-w-full"
       :aria-label="copy.language"
       aria-haspopup="listbox"
       :aria-expanded="open"
@@ -13,17 +13,16 @@
     </button>
     <div
       v-if="open"
-      class="absolute end-0 z-50 mt-1 max-h-[70vh] w-52 overflow-y-auto rounded-lg border border-line bg-[var(--surface)] py-1 shadow-[var(--shadow)]"
+      class="absolute end-0 z-50 mt-1 max-h-[70vh] w-52 overflow-y-auto rounded-xl border border-line bg-[var(--surface)] py-1 shadow-[var(--shadow)]"
       role="listbox"
     >
       <button
         v-for="item in locales"
         :key="item.code"
         type="button"
-        class="block w-full px-3 py-2 text-start text-sm"
+        class="menu-option block w-full px-3 py-2 text-start text-sm hover:bg-[var(--nav-hover)]"
         role="option"
         :aria-selected="item.code === currentLocale"
-        :class="item.code === currentLocale ? 'bg-[var(--nav-active)] font-medium text-[var(--nav-active-ink)]' : 'hover:bg-[var(--nav-hover)]'"
         @click="choose(item.code)"
       >
         {{ item.name }}

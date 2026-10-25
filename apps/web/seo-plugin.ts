@@ -42,7 +42,11 @@ export function seoPlugin(): Plugin {
           next();
           return;
         }
-        const type = key.endsWith(".xml") ? "application/xml; charset=utf-8" : "text/plain; charset=utf-8";
+        const type = key.endsWith(".xml")
+          ? "application/xml; charset=utf-8"
+          : key.endsWith(".md")
+            ? "text/markdown; charset=utf-8"
+            : "text/plain; charset=utf-8";
         sendText(res, type, files[key]);
       });
     },

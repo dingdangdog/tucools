@@ -2,6 +2,32 @@ import { catalogs } from "./content/catalogs";
 import type { Copy } from "./content/zh";
 import { zh } from "./content/zh";
 import { defaultLocale, localeByCode, localePath, locales, stripLocale, type LocaleCode } from "./locale";
+import { projectRepo } from "./release";
+
+const seoRevision = "2026-10-25";
+
+const relatedPaths: Record<string, readonly string[]> = {
+  "/cutout": ["/enhance", "/erase", "/id-photo"],
+  "/enhance": ["/cutout", "/erase"],
+  "/erase": ["/cutout", "/enhance"],
+  "/compress": ["/resize", "/converter"],
+  "/resize": ["/compress", "/cropping", "/sizes"],
+  "/converter": ["/compress", "/favicon"],
+  "/cropping": ["/resize", "/id-photo", "/tocircle"],
+  "/id-photo": ["/cutout", "/sizes"],
+  "/sizes": ["/store", "/resize"],
+  "/store": ["/sizes", "/resize"],
+  "/cutting": ["/cropping", "/resize"],
+  "/watermark": ["/caption", "/fade"],
+  "/caption": ["/watermark"],
+  "/fade": ["/converter", "/watermark"],
+  "/tocircle": ["/cropping", "/favicon"],
+  "/pdf": ["/converter", "/compress"],
+  "/favicon": ["/converter", "/tocircle"],
+  "/exif": ["/pix", "/prompt"],
+  "/pix": ["/exif", "/prompt"],
+  "/prompt": ["/pix", "/exif"],
+};
 
 export type SeoGroup = "home" | "ai" | "local" | "info" | "system";
 
@@ -31,6 +57,7 @@ interface ToolSpec {
   path: string;
   group: Exclude<SeoGroup, "home" | "system">;
   title: string;
+  documentTitle: string;
   description: string;
   faqs: readonly SeoFaq[];
 }
@@ -68,13 +95,15 @@ function pageOf(
     group: SeoGroup;
     heading: string;
     description: string;
+    documentTitle?: string;
     faqs: readonly SeoFaq[];
     index: boolean;
   },
 ): SeoPage {
+  const fallback = spec.path === "/" ? messages.appName : `${spec.heading} · ${messages.appName}`;
   return {
     ...spec,
-    documentTitle: spec.path === "/" ? messages.appName : `${spec.heading} · ${messages.appName}`,
+    documentTitle: spec.documentTitle || fallback,
   };
 }
 
@@ -85,6 +114,7 @@ export function buildSeoPages(messages: Copy): SeoPage[] {
       path: "/",
       group: "home",
       heading: messages.appName,
+      documentTitle: messages.seo.homeDocumentTitle,
       description: messages.seo.homeDescription,
       faqs: messages.seo.homeFaqs,
       index: true,
@@ -95,6 +125,7 @@ export function buildSeoPages(messages: Copy): SeoPage[] {
         path: spec.path,
         group: spec.group,
         heading: spec.title,
+        documentTitle: spec.documentTitle,
         description: spec.description,
         faqs: spec.faqs,
         index: true,
@@ -152,6 +183,30 @@ export function siteUrl(origin: string, path: string): string {
   return origin ? `${origin}${normalized}` : normalized;
 }
 
+export function markdownFilePath(pagePath: string, code: LocaleCode): string {
+  const file = pagePath === "/" ? "/index.md" : `${pagePath}.md`;
+  return localePath(file, code);
+}
+
+function llmsIndexPath(code: LocaleCode): string {
+  const prefix = localeByCode(code).prefix;
+  return prefix ? `/${prefix}/llms.txt` : "/llms.txt";
+}
+
+function fullGuidePath(code: LocaleCode): string {
+  const prefix = localeByCode(code).prefix;
+  return prefix ? `/${prefix}/llms-full.txt` : "/llms-full.txt";
+}
+
+export function relatedSeoPages(messages: Copy, page: SeoPage): SeoPage[] {
+  const wanted = relatedPaths[page.path] ?? [];
+  const pages = buildSeoPages(messages);
+  return wanted.flatMap((path) => {
+    const found = pages.find((item) => item.path === path && item.index);
+    return found ? [found] : [];
+  });
+}
+
 interface HeadTag {
   id: string;
   tag: "meta" | "link";
@@ -162,16 +217,30 @@ export function jsonLd(page: SeoPage, origin: string, messages: Copy, code: Loca
   const locale = localeByCode(code);
   const url = siteUrl(origin, localePath(page.path, code));
   const home = siteUrl(origin, localePath("/", code));
+  const organizationId = siteUrl(origin, "/#organization");
+  const websiteId = `${home}#website`;
+  const image = siteUrl(origin, "/logo.webp");
   const pages = buildSeoPages(messages);
-  const graph: Record<string, unknown>[] = [];
-  if (page.path === "/") {
-    graph.push({
-      "@type": "WebSite",
+  const graph: Record<string, unknown>[] = [
+    {
+      "@type": "Organization",
+      "@id": organizationId,
       name: messages.appName,
-      url,
-      description: page.description,
+      url: siteUrl(origin, "/"),
+      logo: image,
+      sameAs: [projectRepo],
+    },
+    {
+      "@type": "WebSite",
+      "@id": websiteId,
+      name: messages.appName,
+      url: home,
+      description: messages.seo.homeDescription,
       inLanguage: locale.language,
-    });
+      publisher: { "@id": organizationId },
+    },
+  ];
+  if (page.path === "/") {
     graph.push({
       "@type": "ItemList",
       name: messages.seo.listName,
@@ -193,6 +262,8 @@ export function jsonLd(page: SeoPage, origin: string, messages: Copy, code: Loca
     description: page.description,
     inLanguage: locale.language,
     isAccessibleForFree: true,
+    isPartOf: { "@id": websiteId },
+    publisher: { "@id": organizationId },
     ...(page.index
       ? {
           applicationCategory: "MultimediaApplication",
@@ -257,9 +328,32 @@ export function headTags(page: SeoPage, origin: string, messages: Copy, code: Lo
     {
       id: "tucools-robots",
       tag: "meta",
-      attrs: { name: "robots", content: page.index ? "index, follow" : "noindex, follow" },
+      attrs: {
+        name: "robots",
+        content: page.index
+          ? "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+          : "noindex, follow",
+      },
     },
     { id: "tucools-canonical", tag: "link", attrs: { rel: "canonical", href: url } },
+    {
+      id: "tucools-describedby",
+      tag: "link",
+      attrs: { rel: "describedby", href: siteUrl(origin, llmsIndexPath(code)) },
+    },
+    ...(page.index
+      ? [
+          {
+            id: "tucools-md",
+            tag: "link" as const,
+            attrs: {
+              rel: "alternate",
+              type: "text/markdown",
+              href: siteUrl(origin, markdownFilePath(page.path, code)),
+            },
+          },
+        ]
+      : []),
     ...alternates,
     { id: "tucools-og-title", tag: "meta", attrs: { property: "og:title", content: page.documentTitle } },
     { id: "tucools-og-description", tag: "meta", attrs: { property: "og:description", content: page.description } },
@@ -269,10 +363,12 @@ export function headTags(page: SeoPage, origin: string, messages: Copy, code: Lo
     { id: "tucools-og-locale", tag: "meta", attrs: { property: "og:locale", content: locale.og } },
     ...ogAlternates,
     { id: "tucools-og-image", tag: "meta", attrs: { property: "og:image", content: image } },
+    { id: "tucools-og-image-alt", tag: "meta", attrs: { property: "og:image:alt", content: `${messages.appName} · ${messages.tagline}` } },
     { id: "tucools-twitter-card", tag: "meta", attrs: { name: "twitter:card", content: "summary" } },
     { id: "tucools-twitter-title", tag: "meta", attrs: { name: "twitter:title", content: page.documentTitle } },
     { id: "tucools-twitter-description", tag: "meta", attrs: { name: "twitter:description", content: page.description } },
     { id: "tucools-twitter-image", tag: "meta", attrs: { name: "twitter:image", content: image } },
+    { id: "tucools-twitter-image-alt", tag: "meta", attrs: { name: "twitter:image:alt", content: `${messages.appName} · ${messages.tagline}` } },
   ];
 }
 
@@ -321,23 +417,32 @@ function renderHomeLinks(messages: Copy, code: LocaleCode): string {
     .join("");
 }
 
-export function renderNoscript(page: SeoPage, messages: Copy, code: LocaleCode): string {
+function renderRelatedHtml(page: SeoPage, messages: Copy, code: LocaleCode): string {
+  const items = relatedSeoPages(messages, page);
+  if (!items.length) return "";
+  const links = items.map((item) => `<li><a href="${esc(localePath(item.path, code))}">${esc(item.heading)}</a></li>`).join("");
+  return `<h2>${esc(messages.seo.relatedHeading)}</h2><ul>${links}</ul>`;
+}
+
+function renderArticle(page: SeoPage, messages: Copy, code: LocaleCode): string {
   const home = page.path === "/" ? "" : `<p><a href="${esc(localePath("/", code))}">${esc(messages.seo.backHome)}</a></p>`;
   const links = page.path === "/" ? renderHomeLinks(messages, code) : "";
-  return `<article><h1>${esc(page.heading)}</h1><p>${esc(page.description)}</p>${renderFaqs(page, messages)}${links}${home}</article>`;
+  const boundary = page.path === "/" ? `<p>${esc(messages.seo.boundary)}</p>` : "";
+  return `<article class="seo-fallback"><h1>${esc(page.documentTitle)}</h1><p>${esc(page.description)}</p>${boundary}${renderFaqs(page, messages)}${renderRelatedHtml(page, messages, code)}${links}${home}</article>`;
 }
 
 export function applySeoHtml(html: string, requestPath: string, origin: string, messages: Copy, code: LocaleCode): string {
   const page = seoPageFor(messages, requestPath);
   const locale = localeByCode(code);
   const block = `<!--tucools-seo-->\n    ${renderSeoBlock(page, origin, messages, code)}\n    <!--/tucools-seo-->`;
-  const noscript = `<noscript id="tucools-noscript">${renderNoscript(page, messages, code)}</noscript>`;
   if (!/<!--tucools-seo-->[\s\S]*?<!--\/tucools-seo-->/.test(html)) throw new Error("index.html 缺少 tucools-seo 标记");
   if (!/<noscript id="tucools-noscript">[\s\S]*?<\/noscript>/.test(html)) throw new Error("index.html 缺少 tucools-noscript");
+  if (!/<div id="app">[\s\S]*?<\/div>/.test(html)) throw new Error("index.html 缺少 #app");
   return html
     .replace(/<html\b[^>]*>/i, `<html lang="${esc(locale.language)}" dir="${locale.dir}">`)
     .replace(/<!--tucools-seo-->[\s\S]*?<!--\/tucools-seo-->/, block)
-    .replace(/<noscript id="tucools-noscript">[\s\S]*?<\/noscript>/, noscript);
+    .replace(/<noscript id="tucools-noscript">[\s\S]*?<\/noscript>/, `<noscript id="tucools-noscript"></noscript>`)
+    .replace(/<div id="app">[\s\S]*?<\/div>/, `<div id="app">${renderArticle(page, messages, code)}</div>`);
 }
 
 function groupLabel(messages: Copy, group: SeoGroup): string {
@@ -354,7 +459,7 @@ function renderLlms(bundle: LocaleBundle, origin: string, bundles: readonly Loca
     .map((group) => {
       const lines = pages
         .filter((page) => page.group === group)
-        .map((page) => `- [${page.heading}](${siteUrl(origin, localePath(page.path, code))}): ${page.description}`);
+        .map((page) => `- [${page.heading}](${siteUrl(origin, markdownFilePath(page.path, code))}): ${page.description}`);
       return `## ${groupLabel(messages, group)}\n\n${lines.join("\n")}`;
     })
     .join("\n\n");
@@ -374,7 +479,7 @@ function renderLlms(bundle: LocaleBundle, origin: string, bundles: readonly Loca
     ``,
     `## ${messages.allFeatures}`,
     ``,
-    `- [${messages.appName}](${siteUrl(origin, localePath("/", code))}): ${messages.seo.homeDescription}`,
+    `- [${messages.appName}](${siteUrl(origin, markdownFilePath("/", code))}): ${messages.seo.homeDescription}`,
     ``,
     sections,
     ``,
@@ -382,11 +487,44 @@ function renderLlms(bundle: LocaleBundle, origin: string, bundles: readonly Loca
     ``,
     languages,
     ``,
+    `## ${messages.seo.fullLabel}`,
+    ``,
+    `- [${messages.seo.fullLabel}](${siteUrl(origin, fullGuidePath(code))})`,
+    ``,
     `## ${messages.seo.omitHeading}`,
     ``,
     `- [${messages.menus.title}](${siteUrl(origin, localePath("/menus", code))}): ${messages.menus.lead}`,
     ``,
   ].join("\n");
+}
+
+function renderMarkdown(page: SeoPage, messages: Copy, code: LocaleCode, origin: string): string {
+  const lines = [`# ${page.documentTitle}`, ``, page.description, ``];
+  if (page.path === "/") lines.push(messages.seo.boundary, ``);
+  lines.push(`[${messages.seo.htmlLabel}](${siteUrl(origin, localePath(page.path, code))})`, ``);
+  if (page.faqs.length) {
+    lines.push(`## ${messages.seo.faqHeading}`, ``);
+    for (const item of page.faqs) lines.push(`### ${item.q}`, ``, item.a, ``);
+  }
+  const related = relatedSeoPages(messages, page);
+  if (related.length) {
+    lines.push(`## ${messages.seo.relatedHeading}`, ``);
+    for (const item of related) {
+      lines.push(`- [${item.heading}](${siteUrl(origin, markdownFilePath(item.path, code))}): ${item.description}`);
+    }
+    lines.push(``);
+  }
+  if (page.path === "/") {
+    const pages = buildSeoPages(messages);
+    for (const group of ["ai", "local", "info"] as const) {
+      lines.push(`## ${groupLabel(messages, group)}`, ``);
+      for (const item of pages.filter((entry) => entry.group === group)) {
+        lines.push(`- [${item.heading}](${siteUrl(origin, markdownFilePath(item.path, code))}): ${item.description}`);
+      }
+      lines.push(``);
+    }
+  }
+  return lines.join("\n");
 }
 
 function renderLlmsFull(bundle: LocaleBundle, origin: string): string {
@@ -428,7 +566,7 @@ export function discoveryFiles(origin = "", bundles: readonly LocaleBundle[] = l
         }),
         `<xhtml:link rel="alternate" hreflang="x-default" href="${esc(siteUrl(origin, localePath(page.path, defaultLocale)))}"/>`,
       ].join("");
-      return `<url><loc>${esc(loc)}</loc>${links}</url>`;
+      return `<url><loc>${esc(loc)}</loc><lastmod>${seoRevision}</lastmod>${links}</url>`;
     }),
   );
   const sitemap = [
@@ -440,9 +578,11 @@ export function discoveryFiles(origin = "", bundles: readonly LocaleBundle[] = l
   ].join("\n");
   const robots = [
     `# 搜索引擎和生成式引擎都可以抓取这些工具页。`,
-    `# 公开站点若要关闭某一类生成式引擎，保留 User-agent: * ，并删掉对应分组。`,
+    `# Content-Signal 见 https://contentsignals.org/ 。search 是普通搜索，ai-input 是生成式回答引用，ai-train 是模型训练。`,
+    `# 公开站点若要拒绝训练，把 ai-train 改成 no，并删掉对应的训练用爬虫分组。保留 User-agent: * 。`,
     ``,
     `User-agent: *`,
+    `Content-Signal: search=yes, ai-input=yes, ai-train=yes`,
     `Allow: /`,
     ``,
     `User-agent: GPTBot`,
@@ -460,13 +600,28 @@ export function discoveryFiles(origin = "", bundles: readonly LocaleBundle[] = l
     `User-agent: Claude-SearchBot`,
     `Allow: /`,
     ``,
+    `User-agent: Claude-User`,
+    `Allow: /`,
+    ``,
     `User-agent: PerplexityBot`,
+    `Allow: /`,
+    ``,
+    `User-agent: Perplexity-User`,
     `Allow: /`,
     ``,
     `User-agent: Google-Extended`,
     `Allow: /`,
     ``,
     `User-agent: Applebot-Extended`,
+    `Allow: /`,
+    ``,
+    `User-agent: Amazonbot`,
+    `Allow: /`,
+    ``,
+    `User-agent: Meta-ExternalAgent`,
+    `Allow: /`,
+    ``,
+    `User-agent: CCBot`,
     `Allow: /`,
     ``,
     `User-agent: Bytespider`,
@@ -480,6 +635,10 @@ export function discoveryFiles(origin = "", bundles: readonly LocaleBundle[] = l
     const prefix = localeByCode(bundle.code).prefix;
     files[prefix ? `${prefix}/llms.txt` : "llms.txt"] = renderLlms(bundle, origin, bundles);
     files[prefix ? `${prefix}/llms-full.txt` : "llms-full.txt"] = renderLlmsFull(bundle, origin);
+    for (const page of buildSeoPages(bundle.messages)) {
+      if (!page.index) continue;
+      files[markdownFilePath(page.path, bundle.code).replace(/^\//, "")] = renderMarkdown(page, bundle.messages, bundle.code, origin);
+    }
   }
   return files;
 }
@@ -490,17 +649,35 @@ export function assertDiscoveryPatterns() {
     ["sitemap.xml", "<loc>/</loc>"],
     ["sitemap.xml", "<loc>/compress</loc>"],
     ["sitemap.xml", "<loc>/en/compress</loc>"],
+    ["sitemap.xml", `<lastmod>${seoRevision}</lastmod>`],
     ["sitemap.xml", 'hreflang="en-US"'],
     ["sitemap.xml", 'hreflang="x-default"'],
+    ["robots.txt", "Content-Signal: search=yes, ai-input=yes, ai-train=yes"],
     ["robots.txt", "Sitemap: /sitemap.xml"],
-    ["llms.txt", "](/compress)"],
-    ["llms.txt", "](/)"],
-    ["en/llms.txt", "](/en/compress)"],
+    ["llms.txt", "](/compress.md)"],
+    ["llms.txt", "](/index.md)"],
+    ["en/llms.txt", "](/en/compress.md)"],
+    ["compress.md", "在线压缩图片，不上传"],
+    ["en/compress.md", "](/en/resize.md)"],
   ] as const;
   for (const [name, pattern] of required) {
     if (!files[name]?.includes(pattern)) throw new Error(`${name} 缺少 ${pattern}`);
   }
   if (files["sitemap.xml"].includes("<loc>/menus</loc>") || files["sitemap.xml"].includes("<loc>/en/menus</loc>")) {
     throw new Error("功能菜单不应进入站点地图");
+  }
+  if (files["sitemap.xml"].includes("<loc>/compress.md</loc>")) throw new Error("Markdown 不应进入站点地图");
+  const sample = `<html lang="zh-CN"><head><!--tucools-seo--><title>图酷</title><!--/tucools-seo--></head><body><noscript id="tucools-noscript"></noscript><div id="app"></div></body></html>`;
+  const html = applySeoHtml(sample, "/compress", "", zh, "zh");
+  const htmlChecks = [
+    ["标题", "在线压缩图片，不上传 · 图酷"],
+    ["markdown", 'type="text/markdown" href="/compress.md"'],
+    ["describedby", 'rel="describedby" href="/llms.txt"'],
+    ["正文", 'class="seo-fallback"'],
+    ["相关工具", 'href="/resize"'],
+    ["空 noscript", '<noscript id="tucools-noscript"></noscript>'],
+  ] as const;
+  for (const [name, pattern] of htmlChecks) {
+    if (!html.includes(pattern)) throw new Error(`压缩页 HTML 缺少${name}`);
   }
 }

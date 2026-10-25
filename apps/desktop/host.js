@@ -19,6 +19,7 @@ function contentType(filePath) {
     ".webp": "image/webp",
     ".xml": "application/xml; charset=utf-8",
     ".txt": "text/plain; charset=utf-8",
+    ".md": "text/markdown; charset=utf-8",
     ".ico": "image/x-icon",
     ".woff2": "font/woff2",
   };

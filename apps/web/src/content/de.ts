@@ -10,6 +10,9 @@ export const de: Copy = {
   infoGroup: "Informationsverarbeitung",
   openNav: "Werkzeuge",
   closeNav: "Schließen",
+  collapseNav: "Seitenleiste einklappen",
+  expandNav: "Seitenleiste ausklappen",
+  filterAll: "Alle",
   github: "GitHub-Repository",
   adLabel: "Anzeige",
   themeToDark: "Zum dunklen Design wechseln",
@@ -78,6 +81,9 @@ export const de: Copy = {
   },
   seo: {
     faqHeading: "Häufige Fragen",
+    relatedHeading: "Verwandte Werkzeuge",
+    htmlLabel: "Webseite",
+    fullLabel: "Vollständige Beschreibung",
     listName: "Bildwerkzeuge von 图酷",
     boundary:
       "Standardverarbeitung und Informationsverarbeitung laufen lokal im Browser. Freistellen, Optimieren und Entfernen rufen nur das /api/engine derselben Herkunft auf und laufen nicht über Dritte. Das Modellpaket wird separat heruntergeladen und liegt weder im Installationspaket noch im Image. Die Passbildgröße schneidet nur zu und legt eine Hintergrundfarbe. Die KI-Prompt-Extraktion liest nur den bereits in der Datei vorhandenen Text und führt keine Inferenz aus.",
@@ -85,6 +91,7 @@ export const de: Copy = {
     missingTitle: "Seite nicht vorhanden",
     missingBody: "Diese Adresse gehört zu keinem Werkzeug.",
     backHome: "Zurück zum Start",
+    homeDocumentTitle: "图酷 · Kostenlose Bildwerkzeuge, lokal im Browser",
     homeDescription:
       "图酷 bietet eigene Adressen für Komprimieren, Skalieren, Format umwandeln, Zuschneiden, Passbildgröße, Social-Media-Größen, Store-Größen, Zerteilen, Wasserzeichen, Text hinzufügen, Graustufen, Kreis, Bild zu PDF, Favicon, Informationen entfernen, Bildinformationen und KI-Prompt-Extraktion und verarbeitet sie lokal im Browser. Freistellen, Optimieren und Entfernen rufen nur die Engine derselben Herkunft auf.",
     homeFaqs: [
@@ -99,6 +106,7 @@ export const de: Copy = {
     ],
     tools: {
       cutout: {
+        documentTitle: "Hintergrund online entfernen · 图酷",
         description: "Hintergrund entfernen und als transparentes PNG exportieren. Die Anfrage geht nur an die Engine der aktuellen Website und nicht über Dritte. Ohne verfügbares Modell kann nicht gestartet werden.",
         faqs: [
           {
@@ -112,6 +120,7 @@ export const de: Copy = {
         ],
       },
       enhance: {
+        documentTitle: "Bilder online vergrößern und verbessern · 图酷",
         description: "Das Bild nach den installierten Effekten vergrößern und verbessern. Die Anfrage geht nur an die Engine der aktuellen Website. Ohne verfügbares Modell kann nicht gestartet werden.",
         faqs: [
           {
@@ -125,6 +134,7 @@ export const de: Copy = {
         ],
       },
       erase: {
+        documentTitle: "Bildinhalte online entfernen · 图酷",
         description: "Den zu entfernenden Bereich übermalen; die Engine der aktuellen Website ergänzt ihn. Ohne verfügbares Modell kann nicht gestartet werden, und das Bild läuft nicht über Dritte.",
         faqs: [
           {
@@ -138,6 +148,7 @@ export const de: Copy = {
         ],
       },
       compress: {
+        documentTitle: "Bilder online komprimieren, ohne Upload · 图酷",
         description: "JPEG, PNG und WebP lokal im Browser komprimieren, nach Qualität, längster Seite oder Zielgröße. Bilder werden nicht hochgeladen.",
         faqs: [
           {
@@ -151,6 +162,7 @@ export const de: Copy = {
         ],
       },
       resize: {
+        documentTitle: "Bilder online skalieren · 图酷",
         description: "Bilder lokal im Browser auf die angegebene Breite und Höhe skalieren, vollständig mit Rand, füllend mit Zuschnitt oder gestreckt. Bilder werden nicht hochgeladen.",
         faqs: [
           {
@@ -164,6 +176,7 @@ export const de: Copy = {
         ],
       },
       converter: {
+        documentTitle: "Bildformat online umwandeln · 图酷",
         description: "Bilder lokal im Browser zwischen PNG, JPEG, WebP, BMP und ICO umwandeln. Formate, die der aktuelle Browser nicht exportieren kann, werden auf der Seite genannt.",
         faqs: [
           {
@@ -177,6 +190,7 @@ export const de: Copy = {
         ],
       },
       cropping: {
+        documentTitle: "Bilder online zuschneiden · 图酷",
         description: "Im Browser einen Rahmen wählen, drehen oder spiegeln und als PNG exportieren. Bilder werden nicht hochgeladen.",
         faqs: [
           {
@@ -190,6 +204,7 @@ export const de: Copy = {
         ],
       },
       "id-photo": {
+        documentTitle: "Passbildgröße online zuschneiden · 图酷",
         description: "Nach den Pixeln für Ein-Zoll, Zwei-Zoll, Reisepass oder US-Visum auf das Passbildverhältnis zuschneiden und weißen, blauen oder roten Hintergrund legen. Hier wird nur zugeschnitten und eine Hintergrundfarbe gelegt, nicht freigestellt.",
         faqs: [
           {
@@ -203,6 +218,7 @@ export const de: Copy = {
         ],
       },
       sizes: {
+        documentTitle: "Bildgrößen für soziale Netzwerke · 图酷",
         description: "Bilder in gängige Größen wie Instagram, YouTube-Cover oder Xiaohongshu setzen. Mit Rand, füllend mit Zuschnitt oder gestreckt. Die Verarbeitung läuft lokal im Browser.",
         faqs: [
           {
@@ -216,6 +232,7 @@ export const de: Copy = {
         ],
       },
       store: {
+        documentTitle: "Bildgrößen für App-Stores · 图酷",
         description:
           "Ein Bild in gängige Größen von App Store, Google Play und Chrome Web Store setzen. Mit Rand, füllend zuschneiden, strecken oder kacheln, dann herunterladen oder kopieren. Die Verarbeitung läuft lokal im Browser.",
         faqs: [
@@ -230,6 +247,7 @@ export const de: Copy = {
         ],
       },
       cutting: {
+        documentTitle: "Bilder online teilen · 图酷",
         description: "Bilder an senkrechten, waagerechten oder schrägen Linien oder im Raster schneiden. Außer beim Raster kann wieder zusammengesetzt werden. Das Zerteilen läuft lokal im Browser.",
         faqs: [
           {
@@ -243,6 +261,7 @@ export const de: Copy = {
         ],
       },
       watermark: {
+        documentTitle: "Textwasserzeichen online einfügen · 图酷",
         description: "Lokal im Browser ein Textwasserzeichen auf das Bild setzen. Position, Schriftgröße, Farbe, Transparenz und Kontur sind einstellbar. Bilder werden nicht hochgeladen.",
         faqs: [
           {
@@ -256,6 +275,7 @@ export const de: Copy = {
         ],
       },
       caption: {
+        documentTitle: "Text online auf ein Bild setzen · 图酷",
         description: "Eine große Textzeile in der Mitte einfügen. Die Verarbeitung läuft lokal im Browser. Bilder werden nicht hochgeladen.",
         faqs: [
           {
@@ -269,6 +289,7 @@ export const de: Copy = {
         ],
       },
       fade: {
+        documentTitle: "Bild online in Graustufen umwandeln · 图酷",
         description: "Bilder lokal im Browser in Graustufen umwandeln. Bilder werden nicht hochgeladen.",
         faqs: [
           {
@@ -282,6 +303,7 @@ export const de: Copy = {
         ],
       },
       tocircle: {
+        documentTitle: "Bild online kreisförmig zuschneiden · 图酷",
         description: "Das Bild nach Durchmesser kreisförmig zuschneiden. Bei Durchmesser 0 wird die kurze Seite verwendet. Die Verarbeitung läuft lokal im Browser.",
         faqs: [
           {
@@ -295,6 +317,7 @@ export const de: Copy = {
         ],
       },
       pdf: {
+        documentTitle: "Bilder online in PDF umwandeln · 图酷",
         description: "Mehrere Bilder zu einem PDF zusammenfassen, jedes Bild auf einer eigenen Seite. Lokal im Browser erzeugt, ohne Upload.",
         faqs: [
           {
@@ -308,6 +331,7 @@ export const de: Copy = {
         ],
       },
       favicon: {
+        documentTitle: "Favicon online erstellen · 图酷",
         description: "Aus einem Bild PNG in 16, 32, 48 und 180 sowie ein ICO exportieren. Lokal im Browser erzeugt, ohne Upload.",
         faqs: [
           {
@@ -321,6 +345,7 @@ export const de: Copy = {
         ],
       },
       exif: {
+        documentTitle: "EXIF online aus Bildern entfernen · 图酷",
         description: "Nach dem Ansehen des EXIF das Bild als neues Bild ohne Metadaten neu zeichnen. Die Originaldatei wird nicht geändert und nichts wird hochgeladen.",
         faqs: [
           {
@@ -334,6 +359,7 @@ export const de: Copy = {
         ],
       },
       pix: {
+        documentTitle: "Bildinfos und EXIF online ansehen · 图酷",
         description: "Bildgröße und EXIF ansehen und als JSON exportieren. Hier wird nur gelesen. Zum Entfernen der Metadaten verwenden Sie Informationen entfernen. Es wird nichts hochgeladen.",
         faqs: [
           {
@@ -347,6 +373,7 @@ export const de: Copy = {
         ],
       },
       prompt: {
+        documentTitle: "KI-Prompts aus Bildern auslesen · 图酷",
         description:
           "KI-Prompt-Extraktion: liest eingebettete positive Prompts, negative Prompts und Generierungsparameter in PNG- und JPEG-Bildern, um in der Datei gespeicherte Zeichenhinweise wie bei Stable Diffusion zu finden. Läuft lokal im Browser, ohne Modellinferenz.",
         faqs: [

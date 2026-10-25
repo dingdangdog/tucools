@@ -57,8 +57,12 @@ rewrite_site_urls() {
     -e "s|\\(property=\"og:url\" content=\"\\)/|\\1${origin}/|g" \
     -e "s|\\(property=\"og:image\" content=\"\\)/|\\1${origin}/|g" \
     -e "s|\\(name=\"twitter:image\" content=\"\\)/|\\1${origin}/|g" \
+    -e "s|\\(type=\"text/markdown\" href=\"\\)/|\\1${origin}/|g" \
+    -e "s|\\(rel=\"describedby\" href=\"\\)/|\\1${origin}/|g" \
     -e "s|\"url\":\"/|\"url\":\"${origin}/|g" \
     -e "s|\"item\":\"/|\"item\":\"${origin}/|g" \
+    -e "s|\"@id\":\"/|\"@id\":\"${origin}/|g" \
+    -e "s|\"logo\":\"/|\"logo\":\"${origin}/|g" \
     -e "s|Sitemap: /sitemap.xml|Sitemap: ${origin}/sitemap.xml|" \
     -e "s|](/|](${origin}/|g" \
     "$1"
@@ -66,7 +70,7 @@ rewrite_site_urls() {
 if [ -n "$origin" ]; then
   if printf '%s' "$origin" | grep -Eq '^https?://[A-Za-z0-9.-]+(:[0-9]+)?$'; then
     find /usr/share/nginx/html -type f \( \
-      -name index.html -o -name robots.txt -o -name sitemap.xml -o -name llms.txt -o -name llms-full.txt \
+      -name index.html -o -name robots.txt -o -name sitemap.xml -o -name llms.txt -o -name llms-full.txt -o -name '*.md' \
     \) | while IFS= read -r file; do
       rewrite_site_urls "$file"
     done

@@ -8,7 +8,7 @@
     </div>
     <ul class="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
       <li v-for="(item, index) in items" :key="item.url" class="panel overflow-hidden">
-        <div class="checker flex h-56 items-center justify-center">
+        <div class="checker flex aspect-[4/3] items-center justify-center">
           <img :src="item.url" :alt="item.name" class="max-h-full max-w-full object-contain" />
         </div>
         <div class="flex flex-wrap items-center gap-2 px-3 py-2">

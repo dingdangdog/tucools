@@ -10,6 +10,9 @@ export const ja: Copy = {
   infoGroup: "情報処理",
   openNav: "ツール",
   closeNav: "閉じる",
+  collapseNav: "サイドバーを畳む",
+  expandNav: "サイドバーを広げる",
+  filterAll: "すべて",
   github: "GitHub リポジトリ",
   adLabel: "広告",
   themeToDark: "ダークに切り替える",
@@ -78,6 +81,9 @@ export const ja: Copy = {
   },
   seo: {
     faqHeading: "よくある質問",
+    relatedHeading: "関連ツール",
+    htmlLabel: "ウェブページ",
+    fullLabel: "全文",
     listName: "图酷の画像ツール",
     boundary:
       "通常処理と情報処理は、ブラウザのローカルで完了します。背景除去、最適化、消去は同一オリジンの /api/engine だけをリクエストし、第三者を経由しません。モデルパックは別途ダウンロードし、インストールパッケージにもイメージにも含まれません。証明写真サイズはトリミングと背景色を敷くだけです。AIプロンプト抽出は、ファイル内に既にあるテキストだけを読み、推論はしません。",
@@ -85,6 +91,7 @@ export const ja: Copy = {
     missingTitle: "ページがありません",
     missingBody: "このアドレスに対応するツールはありません。",
     backHome: "開始に戻る",
+    homeDocumentTitle: "图酷 · 端末内で処理する無料の画像ツール",
     homeDescription:
       "图酷は、圧縮、拡大縮小、形式変換、トリミング、証明写真サイズ、SNSサイズ、ストアサイズ、分割、透かし、文字入れ、グレースケール、円形、画像から PDF、Favicon、情報の除去、画像情報、AIプロンプト抽出に個別のアドレスを用意し、ブラウザのローカルで処理します。背景除去、最適化、消去は同一オリジンのエンジンだけをリクエストします。",
     homeFaqs: [
@@ -99,6 +106,7 @@ export const ja: Copy = {
     ],
     tools: {
       cutout: {
+        documentTitle: "オンラインで背景を消して透過 PNG にする · 图酷",
         description: "背景を取り除き、透過 PNG を書き出します。リクエストは現在のサイトのエンジンだけに送られ、第三者を経由しません。使えるモデルがないときは開始できません。",
         faqs: [
           {
@@ -112,6 +120,7 @@ export const ja: Copy = {
         ],
       },
       enhance: {
+        documentTitle: "オンラインで画像を拡大・補正 · 图酷",
         description: "インストール済みの効果に合わせて拡大し、画面を強調します。リクエストは現在のサイトのエンジンだけに送られます。使えるモデルがないときは開始できません。",
         faqs: [
           {
@@ -125,6 +134,7 @@ export const ja: Copy = {
         ],
       },
       erase: {
+        documentTitle: "オンラインで写り込みを消す · 图酷",
         description: "消したい範囲を塗ると、現在のサイトのエンジンが補完します。使えるモデルがないときは開始できず、画像は第三者を経由しません。",
         faqs: [
           {
@@ -138,6 +148,7 @@ export const ja: Copy = {
         ],
       },
       compress: {
+        documentTitle: "アップロードせずに画像を圧縮 · 图酷",
         description: "ブラウザのローカルで JPEG、PNG、WebP を圧縮します。品質、最長辺、または目標サイズで処理できます。画像はアップロードされません。",
         faqs: [
           {
@@ -151,6 +162,7 @@ export const ja: Copy = {
         ],
       },
       resize: {
+        documentTitle: "オンラインで画像サイズを変更 · 图酷",
         description: "ブラウザのローカルで、指定した幅と高さに画像を拡大縮小します。余白を付けて全体を表示する、敷き詰めて切る、引き伸ばす、のいずれもできます。画像はアップロードされません。",
         faqs: [
           {
@@ -164,6 +176,7 @@ export const ja: Copy = {
         ],
       },
       converter: {
+        documentTitle: "オンラインで画像形式を変換 · 图酷",
         description: "ブラウザのローカルで、PNG、JPEG、WebP、BMP、ICO の間で画像を変換します。現在のブラウザで書き出せない形式は、ページ上で説明します。",
         faqs: [
           {
@@ -177,6 +190,7 @@ export const ja: Copy = {
         ],
       },
       cropping: {
+        documentTitle: "オンラインで画像を切り抜く · 图酷",
         description: "ブラウザで範囲を選び、回転または反転してから PNG を書き出します。画像はアップロードされません。",
         faqs: [
           {
@@ -190,6 +204,7 @@ export const ja: Copy = {
         ],
       },
       "id-photo": {
+        documentTitle: "証明写真のサイズに切り抜く · 图酷",
         description: "一寸、二寸、パスポート、米国ビザのピクセルで証明写真の比率に切り、白、青、または赤の背景色を敷きます。ここではトリミングと背景色を敷くだけで、背景除去はしません。",
         faqs: [
           {
@@ -203,6 +218,7 @@ export const ja: Copy = {
         ],
       },
       sizes: {
+        documentTitle: "SNS 用の画像サイズ · 图酷",
         description: "画像を Instagram、YouTube のカバー、小紅書などの一般的なサイズに収めます。余白、敷き詰めて切る、引き伸ばす、ができ、処理はブラウザのローカルで完了します。",
         faqs: [
           {
@@ -216,6 +232,7 @@ export const ja: Copy = {
         ],
       },
       store: {
+        documentTitle: "アプリストア用の画像サイズ · 图酷",
         description:
           "1 枚の画像を App Store、Google Play、Chrome ウェブストアの一般的なサイズに収めます。余白、敷き詰め、引き伸ばし、タイルから選び、結果をダウンロードまたはコピーできます。処理はブラウザのローカルで完了します。",
         faqs: [
@@ -230,6 +247,7 @@ export const ja: Copy = {
         ],
       },
       cutting: {
+        documentTitle: "オンラインで画像を分割 · 图酷",
         description: "縦線、横線、斜線、またはグリッドで画像を切り分けます。グリッド以外は再びつなぎ合わせられます。分割はブラウザのローカルで完了します。",
         faqs: [
           {
@@ -243,6 +261,7 @@ export const ja: Copy = {
         ],
       },
       watermark: {
+        documentTitle: "オンラインで文字の透かしを入れる · 图酷",
         description: "ブラウザのローカルで画像に文字の透かしを付けます。位置、文字サイズ、色、透明度、縁取りを調整できます。画像はアップロードされません。",
         faqs: [
           {
@@ -256,6 +275,7 @@ export const ja: Copy = {
         ],
       },
       caption: {
+        documentTitle: "オンラインで画像に文字を入れる · 图酷",
         description: "画面の中央に大きな文字を一行入れます。処理はブラウザのローカルで完了します。画像はアップロードされません。",
         faqs: [
           {
@@ -269,6 +289,7 @@ export const ja: Copy = {
         ],
       },
       fade: {
+        documentTitle: "オンラインで画像をグレースケールにする · 图酷",
         description: "ブラウザのローカルで画像をグレースケールに変換します。画像はアップロードされません。",
         faqs: [
           {
@@ -282,6 +303,7 @@ export const ja: Copy = {
         ],
       },
       tocircle: {
+        documentTitle: "オンラインで画像を円形に切り抜く · 图酷",
         description: "直径に合わせて画像を円形に切ります。直径が 0 のときは短辺を使います。処理はブラウザのローカルで完了します。",
         faqs: [
           {
@@ -295,6 +317,7 @@ export const ja: Copy = {
         ],
       },
       pdf: {
+        documentTitle: "画像を PDF にする · 图酷",
         description: "複数の画像を PDF にまとめ、画像ごとに 1 ページにします。ブラウザのローカルで生成し、アップロードしません。",
         faqs: [
           {
@@ -308,6 +331,7 @@ export const ja: Copy = {
         ],
       },
       favicon: {
+        documentTitle: "オンラインで Favicon を作る · 图酷",
         description: "1 枚の画像から 16、32、48、180 の PNG と 1 つの ICO を書き出します。ブラウザのローカルで生成し、アップロードしません。",
         faqs: [
           {
@@ -321,6 +345,7 @@ export const ja: Copy = {
         ],
       },
       exif: {
+        documentTitle: "画像の EXIF を削除 · 图酷",
         description: "画像の EXIF を確認したあと、メタデータを含まない新しい画像に描き直します。元のファイルは変えず、アップロードもしません。",
         faqs: [
           {
@@ -334,6 +359,7 @@ export const ja: Copy = {
         ],
       },
       pix: {
+        documentTitle: "画像情報と EXIF を見る · 图酷",
         description: "画像のサイズと EXIF を確認し、JSON を書き出せます。ここでは情報を読むだけです。メタデータを除くには情報の除去を使ってください。アップロードはしません。",
         faqs: [
           {
@@ -347,6 +373,7 @@ export const ja: Copy = {
         ],
       },
       prompt: {
+        documentTitle: "画像から AI プロンプトを取り出す · 图酷",
         description:
           "AIプロンプト抽出：PNG、JPEG 画像に埋め込まれたポジティブプロンプト、ネガティブプロンプト、生成パラメータを読み、Stable Diffusion などがファイル内に書いた描画プロンプトを探せます。ブラウザのローカルで完了し、モデル推論はしません。",
         faqs: [

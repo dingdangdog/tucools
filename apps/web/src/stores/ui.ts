@@ -3,10 +3,12 @@ import { ref } from "vue";
 
 export const useUiStore = defineStore("ui", () => {
   const navOpen = ref(false);
+  const navRail = ref(false);
   const theme = ref<"light" | "dark">("light");
 
   function init() {
     theme.value = document.documentElement.classList.contains("dark") ? "dark" : "light";
+    navRail.value = document.documentElement.classList.contains("nav-rail");
   }
 
   function toggleTheme() {
@@ -16,5 +18,11 @@ export const useUiStore = defineStore("ui", () => {
     localStorage.setItem("tucools-theme", theme.value);
   }
 
-  return { navOpen, theme, init, toggleTheme };
+  function toggleNavRail() {
+    navRail.value = !navRail.value;
+    document.documentElement.classList.toggle("nav-rail", navRail.value);
+    localStorage.setItem("tucools-nav-rail", navRail.value ? "1" : "0");
+  }
+
+  return { navOpen, navRail, theme, init, toggleTheme, toggleNavRail };
 });

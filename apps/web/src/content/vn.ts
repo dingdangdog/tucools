@@ -10,6 +10,9 @@ export const vn: Copy = {
   infoGroup: "Xử lý thông tin",
   openNav: "Công cụ",
   closeNav: "Đóng",
+  collapseNav: "Thu gọn thanh bên",
+  expandNav: "Mở thanh bên",
+  filterAll: "Tất cả",
   github: "Kho GitHub",
   adLabel: "Quảng cáo",
   themeToDark: "Chuyển sang nền tối",
@@ -78,6 +81,9 @@ export const vn: Copy = {
   },
   seo: {
     faqHeading: "Câu hỏi thường gặp",
+    relatedHeading: "Công cụ liên quan",
+    htmlLabel: "Trang web",
+    fullLabel: "Toàn bộ mô tả",
     listName: "Công cụ ảnh của 图酷",
     boundary:
       "Xử lý thông thường và xử lý thông tin chạy cục bộ trên trình duyệt. Tách nền, tối ưu và xóa vùng chỉ gửi yêu cầu tới /api/engine cùng nguồn, không qua bên thứ ba. Gói mô hình tải riêng, không nằm trong bộ cài đặt hay image. Kích thước ảnh thẻ chỉ cắt và tô màu nền. Trích xuất prompt AI chỉ đọc văn bản đã có trong tệp, không suy luận.",
@@ -85,6 +91,7 @@ export const vn: Copy = {
     missingTitle: "Trang không tồn tại",
     missingBody: "Địa chỉ này không có công cụ tương ứng.",
     backHome: "Về trang bắt đầu",
+    homeDocumentTitle: "图酷 · Công cụ ảnh miễn phí, xử lý trên trình duyệt",
     homeDescription:
       "图酷 có địa chỉ riêng cho nén, đổi kích thước, đổi định dạng, cắt, kích thước ảnh thẻ, kích thước mạng xã hội, kích thước cửa hàng, chia ảnh, hình mờ, thêm chữ, thang xám, hình tròn, ảnh sang PDF, Favicon, xóa thông tin, thông tin ảnh và trích xuất prompt AI, xử lý cục bộ trên trình duyệt. Tách nền, tối ưu và xóa vùng chỉ gửi yêu cầu tới engine cùng nguồn.",
     homeFaqs: [
@@ -99,6 +106,7 @@ export const vn: Copy = {
     ],
     tools: {
       cutout: {
+        documentTitle: "Xóa nền ảnh trực tuyến · 图酷",
         description: "Xóa nền và xuất PNG trong suốt. Yêu cầu chỉ gửi tới engine của trang hiện tại, không qua bên thứ ba. Không có mô hình dùng được thì không thể bắt đầu.",
         faqs: [
           {
@@ -112,6 +120,7 @@ export const vn: Copy = {
         ],
       },
       enhance: {
+        documentTitle: "Phóng to và tăng chất lượng ảnh · 图酷",
         description: "Phóng to và tăng chất lượng ảnh theo hiệu ứng đã cài. Yêu cầu chỉ gửi tới engine của trang hiện tại. Không có mô hình dùng được thì không thể bắt đầu.",
         faqs: [
           {
@@ -125,6 +134,7 @@ export const vn: Copy = {
         ],
       },
       erase: {
+        documentTitle: "Xóa chi tiết trong ảnh · 图酷",
         description: "Tô vùng cần xóa. Engine của trang hiện tại sẽ hoàn thiện vùng đó. Không có mô hình dùng được thì không thể bắt đầu, và ảnh không qua bên thứ ba.",
         faqs: [
           {
@@ -138,6 +148,7 @@ export const vn: Copy = {
         ],
       },
       compress: {
+        documentTitle: "Nén ảnh không tải lên · 图酷",
         description: "Nén JPEG, PNG và WebP cục bộ trên trình duyệt, theo chất lượng, cạnh dài nhất hoặc dung lượng đích. Ảnh không được tải lên.",
         faqs: [
           {
@@ -151,6 +162,7 @@ export const vn: Copy = {
         ],
       },
       resize: {
+        documentTitle: "Đổi kích thước ảnh · 图酷",
         description: "Đổi kích thước ảnh cục bộ trên trình duyệt theo chiều rộng và chiều cao chỉ định. Có thể để trống để hiện đủ, phủ kín rồi cắt, hoặc kéo giãn. Ảnh không được tải lên.",
         faqs: [
           {
@@ -164,6 +176,7 @@ export const vn: Copy = {
         ],
       },
       converter: {
+        documentTitle: "Đổi định dạng ảnh · 图酷",
         description: "Chuyển ảnh cục bộ trên trình duyệt giữa PNG, JPEG, WebP, BMP và ICO. Định dạng trình duyệt hiện tại không xuất được sẽ được ghi trên trang.",
         faqs: [
           {
@@ -177,6 +190,7 @@ export const vn: Copy = {
         ],
       },
       cropping: {
+        documentTitle: "Cắt ảnh trực tuyến · 图酷",
         description: "Khoanh vùng, xoay hoặc lật trên trình duyệt rồi xuất PNG. Ảnh không được tải lên.",
         faqs: [
           {
@@ -190,6 +204,7 @@ export const vn: Copy = {
         ],
       },
       "id-photo": {
+        documentTitle: "Cỡ ảnh thẻ · 图酷",
         description: "Cắt theo tỷ lệ ảnh thẻ với số điểm ảnh của ảnh 1 inch, 2 inch, hộ chiếu hoặc thị thực Mỹ, rồi tô nền trắng, xanh hoặc đỏ. Ở đây chỉ cắt và tô màu nền, không tách nền.",
         faqs: [
           {
@@ -203,6 +218,7 @@ export const vn: Copy = {
         ],
       },
       sizes: {
+        documentTitle: "Cỡ ảnh mạng xã hội · 图酷",
         description: "Đặt ảnh vào các kích thước thường gặp như Instagram, ảnh bìa YouTube hoặc Xiaohongshu. Có thể để trống, phủ kín rồi cắt, hoặc kéo giãn. Xử lý chạy cục bộ trên trình duyệt.",
         faqs: [
           {
@@ -216,6 +232,7 @@ export const vn: Copy = {
         ],
       },
       store: {
+        documentTitle: "Cỡ ảnh cửa hàng ứng dụng · 图酷",
         description:
           "Đặt một ảnh vào các kích thước thường gặp của App Store, Google Play và Chrome Web Store. Có thể để trống, phủ kín rồi cắt, kéo giãn hoặc lặp ô, rồi tải xuống hoặc sao chép kết quả. Xử lý chạy cục bộ trên trình duyệt.",
         faqs: [
@@ -230,6 +247,7 @@ export const vn: Copy = {
         ],
       },
       cutting: {
+        documentTitle: "Chia ảnh trực tuyến · 图酷",
         description: "Cắt ảnh theo đường dọc, ngang, chéo hoặc lưới. Trừ lưới, các phần có thể ghép lại. Chia ảnh chạy cục bộ trên trình duyệt.",
         faqs: [
           {
@@ -243,6 +261,7 @@ export const vn: Copy = {
         ],
       },
       watermark: {
+        documentTitle: "Thêm hình mờ chữ · 图酷",
         description: "Thêm hình mờ chữ cục bộ trên trình duyệt. Có thể chỉnh vị trí, cỡ chữ, màu, độ trong suốt và viền. Ảnh không được tải lên.",
         faqs: [
           {
@@ -256,6 +275,7 @@ export const vn: Copy = {
         ],
       },
       caption: {
+        documentTitle: "Thêm chữ vào ảnh · 图酷",
         description: "Thêm một dòng chữ lớn ở giữa ảnh. Xử lý chạy cục bộ trên trình duyệt. Ảnh không được tải lên.",
         faqs: [
           {
@@ -269,6 +289,7 @@ export const vn: Copy = {
         ],
       },
       fade: {
+        documentTitle: "Đổi ảnh sang thang xám · 图酷",
         description: "Chuyển ảnh sang thang xám cục bộ trên trình duyệt. Ảnh không được tải lên.",
         faqs: [
           {
@@ -282,6 +303,7 @@ export const vn: Copy = {
         ],
       },
       tocircle: {
+        documentTitle: "Cắt ảnh thành hình tròn · 图酷",
         description: "Cắt ảnh thành hình tròn theo đường kính. Đường kính bằng 0 thì dùng cạnh ngắn. Xử lý chạy cục bộ trên trình duyệt.",
         faqs: [
           {
@@ -295,6 +317,7 @@ export const vn: Copy = {
         ],
       },
       pdf: {
+        documentTitle: "Chuyển ảnh sang PDF · 图酷",
         description: "Ghép nhiều ảnh thành PDF, mỗi ảnh một trang. Tạo cục bộ trên trình duyệt và không tải lên.",
         faqs: [
           {
@@ -308,6 +331,7 @@ export const vn: Copy = {
         ],
       },
       favicon: {
+        documentTitle: "Tạo Favicon · 图酷",
         description: "Từ một ảnh, xuất PNG 16, 32, 48, 180 và một ICO. Tạo cục bộ trên trình duyệt và không tải lên.",
         faqs: [
           {
@@ -321,6 +345,7 @@ export const vn: Copy = {
         ],
       },
       exif: {
+        documentTitle: "Xóa EXIF khỏi ảnh · 图酷",
         description: "Xem EXIF của ảnh, rồi vẽ lại thành ảnh mới không có siêu dữ liệu. Không sửa tệp gốc và không tải lên.",
         faqs: [
           {
@@ -334,6 +359,7 @@ export const vn: Copy = {
         ],
       },
       pix: {
+        documentTitle: "Xem thông tin ảnh và EXIF · 图酷",
         description: "Xem kích thước và EXIF của ảnh, và có thể xuất JSON. Ở đây chỉ đọc thông tin. Muốn bỏ siêu dữ liệu, hãy dùng xóa thông tin. Không tải lên.",
         faqs: [
           {
@@ -347,6 +373,7 @@ export const vn: Copy = {
         ],
       },
       prompt: {
+        documentTitle: "Trích prompt AI từ ảnh · 图酷",
         description:
           "Trích xuất prompt AI: đọc prompt thuận, prompt phủ định và tham số tạo đã nhúng trong ảnh PNG và JPEG, để tìm gợi ý vẽ được ghi trong tệp, như của Stable Diffusion. Chạy cục bộ trên trình duyệt, không suy luận mô hình.",
         faqs: [

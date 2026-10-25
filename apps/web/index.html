@@ -29,6 +29,9 @@
                   : true;
           document.documentElement.classList.toggle("dark", dark);
           document.documentElement.style.colorScheme = dark ? "dark" : "light";
+          if (localStorage.getItem("tucools-nav-rail") === "1") {
+            document.documentElement.classList.add("nav-rail");
+          }
         } catch (e) {}
       })();
     </script>

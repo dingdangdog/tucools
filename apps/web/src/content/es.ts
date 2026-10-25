@@ -10,6 +10,9 @@ export const es: Copy = {
   infoGroup: "Procesamiento de información",
   openNav: "Herramientas",
   closeNav: "Cerrar",
+  collapseNav: "Ocultar barra",
+  expandNav: "Mostrar barra",
+  filterAll: "Todas",
   github: "Repositorio de GitHub",
   adLabel: "Anuncio",
   themeToDark: "Cambiar a oscuro",
@@ -78,6 +81,9 @@ export const es: Copy = {
   },
   seo: {
     faqHeading: "Preguntas frecuentes",
+    relatedHeading: "Herramientas relacionadas",
+    htmlLabel: "Página web",
+    fullLabel: "Guía completa",
     listName: "Herramientas de imagen de 图酷",
     boundary:
       "El procesamiento habitual y el de información se completan en local en el navegador. Quitar el fondo, la mejora y el borrado solo solicitan el /api/engine del mismo origen y no pasan por terceros. El paquete de modelos se descarga por separado y no está en el paquete de instalación ni en la imagen de contenedor. El tamaño de foto de carné solo recorta y aplica color de fondo. La extracción de prompts de IA solo lee el texto que ya está en el archivo y no hace inferencia.",
@@ -85,6 +91,7 @@ export const es: Copy = {
     missingTitle: "La página no existe",
     missingBody: "Esta dirección no corresponde a ninguna herramienta.",
     backHome: "Volver al inicio",
+    homeDocumentTitle: "图酷 · Herramientas de imagen gratis en el navegador",
     homeDescription:
       "图酷 ofrece direcciones independientes para comprimir, escalar, convertir formato, recortar, el tamaño de foto de carné, los tamaños para redes, los tamaños de tiendas, dividir, la marca de agua, añadir texto, la escala de grises, el círculo, imagen a PDF, Favicon, quitar información, la información de la imagen y la extracción de prompts de IA, y los procesa en local en el navegador. Quitar el fondo, la mejora y el borrado solo solicitan el motor del mismo origen.",
     homeFaqs: [
@@ -99,6 +106,7 @@ export const es: Copy = {
     ],
     tools: {
       cutout: {
+        documentTitle: "Quitar el fondo de una imagen · 图酷",
         description: "Quita el fondo y exporta un PNG transparente. La solicitud solo se envía al motor del sitio actual y no pasa por terceros. Sin un modelo disponible no se puede empezar.",
         faqs: [
           {
@@ -112,6 +120,7 @@ export const es: Copy = {
         ],
       },
       enhance: {
+        documentTitle: "Ampliar y mejorar imágenes · 图酷",
         description: "Amplía y mejora la imagen según los efectos ya instalados. La solicitud solo se envía al motor del sitio actual. Sin un modelo disponible no se puede empezar.",
         faqs: [
           {
@@ -125,6 +134,7 @@ export const es: Copy = {
         ],
       },
       erase: {
+        documentTitle: "Borrar objetos de una imagen · 图酷",
         description: "Pinta la zona que quieres quitar y el motor del sitio actual la rellena. Sin un modelo disponible no se puede empezar, y la imagen no pasa por terceros.",
         faqs: [
           {
@@ -138,6 +148,7 @@ export const es: Copy = {
         ],
       },
       compress: {
+        documentTitle: "Comprimir imágenes sin subirlas · 图酷",
         description: "Comprime JPEG, PNG y WebP en local en el navegador, por calidad, lado más largo o tamaño objetivo. Las imágenes no se suben.",
         faqs: [
           {
@@ -151,6 +162,7 @@ export const es: Copy = {
         ],
       },
       resize: {
+        documentTitle: "Cambiar el tamaño de una imagen · 图酷",
         description: "Escala la imagen en local en el navegador al ancho y alto indicados. Puede mostrarse completa con márgenes, cubrirse recortando o estirarse. Las imágenes no se suben.",
         faqs: [
           {
@@ -164,6 +176,7 @@ export const es: Copy = {
         ],
       },
       converter: {
+        documentTitle: "Convertir el formato de una imagen · 图酷",
         description: "Convierte imágenes en local en el navegador entre PNG, JPEG, WebP, BMP e ICO. Los formatos que el navegador actual no puede exportar se indican en la página.",
         faqs: [
           {
@@ -177,6 +190,7 @@ export const es: Copy = {
         ],
       },
       cropping: {
+        documentTitle: "Recortar imágenes · 图酷",
         description: "En el navegador, enmarca, gira o voltea y exporta PNG. Las imágenes no se suben.",
         faqs: [
           {
@@ -190,6 +204,7 @@ export const es: Copy = {
         ],
       },
       "id-photo": {
+        documentTitle: "Tamaño de foto de carnet · 图酷",
         description: "Recorta a la proporción de foto de carné según los píxeles de una pulgada, dos pulgadas, pasaporte o visado de EE. UU., y aplica fondo blanco, azul o rojo. Aquí solo se recorta y se aplica color de fondo, sin quitar el fondo.",
         faqs: [
           {
@@ -203,6 +218,7 @@ export const es: Copy = {
         ],
       },
       sizes: {
+        documentTitle: "Tamaños para redes sociales · 图酷",
         description: "Coloca la imagen en tamaños habituales como publicaciones de Instagram, la portada de YouTube o Xiaohongshu. Se puede dejar margen, cubrir recortando o estirar. El procesamiento se completa en local en el navegador.",
         faqs: [
           {
@@ -216,6 +232,7 @@ export const es: Copy = {
         ],
       },
       store: {
+        documentTitle: "Tamaños para tiendas de aplicaciones · 图酷",
         description:
           "Coloca una imagen en tamaños habituales de App Store, Google Play y Chrome Web Store. Se puede dejar margen, cubrir recortando, estirar o repetir en mosaico, y descargar o copiar el resultado. El procesamiento se completa en local en el navegador.",
         faqs: [
@@ -230,6 +247,7 @@ export const es: Copy = {
         ],
       },
       cutting: {
+        documentTitle: "Dividir una imagen · 图酷",
         description: "Corta la imagen por líneas verticales, horizontales, diagonales o cuadrícula. Salvo la cuadrícula, se puede volver a unir. La división se completa en local en el navegador.",
         faqs: [
           {
@@ -243,6 +261,7 @@ export const es: Copy = {
         ],
       },
       watermark: {
+        documentTitle: "Poner una marca de agua · 图酷",
         description: "Añade en local en el navegador una marca de agua de texto. Se pueden ajustar la posición, el tamaño, el color, la transparencia y el contorno. Las imágenes no se suben.",
         faqs: [
           {
@@ -256,6 +275,7 @@ export const es: Copy = {
         ],
       },
       caption: {
+        documentTitle: "Añadir texto a una imagen · 图酷",
         description: "Añade una línea de texto grande en el centro de la imagen. El procesamiento se completa en local en el navegador. Las imágenes no se suben.",
         faqs: [
           {
@@ -269,6 +289,7 @@ export const es: Copy = {
         ],
       },
       fade: {
+        documentTitle: "Pasar una imagen a escala de grises · 图酷",
         description: "Convierte la imagen a escala de grises en local en el navegador. Las imágenes no se suben.",
         faqs: [
           {
@@ -282,6 +303,7 @@ export const es: Copy = {
         ],
       },
       tocircle: {
+        documentTitle: "Recortar una imagen en círculo · 图酷",
         description: "Recorta la imagen en círculo según el diámetro. Si el diámetro es 0, se usa el lado corto. El procesamiento se completa en local en el navegador.",
         faqs: [
           {
@@ -295,6 +317,7 @@ export const es: Copy = {
         ],
       },
       pdf: {
+        documentTitle: "Convertir imágenes a PDF · 图酷",
         description: "Une varias imágenes en un PDF, cada imagen en su propia página. Se genera en local en el navegador y no se sube.",
         faqs: [
           {
@@ -308,6 +331,7 @@ export const es: Copy = {
         ],
       },
       favicon: {
+        documentTitle: "Crear un favicon · 图酷",
         description: "Exporta desde una imagen PNG de 16, 32, 48 y 180, y un ICO. Se genera en local en el navegador y no se sube.",
         faqs: [
           {
@@ -321,6 +345,7 @@ export const es: Copy = {
         ],
       },
       exif: {
+        documentTitle: "Quitar el EXIF de una imagen · 图酷",
         description: "Tras ver el EXIF de la imagen, la vuelve a dibujar como una imagen nueva sin metadatos. No modifica el archivo original ni lo sube.",
         faqs: [
           {
@@ -334,6 +359,7 @@ export const es: Copy = {
         ],
       },
       pix: {
+        documentTitle: "Ver la información y el EXIF · 图酷",
         description: "Consulta el tamaño y el EXIF de la imagen, y puede exportar JSON. Aquí solo se lee la información. Para quitar los metadatos, usa Quitar información. No se sube.",
         faqs: [
           {
@@ -347,6 +373,7 @@ export const es: Copy = {
         ],
       },
       prompt: {
+        documentTitle: "Extraer prompts de IA de una imagen · 图酷",
         description:
           "Extracción de prompts de IA: lee los prompts positivos, los prompts negativos y los parámetros de generación incrustados en imágenes PNG y JPEG, para buscar indicaciones de dibujo escritas en el archivo, como las de Stable Diffusion. Se completa en local en el navegador, sin inferencia del modelo.",
         faqs: [
