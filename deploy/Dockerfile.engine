@@ -1,4 +1,8 @@
-FROM python:3.11-slim-bookworm
+# syntax=docker/dockerfile:1
+# linux/amd64 安装 CUDA 12.8，部署后可使用宿主机 NVIDIA GPU。
+# linux/arm64 没有对应的桌面 CUDA 轮子，继续安装 CPU 依赖。
+
+FROM python:3.11-slim-bookworm AS cpu-runtime
 
 RUN apt-get update \
   && apt-get install -y --no-install-recommends libglib2.0-0 libgomp1 \
@@ -7,6 +11,38 @@ RUN apt-get update \
 WORKDIR /app
 COPY services/engine/requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -r /app/requirements.txt
+
+FROM nvidia/cuda:12.8.1-cudnn-runtime-ubuntu22.04 AS gpu-runtime
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONDONTWRITEBYTECODE=1 \
+    NVIDIA_VISIBLE_DEVICES=all \
+    NVIDIA_DRIVER_CAPABILITIES=compute,utility,graphics
+
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends \
+      ca-certificates \
+      software-properties-common \
+      libglib2.0-0 \
+      libgomp1 \
+      libvulkan1 \
+  && add-apt-repository -y ppa:deadsnakes/ppa \
+  && apt-get update \
+  && apt-get install -y --no-install-recommends python3.11 python3.11-venv \
+  && python3.11 -m venv /opt/venv \
+  && rm -rf /var/lib/apt/lists/*
+
+ENV PATH="/opt/venv/bin:$PATH"
+WORKDIR /app
+COPY services/engine/requirements-gpu.txt /app/requirements-gpu.txt
+RUN pip install --no-cache-dir -r /app/requirements-gpu.txt
+
+FROM cpu-runtime AS runtime-arm64
+FROM gpu-runtime AS runtime-amd64
+
+ARG TARGETARCH
+FROM runtime-${TARGETARCH}
+
 COPY services/engine /app
 
 # 模型包由卷挂到 /model-pack，不复制进镜像。

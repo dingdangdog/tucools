@@ -362,8 +362,10 @@ def process_image(
                 "png",
             ]
             if use_gpu and check_gpu_availability():
+                cmd_args.extend(["-g", "0"])
                 logger.info("Using GPU acceleration (upscayl)")
             else:
+                cmd_args.extend(["-g", "-1"])
                 logger.info("Using CPU (upscayl)")
         else:
             cmd_args = [

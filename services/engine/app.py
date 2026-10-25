@@ -69,6 +69,43 @@ async def _save_upload(upload: UploadFile, dest: Path) -> None:
         raise HTTPException(status_code=400, detail=f"不支持的图片类型：{content_type}")
 
 
+def _cuda_ready() -> bool:
+    """CPU 轮子或没有把显卡传入容器时返回 False。"""
+    try:
+        import torch
+
+        return bool(torch.cuda.is_available())
+    except Exception:
+        return False
+
+
+def _erase_device(requested: str) -> str:
+    if requested in {"cuda", "auto"}:
+        return requested
+    if _cuda_ready():
+        return "auto"
+    return "cpu"
+
+
+def _cutout_gpu(requested: bool) -> bool:
+    if requested:
+        return True
+    try:
+        import onnxruntime as ort
+
+        return "CUDAExecutionProvider" in ort.get_available_providers()
+    except Exception:
+        return False
+
+
+def _enhance_gpu(requested: bool) -> bool:
+    if requested:
+        return True
+    from vendor.enhance import check_gpu_availability
+
+    return check_gpu_availability()
+
+
 def _run_cutout(job: Job, model: str, use_gpu: bool) -> None:
     os.environ["U2NET_HOME"] = str(models_dir())
     os.environ.setdefault("TUCOOLS_MODELS", str(models_dir()))
@@ -89,7 +126,7 @@ def _run_enhance(job: Job, model: str, scale: int, use_gpu: bool) -> None:
     source = next(job.workdir.glob("input*"))
     target = job.workdir / "result.png"
     jobs.publish(job, status="running", percentage=15, message="正在优化")
-    ok = process_image(str(source), str(target), model, scale, use_gpu)
+    ok = process_image(str(source), str(target), model, scale, _enhance_gpu(use_gpu))
     if not ok or not target.is_file():
         raise RuntimeError("优化没有生成结果。请确认 upscayl-bin 与对应模型可用。")
     job.result_path = target
@@ -102,7 +139,7 @@ def _run_erase(job: Job, device: str) -> None:
     mask = job.workdir / "mask.png"
     target = job.workdir / "result.png"
     jobs.publish(job, status="running", percentage=15, message="正在消除")
-    eraser = ImageEraser(device)
+    eraser = ImageEraser(_erase_device(device))
     eraser.process_single(str(source), str(mask), str(target), "common_removal", "lama")
     if not target.is_file():
         raise RuntimeError("消除没有生成结果。")
@@ -172,7 +209,7 @@ async def cutout(
         jobs.finish_slot()
         shutil.rmtree(job.workdir, ignore_errors=True)
         raise
-    return _schedule(job, lambda: _run_cutout(job, model, gpu))
+    return _schedule(job, lambda: _run_cutout(job, model, _cutout_gpu(gpu)))
 
 
 @app.post("/api/engine/enhance")

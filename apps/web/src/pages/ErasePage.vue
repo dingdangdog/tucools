@@ -224,7 +224,7 @@ async function submit() {
     const body = new FormData();
     body.append("image", file);
     body.append("mask", mask, "mask.png");
-    body.append("device", "cpu");
+    body.append("device", "auto");
     const blob = await runEngineJob("/api/engine/erase", body, (event) => {
       progress.value = `${event.message} ${event.percentage}%`;
     });

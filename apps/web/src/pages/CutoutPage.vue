@@ -121,7 +121,7 @@ async function run() {
   const body = new FormData();
   body.append("image", file);
   body.append("model", model.value);
-  body.append("gpu", "false");
+  body.append("gpu", "true");
   try {
     const blob = await runEngineJob("/api/engine/cutout", body, (event) => {
       progress.value = `${event.message} ${event.percentage}%`;

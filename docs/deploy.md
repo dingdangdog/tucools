@@ -46,7 +46,13 @@ $env:TUCOOLS_RUNTIME = "E:\work-gt\gt-tucools\desktop\.runtime"
 
 ## Docker
 
-先把下载的模型包放到仓库根目录的 `model-pack`，或设置 `TUCOOLS_MODEL_PACK` 指向解压目录。然后：
+先把下载的模型包放到仓库根目录的 `model-pack`，或设置 `TUCOOLS_MODEL_PACK` 指向解压目录。宿主机有 NVIDIA 显卡时：
+
+```powershell
+docker compose -f deploy/docker-compose.yml -f deploy/docker-compose.gpu.yml up --build
+```
+
+没有 NVIDIA GPU 时不要加第二个文件，否则引擎容器无法创建：
 
 ```powershell
 docker compose -f deploy/docker-compose.yml up --build
@@ -56,7 +62,11 @@ docker compose -f deploy/docker-compose.yml up --build
 
 引擎只在 Compose 网络里，不映射到宿主机。页面容器把 `/api/engine` 反代过去。不要把引擎端口单独暴露到公网；这套服务没有登录。
 
-镜像里的 torch 会使引擎镜像达到数 GB。模型包只用只读卷挂载，构建上下文也会忽略 `model-pack`。
+镜像里的 torch 会使引擎镜像达到数 GB。`linux/amd64` 引擎镜像安装 CUDA 12.8 的 torch 和 `onnxruntime-gpu`，体积更大。模型包只用只读卷挂载，构建上下文也会忽略 `model-pack`。
+
+`services/engine/requirements.txt` 给本机和 `linux/arm64` 使用。`linux/amd64` 镜像使用 `services/engine/requirements-gpu.txt`。arm64 的 torchvision CPU 轮子没有 `+cpu` 后缀，两条都写成 `0.22.1+cpu` 时，arm64 镜像会在安装依赖时失败。
+
+宿主机有 NVIDIA 显卡时，再叠一层 `deploy/docker-compose.gpu.yml`，引擎容器才能看到显卡。驱动支持的 CUDA 版本需要达到 12.8，可以用 `nvidia-smi` 顶部的 CUDA Version 确认，并且要安装 NVIDIA Container Toolkit。消除走 PyTorch CUDA，抠图走 ONNX Runtime 的 CUDA 执行提供程序，优化走 `upscayl-bin` 的 Vulkan。没有显卡时，这三个功能仍使用 CPU。
 
 Linux 容器里的优化需要模型包中的 `bin/linux/upscayl-bin`。只有 Windows 程序时，抠图和消除仍可使用。
 
@@ -67,6 +77,8 @@ npm run package:win
 ```
 
 安装包在 `apps/desktop/release`。里面是页面和壳，不含模型包。安装后把模型包解压到 `%APPDATA%\tucools\model-pack`，或在启动前设置 `TUCOOLS_MODEL_PACK`。
+
+`apps/desktop` 里的 Electron 必须写成不带 `^` 或 `~` 的固定版本，并在 `build.electronVersion` 里写同一个版本。npm workspaces 会把 `electron` 安装到仓库根目录的 `node_modules`，electron-builder 只在 `apps/desktop/node_modules` 里查找。找不到模块、版本又是范围时，安装包构建会直接失败。升级 Electron 时两处一起改。
 
 安装包里的「保存到…」会调用系统保存对话框。浏览器部署仍是直接下载。
 
@@ -196,7 +208,7 @@ git push origin v0.2.0
 - 页面镜像 `ghcr.io/<所有者>/tucools-web:<版本>`，以及同名 `latest`。
 - 引擎镜像 `ghcr.io/<所有者>/tucools-engine:<版本>`，以及同名 `latest`。
 
-镜像推送到 GitHub Container Registry，使用工作流自带的 `GITHUB_TOKEN`，不需要 Docker Hub 账号。两个镜像都构建 `linux/amd64` 和 `linux/arm64`。镜像和安装包都不含模型包。安装包沿用 `npm run package:win`，不包含 `tucools-engine.exe`。
+镜像推送到 GitHub Container Registry，使用工作流自带的 `GITHUB_TOKEN`，不需要 Docker Hub 账号。两个镜像都构建 `linux/amd64` 和 `linux/arm64`。amd64 引擎镜像包含 CUDA 12.8，arm64 引擎镜像仍是 CPU 版。镜像和安装包都不含模型包。安装包沿用 `npm run package:win`，不包含 `tucools-engine.exe`。本机 `npm run engine` 仍安装 CPU 依赖。
 
 容器包第一次出现时默认是私有的。仓库给其他人使用时，到 GitHub 的 Packages 页面把 `tucools-web` 和 `tucools-engine` 改为公开。之后再次推送标签会更新这两个包。
 
@@ -204,14 +216,16 @@ git push origin v0.2.0
 
 ```powershell
 docker login ghcr.io
-docker compose -f deploy/docker-compose.deploy.yml up -d
+docker compose -f deploy/docker-compose.deploy.yml -f deploy/docker-compose.gpu.yml up -d
 ```
+
+没有 NVIDIA GPU 时去掉 `-f deploy/docker-compose.gpu.yml`。
 
 固定版本时设置 `TUCOOLS_VERSION`，不要带 `v` 前缀：
 
 ```powershell
 $env:TUCOOLS_VERSION = "0.2.0"
-docker compose -f deploy/docker-compose.deploy.yml up -d
+docker compose -f deploy/docker-compose.deploy.yml -f deploy/docker-compose.gpu.yml up -d
 ```
 
 要换仓库或标签时，再分别设置完整镜像名。设置后 `TUCOOLS_VERSION` 不再参与这两个镜像名：
@@ -219,7 +233,7 @@ docker compose -f deploy/docker-compose.deploy.yml up -d
 ```powershell
 $env:TUCOOLS_WEB_IMAGE = "ghcr.io/<所有者>/tucools-web:0.2.0"
 $env:TUCOOLS_ENGINE_IMAGE = "ghcr.io/<所有者>/tucools-engine:0.2.0"
-docker compose -f deploy/docker-compose.deploy.yml up -d
+docker compose -f deploy/docker-compose.deploy.yml -f deploy/docker-compose.gpu.yml up -d
 ```
 
 私有包拉取前需要 `docker login ghcr.io`；公开包可以直接拉取。再推送一个更旧的标签也会把 `latest` 改到那个版本。本机没有对应镜像时，这条 Compose 只会拉取，不会回退到本地构建。
@@ -230,8 +244,8 @@ docker compose -f deploy/docker-compose.deploy.yml up -d
 $env:TUCOOLS_WEB_IMAGE = "ghcr.io/<所有者>/tucools-web:0.2.0"
 $env:TUCOOLS_ENGINE_IMAGE = "ghcr.io/<所有者>/tucools-engine:0.2.0"
 docker login ghcr.io
-docker compose -f deploy/docker-compose.yml pull
-docker compose -f deploy/docker-compose.yml up -d
+docker compose -f deploy/docker-compose.yml -f deploy/docker-compose.gpu.yml pull
+docker compose -f deploy/docker-compose.yml -f deploy/docker-compose.gpu.yml up -d
 ```
 
 没有设置这两个变量时，`deploy/docker-compose.yml` 仍在本地构建 `tucools-web:0.1.0` 和 `tucools-engine:0.1.0`。

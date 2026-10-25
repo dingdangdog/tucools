@@ -1,0 +1,12 @@
+fastapi==0.115.6
+uvicorn==0.34.0
+python-multipart==0.0.20
+pillow==11.3.0
+numpy==2.2.6
+opencv-python-headless==4.12.0.88
+onnxruntime-gpu==1.22.0
+rembg==2.0.67
+# linux/amd64 CUDA 12.8。onnxruntime-gpu 1.22 需要 CUDA 12.8 与 cuDNN 9。
+--extra-index-url https://download.pytorch.org/whl/cu128
+torch==2.7.1+cu128
+torchvision==0.22.1+cu128

@@ -91,7 +91,7 @@ def list_local_models():
         return []
 
 
-def create_local_session(model_name="u2net"):
+def create_local_session(model_name="u2net", providers=None):
     """创建使用本地模型的会话"""
     try:
         # 确保本地模型目录存在
@@ -106,8 +106,18 @@ def create_local_session(model_name="u2net"):
                 f"Local model not found: {model_file}, will download if needed"
             )
 
-        # 创建会话，rembg会自动使用REMBG_HOME环境变量指定的目录
-        session = new_session(model_name)
+        # 创建会话。传入 providers 时优先使用调用方指定的执行提供程序。
+        try:
+            if providers:
+                session = new_session(model_name, providers=providers)
+            else:
+                session = new_session(model_name)
+        except Exception:
+            if not providers or "CUDAExecutionProvider" in providers:
+                logger.warning("CUDA session failed, falling back to CPU")
+                session = new_session(model_name, providers=["CPUExecutionProvider"])
+            else:
+                raise
         logger.info(f"Successfully created session for model: {model_name}")
         return session
 
@@ -361,29 +371,21 @@ def setup_onnx_session(model_name, use_gpu=False):
         # 确保本地模型目录存在
         LOCAL_MODELS_DIR.mkdir(parents=True, exist_ok=True)
 
-        # 检查GPU支持并设置提供程序
         if use_gpu and check_gpu_support():
-            # logger.info("GPU support detected, rembg will use GPU acceleration")
-            # rembg 2.x 会自动检测并使用可用的GPU提供程序
-            # 我们只需要确保CUDA提供程序可用
-            providers = ort.get_available_providers()
-            if "CUDAExecutionProvider" in providers:
-                logger.info("Using CUDA Execution Provider for GPU acceleration")
-            else:
-                logger.warning("GPU requested but CUDA provider not available, falling back to CPU")
+            providers = ["CUDAExecutionProvider", "CPUExecutionProvider"]
+            logger.info("Using CUDA Execution Provider for GPU acceleration")
         else:
+            providers = ["CPUExecutionProvider"]
             logger.info("Using CPU processing")
 
-        # 使用本地模型创建会话，rembg会自动选择最佳的执行提供程序
-        session = create_local_session(model_name)
-        return session
+        return create_local_session(model_name, providers)
 
     except Exception as e:
         logger.error(f"Failed to setup ONNX session: {str(e)}")
         # 如果GPU设置失败，尝试使用CPU
         if use_gpu:
             logger.info("GPU setup failed, falling back to CPU processing")
-            return create_local_session(model_name)
+            return create_local_session(model_name, ["CPUExecutionProvider"])
         else:
             raise
 

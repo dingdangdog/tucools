@@ -223,7 +223,7 @@ jobs:
 
             ## Docker 镜像
 
-            镜像在 GitHub Container Registry。本次版本会同时标成 `latest`。镜像不含模型包，引擎只留在 Compose 网络内。
+            镜像在 GitHub Container Registry。本次版本会同时标成 `latest`。镜像不含模型包，引擎只留在 Compose 网络内。`linux/amd64` 引擎镜像包含 CUDA 12.8，需要宿主机驱动支持 CUDA 12.8，并安装 NVIDIA Container Toolkit。`linux/arm64` 引擎镜像仍是 CPU 版。
 
             - 页面：`${{ needs.version.outputs.web_image }}:${{ needs.version.outputs.version }}`
             - 引擎：`${{ needs.version.outputs.engine_image }}:${{ needs.version.outputs.version }}`
@@ -235,8 +235,10 @@ jobs:
             ```powershell
             $env:TUCOOLS_WEB_IMAGE = "${{ needs.version.outputs.web_image }}:${{ needs.version.outputs.version }}"
             $env:TUCOOLS_ENGINE_IMAGE = "${{ needs.version.outputs.engine_image }}:${{ needs.version.outputs.version }}"
-            docker compose -f deploy/docker-compose.yml pull
-            docker compose -f deploy/docker-compose.yml up -d
+            docker compose -f deploy/docker-compose.yml -f deploy/docker-compose.gpu.yml pull
+            docker compose -f deploy/docker-compose.yml -f deploy/docker-compose.gpu.yml up -d
             ```
+
+            没有 NVIDIA GPU 时去掉 `-f deploy/docker-compose.gpu.yml`。
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

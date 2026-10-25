@@ -135,7 +135,7 @@ async function run() {
   body.append("image", file);
   body.append("model", model.value);
   body.append("scale", String(scale.value));
-  body.append("gpu", "false");
+  body.append("gpu", "true");
   try {
     const blob = await runEngineJob("/api/engine/enhance", body, (event) => {
       progress.value = `${event.message} ${event.percentage}%`;

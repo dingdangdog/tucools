@@ -2,6 +2,7 @@
   "name": "@tucools/desktop",
   "private": true,
   "version": "0.1.0",
+  "description": "本地图像工具",
   "main": "main.js",
   "author": {
     "name": "图酷"
@@ -14,12 +15,13 @@
     "busboy": "^1.6.0"
   },
   "devDependencies": {
-    "electron": "^35.7.5",
+    "electron": "35.7.5",
     "electron-builder": "^25.1.8"
   },
   "build": {
     "appId": "com.tucools.app",
     "productName": "图酷",
+    "electronVersion": "35.7.5",
     "asar": true,
     "directories": {
       "output": "release",

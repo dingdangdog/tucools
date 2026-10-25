@@ -1,0 +1,10 @@
+# 与 deploy/docker-compose.yml 或 deploy/docker-compose.deploy.yml 叠在一起使用。
+# 把宿主机 NVIDIA GPU 传给引擎容器。宿主机需要驱动支持 CUDA 12.8，并安装 NVIDIA Container Toolkit。
+# 没有 NVIDIA GPU 时不要加这个文件，否则引擎容器无法创建。
+
+services:
+  engine:
+    gpus: all
+    environment:
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility,graphics
