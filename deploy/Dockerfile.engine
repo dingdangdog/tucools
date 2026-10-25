@@ -1,5 +1,7 @@
 # syntax=docker/dockerfile:1
-# linux/amd64 安装 CUDA 12.8，部署后可使用宿主机 NVIDIA GPU。
+# linux/amd64 安装 CUDA 12.8 的 torch 与 onnxruntime-gpu。
+# 这些轮子自带 CUDA/cuDNN，不再使用 nvidia/cuda 基础镜像。
+# 显卡驱动由 NVIDIA Container Toolkit 在运行时注入。
 # linux/arm64 没有对应的桌面 CUDA 轮子，继续安装 CPU 依赖。
 
 FROM python:3.11-slim-bookworm AS cpu-runtime
@@ -12,7 +14,7 @@ WORKDIR /app
 COPY services/engine/requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
-FROM nvidia/cuda:12.8.1-cudnn-runtime-ubuntu22.04 AS gpu-runtime
+FROM python:3.11-slim-bookworm AS gpu-runtime
 
 ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONDONTWRITEBYTECODE=1 \
@@ -20,22 +22,15 @@ ENV DEBIAN_FRONTEND=noninteractive \
     NVIDIA_DRIVER_CAPABILITIES=compute,utility,graphics
 
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends \
-      ca-certificates \
-      software-properties-common \
-      libglib2.0-0 \
-      libgomp1 \
-      libvulkan1 \
-  && add-apt-repository -y ppa:deadsnakes/ppa \
-  && apt-get update \
-  && apt-get install -y --no-install-recommends python3.11 python3.11-venv \
-  && python3.11 -m venv /opt/venv \
+  && apt-get install -y --no-install-recommends libglib2.0-0 libgomp1 libvulkan1 \
   && rm -rf /var/lib/apt/lists/*
 
-ENV PATH="/opt/venv/bin:$PATH"
 WORKDIR /app
 COPY services/engine/requirements-gpu.txt /app/requirements-gpu.txt
-RUN pip install --no-cache-dir -r /app/requirements-gpu.txt
+# 把 torch 附带的 CUDA 库登记给动态链接器，onnxruntime-gpu 才能加载 CUDA 执行提供程序。
+RUN pip install --no-cache-dir -r /app/requirements-gpu.txt \
+  && python -c "from pathlib import Path; import site; root = Path(site.getsitepackages()[0]) / 'nvidia'; libs = sorted(str(path) for path in root.glob('*/lib') if path.is_dir()); assert libs, '未找到 torch 附带的 CUDA 库'; Path('/etc/ld.so.conf.d/tucools-nvidia.conf').write_text('\n'.join(libs) + '\n')" \
+  && ldconfig
 
 FROM cpu-runtime AS runtime-arm64
 FROM gpu-runtime AS runtime-amd64

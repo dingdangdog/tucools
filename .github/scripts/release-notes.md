@@ -19,7 +19,7 @@ macOS 若提示无法打开，到「系统设置 → 隐私与安全性」里允
 
 ## Docker 镜像
 
-镜像不含模型包。linux/amd64 引擎镜像包含 CUDA 12.8，linux/arm64 引擎镜像是 CPU 版。
+镜像不含模型包。linux/amd64 引擎镜像安装 CUDA 12.8 的 PyTorch，linux/arm64 引擎镜像是 CPU 版。
 
 - 页面：__WEB_IMAGE__:__VERSION__
 - 引擎：__ENGINE_IMAGE__:__VERSION__

@@ -62,7 +62,7 @@ docker compose -f deploy/docker-compose.yml up --build
 
 引擎只在 Compose 网络里，不映射到宿主机。页面容器把 `/api/engine` 反代过去。不要把引擎端口单独暴露到公网；这套服务没有登录。
 
-镜像里的 torch 会使引擎镜像达到数 GB。`linux/amd64` 引擎镜像安装 CUDA 12.8 的 torch 和 `onnxruntime-gpu`，体积更大。模型包只用只读卷挂载，构建上下文也会忽略 `model-pack`。
+镜像里的 torch 会使引擎镜像达到数 GB。`linux/amd64` 使用和 arm64 相同的 Python slim 基础镜像，再安装 CUDA 12.8 的 torch 与 `onnxruntime-gpu`。这两份轮子自带 CUDA 和 cuDNN，镜像不再叠加 `nvidia/cuda` 基础镜像。显卡驱动仍由 NVIDIA Container Toolkit 在运行时注入。模型包只用只读卷挂载，构建上下文也会忽略 `model-pack`。
 
 `services/engine/requirements.txt` 给本机和 `linux/arm64` 使用。`linux/amd64` 镜像使用 `services/engine/requirements-gpu.txt`。arm64 的 torchvision CPU 轮子没有 `+cpu` 后缀，两条都写成 `0.22.1+cpu` 时，arm64 镜像会在安装依赖时失败。
 
@@ -252,7 +252,7 @@ git push origin v0.3.0
 | 工作流 | 跑什么 | 什么时候跑 |
 | --- | --- | --- |
 | 发布页面镜像 | `ghcr.io/<所有者>/tucools-web:<版本>`，`linux/amd64` 和 `linux/arm64` | 页面、nginx 或站点构建参数变了 |
-| 发布引擎镜像 | `ghcr.io/<所有者>/tucools-engine:<版本>`。amd64 含 CUDA 12.8，arm64 是 CPU。这一步最慢 | 引擎、依赖或引擎镜像变了 |
+| 发布引擎镜像 | `ghcr.io/<所有者>/tucools-engine:<版本>`。amd64 安装 CUDA 12.8 的 torch，arm64 是 CPU。这一步最慢 | 引擎、依赖或引擎镜像变了 |
 | 发布安装包 | Windows x64、macOS arm64/x64、Linux x64 三个任务同时开始 | 需要新的安装包 |
 
 每个工作流的「Use workflow from」选择标签 `v0.3.0`，版本号留空。这样构建的就是标签指向的那一次提交。
