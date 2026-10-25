@@ -12,7 +12,7 @@ export const zh = {
   expandNav: "展开侧栏",
   filterAll: "全部",
   cropModes: "裁剪方式",
-  cropFamilyLead: "框选裁剪，也可做证件照尺寸、切图和圆形。",
+  cropFamilyLead: "框选裁剪，也可做证件照尺寸、社交尺寸、应用商店尺寸和圆形。",
   github: "GitHub 仓库",
   adLabel: "广告",
   themeToDark: "切换到暗色",
@@ -33,9 +33,20 @@ export const zh = {
   modelChecking: "正在检查模型",
   modelBlocked: "没有可用模型，这个功能已停用。",
   modelUnavailable: "这个功能暂时不能使用",
-  modelLinksLead: "模型包和客户端新版本发布在图酷仓库。",
-  modelRepo: "仓库",
-  modelReleases: "发布页",
+  modelChoices: {
+    docker: {
+      title: "前往 GitHub 部署 Docker",
+      detail: "按仓库说明，用 Docker 在自己的机器上打开图酷。",
+    },
+    client: {
+      title: "下载客户端",
+      detail: "下载 Windows、macOS 或 Linux 客户端，在本机使用这些功能。",
+    },
+    models: {
+      title: "下载模型",
+      detail: "模型包要单独下载。解压到说明中的目录后，再回到这里检查。",
+    },
+  },
   modelPartial: "还有部分模型未安装",
   featureReady: "这个功能可用。",
   currentDevice: "当前设备",
@@ -82,8 +93,32 @@ export const zh = {
     htmlLabel: "网页",
     fullLabel: "全部说明",
     listName: "图酷的图像工具",
+    legacyName: "简单图片",
+    keywords:
+      "免费图片编辑, 免费照片处理, 在线图片处理, 离线图片工具, 图片压缩, 图片裁剪, 图片缩放, 水印, 格式转换, 图片分割, 无需上传, 本地处理, JPG, PNG, WEBP, BMP",
+    legacyQuestion: "这和 EasyImage 的{name}是什么关系？",
+    legacyAnswer:
+      "图酷的英文名是 TuCools。这项功能与 easyimage.work 上 EasyImage（简单图片）的{name}是同一系列，仍在浏览器本地处理。",
+    aliases: {
+      compress: "图片压缩",
+      resize: "图片缩放",
+      converter: "格式转换",
+      cropping: "图片裁剪",
+      "id-photo": "证件照和护照照片尺寸",
+      sizes: "社交图片尺寸",
+      cutting: "图片分割",
+      watermark: "图片水印",
+      caption: "给图片加字",
+      fade: "图片黑白化",
+      tocircle: "圆形裁剪",
+      pdf: "图片转 PDF",
+      favicon: "网站图标",
+      exif: "去除 EXIF 和照片位置",
+      pix: "照片信息提取",
+      prompt: "AI 图片提示词解析",
+    },
     boundary:
-      "常规处理和信息处理在浏览器本地完成。抠图、优化和消除只请求同源 /api/engine，不经过第三方。模型包单独下载，不在安装包和镜像里。证件照尺寸只裁切和铺底色。AI提示词提取只读取文件中已有的文本，不做推理。",
+      "常规处理和信息处理在浏览器本地完成。抠图、优化和消除只请求同源 /api/engine，不经过第三方。模型包单独下载，不在安装包和镜像里。证件照尺寸只裁切和铺底色。AI提示词提取只读取文件中已有的文本，不做推理。图酷的英文名是 TuCools。EasyImage（easyimage.work，简单图片）是同一系列的在线图像工具。",
     omitHeading: "不作为工具说明引用",
     missingTitle: "页面不存在",
     missingBody: "这个地址没有对应的工具。",
@@ -99,6 +134,10 @@ export const zh = {
       {
         q: "安装包和网页是同一套工具吗？",
         a: "是。Docker 和 Windows 安装包使用同一份页面。模型包要单独下载，不在安装包和镜像里。",
+      },
+      {
+        q: "图酷和 EasyImage、easyimage.work 是什么关系？",
+        a: "图酷的英文名是 TuCools。easyimage.work 上的 EasyImage（简单图片）是同一系列的在线图像工具。压缩、缩放、转格式、裁剪、水印和切图仍在浏览器本地完成；抠图、优化和消除只请求当前站点的引擎。",
       },
     ],
     tools: {

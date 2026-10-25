@@ -33,7 +33,7 @@
 
 - 同一份 `apps/web` 构建结果给 Docker 和安装包用。不要做第二套界面，不要把 AI 推理搬进浏览器。
 - 本地工具不上传。证件照尺寸只裁切和铺底色，不抠图。AI提示词提取只读取 PNG tEXt/iTXt 和 JPEG APP1/COM，不做推理。
-- 裁剪、证件照尺寸、切图和圆形共用侧栏和首页的一个「裁剪」。地址仍是 `/cropping`、`/id-photo`、`/cutting`、`/tocircle`。社交尺寸和应用商店尺寸保持独立菜单。
+- 裁剪、证件照尺寸、社交尺寸、应用商店尺寸和圆形共用侧栏和首页的一个「裁剪」。自由裁剪地址是 `/cropping`，其余是 `/cropping/id-photo`、`/cropping/sizes`、`/cropping/store`、`/cropping/tocircle`。旧地址跳到新地址。切图保持独立菜单 `/cutting`。
 - AI 页面只走 `/api/engine`。开发时 Vite 代理到 `127.0.0.1:8787`；部署时由 nginx 或 Electron 反代。
 - 引擎同时只处理一个任务。忙时 409。缺模型或缺参数时 400，并写明缺什么。上传上限 50MB。
 - 模型包单独下载，目录由 `TUCOOLS_MODEL_PACK` 指定。权重在 `models/`，超分程序在 `bin/<平台>/`。清单见 `deploy/model-pack.json`。不得把 `model-pack`、权重或 upscayl 打进 Git、安装包或镜像。
@@ -42,7 +42,7 @@
 - 桌面引擎顺序：随包 `tucools-engine.exe`，否则 `TUCOOLS_RUNTIME` 里的旧命令行，否则本机 Python。旧命令行只组装参数，不重写算法。
 - 安装包做 Windows x64 NSIS、macOS dmg/zip（arm64 与 x64）和 Linux x64 AppImage/deb。产品名「图酷」，`appId` 为 `com.tucools.app`。没有代码签名。三个平台的构建互不依赖。
 - 不做激活、支付、试用、博客、上色、美颜、人脸修复。广告默认关闭。公开站点用 `TUCOOLS_ADSENSE_CLIENT` 接入 AdSense 并生成 `/ads.txt`；再设置 `TUCOOLS_ADSENSE_SLOT` 时，工具页右侧显示该广告单元。未配置时不加载广告脚本。安装包默认不配置。统计默认关闭。公开站点用 `TUCOOLS_ANALYTICS_ID` 接入 Google Analytics 4。未配置时不加载 gtag.js。安装包默认不配置。
-- 默认语言是简体中文，地址不带前缀。其他语言使用 `/en`、`/zh_hant`、`/es`、`/de`、`/ja`、`/pt_br`、`/hi`、`/vn`、`/ar`、`/bn`。产品名在每种语言里都是「图酷」。网页不按 `Accept-Language` 跳转；`localStorage` 键 `tucools-locale` 只在打开站点根 `/` 时生效。安装包第一次打开根地址、且没有保存语言时，按系统语言选择。阿拉伯语页面使用 `dir="rtl"`。公开站点的绝对规范地址在构建时读取 `VITE_SITE_URL`，容器启动时读取 `TUCOOLS_SITE_URL`。每个可索引页面另有 Markdown，`llms.txt` 指向这些文件。`robots.txt` 用 Content-Signal 允许搜索、生成式引用和训练。广告编号和统计测量 ID 也在容器启动时读取，不写进镜像。
+- 默认语言是简体中文，地址不带前缀。其他语言使用 `/en`、`/zh_hant`、`/es`、`/de`、`/ja`、`/pt_br`、`/hi`、`/vn`、`/ar`、`/bn`。简体中文和其他非英语界面的产品名是「图酷」，英语界面是「TuCools」。网页不按 `Accept-Language` 跳转；`localStorage` 键 `tucools-locale` 只在打开站点根 `/` 时生效。安装包第一次打开根地址、且没有保存语言时，按系统语言选择。阿拉伯语页面使用 `dir="rtl"`。公开站点的绝对规范地址在构建时读取 `VITE_SITE_URL`，容器启动时读取 `TUCOOLS_SITE_URL`。每个可索引页面另有 Markdown，`llms.txt` 指向这些文件。`robots.txt` 用 Content-Signal 允许搜索、生成式引用和训练。广告编号和统计测量 ID 也在容器启动时读取，不写进镜像。
 
 ## 接到需求后怎么改
 
@@ -70,7 +70,7 @@
 
 - 先看相关实现和 `git status`，不覆盖用户已有改动。
 - 说明和排障写入 `docs/`。复杂方案写入 `design/`，使用下一位编号。
-- 改了代码或可执行脚本后，在 `changelog/` 增加三位编号记录。先看已有编号，当前最大是 `030`。记录写明问题、改动、影响、兼容性和实际验证；未跑的检查写「未测试」。
+- 改了代码或可执行脚本后，在 `changelog/` 增加三位编号记录。先看已有编号，当前最大是 `033`。记录写明问题、改动、影响、兼容性和实际验证；未跑的检查写「未测试」。
 - 未经要求不启动开发服务器、Docker、安装包构建或长期进程。可以跑 `npm run typecheck`、`npm run build:web` 和针对改动文件的 Python 语法检查。
 - 不把未安装依赖时的推理、镜像构建或安装包打包写成已通过。
 - 不读取或提交 `.env`、密钥和真实用户图片。不修改两个旧项目。

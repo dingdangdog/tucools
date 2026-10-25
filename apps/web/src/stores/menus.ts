@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
-import { createNavGroups, isCropMode, type CropModeId } from "@/nav";
+import { createNavGroups, cropModePath, isCropMode, type CropModeId } from "@/nav";
 import { loadRuntimeConfig } from "@/runtime-config";
 import {
   allFeatureIds,
@@ -54,7 +54,7 @@ export const useMenuStore = defineStore("menus", () => {
     if (!visibleIds.value.includes("cropping")) return [];
     return allowedCropModes(allowRaw.value);
   });
-  const cropEntryPath = computed(() => `/${openCropModes.value[0] ?? "cropping"}`);
+  const cropEntryPath = computed(() => cropModePath(openCropModes.value[0] ?? "cropping"));
 
   const groups = computed(() =>
     createNavGroups()

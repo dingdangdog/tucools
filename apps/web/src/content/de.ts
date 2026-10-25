@@ -14,7 +14,7 @@ export const de: Copy = {
   expandNav: "Seitenleiste ausklappen",
   filterAll: "Alle",
   cropModes: "Zuschneidemodi",
-  cropFamilyLead: "Bereich zuschneiden oder Passbildgröße, Zerteilen und Kreis verwenden.",
+  cropFamilyLead: "Bereich zuschneiden oder Passbild, Social-Media-Größen, Store-Größen und Kreis verwenden.",
   github: "GitHub-Repository",
   adLabel: "Anzeige",
   themeToDark: "Zum dunklen Design wechseln",
@@ -35,9 +35,20 @@ export const de: Copy = {
   modelChecking: "Modelle werden geprüft",
   modelBlocked: "Keine verfügbaren Modelle. Diese Funktion ist deaktiviert.",
   modelUnavailable: "Diese Funktion lässt sich vorübergehend nicht verwenden",
-  modelLinksLead: "Das Modellpaket und neue Versionen des Clients werden im Repository von 图酷 veröffentlicht.",
-  modelRepo: "Repository",
-  modelReleases: "Veröffentlichungen",
+  modelChoices: {
+    docker: {
+      title: "Docker über GitHub bereitstellen",
+      detail: "Folge der Anleitung im Repository und öffne 图酷 mit Docker auf dem eigenen Rechner.",
+    },
+    client: {
+      title: "Client herunterladen",
+      detail: "Installiere den Client für Windows, macOS oder Linux und nutze diese Funktionen lokal.",
+    },
+    models: {
+      title: "Modelle herunterladen",
+      detail: "Das Modellpaket wird separat heruntergeladen. Entpacke es in den angegebenen Ordner und prüfe hier erneut.",
+    },
+  },
   modelPartial: "Einige Modelle sind noch nicht installiert",
   featureReady: "Diese Funktion ist verfügbar.",
   currentDevice: "Aktuelles Gerät",
@@ -87,8 +98,32 @@ export const de: Copy = {
     htmlLabel: "Webseite",
     fullLabel: "Vollständige Beschreibung",
     listName: "Bildwerkzeuge von 图酷",
+    legacyName: "EasyImage",
+    keywords:
+      "kostenlose Bildbearbeitung, Online-Bildbearbeitung, Offline-Bildtools, Bildkomprimierung, Zuschneiden, Bildgröße ändern, Wasserzeichen, Formatkonvertierung, Bild teilen, kein Upload, lokale Verarbeitung, JPG, PNG, WEBP, BMP",
+    legacyQuestion: "Wie hängt das mit EasyImage {name} zusammen?",
+    legacyAnswer:
+      "Der englische Name von 图酷 ist TuCools. Diese Funktion setzt {name} von EasyImage auf easyimage.work fort und läuft weiter lokal im Browser.",
+    aliases: {
+      compress: "Bildkomprimierung",
+      resize: "Größenänderung",
+      converter: "Formatkonvertierung",
+      cropping: "Zuschneiden",
+      "id-photo": "Passbildgröße",
+      sizes: "Social-Media-Größen",
+      cutting: "Bild teilen",
+      watermark: "Wasserzeichen",
+      caption: "Text auf dem Bild",
+      fade: "Schwarz-Weiß",
+      tocircle: "kreisförmiges Zuschneiden",
+      pdf: "Bild zu PDF",
+      favicon: "Favicon",
+      exif: "EXIF und Standort entfernen",
+      pix: "Bildinformationen",
+      prompt: "KI-Prompt auslesen",
+    },
     boundary:
-      "Standardverarbeitung und Informationsverarbeitung laufen lokal im Browser. Freistellen, Optimieren und Entfernen rufen nur das /api/engine derselben Herkunft auf und laufen nicht über Dritte. Das Modellpaket wird separat heruntergeladen und liegt weder im Installationspaket noch im Image. Die Passbildgröße schneidet nur zu und legt eine Hintergrundfarbe. Die KI-Prompt-Extraktion liest nur den bereits in der Datei vorhandenen Text und führt keine Inferenz aus.",
+      "Standardverarbeitung und Informationsverarbeitung laufen lokal im Browser. Freistellen, Optimieren und Entfernen rufen nur das /api/engine derselben Herkunft auf und laufen nicht über Dritte. Das Modellpaket wird separat heruntergeladen und liegt weder im Installationspaket noch im Image. Die Passbildgröße schneidet nur zu und legt eine Hintergrundfarbe. Die KI-Prompt-Extraktion liest nur den bereits in der Datei vorhandenen Text und führt keine Inferenz aus. Der englische Name von 图酷 ist TuCools. EasyImage auf easyimage.work gehört zur selben Reihe von Online-Bildwerkzeugen.",
     omitHeading: "Nicht als Werkzeugbeschreibung zitieren",
     missingTitle: "Seite nicht vorhanden",
     missingBody: "Diese Adresse gehört zu keinem Werkzeug.",
@@ -104,6 +139,10 @@ export const de: Copy = {
       {
         q: "Sind das Installationspaket und die Webseite derselbe Werkzeugsatz?",
         a: "Ja. Docker und das Windows-Installationspaket verwenden dieselbe Seite. Das Modellpaket wird separat heruntergeladen und liegt weder im Installationspaket noch im Image.",
+      },
+      {
+        q: "Wie hängen 图酷, EasyImage und easyimage.work zusammen?",
+        a: "Der englische Name von 图酷 ist TuCools. EasyImage auf easyimage.work ist dieselbe Reihe von Online-Bildwerkzeugen. Komprimieren, Skalieren, Umwandeln, Zuschneiden, Wasserzeichen und Zerteilen laufen weiter lokal im Browser. Freistellen, Optimieren und Entfernen rufen nur die Engine dieser Website auf.",
       },
     ],
     tools: {

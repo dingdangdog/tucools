@@ -64,8 +64,7 @@ export const allNavIds = [
   "resize",
   "converter",
   "cropping",
-  "sizes",
-  "store",
+  "cutting",
   "watermark",
   "caption",
   "fade",
@@ -76,8 +75,8 @@ export const allNavIds = [
   "prompt",
 ] as const;
 
-/** 侧栏和首页只出现一次「裁剪」。这些地址仍各自独立，在裁剪页里切换。 */
-export const cropModeIds = ["cropping", "id-photo", "cutting", "tocircle"] as const;
+/** 侧栏和首页只出现一次「裁剪」。这些地址仍各自独立，在裁剪页里切换。切图是拆成多块，不在这里。 */
+export const cropModeIds = ["cropping", "id-photo", "sizes", "store", "tocircle"] as const;
 
 export type CropModeId = (typeof cropModeIds)[number];
 
@@ -85,11 +84,17 @@ export function isCropMode(id: string): id is CropModeId {
   return (cropModeIds as readonly string[]).includes(id);
 }
 
+/** 自由裁剪仍是 `/cropping`。其余裁剪方式挂在它下面。 */
+export function cropModePath(id: string): string {
+  if (isCropMode(id) && id !== "cropping") return `/cropping/${id}`;
+  return `/${id}`;
+}
+
 function present(id: keyof typeof toolKey, tone: string, icon: Component): NavItem {
   const tool = copy.tools[toolKey[id]];
   return {
     id,
-    to: localePath(`/${id}`, currentLocale.value),
+    to: localePath(cropModePath(id), currentLocale.value),
     label: tool.title,
     lead: id === "cropping" ? copy.cropFamilyLead : tool.lead,
     tone,
@@ -100,7 +105,8 @@ function present(id: keyof typeof toolKey, tone: string, icon: Component): NavIt
 const cropModeIcon = {
   cropping: ViewfinderCircleIcon,
   "id-photo": IdentificationIcon,
-  cutting: Squares2X2Icon,
+  sizes: DevicePhoneMobileIcon,
+  store: BuildingStorefrontIcon,
   tocircle: StopCircleIcon,
 } as const;
 
@@ -127,8 +133,7 @@ export function createNavGroups() {
         present("resize", "orange", ArrowsPointingOutIcon),
         present("converter", "pink", ArrowPathRoundedSquareIcon),
         present("cropping", "violet", ViewfinderCircleIcon),
-        present("sizes", "indigo", DevicePhoneMobileIcon),
-        present("store", "violet", BuildingStorefrontIcon),
+        present("cutting", "blue", Squares2X2Icon),
         present("watermark", "blue", ChatBubbleBottomCenterTextIcon),
         present("caption", "sky", PencilSquareIcon),
         present("fade", "slate", SwatchIcon),

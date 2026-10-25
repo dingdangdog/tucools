@@ -23,14 +23,14 @@ const pageRoutes: RouteRecordRaw[] = [
   { path: "/resize", component: () => import("@/pages/ResizePage.vue") },
   { path: "/converter", component: () => import("@/pages/ConverterPage.vue") },
   { path: "/cropping", component: () => import("@/pages/CropPage.vue") },
-  { path: "/id-photo", component: () => import("@/pages/FramePage.vue"), props: { kind: "id" } },
-  { path: "/sizes", component: () => import("@/pages/FramePage.vue"), props: { kind: "social" } },
-  { path: "/store", component: () => import("@/pages/StorePage.vue") },
+  { path: "/cropping/id-photo", component: () => import("@/pages/FramePage.vue"), props: { kind: "id" } },
+  { path: "/cropping/sizes", component: () => import("@/pages/FramePage.vue"), props: { kind: "social" } },
+  { path: "/cropping/store", component: () => import("@/pages/StorePage.vue") },
   { path: "/cutting", component: () => import("@/pages/CuttingPage.vue") },
   { path: "/watermark", component: () => import("@/pages/WatermarkPage.vue"), props: { variant: "watermark" } },
   { path: "/caption", component: () => import("@/pages/WatermarkPage.vue"), props: { variant: "caption" } },
   { path: "/fade", component: () => import("@/pages/FadePage.vue") },
-  { path: "/tocircle", component: () => import("@/pages/CirclePage.vue") },
+  { path: "/cropping/tocircle", component: () => import("@/pages/CirclePage.vue") },
   { path: "/exif", component: () => import("@/pages/ExifPage.vue") },
   { path: "/pdf", component: () => import("@/pages/PdfPage.vue") },
   { path: "/favicon", component: () => import("@/pages/FaviconPage.vue") },
@@ -49,6 +49,25 @@ function withLocale(route: RouteRecordRaw): RouteRecordRaw {
   return { ...rest, path };
 }
 
+const legacyCropIds = ["id-photo", "sizes", "store", "tocircle"] as const;
+
+function legacyCropRedirects(): RouteRecordRaw[] {
+  return legacyCropIds.flatMap((id) => {
+    const target = `/cropping/${id}`;
+    return [
+      { path: `/${id}`, redirect: target },
+      {
+        path: `/:locale(${localePattern})/${id}`,
+        redirect: (to) => ({
+          path: localePath(target, localeFromParam(to.params.locale)),
+          query: to.query,
+          hash: to.hash,
+        }),
+      },
+    ];
+  });
+}
+
 const notFound = () => import("@/pages/NotFoundPage.vue");
 
 export const router = createRouter({
@@ -56,6 +75,7 @@ export const router = createRouter({
   routes: [
     ...pageRoutes,
     ...pageRoutes.map(withLocale),
+    ...legacyCropRedirects(),
     { path: "/zh", redirect: "/" },
     {
       path: "/zh/:rest(.*)",

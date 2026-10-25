@@ -4,26 +4,26 @@ import { zh } from "./content/zh";
 import { defaultLocale, localeByCode, localePath, locales, stripLocale, type LocaleCode } from "./locale";
 import { projectRepo } from "./release";
 
-const seoRevision = "2026-10-25";
+const seoRevision = "2026-10-26";
 
 const relatedPaths: Record<string, readonly string[]> = {
-  "/cutout": ["/enhance", "/erase", "/id-photo"],
+  "/cutout": ["/enhance", "/erase", "/cropping/id-photo"],
   "/enhance": ["/cutout", "/erase"],
   "/erase": ["/cutout", "/enhance"],
   "/compress": ["/resize", "/converter"],
-  "/resize": ["/compress", "/cropping", "/sizes"],
+  "/resize": ["/compress", "/cropping", "/cropping/sizes"],
   "/converter": ["/compress", "/favicon"],
-  "/cropping": ["/resize", "/id-photo", "/tocircle"],
-  "/id-photo": ["/cutout", "/sizes"],
-  "/sizes": ["/store", "/resize"],
-  "/store": ["/sizes", "/resize"],
+  "/cropping": ["/resize", "/cropping/id-photo", "/cropping/tocircle"],
+  "/cropping/id-photo": ["/cutout", "/cropping/sizes"],
+  "/cropping/sizes": ["/cropping/store", "/resize"],
+  "/cropping/store": ["/cropping/sizes", "/resize"],
   "/cutting": ["/cropping", "/resize"],
   "/watermark": ["/caption", "/fade"],
   "/caption": ["/watermark"],
   "/fade": ["/converter", "/watermark"],
-  "/tocircle": ["/cropping", "/favicon"],
+  "/cropping/tocircle": ["/cropping", "/favicon"],
   "/pdf": ["/converter", "/compress"],
-  "/favicon": ["/converter", "/tocircle"],
+  "/favicon": ["/converter", "/cropping/tocircle"],
   "/exif": ["/pix", "/prompt"],
   "/pix": ["/exif", "/prompt"],
   "/prompt": ["/pix", "/exif"],
@@ -62,8 +62,75 @@ interface ToolSpec {
   faqs: readonly SeoFaq[];
 }
 
-function toolSpecs(messages: Copy): ToolSpec[] {
+const chineseName = "图酷";
+const latinName = "TuCools";
+const legacyBrand = "EasyImage";
+const legacyHost = "easyimage.work";
+
+function dedupeText(parts: readonly string[]): string[] {
+  const seen = new Set<string>();
+  const out: string[] = [];
+  for (const part of parts) {
+    for (const piece of part.split(/[,，]/)) {
+      const item = piece.trim();
+      const key = item.toLocaleLowerCase();
+      if (!item || seen.has(key)) continue;
+      seen.add(key);
+      out.push(item);
+    }
+  }
+  return out;
+}
+
+function brandNames(messages: Copy): string[] {
+  return [messages.appName, chineseName, latinName, messages.seo.legacyName, legacyBrand, legacyHost];
+}
+
+function alternateNames(messages: Copy): string[] {
+  return dedupeText(brandNames(messages)).filter((name) => name !== messages.appName);
+}
+
+function legacyAlias(messages: Copy, id: string): string {
+  const aliases = messages.seo.aliases;
+  if (Object.prototype.hasOwnProperty.call(aliases, id)) return aliases[id as keyof typeof aliases];
+  return "";
+}
+
+function withLegacyFaq(messages: Copy, id: string, faqs: readonly SeoFaq[]): SeoFaq[] {
+  const name = legacyAlias(messages, id);
+  if (!name) return [...faqs];
   return [
+    ...faqs,
+    {
+      q: messages.seo.legacyQuestion.replaceAll("{name}", name),
+      a: messages.seo.legacyAnswer.replaceAll("{name}", name),
+    },
+  ];
+}
+
+function pageKeywords(page: SeoPage, messages: Copy): string {
+  const alias = legacyAlias(messages, page.id);
+  const topical = page.path === "/" ? messages.seo.keywords : [page.heading, alias].filter(Boolean).join(", ");
+  return dedupeText([topical, ...brandNames(messages)]).join(", ");
+}
+
+function originHost(origin: string): string {
+  try {
+    return new URL(origin).hostname.toLowerCase();
+  } catch {
+    return "";
+  }
+}
+
+function organizationSameAs(origin: string): string[] {
+  const links = [projectRepo];
+  const host = originHost(origin);
+  if (host && host !== legacyHost && host !== `www.${legacyHost}`) links.push(`https://${legacyHost}/`);
+  return links;
+}
+
+function toolSpecs(messages: Copy): ToolSpec[] {
+  const specs: ToolSpec[] = [
     { id: "cutout", path: "/cutout", group: "ai", title: messages.tools.cutout.title, ...messages.seo.tools.cutout },
     { id: "enhance", path: "/enhance", group: "ai", title: messages.tools.enhance.title, ...messages.seo.tools.enhance },
     { id: "erase", path: "/erase", group: "ai", title: messages.tools.erase.title, ...messages.seo.tools.erase },
@@ -71,20 +138,21 @@ function toolSpecs(messages: Copy): ToolSpec[] {
     { id: "resize", path: "/resize", group: "local", title: messages.tools.resize.title, ...messages.seo.tools.resize },
     { id: "converter", path: "/converter", group: "local", title: messages.tools.converter.title, ...messages.seo.tools.converter },
     { id: "cropping", path: "/cropping", group: "local", title: messages.tools.cropping.title, ...messages.seo.tools.cropping },
-    { id: "id-photo", path: "/id-photo", group: "local", title: messages.tools.idPhoto.title, ...messages.seo.tools["id-photo"] },
-    { id: "sizes", path: "/sizes", group: "local", title: messages.tools.sizes.title, ...messages.seo.tools.sizes },
-    { id: "store", path: "/store", group: "local", title: messages.tools.store.title, ...messages.seo.tools.store },
+    { id: "id-photo", path: "/cropping/id-photo", group: "local", title: messages.tools.idPhoto.title, ...messages.seo.tools["id-photo"] },
+    { id: "sizes", path: "/cropping/sizes", group: "local", title: messages.tools.sizes.title, ...messages.seo.tools.sizes },
+    { id: "store", path: "/cropping/store", group: "local", title: messages.tools.store.title, ...messages.seo.tools.store },
     { id: "cutting", path: "/cutting", group: "local", title: messages.tools.cutting.title, ...messages.seo.tools.cutting },
     { id: "watermark", path: "/watermark", group: "local", title: messages.tools.watermark.title, ...messages.seo.tools.watermark },
     { id: "caption", path: "/caption", group: "local", title: messages.tools.caption.title, ...messages.seo.tools.caption },
     { id: "fade", path: "/fade", group: "local", title: messages.tools.fade.title, ...messages.seo.tools.fade },
-    { id: "tocircle", path: "/tocircle", group: "local", title: messages.tools.tocircle.title, ...messages.seo.tools.tocircle },
+    { id: "tocircle", path: "/cropping/tocircle", group: "local", title: messages.tools.tocircle.title, ...messages.seo.tools.tocircle },
     { id: "pdf", path: "/pdf", group: "local", title: messages.tools.pdf.title, ...messages.seo.tools.pdf },
     { id: "favicon", path: "/favicon", group: "local", title: messages.tools.favicon.title, ...messages.seo.tools.favicon },
     { id: "exif", path: "/exif", group: "info", title: messages.tools.exif.title, ...messages.seo.tools.exif },
     { id: "pix", path: "/pix", group: "info", title: messages.tools.pix.title, ...messages.seo.tools.pix },
     { id: "prompt", path: "/prompt", group: "info", title: messages.tools.prompt.title, ...messages.seo.tools.prompt },
   ];
+  return specs.map((spec) => ({ ...spec, faqs: withLegacyFaq(messages, spec.id, spec.faqs) }));
 }
 
 function pageOf(
@@ -226,14 +294,16 @@ export function jsonLd(page: SeoPage, origin: string, messages: Copy, code: Loca
       "@type": "Organization",
       "@id": organizationId,
       name: messages.appName,
+      alternateName: alternateNames(messages),
       url: siteUrl(origin, "/"),
       logo: image,
-      sameAs: [projectRepo],
+      sameAs: organizationSameAs(origin),
     },
     {
       "@type": "WebSite",
       "@id": websiteId,
       name: messages.appName,
+      alternateName: alternateNames(messages),
       url: home,
       description: messages.seo.homeDescription,
       inLanguage: locale.language,
@@ -258,6 +328,7 @@ export function jsonLd(page: SeoPage, origin: string, messages: Copy, code: Loca
   graph.push({
     "@type": page.index ? "WebApplication" : "WebPage",
     name: page.documentTitle,
+    ...(legacyAlias(messages, page.id) ? { alternateName: legacyAlias(messages, page.id) } : {}),
     url,
     description: page.description,
     inLanguage: locale.language,
@@ -325,6 +396,7 @@ export function headTags(page: SeoPage, origin: string, messages: Copy, code: Lo
     }));
   return [
     { id: "tucools-description", tag: "meta", attrs: { name: "description", content: page.description } },
+    { id: "tucools-keywords", tag: "meta", attrs: { name: "keywords", content: pageKeywords(page, messages) } },
     {
       id: "tucools-robots",
       tag: "meta",
@@ -680,4 +752,28 @@ export function assertDiscoveryPatterns() {
   for (const [name, pattern] of htmlChecks) {
     if (!html.includes(pattern)) throw new Error(`压缩页 HTML 缺少${name}`);
   }
+  const aliasKeys = Object.keys(zh.seo.aliases).sort().join(",");
+  for (const bundle of localeBundles()) {
+    const keys = Object.keys(bundle.messages.seo.aliases).sort().join(",");
+    if (keys !== aliasKeys) throw new Error(`${bundle.code} 的旧工具名称不完整`);
+    if (!bundle.messages.seo.legacyQuestion.includes("{name}") || !bundle.messages.seo.legacyAnswer.includes("{name}")) {
+      throw new Error(`${bundle.code} 的旧工具说明缺少 {name}`);
+    }
+  }
+  if (!files["compress.md"]?.includes("图片压缩") || !files["compress.md"]?.includes("EasyImage")) {
+    throw new Error("压缩说明没有 EasyImage 对应名称");
+  }
+  if (!files["llms.txt"]?.includes("TuCools") || !files["llms.txt"]?.includes("简单图片")) {
+    throw new Error("简体中文 llms.txt 没有品牌别名");
+  }
+  if (!html.includes('name="keywords"') || !html.includes("TuCools") || !html.includes("简单图片")) {
+    throw new Error("压缩页 HTML 缺少品牌关键词");
+  }
+  if (html.includes("https://easyimage.work/")) throw new Error("未设置站点根时不应写入 easyimage.work 绝对地址");
+  const enHtml = applySeoHtml(sample, "/compress", "https://easyimage.work", catalogs.en, "en");
+  if (!enHtml.includes("TuCools")) throw new Error("英语压缩页没有 TuCools");
+  const selfSameAs = `"sameAs":["${projectRepo}","https://easyimage.work/"]`;
+  if (enHtml.includes(selfSameAs)) throw new Error("部署在 easyimage.work 时不应把本站写成 sameAs");
+  const other = applySeoHtml(sample, "/", "https://tucools.example", zh, "zh");
+  if (!other.includes(selfSameAs)) throw new Error("其他域名应在 sameAs 中保留 easyimage.work");
 }

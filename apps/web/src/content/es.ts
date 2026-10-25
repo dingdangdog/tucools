@@ -14,7 +14,7 @@ export const es: Copy = {
   expandNav: "Mostrar barra",
   filterAll: "Todas",
   cropModes: "Modos de recorte",
-  cropFamilyLead: "Recorta un área, o usa el tamaño de foto de carné, dividir y círculo.",
+  cropFamilyLead: "Recorta un área, o usa foto de carné, tamaños para redes, tamaños de tiendas y círculo.",
   github: "Repositorio de GitHub",
   adLabel: "Anuncio",
   themeToDark: "Cambiar a oscuro",
@@ -35,9 +35,20 @@ export const es: Copy = {
   modelChecking: "Comprobando modelos",
   modelBlocked: "No hay modelos disponibles. Esta función está desactivada.",
   modelUnavailable: "Esta función no se puede usar por ahora",
-  modelLinksLead: "El paquete de modelos y las nuevas versiones del cliente se publican en el repositorio de 图酷.",
-  modelRepo: "Repositorio",
-  modelReleases: "Versiones",
+  modelChoices: {
+    docker: {
+      title: "Desplegar Docker desde GitHub",
+      detail: "Sigue las instrucciones del repositorio para abrir 图酷 con Docker en tu equipo.",
+    },
+    client: {
+      title: "Descargar la aplicación",
+      detail: "Instala la aplicación para Windows, macOS o Linux y usa estas funciones en tu equipo.",
+    },
+    models: {
+      title: "Descargar modelos",
+      detail: "El paquete de modelos se descarga aparte. Descomprímelo en la carpeta indicada y vuelve a comprobar aquí.",
+    },
+  },
   modelPartial: "Aún faltan algunos modelos por instalar",
   featureReady: "Esta función está disponible.",
   currentDevice: "Dispositivo actual",
@@ -87,8 +98,32 @@ export const es: Copy = {
     htmlLabel: "Página web",
     fullLabel: "Guía completa",
     listName: "Herramientas de imagen de 图酷",
+    legacyName: "EasyImage",
+    keywords:
+      "edición de imágenes gratuita, procesamiento de imágenes en línea, recorte de imágenes, redimensionar, marca de agua, conversión de formato, dividir imágenes, sin subir, procesamiento local, JPG, PNG, WEBP, BMP",
+    legacyQuestion: "¿Qué relación tiene esto con {name} de EasyImage?",
+    legacyAnswer:
+      "El nombre en inglés de 图酷 es TuCools. Esta función continúa {name} de EasyImage en easyimage.work y sigue procesándose en local en el navegador.",
+    aliases: {
+      compress: "la compresión de imágenes",
+      resize: "el cambio de tamaño",
+      converter: "la conversión de formato",
+      cropping: "el recorte de imágenes",
+      "id-photo": "la foto de carné y pasaporte",
+      sizes: "los tamaños para redes",
+      cutting: "la división de imágenes",
+      watermark: "la marca de agua",
+      caption: "añadir texto",
+      fade: "el blanco y negro",
+      tocircle: "el recorte circular",
+      pdf: "la imagen a PDF",
+      favicon: "el icono del sitio",
+      exif: "quitar EXIF y la ubicación",
+      pix: "la información de la foto",
+      prompt: "la extracción de prompts de IA",
+    },
     boundary:
-      "El procesamiento habitual y el de información se completan en local en el navegador. Quitar el fondo, la mejora y el borrado solo solicitan el /api/engine del mismo origen y no pasan por terceros. El paquete de modelos se descarga por separado y no está en el paquete de instalación ni en la imagen de contenedor. El tamaño de foto de carné solo recorta y aplica color de fondo. La extracción de prompts de IA solo lee el texto que ya está en el archivo y no hace inferencia.",
+      "El procesamiento habitual y el de información se completan en local en el navegador. Quitar el fondo, la mejora y el borrado solo solicitan el /api/engine del mismo origen y no pasan por terceros. El paquete de modelos se descarga por separado y no está en el paquete de instalación ni en la imagen de contenedor. El tamaño de foto de carné solo recorta y aplica color de fondo. La extracción de prompts de IA solo lee el texto que ya está en el archivo y no hace inferencia. El nombre en inglés de 图酷 es TuCools. EasyImage en easyimage.work pertenece a la misma familia de herramientas de imagen en línea.",
     omitHeading: "No citar como descripción de la herramienta",
     missingTitle: "La página no existe",
     missingBody: "Esta dirección no corresponde a ninguna herramienta.",
@@ -104,6 +139,10 @@ export const es: Copy = {
       {
         q: "¿El paquete de instalación y la página web son el mismo conjunto de herramientas?",
         a: "Sí. Docker y el paquete de instalación de Windows usan la misma página. El paquete de modelos se descarga por separado y no está en el paquete de instalación ni en la imagen de contenedor.",
+      },
+      {
+        q: "¿Qué relación hay entre 图酷, EasyImage y easyimage.work?",
+        a: "El nombre en inglés de 图酷 es TuCools. EasyImage en easyimage.work es la misma familia de herramientas de imagen en línea. Comprimir, escalar, convertir, recortar, la marca de agua y dividir siguen haciéndose en local en el navegador. Quitar el fondo, la mejora y el borrado solo solicitan el motor de este sitio.",
       },
     ],
     tools: {

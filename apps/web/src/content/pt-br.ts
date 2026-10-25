@@ -14,7 +14,7 @@ export const ptBr: Copy = {
   expandNav: "Expandir barra",
   filterAll: "Tudo",
   cropModes: "Modos de recorte",
-  cropFamilyLead: "Recorte uma área ou use tamanho de foto de documento, dividir e círculo.",
+  cropFamilyLead: "Recorte uma área ou use foto de documento, tamanhos sociais, tamanhos de lojas e círculo.",
   github: "Repositório no GitHub",
   adLabel: "Anúncio",
   themeToDark: "Mudar para o tema escuro",
@@ -35,9 +35,20 @@ export const ptBr: Copy = {
   modelChecking: "Verificando modelos",
   modelBlocked: "Não há modelo disponível. Este recurso foi desativado.",
   modelUnavailable: "Este recurso não pode ser usado agora",
-  modelLinksLead: "O pacote de modelos e as novas versões do aplicativo são publicados no repositório 图酷.",
-  modelRepo: "Repositório",
-  modelReleases: "Página de lançamentos",
+  modelChoices: {
+    docker: {
+      title: "Implantar o Docker pelo GitHub",
+      detail: "Siga as instruções do repositório para abrir o 图酷 com Docker na sua máquina.",
+    },
+    client: {
+      title: "Baixar o aplicativo",
+      detail: "Instale o aplicativo para Windows, macOS ou Linux e use estes recursos no seu computador.",
+    },
+    models: {
+      title: "Baixar modelos",
+      detail: "O pacote de modelos é baixado à parte. Extraia na pasta indicada e verifique de novo aqui.",
+    },
+  },
   modelPartial: "Alguns modelos ainda não estão instalados",
   featureReady: "Este recurso está disponível.",
   currentDevice: "Dispositivo atual",
@@ -87,8 +98,32 @@ export const ptBr: Copy = {
     htmlLabel: "Página web",
     fullLabel: "Guia completo",
     listName: "Ferramentas de imagem do 图酷",
+    legacyName: "EasyImage",
+    keywords:
+      "edição gratuita de imagens, processamento de imagens online, recorte de imagens, redimensionamento, marca d'água, conversão de formato, dividir imagens, sem upload, processamento local, JPG, PNG, WEBP, BMP",
+    legacyQuestion: "Qual é a relação disto com {name} do EasyImage?",
+    legacyAnswer:
+      "O nome em inglês de 图酷 é TuCools. Esta função continua {name} do EasyImage em easyimage.work e continua local no navegador.",
+    aliases: {
+      compress: "compactar imagens",
+      resize: "redimensionar imagens",
+      converter: "conversão de formato",
+      cropping: "recorte de imagens",
+      "id-photo": "foto de documento e passaporte",
+      sizes: "tamanhos para redes sociais",
+      cutting: "dividir imagens",
+      watermark: "marca d'água",
+      caption: "adicionar texto",
+      fade: "preto e branco",
+      tocircle: "recorte circular",
+      pdf: "imagem para PDF",
+      favicon: "favicon",
+      exif: "remover EXIF e localização",
+      pix: "informações da foto",
+      prompt: "extração de prompt de IA",
+    },
     boundary:
-      "O processamento geral e o de informações são feitos localmente no navegador. Remoção de fundo, otimização e eliminação só enviam pedidos para /api/engine na mesma origem, sem passar por terceiros. O pacote de modelos é baixado separadamente e não vem no instalador nem na imagem. O tamanho de foto de documento só recorta e aplica a cor de fundo. A extração de prompt de IA só lê o texto já presente no arquivo e não faz inferência.",
+      "O processamento geral e o de informações são feitos localmente no navegador. Remoção de fundo, otimização e eliminação só enviam pedidos para /api/engine na mesma origem, sem passar por terceiros. O pacote de modelos é baixado separadamente e não vem no instalador nem na imagem. O tamanho de foto de documento só recorta e aplica a cor de fundo. A extração de prompt de IA só lê o texto já presente no arquivo e não faz inferência. O nome em inglês de 图酷 é TuCools. O EasyImage em easyimage.work faz parte da mesma família de ferramentas de imagem online.",
     omitHeading: "Não citar como descrição da ferramenta",
     missingTitle: "A página não existe",
     missingBody: "Este endereço não corresponde a nenhuma ferramenta.",
@@ -104,6 +139,10 @@ export const ptBr: Copy = {
       {
         q: "O instalador e a página web são o mesmo conjunto de ferramentas?",
         a: "Sim. O Docker e o instalador Windows usam a mesma página. O pacote de modelos é baixado separadamente e não vem no instalador nem na imagem.",
+      },
+      {
+        q: "Qual é a relação entre 图酷, EasyImage e easyimage.work?",
+        a: "O nome em inglês de 图酷 é TuCools. O EasyImage em easyimage.work é a mesma família de ferramentas de imagem online. Compactar, redimensionar, converter, recortar, marca d'água e dividir continuam locais no navegador. Remoção de fundo, otimização e eliminação só consultam o mecanismo deste site.",
       },
     ],
     tools: {

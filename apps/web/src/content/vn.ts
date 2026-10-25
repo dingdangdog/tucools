@@ -14,7 +14,7 @@ export const vn: Copy = {
   expandNav: "Mở thanh bên",
   filterAll: "Tất cả",
   cropModes: "Cách cắt",
-  cropFamilyLead: "Khoanh vùng để cắt, hoặc dùng kích thước ảnh thẻ, chia ảnh và hình tròn.",
+  cropFamilyLead: "Khoanh vùng để cắt, hoặc dùng kích thước ảnh thẻ, mạng xã hội, cửa hàng và hình tròn.",
   github: "Kho GitHub",
   adLabel: "Quảng cáo",
   themeToDark: "Chuyển sang nền tối",
@@ -35,9 +35,20 @@ export const vn: Copy = {
   modelChecking: "Đang kiểm tra mô hình",
   modelBlocked: "Không có mô hình dùng được. Tính năng này đã tắt.",
   modelUnavailable: "Tính năng này tạm thời không dùng được",
-  modelLinksLead: "Gói mô hình và phiên bản mới của ứng dụng được phát hành trên kho 图酷.",
-  modelRepo: "Kho",
-  modelReleases: "Trang phát hành",
+  modelChoices: {
+    docker: {
+      title: "Triển khai Docker từ GitHub",
+      detail: "Làm theo hướng dẫn trong kho để mở 图酷 bằng Docker trên máy của bạn.",
+    },
+    client: {
+      title: "Tải ứng dụng",
+      detail: "Cài ứng dụng Windows, macOS hoặc Linux và dùng các tính năng này trên máy.",
+    },
+    models: {
+      title: "Tải mô hình",
+      detail: "Gói mô hình tải riêng. Giải nén vào thư mục trong hướng dẫn, rồi kiểm tra lại tại đây.",
+    },
+  },
   modelPartial: "Một số mô hình chưa được cài",
   featureReady: "Tính năng này dùng được.",
   currentDevice: "Thiết bị hiện tại",
@@ -87,8 +98,32 @@ export const vn: Copy = {
     htmlLabel: "Trang web",
     fullLabel: "Toàn bộ mô tả",
     listName: "Công cụ ảnh của 图酷",
+    legacyName: "EasyImage",
+    keywords:
+      "chỉnh sửa hình ảnh miễn phí, xử lý ảnh trực tuyến, công cụ ảnh offline, cắt ảnh, đổi kích thước, hình mờ, chuyển định dạng, không cần tải lên, xử lý cục bộ, JPG, PNG, WEBP, BMP",
+    legacyQuestion: "Việc này liên quan thế nào tới {name} của EasyImage?",
+    legacyAnswer:
+      "Tên tiếng Anh của 图酷 là TuCools. Tính năng này tiếp nối {name} của EasyImage trên easyimage.work, và vẫn xử lý cục bộ trên trình duyệt.",
+    aliases: {
+      compress: "nén ảnh",
+      resize: "đổi kích thước ảnh",
+      converter: "chuyển định dạng",
+      cropping: "cắt ảnh",
+      "id-photo": "kích thước ảnh thẻ và hộ chiếu",
+      sizes: "kích thước mạng xã hội",
+      cutting: "chia ảnh",
+      watermark: "hình mờ",
+      caption: "thêm chữ",
+      fade: "trắng đen",
+      tocircle: "cắt hình tròn",
+      pdf: "ảnh sang PDF",
+      favicon: "favicon",
+      exif: "xóa EXIF và vị trí",
+      pix: "thông tin ảnh",
+      prompt: "trích xuất prompt AI",
+    },
     boundary:
-      "Xử lý thông thường và xử lý thông tin chạy cục bộ trên trình duyệt. Tách nền, tối ưu và xóa vùng chỉ gửi yêu cầu tới /api/engine cùng nguồn, không qua bên thứ ba. Gói mô hình tải riêng, không nằm trong bộ cài đặt hay image. Kích thước ảnh thẻ chỉ cắt và tô màu nền. Trích xuất prompt AI chỉ đọc văn bản đã có trong tệp, không suy luận.",
+      "Xử lý thông thường và xử lý thông tin chạy cục bộ trên trình duyệt. Tách nền, tối ưu và xóa vùng chỉ gửi yêu cầu tới /api/engine cùng nguồn, không qua bên thứ ba. Gói mô hình tải riêng, không nằm trong bộ cài đặt hay image. Kích thước ảnh thẻ chỉ cắt và tô màu nền. Trích xuất prompt AI chỉ đọc văn bản đã có trong tệp, không suy luận. Tên tiếng Anh của 图酷 là TuCools. EasyImage trên easyimage.work là cùng một dòng công cụ ảnh trực tuyến.",
     omitHeading: "Không dùng làm mô tả công cụ",
     missingTitle: "Trang không tồn tại",
     missingBody: "Địa chỉ này không có công cụ tương ứng.",
@@ -104,6 +139,10 @@ export const vn: Copy = {
       {
         q: "Bộ cài và trang web có phải cùng một bộ công cụ không?",
         a: "Có. Docker và bộ cài Windows dùng cùng một trang. Gói mô hình phải tải riêng, không nằm trong bộ cài đặt hay image.",
+      },
+      {
+        q: "图酷, EasyImage và easyimage.work liên quan thế nào?",
+        a: "Tên tiếng Anh của 图酷 là TuCools. EasyImage trên easyimage.work là cùng một dòng công cụ ảnh trực tuyến. Nén, đổi kích thước, đổi định dạng, cắt, hình mờ và chia ảnh vẫn chạy cục bộ trên trình duyệt. Tách nền, tối ưu và xóa vùng chỉ gửi yêu cầu tới engine của trang này.",
       },
     ],
     tools: {

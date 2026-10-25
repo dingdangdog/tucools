@@ -1,11 +1,12 @@
 <template>
   <div
-    class="stage relative overflow-hidden"
+    class="stage relative"
     :class="[
       compact ? 'h-32 shrink-0' : docked ? 'h-52 shrink-0' : 'min-h-[18rem] flex-1 lg:h-full lg:min-h-0',
       filled ? '' : 'is-empty',
       over ? 'is-over' : '',
-      disabled ? 'is-disabled' : '',
+      disabled && !$slots.fallback ? 'is-disabled' : '',
+      !filled && $slots.fallback ? 'lg:overflow-hidden' : 'overflow-hidden',
     ]"
     @dragover.prevent="onDragOver"
     @dragleave="onDragLeave"
@@ -20,7 +21,7 @@
       @change="onChange"
     />
     <button
-      v-if="!filled"
+      v-if="!filled && !$slots.fallback"
       type="button"
       class="stage-pick absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center"
       :disabled="disabled"
@@ -30,6 +31,12 @@
       <span class="text-sm">{{ hint || copy.empty }}</span>
       <span class="btn btn-primary">{{ copy.choose }}</span>
     </button>
+    <div v-else-if="!filled" class="px-4 py-6 sm:px-6 lg:absolute lg:inset-0 lg:overflow-y-auto">
+      <div class="flex min-h-full flex-col items-center justify-center gap-4 text-center">
+        <p class="text-sm">{{ hint || copy.empty }}</p>
+        <slot name="fallback" />
+      </div>
+    </div>
     <div v-else class="absolute inset-0">
       <slot />
     </div>

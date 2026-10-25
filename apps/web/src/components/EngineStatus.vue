@@ -10,17 +10,6 @@
       <p v-if="health?.modelPack" class="mt-1 break-all text-muted">
         {{ copy.modelPackHint }} {{ health.modelPack }}
       </p>
-      <div class="mt-2">
-        <p class="text-muted">{{ copy.modelLinksLead }}</p>
-        <p class="mt-2">
-          <span class="text-muted">{{ copy.modelRepo }}</span>
-          <a class="text-link ml-1 break-all" :href="projectRepo" target="_blank" rel="noreferrer">{{ projectRepo }}</a>
-        </p>
-        <p class="mt-1">
-          <span class="text-muted">{{ copy.modelReleases }}</span>
-          <a class="text-link ml-1 break-all" :href="projectReleases" target="_blank" rel="noreferrer">{{ projectReleases }}</a>
-        </p>
-      </div>
     </template>
     <p v-else-if="status?.missing.length" class="break-all text-muted">
       {{ copy.modelPartial }}：{{ status.missing.join("、") }}
@@ -33,7 +22,6 @@ import { computed, onMounted, ref } from "vue";
 import { engineHealth, type EngineToolHealth, type EngineToolName } from "@/api/engine";
 import { copy } from "@/content";
 import { type ToolGate } from "@/engine-gate";
-import { projectReleases, projectRepo } from "@/release";
 
 const props = defineProps<{ tool: EngineToolName }>();
 const emit = defineEmits<{ gate: [ToolGate] }>();

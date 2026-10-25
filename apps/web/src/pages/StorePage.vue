@@ -61,7 +61,7 @@
       </div>
       <p class="text-xs text-muted">{{ copy.ui.store.alphaNote }}</p>
       <p class="text-sm text-muted">{{ outputCount ? `${copy.ui.output} ${outputCount}` : copy.ui.store.needSize }}</p>
-      <div v-if="source">
+      <div v-if="source" class="flex flex-wrap justify-center">
         <button type="button" class="btn btn-primary" :disabled="state.busy" @click="generate">
           {{ copy.ui.store.generate }}
         </button>

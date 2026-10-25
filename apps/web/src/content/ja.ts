@@ -14,7 +14,7 @@ export const ja: Copy = {
   expandNav: "サイドバーを広げる",
   filterAll: "すべて",
   cropModes: "トリミングの種類",
-  cropFamilyLead: "範囲を切り抜くほか、証明写真サイズ、分割、円形も使えます。",
+  cropFamilyLead: "範囲を切り抜くほか、証明写真サイズ、SNSサイズ、ストアサイズ、円形も使えます。",
   github: "GitHub リポジトリ",
   adLabel: "広告",
   themeToDark: "ダークに切り替える",
@@ -35,9 +35,20 @@ export const ja: Copy = {
   modelChecking: "モデルを確認しています",
   modelBlocked: "使えるモデルがありません。この機能は無効になっています。",
   modelUnavailable: "この機能は一時的に使えません",
-  modelLinksLead: "モデルパックとクライアントの新しいバージョンは、图酷のリポジトリで公開されています。",
-  modelRepo: "リポジトリ",
-  modelReleases: "リリース",
+  modelChoices: {
+    docker: {
+      title: "GitHub から Docker を配置する",
+      detail: "リポジトリの説明に従い、自分のマシンで Docker から图酷を開きます。",
+    },
+    client: {
+      title: "クライアントをダウンロード",
+      detail: "Windows、macOS、Linux のクライアントを入れ、この機能を手元で使います。",
+    },
+    models: {
+      title: "モデルをダウンロード",
+      detail: "モデルパックは別にダウンロードします。説明にあるフォルダへ展開してから、ここで再確認します。",
+    },
+  },
   modelPartial: "一部のモデルはまだインストールされていません",
   featureReady: "この機能は使えます。",
   currentDevice: "現在のデバイス",
@@ -87,8 +98,32 @@ export const ja: Copy = {
     htmlLabel: "ウェブページ",
     fullLabel: "全文",
     listName: "图酷の画像ツール",
+    legacyName: "イージーイメージ",
+    keywords:
+      "無料画像編集, オンライン画像処理, オフライン画像ツール, 画像圧縮, 画像トリミング, 画像リサイズ, ウォーターマーク, フォーマット変換, 画像分割, アップロード不要, ローカル処理, JPG, PNG, WEBP, BMP",
+    legacyQuestion: "EasyImage の{name}とはどういう関係ですか？",
+    legacyAnswer:
+      "图酷の英語名は TuCools です。この機能は easyimage.work の EasyImage（イージーイメージ）にある{name}と同じ系列で、処理はブラウザのローカルのままです。",
+    aliases: {
+      compress: "画像圧縮",
+      resize: "画像リサイズ",
+      converter: "フォーマット変換",
+      cropping: "画像トリミング",
+      "id-photo": "証明写真サイズ",
+      sizes: "SNS画像サイズ",
+      cutting: "画像分割",
+      watermark: "ウォーターマーク",
+      caption: "文字入れ",
+      fade: "白黒化",
+      tocircle: "円形トリミング",
+      pdf: "画像から PDF",
+      favicon: "ファビコン",
+      exif: "EXIFと位置情報の削除",
+      pix: "写真情報",
+      prompt: "AIプロンプト抽出",
+    },
     boundary:
-      "通常処理と情報処理は、ブラウザのローカルで完了します。背景除去、最適化、消去は同一オリジンの /api/engine だけをリクエストし、第三者を経由しません。モデルパックは別途ダウンロードし、インストールパッケージにもイメージにも含まれません。証明写真サイズはトリミングと背景色を敷くだけです。AIプロンプト抽出は、ファイル内に既にあるテキストだけを読み、推論はしません。",
+      "通常処理と情報処理は、ブラウザのローカルで完了します。背景除去、最適化、消去は同一オリジンの /api/engine だけをリクエストし、第三者を経由しません。モデルパックは別途ダウンロードし、インストールパッケージにもイメージにも含まれません。証明写真サイズはトリミングと背景色を敷くだけです。AIプロンプト抽出は、ファイル内に既にあるテキストだけを読み、推論はしません。图酷の英語名は TuCools です。easyimage.work の EasyImage（イージーイメージ）は同じ系列のオンライン画像ツールです。",
     omitHeading: "ツール説明としては引用しない",
     missingTitle: "ページがありません",
     missingBody: "このアドレスに対応するツールはありません。",
@@ -104,6 +139,10 @@ export const ja: Copy = {
       {
         q: "インストールパッケージとウェブページは同じツール一式ですか？",
         a: "はい。Docker と Windows のインストールパッケージは、同じページを使います。モデルパックは別途ダウンロードし、インストールパッケージにもイメージにも含まれません。",
+      },
+      {
+        q: "图酷と EasyImage、easyimage.work はどういう関係ですか？",
+        a: "图酷の英語名は TuCools です。easyimage.work の EasyImage（イージーイメージ）は同じ系列のオンライン画像ツールです。圧縮、拡大縮小、形式変換、トリミング、透かし、分割はブラウザのローカルのままです。背景除去、最適化、消去は現在のサイトのエンジンだけをリクエストします。",
       },
     ],
     tools: {

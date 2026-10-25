@@ -1,7 +1,7 @@
 import type { Copy } from "./zh";
 
 export const en: Copy = {
-  appName: "图酷",
+  appName: "TuCools",
   tagline: "Image tools",
   language: "Language",
   allFeatures: "All features",
@@ -14,7 +14,7 @@ export const en: Copy = {
   expandNav: "Expand sidebar",
   filterAll: "All",
   cropModes: "Crop modes",
-  cropFamilyLead: "Crop a selection, or use ID photo size, split, and circle.",
+  cropFamilyLead: "Crop a selection, or use ID photo, social sizes, store sizes, and circle.",
   github: "GitHub repository",
   adLabel: "Ad",
   themeToDark: "Switch to dark",
@@ -35,9 +35,20 @@ export const en: Copy = {
   modelChecking: "Checking models",
   modelBlocked: "No model is available, so this feature is turned off.",
   modelUnavailable: "This feature is unavailable for now",
-  modelLinksLead: "Model packs and new client releases are published in the 图酷 repository.",
-  modelRepo: "Repository",
-  modelReleases: "Releases",
+  modelChoices: {
+    docker: {
+      title: "Deploy Docker from GitHub",
+      detail: "Follow the repository instructions to run TuCools with Docker on your own machine.",
+    },
+    client: {
+      title: "Download the app",
+      detail: "Install the Windows, macOS, or Linux app and use these features on your computer.",
+    },
+    models: {
+      title: "Download models",
+      detail: "The model pack is a separate download. Extract it into the folder in the instructions, then check again here.",
+    },
+  },
   modelPartial: "Some models are not installed yet",
   featureReady: "This feature is available.",
   currentDevice: "This device",
@@ -94,16 +105,40 @@ export const en: Copy = {
     relatedHeading: "Related tools",
     htmlLabel: "Web page",
     fullLabel: "Full guide",
-    listName: "图酷 image tools",
+    listName: "TuCools image tools",
+    legacyName: "EasyImage",
+    keywords:
+      "free image editing, online image processing, offline image tools, image compression, image cropping, image resizing, watermark, format conversion, image cutting, no upload, local processing, JPG, PNG, WEBP, BMP",
+    legacyQuestion: "How does this relate to EasyImage's {name}?",
+    legacyAnswer:
+      "TuCools is the English name of 图酷. This continues EasyImage {name} on easyimage.work, and it still runs locally in the browser.",
+    aliases: {
+      compress: "image compression",
+      resize: "image resizing",
+      converter: "format conversion",
+      cropping: "image cropping",
+      "id-photo": "ID and passport photo sizes",
+      sizes: "social image sizes",
+      cutting: "image cutting",
+      watermark: "image watermark",
+      caption: "adding text to an image",
+      fade: "black and white",
+      tocircle: "circle crop",
+      pdf: "image to PDF",
+      favicon: "favicon generator",
+      exif: "removing EXIF and photo location",
+      pix: "photo information",
+      prompt: "AI prompt extraction",
+    },
     boundary:
-      "Standard and info tools run locally in the browser. Cutout, enhance, and erase request only the same-origin /api/engine, not a third party. The model pack is downloaded separately and is not included in the installer or the Docker image. ID photo size only crops and fills a background. Prompt extract only reads text already in the file and does not run a model.",
+      "Standard and info tools run locally in the browser. Cutout, enhance, and erase request only the same-origin /api/engine, not a third party. The model pack is downloaded separately and is not included in the installer or the Docker image. ID photo size only crops and fills a background. Prompt extract only reads text already in the file and does not run a model. TuCools is the English name of 图酷. EasyImage on easyimage.work is the same family of online image tools.",
     omitHeading: "Not cited as a tool description",
     missingTitle: "Page not found",
     missingBody: "This address does not match a tool.",
     backHome: "Back to start",
-    homeDocumentTitle: "图酷 · Free image tools that run on your device",
+    homeDocumentTitle: "TuCools · Free image tools that run on your device",
     homeDescription:
-      "图酷 gives compress, resize, convert, crop, ID photo size, social sizes, store sizes, split, watermark, add text, grayscale, circle, image to PDF, Favicon, strip info, image info, and prompt extract their own addresses, and processes them locally in the browser. Cutout, enhance, and erase request only the same-origin engine.",
+      "TuCools gives compress, resize, convert, crop, ID photo size, social sizes, store sizes, split, watermark, add text, grayscale, circle, image to PDF, Favicon, strip info, image info, and prompt extract their own addresses, and processes them locally in the browser. Cutout, enhance, and erase request only the same-origin engine.",
     homeFaqs: [
       {
         q: "Are images uploaded to a server?",
@@ -113,10 +148,14 @@ export const en: Copy = {
         q: "Do the installer and the website use the same tools?",
         a: "Yes. Docker and the Windows installer use the same page. The model pack is downloaded separately and is not included in the installer or the Docker image.",
       },
+      {
+        q: "How are TuCools, EasyImage, and easyimage.work related?",
+        a: "TuCools is the English name of 图酷. EasyImage on easyimage.work is the same family of online image tools. Compress, resize, convert, crop, watermark, and split still run locally in the browser. Cutout, enhance, and erase request only this site's engine.",
+      },
     ],
     tools: {
       cutout: {
-        documentTitle: "Remove an image background online · 图酷",
+        documentTitle: "Remove an image background online · TuCools",
         description:
           "Remove the background and export a transparent PNG. The request goes only to this site's engine, not to a third party. You cannot start when no model is available.",
         faqs: [
@@ -131,7 +170,7 @@ export const en: Copy = {
         ],
       },
       enhance: {
-        documentTitle: "Upscale and enhance images online · 图酷",
+        documentTitle: "Upscale and enhance images online · TuCools",
         description:
           "Upscale and enhance the image with an installed effect. The request goes only to this site's engine. You cannot start when no model is available.",
         faqs: [
@@ -146,7 +185,7 @@ export const en: Copy = {
         ],
       },
       erase: {
-        documentTitle: "Erase objects from an image online · 图酷",
+        documentTitle: "Erase objects from an image online · TuCools",
         description:
           "Paint the area to remove and let this site's engine fill it in. You cannot start when no model is available, and the image is not sent to a third party.",
         faqs: [
@@ -161,7 +200,7 @@ export const en: Copy = {
         ],
       },
       compress: {
-        documentTitle: "Compress images online without uploading · 图酷",
+        documentTitle: "Compress images online without uploading · TuCools",
         description:
           "Compress JPEG, PNG, and WebP locally in the browser by quality, longest edge, or target size. The image is not uploaded.",
         faqs: [
@@ -176,7 +215,7 @@ export const en: Copy = {
         ],
       },
       resize: {
-        documentTitle: "Resize images online · 图酷",
+        documentTitle: "Resize images online · TuCools",
         description:
           "Scale an image to a given width and height locally in the browser. You can fit it with margins, fill and crop, or stretch. The image is not uploaded.",
         faqs: [
@@ -191,7 +230,7 @@ export const en: Copy = {
         ],
       },
       converter: {
-        documentTitle: "Convert image format online · 图酷",
+        documentTitle: "Convert image format online · TuCools",
         description:
           "Convert images between PNG, JPEG, WebP, BMP, and ICO locally in the browser. Formats this browser cannot export are explained on the page.",
         faqs: [
@@ -206,7 +245,7 @@ export const en: Copy = {
         ],
       },
       cropping: {
-        documentTitle: "Crop images online · 图酷",
+        documentTitle: "Crop images online · TuCools",
         description: "Select an area, rotate, or flip in the browser, watch the crop update live, click to enlarge, then export PNG. The image is not uploaded.",
         faqs: [
           {
@@ -220,7 +259,7 @@ export const en: Copy = {
         ],
       },
       "id-photo": {
-        documentTitle: "Crop an ID photo to size online · 图酷",
+        documentTitle: "Crop an ID photo to size online · TuCools",
         description:
           "Crop to the pixel size for a 1-inch, 2-inch, passport, or US-visa photo, and fill a white, blue, or red background. This only crops and fills the background. It does not remove the background.",
         faqs: [
@@ -235,7 +274,7 @@ export const en: Copy = {
         ],
       },
       sizes: {
-        documentTitle: "Social media image sizes · 图酷",
+        documentTitle: "Social media image sizes · TuCools",
         description:
           "Place an image into common sizes for Instagram, a YouTube cover, or Xiaohongshu. You can fit with margins, fill and crop, or stretch. Processing runs locally in the browser.",
         faqs: [
@@ -250,7 +289,7 @@ export const en: Copy = {
         ],
       },
       store: {
-        documentTitle: "App store screenshot sizes · 图酷",
+        documentTitle: "App store screenshot sizes · TuCools",
         description:
           "Place one image into common App Store, Google Play, and Chrome Web Store sizes. Fit with margins, fill and crop, stretch, or tile, then download or copy the results. Processing runs locally in the browser.",
         faqs: [
@@ -265,7 +304,7 @@ export const en: Copy = {
         ],
       },
       cutting: {
-        documentTitle: "Split an image online · 图酷",
+        documentTitle: "Split an image online · TuCools",
         description:
           "Split an image on a vertical, horizontal, or diagonal line, or into a grid. Except for a grid, the pieces can be joined back. Splitting runs locally in the browser.",
         faqs: [
@@ -280,7 +319,7 @@ export const en: Copy = {
         ],
       },
       watermark: {
-        documentTitle: "Add a text watermark online · 图酷",
+        documentTitle: "Add a text watermark online · TuCools",
         description:
           "Add a text watermark locally in the browser. You can set the position, size, color, opacity, and stroke. The image is not uploaded.",
         faqs: [
@@ -295,7 +334,7 @@ export const en: Copy = {
         ],
       },
       caption: {
-        documentTitle: "Add text to an image online · 图酷",
+        documentTitle: "Add text to an image online · TuCools",
         description: "Add one large line of text in the center. Processing runs locally in the browser. The image is not uploaded.",
         faqs: [
           {
@@ -309,7 +348,7 @@ export const en: Copy = {
         ],
       },
       fade: {
-        documentTitle: "Convert an image to grayscale online · 图酷",
+        documentTitle: "Convert an image to grayscale online · TuCools",
         description: "Convert an image to grayscale locally in the browser. The image is not uploaded.",
         faqs: [
           {
@@ -323,7 +362,7 @@ export const en: Copy = {
         ],
       },
       tocircle: {
-        documentTitle: "Crop an image into a circle online · 图酷",
+        documentTitle: "Crop an image into a circle online · TuCools",
         description: "Crop an image to a circle by diameter. A diameter of 0 uses the shorter side. Processing runs locally in the browser.",
         faqs: [
           {
@@ -337,7 +376,7 @@ export const en: Copy = {
         ],
       },
       pdf: {
-        documentTitle: "Convert images to PDF online · 图酷",
+        documentTitle: "Convert images to PDF online · TuCools",
         description: "Combine images into a PDF, with one image on each page. The PDF is created locally in the browser and is not uploaded.",
         faqs: [
           {
@@ -351,7 +390,7 @@ export const en: Copy = {
         ],
       },
       favicon: {
-        documentTitle: "Create a favicon online · 图酷",
+        documentTitle: "Create a favicon online · TuCools",
         description:
           "Export PNGs at 16, 32, 48, and 180, plus one ICO, from one image. They are created locally in the browser and are not uploaded.",
         faqs: [
@@ -366,7 +405,7 @@ export const en: Copy = {
         ],
       },
       exif: {
-        documentTitle: "Remove image EXIF online · 图酷",
+        documentTitle: "Remove image EXIF online · TuCools",
         description: "View an image's EXIF, then redraw a new image without metadata. The original file is left unchanged, and nothing is uploaded.",
         faqs: [
           {
@@ -380,7 +419,7 @@ export const en: Copy = {
         ],
       },
       pix: {
-        documentTitle: "View image info and EXIF online · 图酷",
+        documentTitle: "View image info and EXIF online · TuCools",
         description:
           "View an image's size and EXIF, and export JSON. This only reads the information. To remove metadata, use Strip info. Nothing is uploaded.",
         faqs: [
@@ -395,7 +434,7 @@ export const en: Copy = {
         ],
       },
       prompt: {
-        documentTitle: "Extract AI prompts from an image · 图酷",
+        documentTitle: "Extract AI prompts from an image · TuCools",
         description:
           "Prompt extract: read the positive prompt, negative prompt, and generation parameters embedded in PNG and JPEG images, including drawing prompts that Stable Diffusion and similar tools write into the file. This runs locally in the browser and does not run a model.",
         faqs: [

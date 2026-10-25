@@ -131,7 +131,7 @@ $env:TUCOOLS_FEATURES = "compress,resize,cutout,enhance"
 
 开发页面读取运行 `npm run dev:web` 的环境。Docker 读取页面容器的环境，改完后需要重新创建页面容器。安装包读取启动图酷时的环境。客户端在这个上限里再做本机选择，键名是 `tucools-features`。浏览器部署没有配置页，只服从环境变量。直接打开未显示功能的地址会回到首页。
 
-侧栏最上是「全部功能」，点击回到首页。下面依次是「AI 处理」「常规处理」「信息处理」。裁剪、证件照尺寸、切图和圆形在侧栏和首页里只占一个「裁剪」；进入后在页面上方切换，四个地址仍然分开。只把 `id-photo`、`cutting` 或 `tocircle` 写进变量、不写 `cropping` 时，侧栏仍显示「裁剪」，但只能打开写出来的那些地址。
+侧栏最上是「全部功能」，点击回到首页。下面依次是「AI 处理」「常规处理」「信息处理」。裁剪、证件照尺寸、社交尺寸、应用商店尺寸和圆形在侧栏和首页里只占一个「裁剪」。自由裁剪是 `/cropping`，其余是 `/cropping/id-photo`、`/cropping/sizes`、`/cropping/store`、`/cropping/tocircle`。旧的 `/id-photo`、`/sizes`、`/store`、`/tocircle` 会跳到新地址。切图单独占一项。只把 `id-photo`、`sizes`、`store` 或 `tocircle` 写进变量、不写 `cropping` 时，侧栏仍显示「裁剪」，但只能打开写出来的那些地址。
 
 | 功能名 | 工具 |
 | --- | --- |
@@ -141,15 +141,15 @@ $env:TUCOOLS_FEATURES = "compress,resize,cutout,enhance"
 | `compress` | 压缩 |
 | `resize` | 缩放 |
 | `converter` | 转格式 |
-| `cropping` | 裁剪。侧栏和首页只显示这一项；写出它会同时开放下面三项裁剪地址 |
-| `id-photo` | 证件照尺寸。地址 `/id-photo`，在裁剪页里切换 |
-| `sizes` | 社交尺寸 |
-| `store` | 应用商店尺寸 |
-| `cutting` | 切图。地址 `/cutting`，在裁剪页里切换 |
+| `cropping` | 裁剪。侧栏和首页只显示这一项；写出它会同时开放证件照、社交尺寸、应用商店尺寸和圆形 |
+| `id-photo` | 证件照尺寸。地址 `/cropping/id-photo` |
+| `sizes` | 社交尺寸。地址 `/cropping/sizes` |
+| `store` | 应用商店尺寸。地址 `/cropping/store` |
+| `cutting` | 切图。独立菜单，地址 `/cutting` |
 | `watermark` | 水印 |
 | `caption` | 加字 |
 | `fade` | 灰度 |
-| `tocircle` | 圆形。地址 `/tocircle`，在裁剪页里切换 |
+| `tocircle` | 圆形。地址 `/cropping/tocircle` |
 | `pdf` | 图转 PDF |
 | `favicon` | Favicon |
 | `exif` | 去除信息 |
@@ -219,7 +219,7 @@ $env:TUCOOLS_ANALYTICS_ID = "G-XXXXXXXXXX"
 | `ar` | العربية，从右到左 |
 | `bn` | বাংলা |
 
-`/zh` 和 `/zh/compress` 会转到不带前缀的简体中文地址。网页不按浏览器语言跳转。顶栏选择的语言记在 `tucools-locale`，只在下次打开站点根 `/` 时使用。安装包第一次打开根地址、且没有保存语言时，按系统语言打开。产品名在每种语言里都是「图酷」。
+`/zh` 和 `/zh/compress` 会转到不带前缀的简体中文地址。网页不按浏览器语言跳转。顶栏选择的语言记在 `tucools-locale`，只在下次打开站点根 `/` 时使用。安装包第一次打开根地址、且没有保存语言时，按系统语言打开。简体中文和其他非英语界面的产品名是「图酷」，英语界面是「TuCools」。公开页面会在说明、常见问题和结构化数据里写上 TuCools、EasyImage、简单图片和 easyimage.work，便于把该域名升级为图酷后仍能对上原来的检索。站点根仍由 `TUCOOLS_SITE_URL` 决定；部署在 easyimage.work 时，规范地址用这个域名，不会再把本站写成另一处同一实体。
 
 安装包和 Docker 可以部署在不同域名，所以未设置站点根时，规范地址写成站内路径，例如 `/en/compress`。页面在浏览器里会改成当前域名的绝对地址。公开站点要让 sitemap、hreflang、`llms.txt` 和 Markdown 使用绝对地址时，设置不带路径的站点根：
 

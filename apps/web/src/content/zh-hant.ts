@@ -14,7 +14,7 @@ export const zhHant: Copy = {
   expandNav: "展開側欄",
   filterAll: "全部",
   cropModes: "裁切方式",
-  cropFamilyLead: "框選裁切，也可做證件照尺寸、切圖和圓形。",
+  cropFamilyLead: "框選裁切，也可做證件照尺寸、社群尺寸、應用商店尺寸和圓形。",
   github: "GitHub 倉庫",
   adLabel: "廣告",
   themeToDark: "切換到深色",
@@ -35,9 +35,20 @@ export const zhHant: Copy = {
   modelChecking: "正在檢查模型",
   modelBlocked: "沒有可用的模型，這個功能已停用。",
   modelUnavailable: "這個功能暫時無法使用",
-  modelLinksLead: "模型包和用戶端的新版本發布在图酷儲存庫。",
-  modelRepo: "儲存庫",
-  modelReleases: "發布頁",
+  modelChoices: {
+    docker: {
+      title: "前往 GitHub 部署 Docker",
+      detail: "按儲存庫說明，用 Docker 在自己的機器上打開图酷。",
+    },
+    client: {
+      title: "下載客戶端",
+      detail: "下載 Windows、macOS 或 Linux 客戶端，在本機使用這些功能。",
+    },
+    models: {
+      title: "下載模型",
+      detail: "模型包要另外下載。解壓縮到說明中的資料夾後，再回到這裡檢查。",
+    },
+  },
   modelPartial: "還有部分模型未安裝",
   featureReady: "這個功能可以使用。",
   currentDevice: "這台裝置",
@@ -86,8 +97,32 @@ export const zhHant: Copy = {
     htmlLabel: "網頁",
     fullLabel: "全部說明",
     listName: "图酷的圖片工具",
+    legacyName: "簡單圖片",
+    keywords:
+      "免費圖片編輯, 免費照片處理, 線上圖片處理, 離線圖片工具, 圖片壓縮, 圖片裁剪, 圖片縮放, 浮水印, 格式轉換, 圖片分割, 無需上傳, 本地處理, JPG, PNG, WEBP, BMP",
+    legacyQuestion: "這和 EasyImage 的{name}是什麼關係？",
+    legacyAnswer:
+      "图酷的英文名是 TuCools。這項功能與 easyimage.work 上 EasyImage（簡單圖片）的{name}是同一系列，仍在瀏覽器本地處理。",
+    aliases: {
+      compress: "圖片壓縮",
+      resize: "圖片縮放",
+      converter: "格式轉換",
+      cropping: "圖片裁剪",
+      "id-photo": "證件照和護照照片尺寸",
+      sizes: "社群圖片尺寸",
+      cutting: "圖片分割",
+      watermark: "圖片浮水印",
+      caption: "為圖片加字",
+      fade: "圖片黑白化",
+      tocircle: "圓形裁剪",
+      pdf: "圖片轉 PDF",
+      favicon: "網站圖示",
+      exif: "去除 EXIF 和照片位置",
+      pix: "照片資訊提取",
+      prompt: "AI 圖片提示詞解析",
+    },
     boundary:
-      "常規處理和資訊處理在這台裝置的瀏覽器裡完成。去背、優化和消除只請求同源 /api/engine，不經過第三方。模型包另外下載，不在安裝包和 Docker 映像裡。證件照尺寸只裁切和鋪底色。AI 提示詞擷取只讀取檔案裡已有的文字，不做推論。",
+      "常規處理和資訊處理在這台裝置的瀏覽器裡完成。去背、優化和消除只請求同源 /api/engine，不經過第三方。模型包另外下載，不在安裝包和 Docker 映像裡。證件照尺寸只裁切和鋪底色。AI 提示詞擷取只讀取檔案裡已有的文字，不做推論。图酷的英文名是 TuCools。EasyImage（easyimage.work，簡單圖片）是同一系列的線上影像工具。",
     omitHeading: "不作為工具說明引用",
     missingTitle: "找不到頁面",
     missingBody: "這個網址沒有對應的工具。",
@@ -103,6 +138,10 @@ export const zhHant: Copy = {
       {
         q: "安裝包和網頁是同一套工具嗎？",
         a: "是。Docker 和 Windows 安裝包使用同一份頁面。模型包要另外下載，不在安裝包和 Docker 映像裡。",
+      },
+      {
+        q: "图酷和 EasyImage、easyimage.work 是什麼關係？",
+        a: "图酷的英文名是 TuCools。easyimage.work 上的 EasyImage（簡單圖片）是同一系列的線上影像工具。壓縮、縮放、轉格式、裁剪、浮水印和切圖仍在瀏覽器本地完成；去背、優化和消除只請求目前網站的引擎。",
       },
     ],
     tools: {

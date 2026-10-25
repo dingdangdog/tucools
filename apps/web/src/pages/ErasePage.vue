@@ -1,6 +1,10 @@
 <template>
   <StudioLayout :lead="copy.tools.erase.lead">
-    <Stage v-if="!imageUrl" :multiple="false" :disabled="!usable" :hint="stageHint" @files="open" />
+    <Stage v-if="!imageUrl" :multiple="false" :disabled="!usable" :hint="stageHint" @files="open">
+      <template v-if="showModelChoices" #fallback>
+        <ModelChoices />
+      </template>
+    </Stage>
     <div v-else class="stage relative min-h-[18rem] flex-1 overflow-hidden lg:h-full lg:min-h-0">
       <div v-show="!resultUrl" ref="frame" class="absolute inset-0">
         <img
@@ -62,6 +66,7 @@ import BusyCover from "@/components/BusyCover.vue";
 import CompareView from "@/components/CompareView.vue";
 import EngineHealthActions from "@/components/EngineHealthActions.vue";
 import EngineStatus from "@/components/EngineStatus.vue";
+import ModelChoices from "@/components/ModelChoices.vue";
 import Field from "@/components/Field.vue";
 import FileBadge from "@/components/FileBadge.vue";
 import Stage from "@/components/Stage.vue";
@@ -73,6 +78,7 @@ import { formatBytes, isProcessableImage, stem } from "@/utils/image";
 const engine = ref<{ load: () => Promise<void> } | null>(null);
 const gate = ref<ToolGate>({ phase: "checking", available: [], device: "", checking: true });
 const usable = computed(() => gate.value.phase === "ready");
+const showModelChoices = computed(() => gate.value.phase === "down" || gate.value.phase === "blocked");
 const stageHint = computed(() => {
   if (usable.value) return "";
   return gate.value.phase === "checking" ? copy.modelChecking : copy.modelUnavailable;

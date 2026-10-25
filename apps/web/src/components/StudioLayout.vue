@@ -10,7 +10,7 @@
       <div v-if="$slots.panel" class="panel flex shrink-0 flex-col gap-3 overflow-y-auto p-3 lg:row-start-3 lg:max-h-80">
         <slot name="panel" />
       </div>
-      <div v-if="$slots.actions" class="flex shrink-0 flex-wrap items-center gap-2 lg:row-start-4">
+      <div v-if="$slots.actions" class="flex shrink-0 flex-wrap items-center justify-center gap-2 lg:row-start-4">
         <slot name="actions" />
       </div>
     </div>

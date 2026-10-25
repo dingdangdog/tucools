@@ -8,8 +8,11 @@ export const allFeatureIds = [...allNavIds];
 const routeIds = new Set<string>([...allNavIds, ...cropModeIds]);
 
 export function featureIdFromPath(path: string): string | null {
-  const id = stripLocale(path).replace(/^\/+|\/+$/g, "");
-  return routeIds.has(id) ? id : null;
+  const bare = stripLocale(path).replace(/^\/+|\/+$/g, "");
+  if (routeIds.has(bare)) return bare;
+  if (!bare.startsWith("cropping/")) return null;
+  const id = bare.slice("cropping/".length);
+  return isCropMode(id) && id !== "cropping" ? id : null;
 }
 
 /** 空值表示不限制。非空字符串只保留已知功能名，一个都不认识时返回空数组。 */
