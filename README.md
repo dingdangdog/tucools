@@ -7,6 +7,7 @@
 - 仓库：[github.com/dingdangdog/tucools](https://github.com/dingdangdog/tucools)
 - 安装包和镜像：[Releases](https://github.com/dingdangdog/tucools/releases)
 - 模型包：[models](https://github.com/dingdangdog/tucools/releases/tag/models)
+- 不会写代码、想用抠图、优化和消除：[怎么用上 AI 功能](docs/2026-10-26-如何使用AI功能.md)
 
 ## 示例
 
@@ -119,6 +120,8 @@ docker compose -f deploy/docker-compose.deploy.yml -f deploy/docker-compose.gpu.
 | Windows | `%APPDATA%\tucools\model-pack` |
 | macOS | `~/Library/Application Support/tucools/model-pack` |
 | Linux | `~/.local/share/tucools/model-pack`。如果设置了 `XDG_DATA_HOME`，则放在它下面的 `tucools/model-pack` |
+
+客户端打开抠图、优化或消除时，如果模型还没放好，可以点「下载并安装」。程序会下载并解压到上表的目录。网页和 Docker 仍从上面的发布页下载。
 
 Windows 按 Win+R，输入 `%APPDATA%\tucools`，回车。没有 `model-pack` 就新建。放好后，这个目录里应直接有 `models` 和 `bin`。
 

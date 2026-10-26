@@ -1,11 +1,15 @@
-const { app, BrowserWindow, dialog, ipcMain } = require("electron");
+const { app, BrowserWindow, dialog, ipcMain, net } = require("electron");
 const fs = require("fs");
 const path = require("path");
-const { startHost, startPythonEngine } = require("./host");
+const { startHost, startPythonEngine, modelPackDir } = require("./host");
+const { installModelPack } = require("./model-pack");
 
 let host;
 let engineChild;
 let lastUrl = "";
+let modelDownloadAbort = null;
+
+const MODEL_DOWNLOAD_CODES = new Set(["cancelled", "network", "http", "zip", "layout", "disk", "busy"]);
 
 function stopChildren() {
   if (host) {
@@ -62,6 +66,40 @@ function offlinePage(message) {
   return `data:text/html;charset=utf-8,${encodeURIComponent(html)}`;
 }
 
+function sendModelProgress(sender, payload) {
+  if (sender.isDestroyed()) return;
+  sender.send("models:progress", payload);
+}
+
+ipcMain.handle("models:download", async (event) => {
+  if (modelDownloadAbort) return { ok: false, code: "busy" };
+  const controller = new AbortController();
+  modelDownloadAbort = controller;
+  const sender = event.sender;
+  try {
+    const directory = modelPackDir(app.isPackaged);
+    await installModelPack({
+      destDir: directory,
+      fetchImpl: (url, init) => net.fetch(url, init),
+      signal: controller.signal,
+      onProgress: (payload) => sendModelProgress(sender, payload),
+    });
+    return { ok: true, directory };
+  } catch (error) {
+    const code = MODEL_DOWNLOAD_CODES.has(error?.code) ? error.code : "network";
+    if (code !== "cancelled") console.error(error?.cause || error);
+    return { ok: false, code };
+  } finally {
+    if (modelDownloadAbort === controller) modelDownloadAbort = null;
+  }
+});
+
+ipcMain.handle("models:cancel", () => {
+  modelDownloadAbort?.abort();
+});
+
+ipcMain.handle("models:directory", () => modelPackDir(app.isPackaged));
+
 ipcMain.handle("dialog:save-bytes", async (_event, filename, bytes) => {
   const result = await dialog.showSaveDialog({ defaultPath: filename });
   if (result.canceled || !result.filePath) return "cancelled";
@@ -104,5 +142,6 @@ app.on("window-all-closed", () => {
 });
 
 app.on("before-quit", () => {
+  modelDownloadAbort?.abort();
   stopChildren();
 });

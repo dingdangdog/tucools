@@ -35,6 +35,7 @@
       "main.js",
       "preload.js",
       "host.js",
+      "model-pack.js",
       "package.json",
       "build/icon.png"
     ],

@@ -102,6 +102,8 @@ npm run package:linux
 
 也可以在启动前设置 `TUCOOLS_MODEL_PACK`。
 
+客户端在模型还没放好时，可以在抠图、优化或消除页面点「下载并安装」。程序会下载 `model-pack.zip` 并解压到上表的目录；若设置了 `TUCOOLS_MODEL_PACK`，则解压到该目录。网页和 Docker 不提供这个按钮。
+
 正式发布的文件名：
 
 | 平台 | 文件 |

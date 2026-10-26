@@ -8,20 +8,25 @@
         {{ copy.engineMissing }}：{{ status.missing.join("、") }}
       </p>
       <p v-if="health?.modelPack" class="mt-1 break-all text-muted">
-        {{ copy.modelPackHint }} {{ health.modelPack }}
+        {{ desktop ? copy.modelDownload.directory : copy.modelPackHint }} {{ health.modelPack }}
       </p>
     </template>
     <p v-else-if="status?.missing.length" class="break-all text-muted">
       {{ copy.modelPartial }}：{{ status.missing.join("、") }}
     </p>
+    <ModelPackDownload v-if="desktop && phase === 'ready' && status?.missing.length" class="mt-2" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, onUnmounted, ref } from "vue";
 import { engineHealth, type EngineToolHealth, type EngineToolName } from "@/api/engine";
+import ModelPackDownload from "@/components/ModelPackDownload.vue";
 import { copy } from "@/content";
 import { type ToolGate } from "@/engine-gate";
+import { canDownloadModelPack } from "@/model-pack-download";
+
+const desktop = canDownloadModelPack();
 
 const props = defineProps<{ tool: EngineToolName }>();
 const emit = defineEmits<{ gate: [ToolGate] }>();
@@ -31,6 +36,7 @@ const loaded = ref(false);
 const checking = ref(false);
 const status = computed(() => health.value ?? undefined);
 const phase = computed(() => snapshot().phase);
+let queued = false;
 
 function snapshot(): ToolGate {
   const device = health.value?.device ?? "";
@@ -46,7 +52,10 @@ function publish() {
 }
 
 async function load() {
-  if (checking.value) return;
+  if (checking.value) {
+    queued = true;
+    return;
+  }
   checking.value = true;
   publish();
   try {
@@ -59,9 +68,23 @@ async function load() {
     checking.value = false;
     loaded.value = true;
     publish();
+    if (queued) {
+      queued = false;
+      void load();
+    }
   }
 }
 
-onMounted(load);
+function onInstalled() {
+  void load();
+}
+
+onMounted(() => {
+  void load();
+  window.addEventListener("tucools-models-installed", onInstalled);
+});
+onUnmounted(() => {
+  window.removeEventListener("tucools-models-installed", onInstalled);
+});
 defineExpose({ load });
 </script>

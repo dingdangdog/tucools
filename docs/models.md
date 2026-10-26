@@ -4,6 +4,8 @@
 
 下载 [model-pack.zip](https://github.com/dingdangdog/tucools/releases/download/models/model-pack.zip)。发布页是 [models](https://github.com/dingdangdog/tucools/releases/tag/models)。安装步骤见仓库 [README](../README.md)。某个 AI 功能没有可用模型时，页面停用该功能，并给出仓库地址和这个模型发布页。
 
+客户端里这个发布页不是唯一入口。抠图、优化或消除缺少模型时，可以点「下载并安装」。程序会下载上面的 `model-pack.zip`，解压后把 `models` 和 `bin` 放进当前的模型目录。网页和 Docker 仍只打开这个链接，由使用者自己下载和解压。
+
 解压后的目录名可以自定，结构固定如下：
 
 ```text
