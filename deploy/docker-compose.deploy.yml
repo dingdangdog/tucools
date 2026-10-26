@@ -40,8 +40,9 @@ services:
       TUCOOLS_ADSENSE_CLIENT: ${TUCOOLS_ADSENSE_CLIENT:-}
       # 可选。右侧广告单元编号。未设置时不留广告区。
       TUCOOLS_ADSENSE_SLOT: ${TUCOOLS_ADSENSE_SLOT:-}
+    # 浏览器打开宿主机 13175，与本地开发页相同。容器内 nginx 仍监听 8080，已发布镜像不用重建。
     ports:
-      - "8080:8080"
+      - "13175:8080"
     depends_on:
       engine:
         condition: service_healthy

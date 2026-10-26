@@ -208,6 +208,15 @@ export function buildSeoPages(messages: Copy): SeoPage[] {
       faqs: [],
       index: false,
     }),
+    pageOf(messages, {
+      id: "version",
+      path: "/version",
+      group: "system",
+      heading: messages.version.title,
+      description: messages.version.lead,
+      faqs: [],
+      index: false,
+    }),
   ];
 }
 
@@ -566,6 +575,7 @@ function renderLlms(bundle: LocaleBundle, origin: string, bundles: readonly Loca
     `## ${messages.seo.omitHeading}`,
     ``,
     `- [${messages.menus.title}](${siteUrl(origin, localePath("/menus", code))}): ${messages.menus.lead}`,
+    `- [${messages.version.title}](${siteUrl(origin, localePath("/version", code))}): ${messages.version.lead}`,
     ``,
   ].join("\n");
 }
@@ -737,6 +747,9 @@ export function assertDiscoveryPatterns() {
   }
   if (files["sitemap.xml"].includes("<loc>/menus</loc>") || files["sitemap.xml"].includes("<loc>/en/menus</loc>")) {
     throw new Error("功能菜单不应进入站点地图");
+  }
+  if (files["sitemap.xml"].includes("<loc>/version</loc>") || files["sitemap.xml"].includes("<loc>/en/version</loc>")) {
+    throw new Error("版本页不应进入站点地图");
   }
   if (files["sitemap.xml"].includes("<loc>/compress.md</loc>")) throw new Error("Markdown 不应进入站点地图");
   const sample = `<html lang="zh-CN"><head><!--tucools-seo--><title>图酷</title><!--/tucools-seo--></head><body><noscript id="tucools-noscript"></noscript><div id="app"></div></body></html>`;

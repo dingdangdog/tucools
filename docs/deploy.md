@@ -58,7 +58,7 @@ docker compose -f deploy/docker-compose.yml -f deploy/docker-compose.gpu.yml up 
 docker compose -f deploy/docker-compose.yml up --build
 ```
 
-浏览器打开 http://127.0.0.1:8080 。
+浏览器打开 http://127.0.0.1:13175 。容器内 nginx 仍监听 8080，Compose 把宿主机的 13175 映射过去。已发布的页面镜像不用为这个端口重新构建。
 
 引擎只在 Compose 网络里，不映射到宿主机。页面容器把 `/api/engine` 反代过去。不要把引擎端口单独暴露到公网；这套服务没有登录。
 
@@ -296,7 +296,7 @@ GitHub 包页面从多架构清单读取 `org.opencontainers.image.description`�
 
 以前的 Windows 附件名是 `图酷-Setup-<版本>.exe`，后来曾用 `图酷-<版本>-windows-x64.exe`。GitHub Release 保存附件时会去掉非 ASCII 字符，中文文件名会变成 `-0.0.4-mac-arm64.dmg` 这种只剩版本和平台的名字。下载文件名因此使用 `TuCools-<版本>-<平台>-<架构>`。安装后的窗口、菜单和快捷方式仍显示「图酷」。已经发出的旧 Release 不会改名。Linux 的 AppImage 架构名是 `x86_64`，deb 是 `amd64`。
 
-只部署、不在本机构建时，使用 `deploy/docker-compose.deploy.yml`。它没有 `build`，默认拉取 `ghcr.io/dingdangdog/tucools-web` 和 `ghcr.io/dingdangdog/tucools-engine` 的 `latest`。引擎只留在 Compose 网络内，页面仍监听 `8080`。模型包目录、功能菜单、站点根和广告变量与上面的构建用 Compose 相同。
+只部署、不在本机构建时，使用 `deploy/docker-compose.deploy.yml`。它没有 `build`，默认拉取 `ghcr.io/dingdangdog/tucools-web` 和 `ghcr.io/dingdangdog/tucools-engine` 的 `latest`。引擎只留在 Compose 网络内，页面在宿主机上打开 `13175`，容器内 nginx 仍监听 `8080`。模型包目录、功能菜单、站点根和广告变量与上面的构建用 Compose 相同。
 
 ```powershell
 docker login ghcr.io

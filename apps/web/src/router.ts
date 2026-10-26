@@ -19,6 +19,7 @@ import { useMenuStore } from "@/stores/menus";
 const pageRoutes: RouteRecordRaw[] = [
   { path: "/", name: "home", component: () => import("@/pages/HomePage.vue") },
   { path: "/menus", component: () => import("@/pages/MenusPage.vue") },
+  { path: "/version", component: () => import("@/pages/VersionPage.vue") },
   { path: "/compress", component: () => import("@/pages/CompressPage.vue") },
   { path: "/resize", component: () => import("@/pages/ResizePage.vue") },
   { path: "/converter", component: () => import("@/pages/ConverterPage.vue") },

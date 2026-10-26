@@ -101,7 +101,9 @@ jobs:
         with:
           context: .
           file: ${{ inputs.dockerfile }}
-          build-args: ${{ inputs.kind == 'web' && format('VITE_SITE_URL={0}', inputs.site_url) || '' }}
+          build-args: |
+            ${{ inputs.kind == 'web' && format('VITE_SITE_URL={0}', inputs.site_url) || '' }}
+            ${{ inputs.kind == 'web' && format('VITE_APP_VERSION={0}', steps.version.outputs.version) || '' }}
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ steps.tags.outputs.tags }}

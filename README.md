@@ -86,7 +86,7 @@ cd tucools
 docker compose -f deploy/docker-compose.deploy.yml up -d
 ```
 
-浏览器打开 http://127.0.0.1:8080 。
+浏览器打开 http://127.0.0.1:13175 。
 
 有 NVIDIA 显卡，并且已经安装 NVIDIA Container Toolkit 时，再加上显卡配置。驱动支持的 CUDA 版本需要达到 12.8。没有显卡时不要加这个文件，否则容器无法创建：
 

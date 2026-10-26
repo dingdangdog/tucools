@@ -69,6 +69,15 @@
         >
           <Cog6ToothIcon class="h-4 w-4" />
         </RouterLink>
+        <RouterLink
+          :to="versionTo"
+          class="icon-btn inline-flex"
+          :aria-label="copy.version.open"
+          :title="copy.version.open"
+          @click="ui.navOpen = false"
+        >
+          <TagIcon class="h-4 w-4" />
+        </RouterLink>
         <a class="icon-btn inline-flex" :href="projectRepo" target="_blank" rel="noopener noreferrer" :aria-label="copy.github" :title="copy.github">
           <svg class="h-4 w-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
             <path
@@ -105,6 +114,7 @@ import {
   HomeIcon,
   MoonIcon,
   SunIcon,
+  TagIcon,
   XMarkIcon,
 } from "@heroicons/vue/24/outline";
 import { copy, currentLocale } from "@/content";
@@ -123,6 +133,7 @@ const menus = useMenuStore();
 const route = useRoute();
 const homeTo = computed(() => localePath("/", currentLocale.value));
 const menusTo = computed(() => localePath("/menus", currentLocale.value));
+const versionTo = computed(() => localePath("/version", currentLocale.value));
 function target(item: NavItem) {
   if (item.id !== "cropping") return item.to;
   return localePath(menus.cropEntryPath, currentLocale.value);
