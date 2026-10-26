@@ -117,6 +117,8 @@ npm run package:linux
 
 `build.npmRebuild` 必须保持 `false`。桌面壳没有原生模块，生产依赖只有 `busboy`。工作区不会在 `apps/desktop` 下建立 `node_modules`。electron-builder 发现这个目录不存在时，会在该目录执行 `npm install --production`，并删掉仓库根目录中的开发依赖，其中包括 `app-builder-bin`。下一步再启动 `app-builder.exe` 就会失败。关闭重建后，已经提升到仓库根目录的 `busboy` 仍会打进安装包。
 
+`apps/desktop/package.json` 必须写 `homepage`。deb 用 fpm 打包，electron-builder 把这个地址写入包的 Homepage。它只读取这个 `package.json`，以及 `apps/desktop/.git/config` 里的 `origin`。仓库根目录的 Git 远程、根目录 `package.json` 和 GitHub Actions 的 `GITHUB_REPOSITORY` 都不会被当成项目主页。缺这个字段时 AppImage 仍能生成，deb 会失败。当前地址是 `https://github.com/dingdangdog/tucools`。
+
 安装包里的「保存到…」会调用系统保存对话框。浏览器部署仍是直接下载。
 
 安装包顶栏有「功能菜单」。勾选保存在这台电脑的当前用户数据里。启动前设置的 `TUCOOLS_FEATURES` 是允许显示的上限，配置页不能打开上限以外的工具。

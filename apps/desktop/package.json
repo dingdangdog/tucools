@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "description": "本地图像工具",
+  "homepage": "https://github.com/dingdangdog/tucools",
   "main": "main.js",
   "author": {
     "name": "图酷"
