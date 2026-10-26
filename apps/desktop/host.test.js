@@ -35,6 +35,35 @@ test("packaged Windows does not fall back to Python", () => {
   }
 });
 
+test("packaged macOS and Linux use the bundled executable", () => {
+  for (const platform of ["darwin", "linux"]) {
+    const resources = tempResources();
+    const engine = path.join(resources, "engine");
+    fs.mkdirSync(engine);
+    const executable = path.join(engine, "tucools-engine");
+    fs.writeFileSync(executable, "");
+    try {
+      const choice = chooseEngine(resources, true, platform);
+      assert.equal(choice.mode, "bundled");
+      assert.equal(choice.executable, executable);
+    } finally {
+      fs.rmSync(resources, { recursive: true, force: true });
+    }
+  }
+});
+
+test("packaged macOS and Linux do not fall back to Python", () => {
+  for (const platform of ["darwin", "linux"]) {
+    const resources = tempResources();
+    fs.mkdirSync(path.join(resources, "engine"));
+    try {
+      assert.equal(chooseEngine(resources, true, platform).mode, "missing");
+    } finally {
+      fs.rmSync(resources, { recursive: true, force: true });
+    }
+  }
+});
+
 test("development still selects the repository engine", () => {
   const previous = process.env.TUCOOLS_RUNTIME;
   delete process.env.TUCOOLS_RUNTIME;

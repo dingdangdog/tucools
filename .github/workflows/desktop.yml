@@ -94,10 +94,20 @@ jobs:
         run: bash .github/scripts/publish-desktop-assets.sh windows
 
   macos:
-    name: macOS
+    name: macOS ${{ matrix.arch }}
     if: ${{ inputs.macos }}
-    runs-on: macos-latest
-    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-latest
+            arch: arm64
+            sums: macos-arm64
+          - runner: macos-15-intel
+            arch: x64
+            sums: macos-x64
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 150
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -113,6 +123,11 @@ jobs:
         with:
           version: ${{ steps.version.outputs.version }}
           site_url: ${{ vars.TUCOOLS_SITE_URL }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
 
       - name: Package disk images
         env:
@@ -126,13 +141,13 @@ jobs:
           VERSION: ${{ steps.version.outputs.version }}
           WEB_IMAGE: ${{ steps.version.outputs.web_image }}
           ENGINE_IMAGE: ${{ steps.version.outputs.engine_image }}
-        run: bash .github/scripts/publish-desktop-assets.sh macos
+        run: bash .github/scripts/publish-desktop-assets.sh macos ${{ matrix.sums }}
 
   linux:
     name: Linux
     if: ${{ inputs.linux }}
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 150
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -149,11 +164,16 @@ jobs:
           version: ${{ steps.version.outputs.version }}
           site_url: ${{ vars.TUCOOLS_SITE_URL }}
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
       - name: Install packaging libraries
         run: |
           set -euo pipefail
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends fakeroot
+          sudo apt-get install -y --no-install-recommends fakeroot patchelf
           sudo apt-get install -y --no-install-recommends libfuse2 || sudo apt-get install -y --no-install-recommends libfuse2t64
 
       - name: Package AppImage and deb

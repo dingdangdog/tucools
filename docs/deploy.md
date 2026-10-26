@@ -40,7 +40,7 @@ npm run dev:desktop
 $env:TUCOOLS_RUNTIME = "E:\work-gt\gt-tucools\desktop\.runtime"
 ```
 
-Windows 安装包在打开时启动随包的 `tucools-engine.exe`。用户不用单独安装 Python。`npm run package:win` 会先用仓库 `.venv` 把引擎冻成这个程序，再打进安装包。模型包不在其中。macOS 和 Linux 安装包仍带引擎源码，启动时用本机 Python；没有随包引擎时，也可以用 `TUCOOLS_RUNTIME` 里的旧命令行。本地工具不依赖引擎。AI 页在引擎没起来或没有可用模型时不能开始处理。
+三个平台的安装包在打开时都启动随包引擎。用户不用单独安装 Python，安装目录里也没有引擎源码。`npm run package:win`、`package:mac` 和 `package:linux` 会先把引擎冻成当前系统的程序，再打进安装包。macOS 只打包本机架构：Apple 芯片打 arm64，Intel 打 x64。模型包不在其中。本地工具不依赖引擎。AI 页在引擎没起来或没有可用模型时不能开始处理。
 
 ## Docker
 
@@ -88,7 +88,7 @@ Linux：
 npm run package:linux
 ```
 
-产物在 `apps/desktop/release`。Windows 安装包包含页面、壳和冻结后的引擎程序，不含模型包，也不含 `app.py` 这类引擎源码。安装后打开「图酷」就会启动引擎，引擎把记录写到 `%APPDATA%\tucools\engine.log`。macOS 和 Linux 安装包包含页面、壳和引擎源码，调用 `python3`（也可用 `TUCOOLS_PYTHON`）运行，依赖要装在那个 Python 里。三个平台的本地图像工具都可以离线使用。
+产物在 `apps/desktop/release`。三个平台的安装包都包含页面、壳和冻结后的引擎程序，不含模型包，也不含 `app.py` 这类引擎源码。安装后打开「图酷」就会启动引擎。引擎记录写在用户数据目录的 `engine.log`：Windows 是 `%APPDATA%\tucools\engine.log`，macOS 是 `~/Library/Application Support/tucools/engine.log`，Linux 是 `~/.local/share/tucools/engine.log`。三个平台的本地图像工具都可以离线使用。
 
 安装后的模型包目录：
 
@@ -286,7 +286,7 @@ git push origin v0.3.0
 
 任一工作流成功后，都会给这个已有标签创建 GitHub Release。说明正文来自 `.github/scripts/release-notes.md`，语言是英文。说明只在第一次创建时写入，之后的任务只追加自己的附件，不覆盖说明。已经存在的 Release 不会因为模板改成英文而自动更新。
 
-安装包附件使用上面的文件名。每个平台另有 `SHA256SUMS-windows.txt`、`SHA256SUMS-macos.txt` 或 `SHA256SUMS-linux.txt`，所以三个任务同时上传也不会改写对方的校验文件。
+安装包附件使用上面的文件名。校验文件是 `SHA256SUMS-windows.txt`、`SHA256SUMS-macos-arm64.txt`、`SHA256SUMS-macos-x64.txt` 和 `SHA256SUMS-linux.txt`。macOS 的两个架构分开上传，不会改写对方的校验文件。
 
 镜像不放进 Release 的二进制附件。坐标写在说明里。摘要写在 `tucools-web-<版本>.txt` 或 `tucools-engine-<版本>.txt`，也写在对应 Actions 运行的摘要里。
 

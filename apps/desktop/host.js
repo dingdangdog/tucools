@@ -532,10 +532,14 @@ function startBundledEngine(executable, port, packDir) {
   return child;
 }
 
-function chooseEngine(resourcesPath, isPackaged) {
-  const bundled = path.join(resourcesPath, "engine", "tucools-engine.exe");
+function engineBinaryName(platform = process.platform) {
+  return platform === "win32" ? "tucools-engine.exe" : "tucools-engine";
+}
+
+function chooseEngine(resourcesPath, isPackaged, platform = process.platform) {
+  const bundled = path.join(resourcesPath, "engine", engineBinaryName(platform));
   if (fs.existsSync(bundled)) return { mode: "bundled", executable: bundled };
-  if (isPackaged && process.platform === "win32") return { mode: "missing" };
+  if (isPackaged) return { mode: "missing" };
   const runtime = process.env.TUCOOLS_RUNTIME;
   if (runtime && fs.existsSync(path.join(runtime, "erembg.exe"))) return { mode: "legacy", runtime };
   const engineDir = isPackaged ? path.join(resourcesPath, "engine") : path.resolve(__dirname, "../../services/engine");
@@ -550,7 +554,7 @@ async function startHost({ webRoot, resourcesPath, isPackaged }) {
   if (choice.mode === "bundled") child = startBundledEngine(choice.executable, enginePort, packDir);
   if (choice.mode === "python") child = startPythonEngine(choice.engineDir, enginePort, packDir);
   if (choice.mode === "missing") {
-    console.error("Windows 安装包里没有 tucools-engine.exe，不会改用本机 Python。");
+    console.error("安装包里没有随包引擎，不会改用本机 Python。");
   }
   const server = createStaticServer(webRoot, {
     mode: choice.mode === "legacy" ? "legacy" : "proxy",
@@ -568,4 +572,4 @@ async function startHost({ webRoot, resourcesPath, isPackaged }) {
   };
 }
 
-module.exports = { startHost, startPythonEngine, modelPackDir, pythonCommand, chooseEngine };
+module.exports = { startHost, startPythonEngine, modelPackDir, pythonCommand, chooseEngine, engineBinaryName };

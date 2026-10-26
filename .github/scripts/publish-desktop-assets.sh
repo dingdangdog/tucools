@@ -3,10 +3,11 @@
 set -euo pipefail
 
 PLATFORM="${1:-}"
+SUM_NAME="${2:-$PLATFORM}"
 case "$PLATFORM" in
   windows|macos|linux) ;;
   *)
-    echo "用法：$0 windows|macos|linux"
+    echo "用法：$0 windows|macos|linux [校验文件名]"
     exit 1
     ;;
 esac
@@ -69,7 +70,7 @@ SUMS="$(mktemp)"
     shasum -a 256 -- *
   fi
 ) > "$SUMS"
-mv "$SUMS" "$DEST/SHA256SUMS-${PLATFORM}.txt"
+mv "$SUMS" "$DEST/SHA256SUMS-${SUM_NAME}.txt"
 
 bash .github/scripts/ensure-release.sh
 gh release upload "$TAG" "$DEST"/* --clobber
@@ -79,7 +80,7 @@ if [[ -n "${GITHUB_STEP_SUMMARY:-}" ]]; then
     echo "### ${PLATFORM}"
     echo
     echo '```'
-    cat "$DEST/SHA256SUMS-${PLATFORM}.txt"
+    cat "$DEST/SHA256SUMS-${SUM_NAME}.txt"
     echo '```'
     echo
   } >> "$GITHUB_STEP_SUMMARY"
