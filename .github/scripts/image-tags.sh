@@ -5,16 +5,21 @@ set -euo pipefail
 : "${VERSION:?}"
 : "${IMAGE:?}"
 choice="${INPUT_LATEST:-auto}"
+# GitHub 的运行表单会把未加引号的 yes/no 显示成 true/false。
 case "$choice" in
-  auto|yes|no) ;;
+  true|yes) choice=always ;;
+  false|no) choice=never ;;
+esac
+case "$choice" in
+  auto|always|never) ;;
   *)
-    echo "latest 只能是 auto、yes 或 no。当前是：${choice}"
+    echo "latest 只能是 auto、always 或 never。当前是：${choice}"
     exit 1
     ;;
 esac
 
 mark=false
-if [[ "$choice" == "yes" ]]; then
+if [[ "$choice" == "always" ]]; then
   mark=true
 elif [[ "$choice" == "auto" ]]; then
   mark=true

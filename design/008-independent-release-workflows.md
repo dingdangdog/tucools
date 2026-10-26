@@ -25,7 +25,7 @@
 
 - 版本号来自标签名，或来自手动填写且与该标签一致的 `X.Y.Z`。
 - 镜像坐标由仓库所有者小写名推导：`ghcr.io/<所有者>/tucools-web` 和 `ghcr.io/<所有者>/tucools-engine`。
-- `latest` 不是版本身份。默认 `auto`：存在更高的 `vX.Y.Z` 标签时不移动 `latest`。
+- `latest` 不是版本身份。表单选项是 `auto`、`always`、`never`。默认 `auto`：存在更高的 `vX.Y.Z` 标签时不移动 `latest`。不用 `yes`/`no`，否则 GitHub 运行表单会把它们显示成 `true`/`false`。
 - 安装包文件名带平台和架构，使用 ASCII 名称 `TuCools`：`TuCools-<版本>-windows-x64.exe`、`TuCools-<版本>-mac-<arch>.dmg` 与同名 zip、`TuCools-<版本>-linux-x86_64.AppImage`、`TuCools-<版本>-linux-amd64.deb`。安装后的产品名仍是「图酷」。
 - 校验文件按平台分开：`SHA256SUMS-windows.txt`、`SHA256SUMS-macos.txt`、`SHA256SUMS-linux.txt`。
 - 镜像摘要是 `tucools-web-<版本>.txt` 和 `tucools-engine-<版本>.txt`。Release 说明不写 digest，避免多个任务改写同一段正文。
@@ -87,7 +87,7 @@ macOS 上关闭窗口不退出进程，再次点 Dock 图标会打开原来的�
 
 ## 8. 验证与验收
 
-- 自动化检查：shell 语法、版本号拒绝样例、`latest=yes|no` 的标签输出、说明模板替换、YAML 可解析、`node --check`、模型目录和 Python 命令的平台分支。
+- 自动化检查：shell 语法、版本号拒绝样例、`latest=always|never` 的标签输出、说明模板替换、YAML 可解析、`node --check`、模型目录和 Python 命令的平台分支。
 - 边界与回归用例：更高版本标签存在时 `auto` 不移动 `latest`；标签指向别的提交时拒绝；三个校验文件名不冲突。
 - 人工或外部服务：未在 GitHub Actions 上实际构建镜像或安装包。未做代码签名。macOS 临时签名和 Linux AppImage 要等第一次手动运行确认。
 - 发布前检查：默认分支已包含新工作流；标签指向的提交也包含这些文件；Packages 的可见性仍按原规则处理。

@@ -273,8 +273,10 @@ git push origin v0.3.0
 | 选项 | 行为 |
 | --- | --- |
 | `auto` | 默认。没有更高的 `vX.Y.Z` 标签时，才把 `latest` 指到这次版本 |
-| `yes` | 总是移动 `latest` |
-| `no` | 不移动 `latest` |
+| `always` | 总是移动 `latest` |
+| `never` | 不移动 `latest` |
+
+下拉选项不能写成 `yes` 和 `no`。GitHub 的「Run workflow」会把这两个词显示成 `true` 和 `false`，提交时又按原来的 `yes`、`no` 校验，表单无法通过。脚本仍把 `true`、`yes` 当作 `always`，把 `false`、`no` 当作 `never`。
 
 安装包工作流默认勾选三个平台。只重做其中一个时，取消另外两个。三个任务之间没有依赖。macOS 失败时，Windows 和 Linux 仍会上传自己的附件。要重跑失败的平台，可以在那次运行里选择 Re-run failed jobs，或重新运行工作流并只勾选该平台。
 
@@ -320,7 +322,7 @@ $env:TUCOOLS_ENGINE_IMAGE = "ghcr.io/<所有者>/tucools-engine:0.2.0"
 docker compose -f deploy/docker-compose.deploy.yml -f deploy/docker-compose.gpu.yml up -d
 ```
 
-私有包拉取前需要 `docker login ghcr.io`；公开包可以直接拉取。重发旧版本时，镜像工作流的 `auto` 不会把 `latest` 改到更旧的版本；只有选择 `yes` 才会。本机没有对应镜像时，这条 Compose 只会拉取，不会回退到本地构建。
+私有包拉取前需要 `docker login ghcr.io`；公开包可以直接拉取。重发旧版本时，镜像工作流的 `auto` 不会把 `latest` 改到更旧的版本；只有选择 `always` 才会。本机没有对应镜像时，这条 Compose 只会拉取，不会回退到本地构建。
 
 `deploy/docker-compose.yml` 仍用于从源码构建。使用其中已填写的发布镜像、且不要构建时，可以不带 `--build`：
 

@@ -21,7 +21,7 @@ on:
         type: string
         default: ""
       latest:
-        description: auto、yes 或 no
+        description: auto、always 或 never。true、yes 视为 always，false、no 视为 never。
         required: true
         type: string
       site_url:

@@ -8,14 +8,14 @@ on:
         required: false
         type: string
       latest:
-        description: 是否把这次镜像标为 latest。auto 只在没有更高版本标签时移动。
+        description: 是否移动 latest。auto 在没有更高版本时移动；always 总是移动；never 不移动。
         required: true
         type: choice
         default: auto
         options:
           - auto
-          - yes
-          - no
+          - always
+          - never
 
 permissions:
   contents: write
