@@ -26,7 +26,7 @@
 - 版本号来自标签名，或来自手动填写且与该标签一致的 `X.Y.Z`。
 - 镜像坐标由仓库所有者小写名推导：`ghcr.io/<所有者>/tucools-web` 和 `ghcr.io/<所有者>/tucools-engine`。
 - `latest` 不是版本身份。默认 `auto`：存在更高的 `vX.Y.Z` 标签时不移动 `latest`。
-- 安装包文件名带平台和架构：`图酷-<版本>-windows-x64.exe`、`图酷-<版本>-mac-<arch>.dmg`、`图酷-<版本>-linux-x64.AppImage` 和同名 deb。
+- 安装包文件名带平台和架构，使用 ASCII 名称 `TuCools`：`TuCools-<版本>-windows-x64.exe`、`TuCools-<版本>-mac-<arch>.dmg` 与同名 zip、`TuCools-<版本>-linux-x86_64.AppImage`、`TuCools-<版本>-linux-amd64.deb`。安装后的产品名仍是「图酷」。
 - 校验文件按平台分开：`SHA256SUMS-windows.txt`、`SHA256SUMS-macos.txt`、`SHA256SUMS-linux.txt`。
 - 镜像摘要是 `tucools-web-<版本>.txt` 和 `tucools-engine-<版本>.txt`。Release 说明不写 digest，避免多个任务改写同一段正文。
 

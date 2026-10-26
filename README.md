@@ -64,10 +64,10 @@
 
 | 系统 | 文件 |
 | --- | --- |
-| Windows x64 | `图酷-<版本>-windows-x64.exe` |
-| macOS Apple 芯片 | `图酷-<版本>-mac-arm64.dmg`，另有同名 zip |
-| macOS Intel | `图酷-<版本>-mac-x64.dmg`，另有同名 zip |
-| Linux x64 | `图酷-<版本>-linux-x64.AppImage` 和 `图酷-<版本>-linux-x64.deb` |
+| Windows x64 | `TuCools-<版本>-windows-x64.exe` |
+| macOS Apple 芯片 | `TuCools-<版本>-mac-arm64.dmg`，另有同名 zip |
+| macOS Intel | `TuCools-<版本>-mac-x64.dmg`，另有同名 zip |
+| Linux x64 | `TuCools-<版本>-linux-x86_64.AppImage` 和 `TuCools-<版本>-linux-amd64.deb` |
 
 某一版如果只有说明、没有这些文件，是这一版的安装包还没附上。换一个已经带有安装包的版本，或先用下面的 Docker。
 

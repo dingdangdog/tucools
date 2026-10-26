@@ -106,10 +106,10 @@ npm run package:linux
 
 | 平台 | 文件 |
 | --- | --- |
-| Windows x64 | `图酷-<版本>-windows-x64.exe` |
-| macOS Apple 芯片 | `图酷-<版本>-mac-arm64.dmg`，另有同名 zip |
-| macOS Intel | `图酷-<版本>-mac-x64.dmg`，另有同名 zip |
-| Linux x64 | `图酷-<版本>-linux-x64.AppImage` 和 `图酷-<版本>-linux-x64.deb` |
+| Windows x64 | `TuCools-<版本>-windows-x64.exe` |
+| macOS Apple 芯片 | `TuCools-<版本>-mac-arm64.dmg`，另有同名 zip |
+| macOS Intel | `TuCools-<版本>-mac-x64.dmg`，另有同名 zip |
+| Linux x64 | `TuCools-<版本>-linux-x86_64.AppImage` 和 `TuCools-<版本>-linux-amd64.deb` |
 
 这些包都没有代码签名。Windows 可能提示未知发布者。macOS 若拦截，到「系统设置 → 隐私与安全性」允许，或对应用执行 `xattr -dr com.apple.quarantine`。Linux 的 AppImage 先加上可执行权限；有的系统还要 `libfuse2`。deb 用 `dpkg -i` 安装，缺依赖时再执行 `apt-get install -f`。
 
@@ -292,7 +292,7 @@ GitHub 包页面从多架构清单读取 `org.opencontainers.image.description`�
 
 容器包第一次出现时默认是私有的。仓库给其他人使用时，到 GitHub 的 Packages 页面把 `tucools-web` 和 `tucools-engine` 改为公开。之后再次发布会更新已有的包。
 
-以前的 Windows 附件名是 `图酷-Setup-<版本>.exe`。从这套工作流开始，Windows 文件名是 `图酷-<版本>-windows-x64.exe`。已经发出的旧 Release 不会改名。
+以前的 Windows 附件名是 `图酷-Setup-<版本>.exe`，后来曾用 `图酷-<版本>-windows-x64.exe`。GitHub Release 保存附件时会去掉非 ASCII 字符，中文文件名会变成 `-0.0.4-mac-arm64.dmg` 这种只剩版本和平台的名字。下载文件名因此使用 `TuCools-<版本>-<平台>-<架构>`。安装后的窗口、菜单和快捷方式仍显示「图酷」。已经发出的旧 Release 不会改名。Linux 的 AppImage 架构名是 `x86_64`，deb 是 `amd64`。
 
 只部署、不在本机构建时，使用 `deploy/docker-compose.deploy.yml`。它没有 `build`，默认拉取 `ghcr.io/dingdangdog/tucools-web` 和 `ghcr.io/dingdangdog/tucools-engine` 的 `latest`。引擎只留在 Compose 网络内，页面仍监听 `8080`。模型包目录、功能菜单、站点根和广告变量与上面的构建用 Compose 相同。
 

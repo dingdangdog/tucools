@@ -6,10 +6,10 @@
 
 | 平台 | 文件 |
 | --- | --- |
-| Windows x64 | 图酷-__VERSION__-windows-x64.exe |
-| macOS Apple 芯片 | 图酷-__VERSION__-mac-arm64.dmg |
-| macOS Intel | 图酷-__VERSION__-mac-x64.dmg |
-| Linux x64 | 图酷-__VERSION__-linux-x64.AppImage 和 图酷-__VERSION__-linux-x64.deb |
+| Windows x64 | TuCools-__VERSION__-windows-x64.exe |
+| macOS Apple 芯片 | TuCools-__VERSION__-mac-arm64.dmg，另有同名 zip |
+| macOS Intel | TuCools-__VERSION__-mac-x64.dmg，另有同名 zip |
+| Linux x64 | TuCools-__VERSION__-linux-x86_64.AppImage 和 TuCools-__VERSION__-linux-amd64.deb |
 
 macOS 若提示无法打开，到「系统设置 → 隐私与安全性」里允许，或对应用执行 xattr -dr com.apple.quarantine。Linux 的 AppImage 需要可执行权限；deb 用 dpkg -i 安装。
 

@@ -64,7 +64,7 @@
     "win": {
       "target": [{ "target": "nsis", "arch": ["x64"] }],
       "icon": "build/icon.ico",
-      "artifactName": "图酷-${version}-windows-${arch}.${ext}"
+      "artifactName": "TuCools-${version}-windows-${arch}.${ext}"
     },
     "mac": {
       "category": "public.app-category.graphics-design",
@@ -76,7 +76,7 @@
         { "target": "dmg", "arch": ["arm64", "x64"] },
         { "target": "zip", "arch": ["arm64", "x64"] }
       ],
-      "artifactName": "图酷-${version}-mac-${arch}.${ext}"
+      "artifactName": "TuCools-${version}-mac-${arch}.${ext}"
     },
     "dmg": {
       "sign": false
@@ -91,7 +91,7 @@
         { "target": "AppImage", "arch": ["x64"] },
         { "target": "deb", "arch": ["x64"] }
       ],
-      "artifactName": "图酷-${version}-linux-${arch}.${ext}"
+      "artifactName": "TuCools-${version}-linux-${arch}.${ext}"
     },
     "nsis": {
       "oneClick": false,
