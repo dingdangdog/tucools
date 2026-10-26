@@ -11,7 +11,7 @@ torch 2.2.2 不能在 numpy 2 下导入。`opencv-python-headless==4.12.0.88` �
 ## 变更内容
 
 - `requirements.txt` 按系统和架构选择依赖。Apple 芯片、Linux 和 Windows 仍使用 torch 2.7.1 与 numpy 2.2.6。
-- macOS x86_64 安装 torch 2.2.2、torchvision 0.17.2、numpy 1.26.4、opencv-python-headless 4.10.0.84、SciPy 1.17.1 和 numba 0.62.1。
+- macOS x86_64 安装 torch 2.2.2、torchvision 0.17.2、numpy 1.26.4、opencv-python-headless 4.10.0.84、SciPy 1.17.1、numba 0.62.1 和 tifffile 2026.3.3。2026.4 及以后的 tifffile 要求 numpy 2。
 - `build-engine.sh` 在 macOS 上不再写死 torch 2.7.1，只去掉没有 macOS 文件的 CPU 索引，然后按上面的环境标记安装。
 
 ## 影响范围
@@ -26,10 +26,11 @@ torch 2.2.2 不能在 numpy 2 下导入。`opencv-python-headless==4.12.0.88` �
 ## 数据库与兼容性
 
 - 无数据库影响。
-- 消除仍加载模型包里的 `big-lama.pt`。这是较旧的 TorchScript，2.2.2 的 `torch.jit.load` 可以读取这种文件。未在 Intel Mac 上用真实模型跑过消除。
+- 消除仍加载模型包里的 `big-lama.pt`。未在 Intel Mac 上用 torch 2.2.2 加载该文件。
 
 ## 验证
 
-- 用环境标记在 Darwin x86_64、Darwin arm64、Linux x86_64、Linux aarch64 和 Windows AMD64 上解析 `requirements.txt`。
-- 对 macOS x86_64、CPython 3.12 做 `--only-binary` 的安装解析，确认所选版本都有对应轮子。
+- 用环境标记解析 `requirements.txt`：Darwin x86_64 选中 torch 2.2.2、torchvision 0.17.2、numpy 1.26.4、opencv-python-headless 4.10.0.84、SciPy 1.17.1、numba 0.62.1、tifffile 2026.3.3。Darwin arm64 选中 torch 2.7.1、torchvision 0.22.1、numpy 2.2.6。Linux x86_64 与 Windows 选中 torch 2.7.1+cpu、torchvision 0.22.1+cpu。Linux aarch64 选中 torch 2.7.1+cpu、torchvision 0.22.1。
+- 按 macOS x86_64、CPython 3.12、只接受轮子解析依赖。已选中 `torch-2.2.2-cp312-none-macosx_10_9_x86_64`、`torchvision-0.17.2-cp312-cp312-macosx_10_13_x86_64`、`numpy-1.26.4-cp312-cp312-macosx_10_9_x86_64`、`opencv_python_headless-4.10.0.84-cp37-abi3-macosx_12_0_x86_64`、`scipy-1.17.1-cp312-cp312-macosx_14_0_x86_64`、`numba-0.62.1-cp312-cp312-macosx_10_15_x86_64`、`llvmlite-0.45.1-cp312-cp312-macosx_10_15_x86_64`、`scikit_image-0.26.0-cp312-cp312-macosx_10_13_x86_64`。tifffile 2026.4.11 到 2026.10.15 要求 numpy 2，2026.3.3 接受 numpy 1.26.4。完整下载在 150MB 的 torch 轮子处读超时，没有打印最终的 Would install。
+- `bash -n scripts/build-engine.sh` 通过。
 - 未在 macOS 上执行 `npm run package:mac`，也未冻结引擎。

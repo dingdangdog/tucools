@@ -7,7 +7,6 @@ import { projectRepo } from "./release";
 const seoRevision = "2026-10-26";
 const freeToken = "免费";
 const minBodyWidth = 52;
-const maxBodyWidth = 68;
 
 const searchTerms: Record<string, string> = {
   home: "免费图片处理, 免费在线图片工具, 免费照片编辑, 免费抠图, 免费压缩图片, 免费裁剪图片, 免费转格式",
@@ -164,13 +163,11 @@ function withFreeLead(body: string): string {
 function sealDocumentTitle(title: string, messages: Copy): string {
   const parts = splitTitle(title, messages);
   let body = withFreeLead(parts.body);
-  const joiner = /[\u3400-\u9fff]/.test(body) ? "，" : ", ";
+  const joiner = /[\u3400-\u9fff\u3040-\u30ff]/.test(parts.body) ? "，" : ", ";
   for (const extra of dedupeText([messages.seo.keywords])) {
     if (textWidth(body) >= minBodyWidth) break;
     if (body.toLocaleLowerCase().includes(extra.toLocaleLowerCase())) continue;
-    const next = `${body}${joiner}${extra}`;
-    if (textWidth(next) > maxBodyWidth && textWidth(body) >= 40) break;
-    body = next;
+    body = `${body}${joiner}${extra}`;
   }
   if (!body.includes(freeToken)) body = withFreeLead(body);
   return `${body} · ${parts.brand}`;
@@ -239,7 +236,7 @@ function pageOf(
   const fallback = spec.path === "/" ? messages.appName : `${spec.heading} · ${messages.appName}`;
   return {
     ...spec,
-    documentTitle: spec.documentTitle || fallback,
+    documentTitle: sealDocumentTitle(spec.documentTitle || fallback, messages),
   };
 }
 
@@ -807,7 +804,7 @@ export function assertDiscoveryPatterns() {
     ["llms.txt", "](/compress.md)"],
     ["llms.txt", "](/index.md)"],
     ["en/llms.txt", "](/en/compress.md)"],
-    ["compress.md", "在线压缩图片，不上传"],
+    ["compress.md", "免费在线压缩图片"],
     ["en/compress.md", "](/en/resize.md)"],
   ] as const;
   for (const [name, pattern] of required) {
@@ -823,7 +820,7 @@ export function assertDiscoveryPatterns() {
   const sample = `<html lang="zh-CN"><head><!--tucools-seo--><title>图酷</title><!--/tucools-seo--></head><body><noscript id="tucools-noscript"></noscript><div id="app"></div></body></html>`;
   const html = applySeoHtml(sample, "/compress", "", zh, "zh");
   const htmlChecks = [
-    ["标题", "在线压缩图片，不上传 · 图酷"],
+    ["标题", "免费在线压缩图片工具，JPG、PNG、WebP按质量或体积压缩且不上传 · 图酷"],
     ["markdown", 'type="text/markdown" href="/compress.md"'],
     ["describedby", 'rel="describedby" href="/llms.txt"'],
     ["正文", 'class="seo-fallback"'],
@@ -847,8 +844,21 @@ export function assertDiscoveryPatterns() {
   if (!files["llms.txt"]?.includes("TuCools") || !files["llms.txt"]?.includes("简单图片")) {
     throw new Error("简体中文 llms.txt 没有品牌别名");
   }
-  if (!html.includes('name="keywords"') || !html.includes("TuCools") || !html.includes("简单图片")) {
+  if (!html.includes('name="keywords"') || !html.includes("TuCools") || !html.includes("简单图片") || !html.includes("免费压缩图片")) {
     throw new Error("压缩页 HTML 缺少品牌关键词");
+  }
+  for (const bundle of localeBundles()) {
+    const pages = [...buildSeoPages(bundle.messages), seoPageFor(bundle.messages, "/missing-seo-check")];
+    for (const page of pages) {
+      if (!page.documentTitle.includes(freeToken)) throw new Error(`${bundle.code} ${page.path} 标题没有${freeToken}`);
+      const body = page.documentTitle.slice(0, page.documentTitle.lastIndexOf(" · "));
+      if (textWidth(body) < minBodyWidth) throw new Error(`${bundle.code} ${page.path} 标题过短: ${page.documentTitle}`);
+      const pageHtml = applySeoHtml(sample, page.path, "", bundle.messages, bundle.code);
+      const keywords = pageHtml.match(/name="keywords" content="([^"]*)"/)?.[1] || "";
+      if (!keywords.includes(freeToken)) throw new Error(`${bundle.code} ${page.path} 关键字没有${freeToken}`);
+      const title = pageHtml.match(/<title>([^<]*)<\/title>/)?.[1] || "";
+      if (!title.includes(freeToken)) throw new Error(`${bundle.code} ${page.path} 的 title 没有${freeToken}`);
+    }
   }
   if (html.includes("https://easyimage.work/")) throw new Error("未设置站点根时不应写入 easyimage.work 绝对地址");
   const enHtml = applySeoHtml(sample, "/compress", "https://easyimage.work", catalogs.en, "en");

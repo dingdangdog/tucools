@@ -64,7 +64,7 @@ docker compose -f deploy/docker-compose.yml up --build
 
 镜像里的 torch 会使引擎镜像达到数 GB。`linux/amd64` 使用和 arm64 相同的 Python slim 基础镜像，再安装 CUDA 12.8 的 torch 与 `onnxruntime-gpu`。这两份轮子自带 CUDA 和 cuDNN，镜像不再叠加 `nvidia/cuda` 基础镜像。显卡驱动仍由 NVIDIA Container Toolkit 在运行时注入。模型包只用只读卷挂载，构建上下文也会忽略 `model-pack`。
 
-`services/engine/requirements.txt` 给本机和 `linux/arm64` 使用。`linux/amd64` 镜像使用 `services/engine/requirements-gpu.txt`。linux/amd64 与 Windows 的 torchvision 使用带 `+cpu` 的 0.22.1 轮子；linux/arm64 与 Apple 芯片使用不带这个后缀的 0.22.1。macOS 的轮子在 PyPI，打包脚本会去掉这份 CPU 索引。Apple 芯片安装 torch 2.7.1。Intel 安装 torch 2.2.2 与 torchvision 0.17.2，因为 PyPI 上 macOS x86_64 的 torch 最高是 2.2.2。这一档要和 numpy 1.26.4 一起安装，因此同时固定 opencv-python-headless 4.10.0.84、SciPy 1.17.1 和 numba 0.62.1。
+`services/engine/requirements.txt` 给本机和 `linux/arm64` 使用。`linux/amd64` 镜像使用 `services/engine/requirements-gpu.txt`。linux/amd64 与 Windows 的 torchvision 使用带 `+cpu` 的 0.22.1 轮子；linux/arm64 与 Apple 芯片使用不带这个后缀的 0.22.1。macOS 的轮子在 PyPI，打包脚本会去掉这份 CPU 索引。Apple 芯片安装 torch 2.7.1。Intel 安装 torch 2.2.2 与 torchvision 0.17.2，因为 PyPI 上 macOS x86_64 的 torch 最高是 2.2.2。这一档要和 numpy 1.26.4 一起安装，因此同时固定 opencv-python-headless 4.10.0.84、SciPy 1.17.1、numba 0.62.1 和 tifffile 2026.3.3。
 
 宿主机有 NVIDIA 显卡时，再叠一层 `deploy/docker-compose.gpu.yml`，引擎容器才能看到显卡。驱动支持的 CUDA 版本需要达到 12.8，可以用 `nvidia-smi` 顶部的 CUDA Version 确认，并且要安装 NVIDIA Container Toolkit。消除走 PyTorch CUDA，抠图走 ONNX Runtime 的 CUDA 执行提供程序，优化走 `upscayl-bin` 的 Vulkan。没有显卡时，这三个功能仍使用 CPU。
 

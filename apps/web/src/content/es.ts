@@ -139,7 +139,7 @@ export const es: Copy = {
     listName: "Herramientas de imagen de 图酷",
     legacyName: "EasyImage",
     keywords:
-      "edición de imágenes gratuita, procesamiento de imágenes en línea, recorte de imágenes, redimensionar, marca de agua, conversión de formato, dividir imágenes, sin subir, procesamiento local, JPG, PNG, WEBP, BMP",
+      "免费, edición de imágenes gratuita, procesamiento de imágenes en línea, recorte de imágenes, redimensionar, marca de agua, conversión de formato, dividir imágenes, sin subir, procesamiento local, JPG, PNG, WEBP, BMP",
     legacyQuestion: "¿Qué relación tiene esto con {name} de EasyImage?",
     legacyAnswer:
       "El nombre en inglés de 图酷 es TuCools. Esta función continúa {name} de EasyImage en easyimage.work y sigue procesándose en local en el navegador.",

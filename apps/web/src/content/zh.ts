@@ -134,7 +134,7 @@ export const zh = {
     listName: "图酷的图像工具",
     legacyName: "简单图片",
     keywords:
-      "免费图片编辑, 免费照片处理, 在线图片处理, 离线图片工具, 图片压缩, 图片裁剪, 图片缩放, 水印, 格式转换, 图片分割, 无需上传, 本地处理, JPG, PNG, WEBP, BMP",
+      "免费, 免费图片编辑, 免费照片处理, 在线图片处理, 离线图片工具, 图片压缩, 图片裁剪, 图片缩放, 水印, 格式转换, 图片分割, 无需上传, 本地处理, JPG, PNG, WEBP, BMP",
     legacyQuestion: "这和 EasyImage 的{name}是什么关系？",
     legacyAnswer:
       "图酷的英文名是 TuCools。这项功能与 easyimage.work 上 EasyImage（简单图片）的{name}是同一系列，仍在浏览器本地处理。",
@@ -162,7 +162,7 @@ export const zh = {
     missingTitle: "页面不存在",
     missingBody: "这个地址没有对应的工具。",
     backHome: "回到开始",
-    homeDocumentTitle: "图酷 · 免费在线图像工具，本地处理",
+    homeDocumentTitle: "免费在线图片处理工具，图片压缩裁剪抠图转格式与缩放，浏览器本地处理不上传 · 图酷",
     homeDescription:
       "图酷为压缩、缩放、转格式、裁剪、证件照尺寸、社交尺寸、应用商店尺寸、切图、水印、加字、灰度、圆形、图转 PDF、Favicon、去除信息、图片信息和 AI提示词提取提供独立地址，并在浏览器本地处理。抠图、优化和消除只请求同源引擎。",
     homeFaqs: [
@@ -181,7 +181,7 @@ export const zh = {
     ],
     tools: {
       cutout: {
-        documentTitle: "在线抠图，导出透明 PNG · 图酷",
+        documentTitle: "免费在线抠图去背景，一键导出透明PNG，人像与商品照片抠图工具 · 图酷",
         description: "去掉背景并导出透明 PNG。请求只发到当前站点的引擎，不经过第三方。没有可用模型时不能开始。",
         faqs: [
           {
@@ -195,7 +195,7 @@ export const zh = {
         ],
       },
       enhance: {
-        documentTitle: "在线放大并增强图片 · 图酷",
+        documentTitle: "免费在线图片放大增强，照片高清修复、画质优化与超分工具 · 图酷",
         description: "按已安装的效果放大并增强画面。请求只发到当前站点的引擎。没有可用模型时不能开始。",
         faqs: [
           {
@@ -209,7 +209,7 @@ export const zh = {
         ],
       },
       erase: {
-        documentTitle: "在线消除图片内容 · 图酷",
+        documentTitle: "免费在线图片消除工具，涂抹去水印、去杂物、去路人并补全画面 · 图酷",
         description: "涂抹要去掉的区域，由当前站点的引擎补全。没有可用模型时不能开始，图片不经过第三方。",
         faqs: [
           {
@@ -223,7 +223,7 @@ export const zh = {
         ],
       },
       compress: {
-        documentTitle: "在线压缩图片，不上传 · 图酷",
+        documentTitle: "免费在线压缩图片工具，JPG、PNG、WebP按质量或体积压缩且不上传 · 图酷",
         description: "在浏览器本地压缩 JPEG、PNG 和 WebP，可按质量、最长边或目标体积处理。图片不会上传。",
         faqs: [
           {
@@ -237,7 +237,7 @@ export const zh = {
         ],
       },
       resize: {
-        documentTitle: "在线缩放图片 · 图酷",
+        documentTitle: "免费在线图片缩放工具，按指定宽高修改尺寸，留白、铺满或拉伸 · 图酷",
         description: "在浏览器本地按指定宽高缩放图片，可以留白完整显示、铺满裁切或拉伸。图片不会上传。",
         faqs: [
           {
@@ -251,7 +251,7 @@ export const zh = {
         ],
       },
       converter: {
-        documentTitle: "在线图片转格式 · 图酷",
+        documentTitle: "免费在线图片转格式工具，PNG、JPEG、WebP、BMP、ICO互相转换且不上传 · 图酷",
         description: "在浏览器本地于 PNG、JPEG、WebP、BMP、ICO 之间转换图片。当前浏览器不能导出的格式会在页面上说明。",
         faqs: [
           {
@@ -265,7 +265,7 @@ export const zh = {
         ],
       },
       cropping: {
-        documentTitle: "在线裁剪图片 · 图酷",
+        documentTitle: "免费在线裁剪图片工具，自由框选或固定比例，旋转翻转后导出PNG · 图酷",
         description: "在浏览器里框选、旋转或翻转，实时预览裁剪结果，点击可查看大图，再导出 PNG。图片不会上传。",
         faqs: [
           {
@@ -279,7 +279,7 @@ export const zh = {
         ],
       },
       "id-photo": {
-        documentTitle: "在线证件照尺寸裁切 · 图酷",
+        documentTitle: "免费在线证件照尺寸裁切，一寸二寸护照美签，白底蓝底红底且不抠图 · 图酷",
         description: "按一寸、二寸、护照或美签的像素裁成证件照比例，并铺上白、蓝或红底。这里只裁切和铺底色，不抠图。",
         faqs: [
           {
@@ -293,7 +293,7 @@ export const zh = {
         ],
       },
       sizes: {
-        documentTitle: "社交平台图片尺寸 · 图酷",
+        documentTitle: "免费在线社交平台图片尺寸，小红书、Instagram、YouTube封面裁切 · 图酷",
         description: "把图片放进 Instagram、YouTube 封面或小红书等常见尺寸。可以留白、铺满裁切或拉伸，处理在浏览器本地完成。",
         faqs: [
           {
@@ -307,7 +307,7 @@ export const zh = {
         ],
       },
       store: {
-        documentTitle: "应用商店截图尺寸 · 图酷",
+        documentTitle: "免费在线应用商店截图尺寸，App Store、Google Play与Chrome商店裁切 · 图酷",
         description:
           "把一张图片放进 App Store、Google Play 和 Chrome 网上应用店的常见尺寸。可以留白、铺满裁切、拉伸或平铺，并下载或复制结果。处理在浏览器本地完成。",
         faqs: [
@@ -322,7 +322,7 @@ export const zh = {
         ],
       },
       cutting: {
-        documentTitle: "在线切图 · 图酷",
+        documentTitle: "免费在线切图与图片分割，竖线、横线、斜线或宫格切开并可拼回 · 图酷",
         description: "按竖线、横线、斜线或宫格切开图片。除宫格外可以再拼回去。切图在浏览器本地完成。",
         faqs: [
           {
@@ -336,7 +336,7 @@ export const zh = {
         ],
       },
       watermark: {
-        documentTitle: "在线给图片加水印 · 图酷",
+        documentTitle: "免费在线给图片加文字水印，位置、字号、颜色和透明度都可调 · 图酷",
         description: "在浏览器本地给图片加上文字水印，可调位置、字号、颜色、透明度和描边。图片不会上传。",
         faqs: [
           {
@@ -350,7 +350,7 @@ export const zh = {
         ],
       },
       caption: {
-        documentTitle: "在线给图片加字 · 图酷",
+        documentTitle: "免费在线给图片加字，在画面中央加大字，字号颜色和描边可调 · 图酷",
         description: "在画面中央加上一行大字，处理在浏览器本地完成。图片不会上传。",
         faqs: [
           {
@@ -364,7 +364,7 @@ export const zh = {
         ],
       },
       fade: {
-        documentTitle: "在线图片转灰度 · 图酷",
+        documentTitle: "免费在线图片转灰度黑白，照片去色与黑白化，在浏览器本地处理 · 图酷",
         description: "在浏览器本地把图片转成灰度。图片不会上传。",
         faqs: [
           {
@@ -378,7 +378,7 @@ export const zh = {
         ],
       },
       tocircle: {
-        documentTitle: "在线把图片裁成圆形 · 图酷",
+        documentTitle: "免费在线把图片裁成圆形，圆形头像和图标按直径裁切后导出 · 图酷",
         description: "按直径把图片裁成圆形。直径为 0 时使用短边。处理在浏览器本地完成。",
         faqs: [
           {
@@ -392,7 +392,7 @@ export const zh = {
         ],
       },
       pdf: {
-        documentTitle: "在线图片转 PDF · 图酷",
+        documentTitle: "免费在线图片转PDF工具，多张图片合成PDF，每张图片单独一页 · 图酷",
         description: "把多张图片合成 PDF，每张图片单独一页。在浏览器本地生成，不会上传。",
         faqs: [
           {
@@ -406,7 +406,7 @@ export const zh = {
         ],
       },
       favicon: {
-        documentTitle: "在线生成 Favicon · 图酷",
+        documentTitle: "免费在线生成网站图标Favicon，导出多尺寸PNG和ICO网站图标 · 图酷",
         description: "从一张图片导出 16、32、48、180 的 PNG 和一个 ICO。在浏览器本地生成，不会上传。",
         faqs: [
           {
@@ -420,7 +420,7 @@ export const zh = {
         ],
       },
       exif: {
-        documentTitle: "在线去除图片 EXIF · 图酷",
+        documentTitle: "免费在线去除图片EXIF信息，清除照片位置等元数据并导出新图 · 图酷",
         description: "查看图片 EXIF 后，重绘成不含元数据的新图。不改原文件，也不上传。",
         faqs: [
           {
@@ -434,7 +434,7 @@ export const zh = {
         ],
       },
       pix: {
-        documentTitle: "在线查看图片信息和 EXIF · 图酷",
+        documentTitle: "免费在线查看图片信息和EXIF，读取照片尺寸参数并可导出JSON · 图酷",
         description: "查看图片尺寸和 EXIF，并可导出 JSON。这里只读取信息；要去掉元数据请使用去除信息。不会上传。",
         faqs: [
           {
@@ -448,7 +448,7 @@ export const zh = {
         ],
       },
       prompt: {
-        documentTitle: "提取图片里的 AI 提示词 · 图酷",
+        documentTitle: "免费提取图片里的AI提示词，读取PNG与JPEG中的绘图参数 · 图酷",
         description:
           "AI提示词提取：读取 PNG、JPEG 图片里嵌入的正向提示词、负向提示词和生成参数，可用于查找 Stable Diffusion 等写在文件中的绘图提示。在浏览器本地完成，不做模型推理。",
         faqs: [

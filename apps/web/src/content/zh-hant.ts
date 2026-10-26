@@ -138,7 +138,7 @@ export const zhHant: Copy = {
     listName: "图酷的圖片工具",
     legacyName: "簡單圖片",
     keywords:
-      "免費圖片編輯, 免費照片處理, 線上圖片處理, 離線圖片工具, 圖片壓縮, 圖片裁剪, 圖片縮放, 浮水印, 格式轉換, 圖片分割, 無需上傳, 本地處理, JPG, PNG, WEBP, BMP",
+      "免费, 免費圖片編輯, 免費照片處理, 線上圖片處理, 離線圖片工具, 圖片壓縮, 圖片裁剪, 圖片縮放, 浮水印, 格式轉換, 圖片分割, 無需上傳, 本地處理, JPG, PNG, WEBP, BMP",
     legacyQuestion: "這和 EasyImage 的{name}是什麼關係？",
     legacyAnswer:
       "图酷的英文名是 TuCools。這項功能與 easyimage.work 上 EasyImage（簡單圖片）的{name}是同一系列，仍在瀏覽器本地處理。",
@@ -166,7 +166,7 @@ export const zhHant: Copy = {
     missingTitle: "找不到頁面",
     missingBody: "這個網址沒有對應的工具。",
     backHome: "回到開始",
-    homeDocumentTitle: "图酷 · 免費線上影像工具，在本機處理",
+    homeDocumentTitle: "免费線上圖片處理工具，圖片壓縮裁切去背轉格式與縮放，瀏覽器本機處理不上傳 · 图酷",
     homeDescription:
       "图酷為壓縮、縮放、轉格式、裁切、證件照尺寸、社群尺寸、應用商店尺寸、切圖、浮水印、加字、灰階、圓形、圖轉 PDF、Favicon、清除資訊、圖片資訊和 AI 提示詞擷取提供獨立網址，並在這台裝置的瀏覽器裡處理。去背、優化和消除只請求同源引擎。",
     homeFaqs: [
@@ -185,7 +185,7 @@ export const zhHant: Copy = {
     ],
     tools: {
       cutout: {
-        documentTitle: "線上去背，匯出透明 PNG · 图酷",
+        documentTitle: "免费線上去背，一鍵匯出透明PNG，人像與商品照片去背工具 · 图酷",
         description: "去掉背景並匯出透明 PNG。請求只發到目前網站的引擎，不經過第三方。沒有可用的模型時不能開始。",
         faqs: [
           {
@@ -199,7 +199,7 @@ export const zhHant: Copy = {
         ],
       },
       enhance: {
-        documentTitle: "線上放大並增強圖片 · 图酷",
+        documentTitle: "免费線上圖片放大增強，照片高畫質修復、畫質優化與超分工具 · 图酷",
         description: "依已安裝的效果放大並增強畫面。請求只發到目前網站的引擎。沒有可用的模型時不能開始。",
         faqs: [
           {
@@ -213,7 +213,7 @@ export const zhHant: Copy = {
         ],
       },
       erase: {
-        documentTitle: "線上消除圖片內容 · 图酷",
+        documentTitle: "免费線上圖片消除工具，塗抹去浮水印、去雜物、去路人並補全畫面 · 图酷",
         description: "塗抹要去掉的區域，由目前網站的引擎填補。沒有可用的模型時不能開始，圖片不經過第三方。",
         faqs: [
           {
@@ -227,7 +227,7 @@ export const zhHant: Copy = {
         ],
       },
       compress: {
-        documentTitle: "線上壓縮圖片，不上傳 · 图酷",
+        documentTitle: "免费線上壓縮圖片工具，JPG、PNG、WebP按畫質或體積壓縮且不上傳 · 图酷",
         description: "在這台裝置的瀏覽器裡壓縮 JPEG、PNG 和 WebP，可依品質、最長邊或目標大小處理。圖片不會上傳。",
         faqs: [
           {
@@ -241,7 +241,7 @@ export const zhHant: Copy = {
         ],
       },
       resize: {
-        documentTitle: "線上縮放圖片 · 图酷",
+        documentTitle: "免费線上圖片縮放工具，按指定寬高修改尺寸，留白、鋪滿或拉伸 · 图酷",
         description: "在這台裝置的瀏覽器裡依指定寬高縮放圖片，可以留白完整顯示、鋪滿裁切或拉伸。圖片不會上傳。",
         faqs: [
           {
@@ -255,7 +255,7 @@ export const zhHant: Copy = {
         ],
       },
       converter: {
-        documentTitle: "線上圖片轉格式 · 图酷",
+        documentTitle: "免费線上圖片轉格式工具，PNG、JPEG、WebP、BMP、ICO互相轉換且不上傳 · 图酷",
         description: "在這台裝置的瀏覽器裡，於 PNG、JPEG、WebP、BMP、ICO 之間轉換圖片。目前瀏覽器不能匯出的格式會在頁面上說明。",
         faqs: [
           {
@@ -269,7 +269,7 @@ export const zhHant: Copy = {
         ],
       },
       cropping: {
-        documentTitle: "線上裁切圖片 · 图酷",
+        documentTitle: "免费線上裁切圖片工具，自由框選或固定比例，旋轉翻轉後匯出PNG · 图酷",
         description: "在瀏覽器裡框選、旋轉或翻轉，即時預覽裁切結果，點擊可查看大圖，再匯出 PNG。圖片不會上傳。",
         faqs: [
           {
@@ -283,7 +283,7 @@ export const zhHant: Copy = {
         ],
       },
       "id-photo": {
-        documentTitle: "線上證件照尺寸裁切 · 图酷",
+        documentTitle: "免费線上證件照尺寸裁切，一寸二寸護照美簽，白底藍底紅底且不去背 · 图酷",
         description: "依一寸、二寸、護照或美簽的像素裁成證件照比例，並鋪上白、藍或紅底。這裡只裁切和鋪底色，不去背。",
         faqs: [
           {
@@ -297,7 +297,7 @@ export const zhHant: Copy = {
         ],
       },
       sizes: {
-        documentTitle: "社群平台圖片尺寸 · 图酷",
+        documentTitle: "免费線上社群平台圖片尺寸，小紅書、Instagram、YouTube封面裁切 · 图酷",
         description: "把圖片放進 Instagram、YouTube 封面或小紅書等常見尺寸。可以留白、鋪滿裁切或拉伸，處理在這台裝置的瀏覽器裡完成。",
         faqs: [
           {
@@ -311,7 +311,7 @@ export const zhHant: Copy = {
         ],
       },
       store: {
-        documentTitle: "應用商店截圖尺寸 · 图酷",
+        documentTitle: "免费線上應用商店截圖尺寸，App Store、Google Play與Chrome商店裁切 · 图酷",
         description:
           "把一張圖片放進 App Store、Google Play 和 Chrome 線上應用程式商店的常見尺寸。可以留白、鋪滿裁切、拉伸或平鋪，並下載或複製結果。處理在這台裝置的瀏覽器裡完成。",
         faqs: [
@@ -326,7 +326,7 @@ export const zhHant: Copy = {
         ],
       },
       cutting: {
-        documentTitle: "線上切圖 · 图酷",
+        documentTitle: "免费線上切圖與圖片分割，直線、橫線、斜線或宮格切開並可拼回 · 图酷",
         description: "依直線、橫線、斜線或宮格切開圖片。除了宮格，可以再拼回去。切圖在這台裝置的瀏覽器裡完成。",
         faqs: [
           {
@@ -340,7 +340,7 @@ export const zhHant: Copy = {
         ],
       },
       watermark: {
-        documentTitle: "線上為圖片加水印 · 图酷",
+        documentTitle: "免费線上為圖片加文字浮水印，位置、字級、顏色和透明度都可調 · 图酷",
         description: "在這台裝置的瀏覽器裡為圖片加上文字浮水印，可調位置、字型大小、顏色、透明度和描邊。圖片不會上傳。",
         faqs: [
           {
@@ -354,7 +354,7 @@ export const zhHant: Copy = {
         ],
       },
       caption: {
-        documentTitle: "線上為圖片加字 · 图酷",
+        documentTitle: "免费線上為圖片加字，在畫面中央加大字，字級顏色和描邊可調 · 图酷",
         description: "在畫面中央加上一行大字，處理在這台裝置的瀏覽器裡完成。圖片不會上傳。",
         faqs: [
           {
@@ -368,7 +368,7 @@ export const zhHant: Copy = {
         ],
       },
       fade: {
-        documentTitle: "線上圖片轉灰階 · 图酷",
+        documentTitle: "免费線上圖片轉灰階黑白，照片去色與黑白化，在瀏覽器本機處理 · 图酷",
         description: "在這台裝置的瀏覽器裡把圖片轉成灰階。圖片不會上傳。",
         faqs: [
           {
@@ -382,7 +382,7 @@ export const zhHant: Copy = {
         ],
       },
       tocircle: {
-        documentTitle: "線上把圖片裁成圓形 · 图酷",
+        documentTitle: "免费線上把圖片裁成圓形，圓形頭像和圖示按直徑裁切後匯出 · 图酷",
         description: "依直徑把圖片裁成圓形。直徑為 0 時使用短邊。處理在這台裝置的瀏覽器裡完成。",
         faqs: [
           {
@@ -396,7 +396,7 @@ export const zhHant: Copy = {
         ],
       },
       pdf: {
-        documentTitle: "線上圖片轉 PDF · 图酷",
+        documentTitle: "免费線上圖片轉PDF工具，多張圖片合成PDF，每張圖片單獨一頁 · 图酷",
         description: "把多張圖片合成 PDF，每張圖片單獨一頁。在這台裝置的瀏覽器裡產生，不會上傳。",
         faqs: [
           {
@@ -410,7 +410,7 @@ export const zhHant: Copy = {
         ],
       },
       favicon: {
-        documentTitle: "線上產生 Favicon · 图酷",
+        documentTitle: "免费線上產生網站圖示Favicon，匯出多尺寸PNG和ICO網站圖示 · 图酷",
         description: "從一張圖片匯出 16、32、48、180 的 PNG 和一個 ICO。在這台裝置的瀏覽器裡產生，不會上傳。",
         faqs: [
           {
@@ -424,7 +424,7 @@ export const zhHant: Copy = {
         ],
       },
       exif: {
-        documentTitle: "線上去除圖片 EXIF · 图酷",
+        documentTitle: "免费線上去除圖片EXIF資訊，清除照片位置等中繼資料並匯出新圖 · 图酷",
         description: "查看圖片 EXIF 後，重繪成不含中繼資料的新圖。不改原檔，也不上傳。",
         faqs: [
           {
@@ -438,7 +438,7 @@ export const zhHant: Copy = {
         ],
       },
       pix: {
-        documentTitle: "線上查看圖片資訊和 EXIF · 图酷",
+        documentTitle: "免费線上查看圖片資訊和EXIF，讀取照片尺寸參數並可匯出JSON · 图酷",
         description: "查看圖片尺寸和 EXIF，並可匯出 JSON。這裡只讀取資訊；要去掉中繼資料請使用清除資訊。不會上傳。",
         faqs: [
           {
@@ -452,7 +452,7 @@ export const zhHant: Copy = {
         ],
       },
       prompt: {
-        documentTitle: "提取圖片裡的 AI 提示詞 · 图酷",
+        documentTitle: "免费提取圖片裡的AI提示詞，讀取PNG與JPEG中的繪圖參數 · 图酷",
         description:
           "AI 提示詞擷取：讀取 PNG、JPEG 圖片裡嵌入的正向提示詞、負向提示詞和生成參數，可用來找出 Stable Diffusion 等寫在檔案中的繪圖提示。在這台裝置的瀏覽器裡完成，不做模型推論。",
         faqs: [

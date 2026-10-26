@@ -139,7 +139,7 @@ export const vn: Copy = {
     listName: "Công cụ ảnh của 图酷",
     legacyName: "EasyImage",
     keywords:
-      "chỉnh sửa hình ảnh miễn phí, xử lý ảnh trực tuyến, công cụ ảnh offline, cắt ảnh, đổi kích thước, hình mờ, chuyển định dạng, không cần tải lên, xử lý cục bộ, JPG, PNG, WEBP, BMP",
+      "免费, chỉnh sửa hình ảnh miễn phí, xử lý ảnh trực tuyến, công cụ ảnh offline, cắt ảnh, đổi kích thước, hình mờ, chuyển định dạng, không cần tải lên, xử lý cục bộ, JPG, PNG, WEBP, BMP",
     legacyQuestion: "Việc này liên quan thế nào tới {name} của EasyImage?",
     legacyAnswer:
       "Tên tiếng Anh của 图酷 là TuCools. Tính năng này tiếp nối {name} của EasyImage trên easyimage.work, và vẫn xử lý cục bộ trên trình duyệt.",

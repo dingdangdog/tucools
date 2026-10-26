@@ -139,7 +139,7 @@ export const ja: Copy = {
     listName: "图酷の画像ツール",
     legacyName: "イージーイメージ",
     keywords:
-      "無料画像編集, オンライン画像処理, オフライン画像ツール, 画像圧縮, 画像トリミング, 画像リサイズ, ウォーターマーク, フォーマット変換, 画像分割, アップロード不要, ローカル処理, JPG, PNG, WEBP, BMP",
+      "免费, 無料画像編集, オンライン画像処理, オフライン画像ツール, 画像圧縮, 画像トリミング, 画像リサイズ, ウォーターマーク, フォーマット変換, 画像分割, アップロード不要, ローカル処理, JPG, PNG, WEBP, BMP",
     legacyQuestion: "EasyImage の{name}とはどういう関係ですか？",
     legacyAnswer:
       "图酷の英語名は TuCools です。この機能は easyimage.work の EasyImage（イージーイメージ）にある{name}と同じ系列で、処理はブラウザのローカルのままです。",
