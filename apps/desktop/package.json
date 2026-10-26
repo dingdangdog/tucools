@@ -27,6 +27,9 @@
     "electronVersion": "35.7.5",
     "asar": true,
     "npmRebuild": false,
+    "extraMetadata": {
+      "name": "tucools"
+    },
     "directories": {
       "output": "release",
       "buildResources": "build"
@@ -98,7 +101,8 @@
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "perMachine": false,
-      "deleteAppDataOnUninstall": false
+      "deleteAppDataOnUninstall": false,
+      "include": "installer.nsh"
     }
   }
 }

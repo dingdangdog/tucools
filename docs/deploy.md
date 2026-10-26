@@ -121,6 +121,8 @@ npm run package:linux
 
 `apps/desktop/package.json` 必须写 `homepage`。deb 用 fpm 打包，electron-builder 把这个地址写入包的 Homepage。它只读取这个 `package.json`，以及 `apps/desktop/.git/config` 里的 `origin`。仓库根目录的 Git 远程、根目录 `package.json` 和 GitHub Actions 的 `GITHUB_REPOSITORY` 都不会被当成项目主页。缺这个字段时 AppImage 仍能生成，deb 会失败。当前地址是 `https://github.com/dingdangdog/tucools`。
 
+Windows 默认安装目录名是 `tucools`。electron-builder 25.1.8 只把英文、数字、空格和 `-_+.` 当作安装目录名。产品名「图酷」会被拒绝，然后改用包名；`@tucools/desktop` 去掉斜杠后会变成 `@tucoolsdesktop`。打包时用 `build.extraMetadata.name` 写成 `tucools`，`apps/desktop/build/installer.nsh` 再把安装目录名固定成同一个名字。为所有用户安装时，默认目录是 `C:\Program Files\tucools`。程序文件仍是 `图酷.exe`，开始菜单仍显示「图酷」。已经发布的安装包不会跟着变。本机如果还登记着旧目录，要先卸载，否则向导会继续使用旧路径。
+
 安装包里的「保存到…」会调用系统保存对话框。浏览器部署仍是直接下载。
 
 安装包顶栏有「功能菜单」。勾选保存在这台电脑的当前用户数据里。启动前设置的 `TUCOOLS_FEATURES` 是允许显示的上限，配置页不能打开上限以外的工具。
