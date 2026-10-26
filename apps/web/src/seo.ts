@@ -5,6 +5,36 @@ import { defaultLocale, localeByCode, localePath, locales, stripLocale, type Loc
 import { projectRepo } from "./release";
 
 const seoRevision = "2026-10-26";
+const freeToken = "免费";
+const minBodyWidth = 52;
+const maxBodyWidth = 68;
+
+const searchTerms: Record<string, string> = {
+  home: "免费图片处理, 免费在线图片工具, 免费照片编辑, 免费抠图, 免费压缩图片, 免费裁剪图片, 免费转格式",
+  cutout: "免费抠图, 在线抠图, 免费去背景, 抠图透明PNG, AI抠图, 人像抠图, 商品抠图",
+  enhance: "免费图片放大, 图片变清晰, 照片高清修复, 免费AI增强, 图片超分, 画质优化",
+  erase: "免费图片消除, 在线去水印, 去除杂物, AI消除, 去路人",
+  compress: "免费压缩图片, 在线图片压缩, JPG压缩, PNG压缩, WebP压缩, 图片体积压缩",
+  resize: "免费图片缩放, 修改图片尺寸, 在线改图片大小, 图片改分辨率",
+  converter: "免费图片转格式, JPG转PNG, PNG转JPG, WebP转换, 图片格式转换",
+  cropping: "免费裁剪图片, 在线裁图, 图片裁剪, 自由裁剪",
+  "id-photo": "免费证件照, 一寸照片, 二寸照片, 护照照片尺寸, 证件照换底色, 美签照片",
+  sizes: "免费社交图片尺寸, 小红书封面尺寸, Instagram图片尺寸, YouTube封面尺寸",
+  store: "免费应用商店截图, App Store截图尺寸, Google Play截图尺寸, Chrome商店截图",
+  cutting: "免费切图, 图片分割, 九宫格切图, 在线分割图片",
+  watermark: "免费图片加水印, 文字水印, 在线加水印",
+  caption: "免费图片加字, 图片加文字, 在线加字",
+  fade: "免费图片转黑白, 图片灰度, 照片黑白化, 在线转灰度",
+  tocircle: "免费圆形裁剪, 圆形头像, 图片裁成圆形",
+  pdf: "免费图片转PDF, 图片合成PDF, JPG转PDF, PNG转PDF",
+  favicon: "免费生成Favicon, 网站图标制作, ICO图标, 在线生成图标",
+  exif: "免费去除EXIF, 删除照片位置, 清除图片元数据, 去除照片信息",
+  pix: "免费查看图片信息, 查看EXIF, 照片参数, 图片信息提取",
+  prompt: "免费提取AI提示词, 图片提示词提取, Stable Diffusion提示词, AI绘图提示词",
+  menus: "免费图片工具, 免费在线图片处理",
+  version: "免费图片工具, 图酷版本",
+  missing: "免费图片工具, 免费在线图片处理",
+};
 
 const relatedPaths: Record<string, readonly string[]> = {
   "/cutout": ["/enhance", "/erase", "/cropping/id-photo"],
@@ -108,9 +138,47 @@ function withLegacyFaq(messages: Copy, id: string, faqs: readonly SeoFaq[]): Seo
   ];
 }
 
+function textWidth(value: string): number {
+  let width = 0;
+  for (const char of value) width += char.charCodeAt(0) > 255 ? 2 : 1;
+  return width;
+}
+
+function splitTitle(title: string, messages: Copy): { body: string; brand: string } {
+  const mark = " · ";
+  const at = title.lastIndexOf(mark);
+  if (at === -1) return { body: title.trim(), brand: messages.appName };
+  const left = title.slice(0, at).trim();
+  const right = title.slice(at + mark.length).trim();
+  const brands = new Set([messages.appName, chineseName, latinName]);
+  if (brands.has(left) && !brands.has(right)) return { body: right, brand: left };
+  return { body: left, brand: right };
+}
+
+function withFreeLead(body: string): string {
+  if (body.includes(freeToken)) return body;
+  const gap = /^[\u3400-\u9fff]/.test(body) ? "" : " ";
+  return `${freeToken}${gap}${body}`;
+}
+
+function sealDocumentTitle(title: string, messages: Copy): string {
+  const parts = splitTitle(title, messages);
+  let body = withFreeLead(parts.body);
+  const joiner = /[\u3400-\u9fff]/.test(body) ? "，" : ", ";
+  for (const extra of dedupeText([messages.seo.keywords])) {
+    if (textWidth(body) >= minBodyWidth) break;
+    if (body.toLocaleLowerCase().includes(extra.toLocaleLowerCase())) continue;
+    const next = `${body}${joiner}${extra}`;
+    if (textWidth(next) > maxBodyWidth && textWidth(body) >= 40) break;
+    body = next;
+  }
+  if (!body.includes(freeToken)) body = withFreeLead(body);
+  return `${body} · ${parts.brand}`;
+}
+
 function pageKeywords(page: SeoPage, messages: Copy): string {
   const alias = legacyAlias(messages, page.id);
-  const topical = page.path === "/" ? messages.seo.keywords : [page.heading, alias].filter(Boolean).join(", ");
+  const topical = [freeToken, searchTerms[page.id] || "", page.heading, alias, messages.seo.keywords].filter(Boolean).join(", ");
   return dedupeText([topical, ...brandNames(messages)]).join(", ");
 }
 

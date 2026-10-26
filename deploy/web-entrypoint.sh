@@ -78,4 +78,7 @@ if [ -n "$origin" ]; then
     echo "忽略 TUCOOLS_SITE_URL：需要不带路径的 http 或 https 站点根地址。" >&2
   fi
 fi
+if [ "$#" -eq 0 ]; then
+  set -- nginx -g "daemon off;"
+fi
 exec /docker-entrypoint.sh "$@"

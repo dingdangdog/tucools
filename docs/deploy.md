@@ -58,11 +58,13 @@ docker compose -f deploy/docker-compose.yml up --build
 
 浏览器打开 http://127.0.0.1:13175 。容器内 nginx 仍监听 8080，Compose 把宿主机的 13175 映射过去。已发布的页面镜像不用为这个端口重新构建。
 
+页面镜像的默认命令是 `nginx -g "daemon off;"`。`deploy/Dockerfile.web` 在设置入口脚本时必须同时写上这条 `CMD`。只写 `ENTRYPOINT` 时，Docker 会清掉 nginx 基础镜像自带的启动命令，容器写完 `app-config.json` 就以退出码 0 结束，`restart: unless-stopped` 会立刻再拉起。入口脚本在没有参数时也会补上同一条命令。`0.0.7` 及更早的已发布页面镜像没有这条命令，重新发布页面镜像后才会自带。在此之前，compose 里可以写 `command: ["nginx", "-g", "daemon off;"]`。
+
 引擎只在 Compose 网络里，不映射到宿主机。页面容器把 `/api/engine` 反代过去。不要把引擎端口单独暴露到公网；这套服务没有登录。
 
 镜像里的 torch 会使引擎镜像达到数 GB。`linux/amd64` 使用和 arm64 相同的 Python slim 基础镜像，再安装 CUDA 12.8 的 torch 与 `onnxruntime-gpu`。这两份轮子自带 CUDA 和 cuDNN，镜像不再叠加 `nvidia/cuda` 基础镜像。显卡驱动仍由 NVIDIA Container Toolkit 在运行时注入。模型包只用只读卷挂载，构建上下文也会忽略 `model-pack`。
 
-`services/engine/requirements.txt` 给本机和 `linux/arm64` 使用。`linux/amd64` 镜像使用 `services/engine/requirements-gpu.txt`。arm64 的 torchvision CPU 轮子没有 `+cpu` 后缀，两条都写成 `0.22.1+cpu` 时，arm64 镜像会在安装依赖时失败。
+`services/engine/requirements.txt` 给本机和 `linux/arm64` 使用。`linux/amd64` 镜像使用 `services/engine/requirements-gpu.txt`。linux/amd64 与 Windows 的 torchvision 使用带 `+cpu` 的 0.22.1 轮子；linux/arm64 与 Apple 芯片使用不带这个后缀的 0.22.1。macOS 的轮子在 PyPI，打包脚本会去掉这份 CPU 索引。Apple 芯片安装 torch 2.7.1。Intel 安装 torch 2.2.2 与 torchvision 0.17.2，因为 PyPI 上 macOS x86_64 的 torch 最高是 2.2.2。这一档要和 numpy 1.26.4 一起安装，因此同时固定 opencv-python-headless 4.10.0.84、SciPy 1.17.1 和 numba 0.62.1。
 
 宿主机有 NVIDIA 显卡时，再叠一层 `deploy/docker-compose.gpu.yml`，引擎容器才能看到显卡。驱动支持的 CUDA 版本需要达到 12.8，可以用 `nvidia-smi` 顶部的 CUDA Version 确认，并且要安装 NVIDIA Container Toolkit。消除走 PyTorch CUDA，抠图走 ONNX Runtime 的 CUDA 执行提供程序，优化走 `upscayl-bin` 的 Vulkan。没有显卡时，这三个功能仍使用 CPU。
 
@@ -87,6 +89,8 @@ Linux：
 ```bash
 npm run package:linux
 ```
+
+macOS 打包先按本机架构安装引擎依赖。Apple 芯片安装 torch 2.7.1。Intel 安装 torch 2.2.2。在 Intel 上请求 torch 2.7.1 时，pip 只会列出 2.2.0、2.2.1 和 2.2.2。
 
 产物在 `apps/desktop/release`。三个平台的安装包都包含页面、壳和冻结后的引擎程序，不含模型包，也不含 `app.py` 这类引擎源码。安装后打开「图酷」就会启动引擎。引擎记录写在用户数据目录的 `engine.log`：Windows 是 `%APPDATA%\tucools\engine.log`，macOS 是 `~/Library/Application Support/tucools/engine.log`，Linux 是 `~/.local/share/tucools/engine.log`。三个平台的本地图像工具都可以离线使用。
 
@@ -174,7 +178,7 @@ $env:TUCOOLS_ADSENSE_SLOT = "0000000000"
 - 在站点根提供 `ads.txt`，内容是 `google.com, pub-编号, DIRECT, f08c47fec0942fa0`。
 - 加载 `adsbygoogle.js`，并写入 `google-adsense-account`。这与 easyimage 的自动广告相同，具体位置由 AdSense 后台决定。
 
-`TUCOOLS_ADSENSE_SLOT` 是可选的展示广告单元编号，6 到 20 位数字。两个变量都有效时，工具页右侧上方显示这个单元，下面是常见问题。只设置发布商编号时，右侧不留空广告区。非法值会被忽略，并写到容器日志。开发页面读取启动 `npm run dev:web` 时的环境。
+`TUCOOLS_ADSENSE_SLOT` 是可选的展示广告单元编号，6 到 20 位数字。两个变量都有效时，工具页右侧上方只放这个单元的自适应 `ins` 占位，不另做边框、标题或固定高度，下面是常见问题。只设置发布商编号时，右侧不留空广告区。非法值会被忽略，并写到容器日志。开发页面读取启动 `npm run dev:web` 时的环境。
 
 改完环境变量后重新创建页面容器。同一份镜像可以给不同站点使用各自的编号。
 

@@ -54,6 +54,17 @@ body,
   height: 100%;
 }
 
+html:not(:has(#app > .seo-fallback)),
+body:not(:has(#app > .seo-fallback)) {
+  height: 100%;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+#app:not(:has(> .seo-fallback)) {
+  overflow: hidden;
+}
+
 #app:has(> .seo-fallback) {
   height: auto;
   min-height: 100%;

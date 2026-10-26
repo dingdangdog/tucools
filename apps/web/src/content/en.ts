@@ -16,7 +16,6 @@ export const en: Copy = {
   cropModes: "Crop modes",
   cropFamilyLead: "Crop a selection, or use ID photo, social sizes, store sizes, and circle.",
   github: "GitHub repository",
-  adLabel: "Ad",
   themeToDark: "Switch to dark",
   themeToLight: "Switch to light",
   empty: "Drop images here, or choose files",

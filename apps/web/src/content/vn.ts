@@ -16,7 +16,6 @@ export const vn: Copy = {
   cropModes: "Cách cắt",
   cropFamilyLead: "Khoanh vùng để cắt, hoặc dùng kích thước ảnh thẻ, mạng xã hội, cửa hàng và hình tròn.",
   github: "Kho GitHub",
-  adLabel: "Quảng cáo",
   themeToDark: "Chuyển sang nền tối",
   themeToLight: "Chuyển sang nền sáng",
   empty: "Kéo ảnh vào đây, hoặc chọn tệp",

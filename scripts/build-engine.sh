@@ -21,9 +21,9 @@ import_check() {
 
 install_requirements() {
   if [[ "$(uname -s)" == "Darwin" ]]; then
-    "$python" -m pip install "torch==2.7.1" "torchvision==0.22.1"
+    # CPU 索引没有 macOS 轮子。torch 版本由 requirements.txt 按架构选择。
     filtered="$(mktemp)"
-    grep -vE '^(torch|torchvision|--extra-index-url)' "$engine/requirements.txt" > "$filtered"
+    grep -vE '^--extra-index-url' "$engine/requirements.txt" > "$filtered"
     "$python" -m pip install -r "$filtered"
     rm -f "$filtered"
   else

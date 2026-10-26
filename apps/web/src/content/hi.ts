@@ -16,7 +16,6 @@ export const hi: Copy = {
   cropModes: "काटने के तरीके",
   cropFamilyLead: "क्षेत्र काटें, या पहचान फ़ोटो, सोशल आकार, स्टोर आकार और वृत्त का उपयोग करें।",
   github: "GitHub रिपॉज़िटरी",
-  adLabel: "विज्ञापन",
   themeToDark: "गहरे रंग पर जाएँ",
   themeToLight: "हल्के रंग पर जाएँ",
   empty: "चित्र यहाँ खींचें, या फ़ाइल चुनें",

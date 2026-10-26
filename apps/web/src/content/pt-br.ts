@@ -16,7 +16,6 @@ export const ptBr: Copy = {
   cropModes: "Modos de recorte",
   cropFamilyLead: "Recorte uma área ou use foto de documento, tamanhos sociais, tamanhos de lojas e círculo.",
   github: "Repositório no GitHub",
-  adLabel: "Anúncio",
   themeToDark: "Mudar para o tema escuro",
   themeToLight: "Mudar para o tema claro",
   empty: "Arraste imagens para cá, ou escolha arquivos",

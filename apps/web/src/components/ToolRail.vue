@@ -1,5 +1,5 @@
 <template>
-  <aside v-if="show" class="flex w-full shrink-0 flex-col gap-3 lg:h-full lg:w-80 lg:min-h-0">
+  <aside v-if="show" class="flex w-full shrink-0 flex-col gap-3 lg:h-full lg:min-h-0 lg:w-80 lg:overflow-y-auto">
     <AdSlot />
     <div v-if="hasFaq" class="panel min-h-0 p-3 lg:flex-1 lg:overflow-y-auto">
       <PageFacts embedded />

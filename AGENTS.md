@@ -39,9 +39,9 @@
 - 模型包单独下载，目录由 `TUCOOLS_MODEL_PACK` 指定。权重在 `models/`，超分程序在 `bin/<平台>/`。清单见 `deploy/model-pack.json`。不得把 `model-pack`、权重或 upscayl 打进 Git、安装包或镜像。
 - 引擎只监听本机，或只留在 Compose 网络内。不要把引擎端口暴露到公网。没有登录。
 - 超分调用 upscayl-bin，不安装 Python 版 realesrgan。Linux 容器不能运行 `upscayl-bin.exe`。
-- Windows、macOS 和 Linux 安装包都包含冻结后的引擎程序和它的运行时。启动时自动拉起，不要求用户安装 Python，安装目录里也不放引擎源码。模型包仍然单独下载。Windows 程序名是 `tucools-engine.exe`，macOS 和 Linux 是 `tucools-engine`。macOS 的 arm64 与 x64 分别在对应架构的机器上冻结。开发时如果 8787 没有服务，桌面壳用仓库 `.venv` 启动引擎。只有没找到随包引擎、且不是安装包时，`TUCOOLS_RUNTIME` 里的旧命令行才组装参数，不重写算法。
+- Windows、macOS 和 Linux 安装包都包含冻结后的引擎程序和它的运行时。启动时自动拉起，不要求用户安装 Python，安装目录里也不放引擎源码。模型包仍然单独下载。Windows 程序名是 `tucools-engine.exe`，macOS 和 Linux 是 `tucools-engine`。macOS 的 arm64 与 x64 分别在对应架构的机器上冻结。Intel 上的 torch 停在 2.2.2，因为 PyPI 的 macOS x86_64 轮子到此为止。开发时如果 8787 没有服务，桌面壳用仓库 `.venv` 启动引擎。只有没找到随包引擎、且不是安装包时，`TUCOOLS_RUNTIME` 里的旧命令行才组装参数，不重写算法。
 - 安装包做 Windows x64 NSIS、macOS dmg/zip（arm64 与 x64）和 Linux x64 AppImage/deb。产品名「图酷」，`appId` 为 `com.tucools.app`。没有代码签名。三个平台的构建互不依赖。
-- 不做激活、支付、试用、博客、上色、美颜、人脸修复。广告默认关闭。公开站点用 `TUCOOLS_ADSENSE_CLIENT` 接入 AdSense 并生成 `/ads.txt`；再设置 `TUCOOLS_ADSENSE_SLOT` 时，工具页右侧显示该广告单元。未配置时不加载广告脚本。安装包默认不配置。统计默认关闭。公开站点用 `TUCOOLS_ANALYTICS_ID` 接入 Google Analytics 4。未配置时不加载 gtag.js。安装包默认不配置。
+- 不做激活、支付、试用、博客、上色、美颜、人脸修复。广告默认关闭。公开站点用 `TUCOOLS_ADSENSE_CLIENT` 接入 AdSense 并生成 `/ads.txt`；再设置 `TUCOOLS_ADSENSE_SLOT` 时，工具页右侧放该广告单元的 `ins` 占位，使用自适应格式，不另做边框、标题或固定高度。未配置时不加载广告脚本，也不留空位。安装包默认不配置。统计默认关闭。公开站点用 `TUCOOLS_ANALYTICS_ID` 接入 Google Analytics 4。未配置时不加载 gtag.js。安装包默认不配置。
 - 默认语言是简体中文，地址不带前缀。其他语言使用 `/en`、`/zh_hant`、`/es`、`/de`、`/ja`、`/pt_br`、`/hi`、`/vn`、`/ar`、`/bn`。简体中文和其他非英语界面的产品名是「图酷」，英语界面是「TuCools」。网页不按 `Accept-Language` 跳转；`localStorage` 键 `tucools-locale` 只在打开站点根 `/` 时生效。安装包第一次打开根地址、且没有保存语言时，按系统语言选择。阿拉伯语页面使用 `dir="rtl"`。公开站点的绝对规范地址在构建时读取 `VITE_SITE_URL`，容器启动时读取 `TUCOOLS_SITE_URL`。每个可索引页面另有 Markdown，`llms.txt` 指向这些文件。`robots.txt` 用 Content-Signal 允许搜索、生成式引用和训练。广告编号和统计测量 ID 也在容器启动时读取，不写进镜像。
 
 ## 接到需求后怎么改
@@ -58,11 +58,13 @@
 | 改文案 | 先改 `zh.ts`，再改 `content/` 里每一种语言，使它们继续符合 `Copy`。 |
 | 改模型文件名或目录 | `runtime_info.py`、`deploy/model-pack.json`、`docs/models.md`，以及安装包过滤和镜像忽略规则。 |
 | 改安装或 Docker | `apps/desktop`、`deploy/`、`docs/deploy.md`。镜像和安装包仍不包含模型包。 |
-| 改广告或统计 | `TUCOOLS_ADSENSE_CLIENT`、`TUCOOLS_ADSENSE_SLOT`、`TUCOOLS_ANALYTICS_ID`，以及入口脚本、`app-config.json`、`/ads.txt` 和工具页右侧。不把发布商编号或测量 ID 写进仓库。 |
+| 改广告或统计 | `TUCOOLS_ADSENSE_CLIENT`、`TUCOOLS_ADSENSE_SLOT`、`TUCOOLS_ANALYTICS_ID`，以及入口脚本、`app-config.json`、`/ads.txt` 和工具页右侧。广告位只放 `ins` 占位。不把发布商编号或测量 ID 写进仓库。 |
 
 新增本地工具时，批量工具沿用 `BatchLayout`、`Stage`、`Chips`、`Field`、`ResultGrid`；需要对照原图操作的工具沿用 `StudioLayout` 和 `Stage`。新增 AI 工具时，沿用 `StudioLayout`、`EngineStatus`，并用 `runEngineJob` 接收 SSE。`useResults()` 必须返回 `reactive({...})`；返回普通对象会导致模板拿到 Ref 本身。
 
 主题：`localStorage` 键是 `tucools-theme`。显式 `light`、`dark`、`system` 按其值生效；没有保存值时默认暗色。亮色是浅灰底、白表面和蓝色强调，暗色是近黑底、抬升表面和蓝色强调。窄屏收起侧栏。宽屏可收成图标栏，状态在 `tucools-nav-rail`。
+
+外壳锁在视口高度内。左侧菜单保持视口高度，菜单过长时只滚动菜单。页头不随内容移动。主体在自己的区域里滚动，不要把菜单和整页一起撑高。
 
 保存文件：安装包里走 `window.tucools.saveBytes`；浏览器里直接下载。不要在页面里分叉两套结果数据。
 

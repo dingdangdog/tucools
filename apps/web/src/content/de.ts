@@ -16,7 +16,6 @@ export const de: Copy = {
   cropModes: "Zuschneidemodi",
   cropFamilyLead: "Bereich zuschneiden oder Passbild, Social-Media-Größen, Store-Größen und Kreis verwenden.",
   github: "GitHub-Repository",
-  adLabel: "Anzeige",
   themeToDark: "Zum dunklen Design wechseln",
   themeToLight: "Zum hellen Design wechseln",
   empty: "Bilder hierher ziehen oder Dateien auswählen",

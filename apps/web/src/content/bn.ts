@@ -16,7 +16,6 @@ export const bn: Copy = {
   cropModes: "ক্রপের ধরন",
   cropFamilyLead: "এলাকা কেটে নিন, বা পরিচয়পত্রের মাপ, সামাজিক মাপ, স্টোরের মাপ এবং বৃত্ত ব্যবহার করুন।",
   github: "GitHub রিপোজিটরি",
-  adLabel: "বিজ্ঞাপন",
   themeToDark: "গাঢ় রঙে যান",
   themeToLight: "হালকা রঙে যান",
   empty: "ছবি এখানে টেনে আনুন, অথবা ফাইল বেছে নিন",

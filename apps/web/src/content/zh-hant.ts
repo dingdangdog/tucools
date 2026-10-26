@@ -16,7 +16,6 @@ export const zhHant: Copy = {
   cropModes: "裁切方式",
   cropFamilyLead: "框選裁切，也可做證件照尺寸、社群尺寸、應用商店尺寸和圓形。",
   github: "GitHub 倉庫",
-  adLabel: "廣告",
   themeToDark: "切換到深色",
   themeToLight: "切換到淺色",
   empty: "把圖片拖到這裡，或選擇檔案",

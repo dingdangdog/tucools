@@ -16,7 +16,6 @@ export const es: Copy = {
   cropModes: "Modos de recorte",
   cropFamilyLead: "Recorta un área, o usa foto de carné, tamaños para redes, tamaños de tiendas y círculo.",
   github: "Repositorio de GitHub",
-  adLabel: "Anuncio",
   themeToDark: "Cambiar a oscuro",
   themeToLight: "Cambiar a claro",
   empty: "Arrastra las imágenes aquí o selecciona archivos",

@@ -14,7 +14,6 @@ export const zh = {
   cropModes: "裁剪方式",
   cropFamilyLead: "框选裁剪，也可做证件照尺寸、社交尺寸、应用商店尺寸和圆形。",
   github: "GitHub 仓库",
-  adLabel: "广告",
   themeToDark: "切换到暗色",
   themeToLight: "切换到亮色",
   empty: "把图片拖到这里，或选择文件",

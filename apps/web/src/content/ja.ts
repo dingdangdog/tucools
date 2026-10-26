@@ -16,7 +16,6 @@ export const ja: Copy = {
   cropModes: "トリミングの種類",
   cropFamilyLead: "範囲を切り抜くほか、証明写真サイズ、SNSサイズ、ストアサイズ、円形も使えます。",
   github: "GitHub リポジトリ",
-  adLabel: "広告",
   themeToDark: "ダークに切り替える",
   themeToLight: "ライトに切り替える",
   empty: "画像をここにドラッグするか、ファイルを選択してください",
