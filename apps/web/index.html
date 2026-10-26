@@ -27,8 +27,13 @@
                 : theme === "system"
                   ? prefersDark
                   : true;
+          document.documentElement.classList.add("tucools-js");
           document.documentElement.classList.toggle("dark", dark);
           document.documentElement.style.colorScheme = dark ? "dark" : "light";
+          document.documentElement.style.backgroundColor = dark ? "#101012" : "#f3f3f5";
+          var fallback = document.createElement("style");
+          fallback.textContent = "html.tucools-js .seo-fallback{display:none}";
+          document.head.appendChild(fallback);
           if (localStorage.getItem("tucools-nav-rail") === "1") {
             document.documentElement.classList.add("nav-rail");
           }

@@ -137,7 +137,25 @@ Windows 默认安装目录名是 `tucools`。electron-builder 25.1.8 只把英�
 $env:TUCOOLS_FEATURES = "compress,resize,cutout,enhance"
 ```
 
-开发页面读取运行 `npm run dev:web` 的环境。Docker 读取页面容器的环境，改完后需要重新创建页面容器。安装包读取启动图酷时的环境。客户端在这个上限里再做本机选择，键名是 `tucools-features`。浏览器部署没有配置页，只服从环境变量。直接打开未显示功能的地址会回到首页。
+要改某一项时，从下面这一整串里删掉或补上对应功能名。这一串是当前全部菜单；`cropping` 会同时打开证件照、社交尺寸、应用商店尺寸和圆形，所以那四个名字不必再写。不设置或留空等于这一整串。
+
+```powershell
+$env:TUCOOLS_FEATURES = "cutout,enhance,erase,compress,resize,converter,cropping,cutting,watermark,caption,fade,pdf,favicon,exif,pix,prompt"
+```
+
+例如去掉「消除」，删掉 `erase`：
+
+```powershell
+$env:TUCOOLS_FEATURES = "cutout,enhance,compress,resize,converter,cropping,cutting,watermark,caption,fade,pdf,favicon,exif,pix,prompt"
+```
+
+只开放一部分裁剪地址时，不要写 `cropping`，改写要留下的地址名，例如只留证件照和圆形：
+
+```powershell
+$env:TUCOOLS_FEATURES = "cutout,enhance,erase,compress,resize,converter,id-photo,tocircle,cutting,watermark,caption,fade,pdf,favicon,exif,pix,prompt"
+```
+
+开发页面读取运行 `npm run dev:web` 的环境，改完后要重新启动这个命令。Docker 读取页面容器的环境，改完后需要重新创建页面容器。安装包读取启动图酷时的环境，改完后要重新打开程序。客户端在这个上限里再做本机选择，键名是 `tucools-features`。浏览器部署没有配置页，只服从环境变量。直接打开未显示功能的地址会回到首页。
 
 侧栏最上是「全部功能」，点击回到首页。下面依次是「AI 处理」「常规处理」「信息处理」。裁剪、证件照尺寸、社交尺寸、应用商店尺寸和圆形在侧栏和首页里只占一个「裁剪」。自由裁剪是 `/cropping`，其余是 `/cropping/id-photo`、`/cropping/sizes`、`/cropping/store`、`/cropping/tocircle`。旧的 `/id-photo`、`/sizes`、`/store`、`/tocircle` 会跳到新地址。切图单独占一项。只把 `id-photo`、`sizes`、`store` 或 `tocircle` 写进变量、不写 `cropping` 时，侧栏仍显示「裁剪」，但只能打开写出来的那些地址。
 

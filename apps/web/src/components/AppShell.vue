@@ -1,11 +1,11 @@
 <template>
-  <div class="flex h-full min-h-0 overflow-hidden">
+  <div class="app-frame flex h-auto min-h-0 items-stretch overflow-clip">
     <div
       v-if="ui.navOpen"
       class="fixed inset-0 z-30 bg-black/50 md:hidden"
       @click="ui.navOpen = false"
     />
-    <aside class="nav-drawer fixed inset-y-0 start-0 z-40 flex h-full min-h-0 flex-col overflow-hidden md:static" :class="{ 'is-open': ui.navOpen }">
+    <aside class="nav-drawer fixed inset-y-0 start-0 z-40 flex h-auto min-h-0 flex-col overflow-hidden md:static" :class="{ 'is-open': ui.navOpen }">
       <div class="flex items-center gap-1 px-2 py-3">
         <RouterLink :to="homeTo" class="brand" @click="ui.navOpen = false">
           <img src="/logo.webp" alt="" class="h-8 w-8 shrink-0 rounded-lg" />
@@ -87,7 +87,7 @@
         </a>
       </div>
     </aside>
-    <div class="flex h-full min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
+    <div class="flex h-auto min-h-0 min-w-0 flex-1 flex-col overflow-clip">
       <header class="app-top relative z-20 flex h-14 shrink-0 items-center gap-2 px-3 md:px-5">
         <button type="button" class="icon-btn inline-flex shrink-0 md:hidden" :aria-label="copy.openNav" @click="ui.navOpen = true">
           <Bars3Icon class="h-5 w-5" aria-hidden="true" />
@@ -96,7 +96,7 @@
         <LocaleSelect />
       </header>
       <CropModes />
-      <main class="min-h-0 flex-1 overflow-hidden">
+      <main class="flex min-h-0 min-w-0 flex-1 flex-col overflow-clip">
         <RouterView :key="$route.fullPath" />
       </main>
     </div>

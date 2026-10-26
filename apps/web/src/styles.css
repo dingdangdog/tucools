@@ -54,18 +54,38 @@ body,
   height: 100%;
 }
 
-html:not(:has(#app > .seo-fallback)),
-body:not(:has(#app > .seo-fallback)) {
-  height: 100%;
+html.tucools-js,
+html.tucools-js body,
+html.tucools-js #app {
   height: 100dvh;
-  overflow: hidden;
+  max-height: 100dvh;
+  overflow: clip;
 }
 
-#app:not(:has(> .seo-fallback)) {
-  overflow: hidden;
+html.tucools-js #app > .app-frame {
+  height: auto;
+  min-height: 100dvh;
+  max-height: 100dvh;
 }
 
-#app:has(> .seo-fallback) {
+html.tucools-js main {
+  display: flex;
+  flex-direction: column;
+}
+
+html.tucools-js main > * {
+  flex: 1 1 0%;
+  min-width: 0;
+  min-height: 0;
+}
+
+html.tucools-js .seo-fallback {
+  display: none;
+}
+
+html:not(.tucools-js),
+html:not(.tucools-js) body,
+html:not(.tucools-js) #app {
   height: auto;
   min-height: 100%;
   overflow: auto;
