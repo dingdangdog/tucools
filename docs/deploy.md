@@ -280,7 +280,7 @@ git push origin v0.3.0
 
 ### 3. 发布页上有什么
 
-任一工作流成功后，都会给这个已有标签创建 GitHub Release。说明只在第一次创建时写入，之后的任务只追加自己的附件，不覆盖说明。
+任一工作流成功后，都会给这个已有标签创建 GitHub Release。说明正文来自 `.github/scripts/release-notes.md`，语言是英文。说明只在第一次创建时写入，之后的任务只追加自己的附件，不覆盖说明。已经存在的 Release 不会因为模板改成英文而自动更新。
 
 安装包附件使用上面的文件名。每个平台另有 `SHA256SUMS-windows.txt`、`SHA256SUMS-macos.txt` 或 `SHA256SUMS-linux.txt`，所以三个任务同时上传也不会改写对方的校验文件。
 

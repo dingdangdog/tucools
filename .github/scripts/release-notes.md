@@ -1,35 +1,35 @@
-## 安装包
+## Installers
 
-这一版的安装包、页面镜像和引擎镜像分开构建。某个附件还没有出现时，对应的发布任务还没完成。
+Installers, the web image, and the engine image are built separately. An asset is missing until its publish job finishes.
 
-安装包没有代码签名，不含模型包，也不含 tucools-engine.exe。本地图像工具可以离线使用。
+Installers are unsigned. They do not include the model pack or `tucools-engine.exe`. Local image tools work offline.
 
-| 平台 | 文件 |
+| Platform | File |
 | --- | --- |
 | Windows x64 | TuCools-__VERSION__-windows-x64.exe |
-| macOS Apple 芯片 | TuCools-__VERSION__-mac-arm64.dmg，另有同名 zip |
-| macOS Intel | TuCools-__VERSION__-mac-x64.dmg，另有同名 zip |
-| Linux x64 | TuCools-__VERSION__-linux-x86_64.AppImage 和 TuCools-__VERSION__-linux-amd64.deb |
+| macOS Apple silicon | TuCools-__VERSION__-mac-arm64.dmg, plus a zip with the same name |
+| macOS Intel | TuCools-__VERSION__-mac-x64.dmg, plus a zip with the same name |
+| Linux x64 | TuCools-__VERSION__-linux-x86_64.AppImage and TuCools-__VERSION__-linux-amd64.deb |
 
-macOS 若提示无法打开，到「系统设置 → 隐私与安全性」里允许，或对应用执行 xattr -dr com.apple.quarantine。Linux 的 AppImage 需要可执行权限；deb 用 dpkg -i 安装。
+If macOS blocks the app, allow it in System Settings → Privacy & Security, or run `xattr -dr com.apple.quarantine` on the app. Make the AppImage executable before running it. Install the deb with `dpkg -i`.
 
-校验文件是 SHA256SUMS-windows.txt、SHA256SUMS-macos.txt、SHA256SUMS-linux.txt。同名 blockmap 可以忽略。
+Checksum files are `SHA256SUMS-windows.txt`, `SHA256SUMS-macos.txt`, and `SHA256SUMS-linux.txt`. Matching blockmap files can be ignored.
 
-模型包目录：Windows 为 %APPDATA%\tucools\model-pack，macOS 为 ~/Library/Application Support/tucools/model-pack，Linux 为 ~/.local/share/tucools/model-pack。也可以设置 TUCOOLS_MODEL_PACK。
+Model pack directories: `%APPDATA%\tucools\model-pack` on Windows, `~/Library/Application Support/tucools/model-pack` on macOS, and `~/.local/share/tucools/model-pack` on Linux. `TUCOOLS_MODEL_PACK` overrides these paths.
 
-## Docker 镜像
+## Docker images
 
-镜像不含模型包。linux/amd64 引擎镜像安装 CUDA 12.8 的 PyTorch，linux/arm64 引擎镜像是 CPU 版。
+Images do not include the model pack. The `linux/amd64` engine image installs PyTorch for CUDA 12.8. The `linux/arm64` engine image is the CPU build.
 
-- 页面：__WEB_IMAGE__:__VERSION__
-- 引擎：__ENGINE_IMAGE__:__VERSION__
+- Web: __WEB_IMAGE__:__VERSION__
+- Engine: __ENGINE_IMAGE__:__VERSION__
 
-摘要文件是 tucools-web-__VERSION__.txt 和 tucools-engine-__VERSION__.txt。latest 是否移动取决于发布镜像时的选项；重发旧版本默认不覆盖更新的 latest。
+Digest files are `tucools-web-__VERSION__.txt` and `tucools-engine-__VERSION__.txt`. Whether `latest` moves depends on the image publish option. Republishing an older version does not move a newer `latest` by default.
 
-容器包第一次发布时默认私有。需要给其他人拉取时，到 GitHub Packages 把这两个包改为公开。
+A package is private the first time it is published. To let others pull the images, make `tucools-web` and `tucools-engine` public on GitHub Packages.
 
-固定版本部署时设置 TUCOOLS_VERSION=__VERSION__，再执行：
+To deploy this version, set `TUCOOLS_VERSION=__VERSION__` and run:
 
     docker compose -f deploy/docker-compose.deploy.yml -f deploy/docker-compose.gpu.yml up -d
 
-没有 NVIDIA GPU 时去掉 -f deploy/docker-compose.gpu.yml。说明见 docs/deploy.md。
+Omit `-f deploy/docker-compose.gpu.yml` when the machine has no NVIDIA GPU. See `docs/deploy.md`.
