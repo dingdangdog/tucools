@@ -472,18 +472,22 @@ function pythonCommand() {
   return { command: "python3", prefix: [] };
 }
 
+function userDataDir() {
+  if (process.platform === "win32") {
+    const base = process.env.APPDATA || path.join(os.homedir(), "AppData", "Roaming");
+    return path.join(base, "tucools");
+  }
+  if (process.platform === "darwin") {
+    return path.join(os.homedir(), "Library", "Application Support", "tucools");
+  }
+  const base = process.env.XDG_DATA_HOME || path.join(os.homedir(), ".local", "share");
+  return path.join(base, "tucools");
+}
+
 function modelPackDir(isPackaged) {
   if (process.env.TUCOOLS_MODEL_PACK) return path.resolve(process.env.TUCOOLS_MODEL_PACK);
   if (!isPackaged) return path.resolve(__dirname, "../../model-pack");
-  if (process.platform === "win32") {
-    const base = process.env.APPDATA || path.join(os.homedir(), "AppData", "Roaming");
-    return path.join(base, "tucools", "model-pack");
-  }
-  if (process.platform === "darwin") {
-    return path.join(os.homedir(), "Library", "Application Support", "tucools", "model-pack");
-  }
-  const base = process.env.XDG_DATA_HOME || path.join(os.homedir(), ".local", "share");
-  return path.join(base, "tucools", "model-pack");
+  return path.join(userDataDir(), "model-pack");
 }
 
 function startPythonEngine(engineDir, port, packDir = modelPackDir(false)) {
@@ -499,15 +503,39 @@ function startPythonEngine(engineDir, port, packDir = modelPackDir(false)) {
 }
 
 function startBundledEngine(executable, port, packDir) {
-  return spawn(executable, [], {
+  const dataDir = userDataDir();
+  const tmpDir = path.join(dataDir, "tmp");
+  fs.mkdirSync(dataDir, { recursive: true });
+  fs.mkdirSync(tmpDir, { recursive: true });
+  const log = fs.createWriteStream(path.join(dataDir, "engine.log"), { flags: "a" });
+  log.write(`\n---- ${new Date().toISOString()} ${executable} ----\n`);
+  const child = spawn(executable, [], {
+    cwd: dataDir,
     windowsHide: true,
-    env: { ...process.env, PORT: String(port), TUCOOLS_MODEL_PACK: packDir },
+    env: {
+      ...process.env,
+      PORT: String(port),
+      TUCOOLS_MODEL_PACK: packDir,
+      TUCOOLS_TMP: tmpDir,
+      PYTHONIOENCODING: "utf-8",
+      PYTHONDONTWRITEBYTECODE: "1",
+    },
   });
+  child.stdout?.pipe(log, { end: false });
+  child.stderr?.pipe(log, { end: false });
+  child.on("error", (error) => {
+    log.write(`\nengine spawn error: ${error.message}\n`);
+  });
+  child.on("exit", (code, signal) => {
+    log.write(`\nengine exit code=${code} signal=${signal || ""}\n`);
+  });
+  return child;
 }
 
-async function chooseEngine(resourcesPath, isPackaged) {
+function chooseEngine(resourcesPath, isPackaged) {
   const bundled = path.join(resourcesPath, "engine", "tucools-engine.exe");
   if (fs.existsSync(bundled)) return { mode: "bundled", executable: bundled };
+  if (isPackaged && process.platform === "win32") return { mode: "missing" };
   const runtime = process.env.TUCOOLS_RUNTIME;
   if (runtime && fs.existsSync(path.join(runtime, "erembg.exe"))) return { mode: "legacy", runtime };
   const engineDir = isPackaged ? path.join(resourcesPath, "engine") : path.resolve(__dirname, "../../services/engine");
@@ -515,12 +543,15 @@ async function chooseEngine(resourcesPath, isPackaged) {
 }
 
 async function startHost({ webRoot, resourcesPath, isPackaged }) {
-  const choice = await chooseEngine(resourcesPath, isPackaged);
+  const choice = chooseEngine(resourcesPath, isPackaged);
   const enginePort = 8787;
   const packDir = modelPackDir(isPackaged);
   let child = null;
   if (choice.mode === "bundled") child = startBundledEngine(choice.executable, enginePort, packDir);
   if (choice.mode === "python") child = startPythonEngine(choice.engineDir, enginePort, packDir);
+  if (choice.mode === "missing") {
+    console.error("Windows 安装包里没有 tucools-engine.exe，不会改用本机 Python。");
+  }
   const server = createStaticServer(webRoot, {
     mode: choice.mode === "legacy" ? "legacy" : "proxy",
     port: enginePort,
@@ -537,4 +568,4 @@ async function startHost({ webRoot, resourcesPath, isPackaged }) {
   };
 }
 
-module.exports = { startHost, startPythonEngine, modelPackDir, pythonCommand };
+module.exports = { startHost, startPythonEngine, modelPackDir, pythonCommand, chooseEngine };

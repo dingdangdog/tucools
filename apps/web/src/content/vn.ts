@@ -29,6 +29,8 @@ export const vn: Copy = {
   failed: "Xử lý thất bại",
   noImage: "Hãy thêm tệp ảnh",
   engineDown: "Engine không phản hồi. Hãy khởi động engine trên máy này hoặc engine trong Docker.",
+  engineStarting: "Đang khởi động engine trên máy này.",
+  engineDownDesktop: "Engine trên máy này không khởi động. Hãy thoát 图酷 rồi mở lại.",
   engineMissing: "Còn thiếu các tệp này",
   modelPackHint: "Gói mô hình tải riêng. Giải nén vào thư mục này rồi kiểm tra lại:",
   refreshHealth: "Kiểm tra lại",

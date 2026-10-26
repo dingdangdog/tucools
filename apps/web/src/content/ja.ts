@@ -29,6 +29,8 @@ export const ja: Copy = {
   failed: "処理に失敗しました",
   noImage: "画像ファイルを入れてください",
   engineDown: "エンジンが応答しません。先にローカルのエンジン、または Docker 内のエンジンを起動してください。",
+  engineStarting: "このコンピューターのエンジンを起動しています。",
+  engineDownDesktop: "このコンピューターのエンジンが起動しませんでした。图酷を終了して、もう一度開いてください。",
   engineMissing: "次のファイルが不足しています",
   modelPackHint: "モデルパックは別途ダウンロードします。このディレクトリに展開してから、もう一度確認してください：",
   refreshHealth: "再確認",

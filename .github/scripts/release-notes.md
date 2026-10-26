@@ -2,7 +2,7 @@
 
 Installers, the web image, and the engine image are built separately. An asset is missing until its publish job finishes.
 
-Installers are unsigned. They do not include the model pack or `tucools-engine.exe`. Local image tools work offline.
+Installers are unsigned and do not include the model pack. The Windows installer includes the bundled engine runtime and starts it when the app opens. It does not include the engine's Python source, and Windows users do not install Python. macOS and Linux installers include the engine source and use the machine's Python. Local image tools work offline.
 
 | Platform | File |
 | --- | --- |

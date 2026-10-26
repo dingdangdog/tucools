@@ -29,6 +29,8 @@ export const en: Copy = {
   failed: "Processing failed",
   noImage: "Please add an image file",
   engineDown: "The engine is not responding. Start the local engine or the engine in Docker.",
+  engineStarting: "Starting the local engine.",
+  engineDownDesktop: "The local engine did not start. Quit TuCools and open it again.",
   engineMissing: "These files are still missing",
   modelPackHint: "Download the model pack separately, extract it into this folder, then check again:",
   refreshHealth: "Check again",

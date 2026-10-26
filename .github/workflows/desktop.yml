@@ -48,7 +48,7 @@ jobs:
     name: Windows
     if: ${{ inputs.windows }}
     runs-on: windows-latest
-    timeout-minutes: 90
+    timeout-minutes: 150
     defaults:
       run:
         shell: bash
@@ -67,6 +67,17 @@ jobs:
         with:
           version: ${{ steps.version.outputs.version }}
           site_url: ${{ vars.TUCOOLS_SITE_URL }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install engine dependencies
+        shell: pwsh
+        run: |
+          python -m venv .venv
+          .\.venv\Scripts\python.exe -m pip install -r services/engine/requirements.txt
 
       - name: Package NSIS installer
         env:

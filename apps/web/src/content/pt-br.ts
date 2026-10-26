@@ -29,6 +29,8 @@ export const ptBr: Copy = {
   failed: "Falha no processamento",
   noImage: "Coloque arquivos de imagem",
   engineDown: "O mecanismo não respondeu. Inicie o mecanismo neste computador ou o mecanismo no Docker.",
+  engineStarting: "Iniciando o mecanismo deste computador.",
+  engineDownDesktop: "O mecanismo deste computador não iniciou. Feche o 图酷 e abra de novo.",
   engineMissing: "Ainda faltam estes arquivos",
   modelPackHint: "O pacote de modelos é baixado separadamente. Extraia neste diretório e verifique de novo:",
   refreshHealth: "Verificar de novo",

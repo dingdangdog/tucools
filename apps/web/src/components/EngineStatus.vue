@@ -1,7 +1,8 @@
 <template>
   <div v-if="phase !== 'ready' || status?.missing.length" class="text-sm">
     <p v-if="phase === 'checking'" class="text-muted">{{ copy.modelChecking }}</p>
-    <p v-else-if="phase === 'down'" class="text-danger">{{ copy.engineDown }}</p>
+    <p v-else-if="phase === 'down' && starting" class="text-muted">{{ copy.engineStarting }}</p>
+    <p v-else-if="phase === 'down'" class="text-danger">{{ desktop ? copy.engineDownDesktop : copy.engineDown }}</p>
     <template v-else-if="phase === 'blocked'">
       <p class="text-danger">{{ copy.modelBlocked }}</p>
       <p v-if="status?.missing.length" class="mt-1 break-all text-danger">
@@ -27,6 +28,10 @@ import { type ToolGate } from "@/engine-gate";
 import { canDownloadModelPack } from "@/model-pack-download";
 
 const desktop = canDownloadModelPack();
+const starting = ref(false);
+let pollTimer = 0;
+let pollAttempts = 0;
+const POLL_LIMIT = 30;
 
 const props = defineProps<{ tool: EngineToolName }>();
 const emit = defineEmits<{ gate: [ToolGate] }>();
@@ -51,6 +56,31 @@ function publish() {
   emit("gate", snapshot());
 }
 
+function stopEnginePoll() {
+  if (pollTimer) {
+    window.clearInterval(pollTimer);
+    pollTimer = 0;
+  }
+  starting.value = false;
+  pollAttempts = 0;
+}
+
+function watchEngineStart() {
+  if (!desktop || pollTimer) return;
+  starting.value = true;
+  pollTimer = window.setInterval(() => {
+    pollAttempts += 1;
+    if (pollAttempts >= POLL_LIMIT) {
+      window.clearInterval(pollTimer);
+      pollTimer = 0;
+      starting.value = false;
+      publish();
+      return;
+    }
+    void load();
+  }, 2000);
+}
+
 async function load() {
   if (checking.value) {
     queued = true;
@@ -67,6 +97,8 @@ async function load() {
   } finally {
     checking.value = false;
     loaded.value = true;
+    if (!down.value) stopEnginePoll();
+    else if (desktop) watchEngineStart();
     publish();
     if (queued) {
       queued = false;
@@ -84,6 +116,7 @@ onMounted(() => {
   window.addEventListener("tucools-models-installed", onInstalled);
 });
 onUnmounted(() => {
+  stopEnginePoll();
   window.removeEventListener("tucools-models-installed", onInstalled);
 });
 defineExpose({ load });

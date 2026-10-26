@@ -29,6 +29,8 @@ export const zhHant: Copy = {
   failed: "處理失敗",
   noImage: "請放入圖片檔案",
   engineDown: "引擎沒有回應。請先啟動本機引擎，或 Docker 裡的引擎。",
+  engineStarting: "正在啟動本機引擎。",
+  engineDownDesktop: "本機引擎沒有啟動。請退出圖酷後重新打開。",
   engineMissing: "還缺這些檔案",
   modelPackHint: "模型包要另外下載，解壓縮到這個資料夾後再檢查：",
   refreshHealth: "重新檢查",

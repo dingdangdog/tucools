@@ -27,6 +27,8 @@ export const zh = {
   failed: "处理失败",
   noImage: "请放入图片文件",
   engineDown: "引擎没有响应。请先启动本机引擎或 Docker 中的引擎。",
+  engineStarting: "正在启动本机引擎。",
+  engineDownDesktop: "本机引擎没有启动。请退出图酷后重新打开。",
   engineMissing: "还缺这些文件",
   modelPackHint: "模型包单独下载，解压到这个目录后再检查：",
   refreshHealth: "重新检查",

@@ -11,6 +11,7 @@ __pycache__/
 .env
 *.log
 services/engine/tmp/
+services/engine/build/
 .DS_Store
 apps/desktop/out/
 

@@ -10,7 +10,7 @@
   },
   "scripts": {
     "dev": "electron .",
-    "package:win": "electron-builder --win nsis --x64",
+    "package:win": "powershell -NoProfile -ExecutionPolicy Bypass -File ../../scripts/build-engine.ps1 && electron-builder --win nsis --x64",
     "package:mac": "electron-builder --mac dmg zip --arm64 --x64",
     "package:linux": "electron-builder --linux AppImage deb --x64"
   },
@@ -46,31 +46,42 @@
       {
         "from": "../web/dist",
         "to": "web"
-      },
-      {
-        "from": "../../services/engine",
-        "to": "engine",
-        "filter": [
-          "**/*",
-          "!**/__pycache__/**",
-          "!**/*.pyc",
-          "!**/tmp/**",
-          "!**/.venv/**",
-          "!**/models/**",
-          "!**/model-pack/**",
-          "!**/*.onnx",
-          "!**/*.pt",
-          "!**/*.param",
-          "!**/upscayl-bin*"
-        ]
       }
     ],
     "win": {
+      "extraResources": [
+        {
+          "from": "../../services/engine/dist/tucools-engine",
+          "to": "engine"
+        }
+      ],
       "target": [{ "target": "nsis", "arch": ["x64"] }],
       "icon": "build/icon.ico",
       "artifactName": "TuCools-${version}-windows-${arch}.${ext}"
     },
     "mac": {
+      "extraResources": [
+        {
+          "from": "../../services/engine",
+          "to": "engine",
+          "filter": [
+            "**/*",
+            "!**/__pycache__/**",
+            "!**/*.pyc",
+            "!**/tmp/**",
+            "!**/.venv/**",
+            "!**/models/**",
+            "!**/model-pack/**",
+            "!**/*.onnx",
+            "!**/*.pt",
+            "!**/*.param",
+            "!**/upscayl-bin*",
+            "!**/dist/**",
+            "!**/build/**",
+            "!**/*.spec"
+          ]
+        }
+      ],
       "category": "public.app-category.graphics-design",
       "icon": "build/icon.png",
       "identity": null,
@@ -86,6 +97,28 @@
       "sign": false
     },
     "linux": {
+      "extraResources": [
+        {
+          "from": "../../services/engine",
+          "to": "engine",
+          "filter": [
+            "**/*",
+            "!**/__pycache__/**",
+            "!**/*.pyc",
+            "!**/tmp/**",
+            "!**/.venv/**",
+            "!**/models/**",
+            "!**/model-pack/**",
+            "!**/*.onnx",
+            "!**/*.pt",
+            "!**/*.param",
+            "!**/upscayl-bin*",
+            "!**/dist/**",
+            "!**/build/**",
+            "!**/*.spec"
+          ]
+        }
+      ],
       "category": "Graphics",
       "icon": "build/icon.png",
       "executableName": "tucools",

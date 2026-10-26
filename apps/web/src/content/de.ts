@@ -29,6 +29,8 @@ export const de: Copy = {
   failed: "Verarbeitung fehlgeschlagen",
   noImage: "Bitte Bilddateien einfügen",
   engineDown: "Die Engine antwortet nicht. Starten Sie zuerst die lokale Engine oder die Engine in Docker.",
+  engineStarting: "Die Engine auf diesem Computer wird gestartet.",
+  engineDownDesktop: "Die Engine auf diesem Computer wurde nicht gestartet. Beenden Sie 图酷 und öffnen Sie es erneut.",
   engineMissing: "Diese Dateien fehlen noch",
   modelPackHint: "Das Modellpaket wird separat heruntergeladen. Entpacken Sie es in dieses Verzeichnis und prüfen Sie erneut:",
   refreshHealth: "Erneut prüfen",

@@ -29,6 +29,8 @@ export const es: Copy = {
   failed: "Error al procesar",
   noImage: "Introduce archivos de imagen",
   engineDown: "El motor no responde. Inicia primero el motor local o el motor de Docker.",
+  engineStarting: "Iniciando el motor de este equipo.",
+  engineDownDesktop: "El motor de este equipo no arrancó. Cierra 图酷 y vuelve a abrirlo.",
   engineMissing: "Faltan estos archivos",
   modelPackHint: "El paquete de modelos se descarga por separado. Descomprímelo en este directorio y vuelve a comprobar:",
   refreshHealth: "Comprobar de nuevo",

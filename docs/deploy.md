@@ -40,9 +40,7 @@ npm run dev:desktop
 $env:TUCOOLS_RUNTIME = "E:\work-gt\gt-tucools\desktop\.runtime"
 ```
 
-安装包会优先使用随包的 `tucools-engine.exe`，否则使用 `TUCOOLS_RUNTIME` 里的 `erembg.exe`、`eenhance.exe`、`eerase.exe`。没有这些文件时，本地工具仍可用。AI 页在引擎未响应或没有可用模型时不能开始处理。
-
-生成引擎可执行文件的入口脚本是 `scripts/build-engine.ps1`。它不会把模型包打进安装包。
+Windows 安装包在打开时启动随包的 `tucools-engine.exe`。用户不用单独安装 Python。`npm run package:win` 会先用仓库 `.venv` 把引擎冻成这个程序，再打进安装包。模型包不在其中。macOS 和 Linux 安装包仍带引擎源码，启动时用本机 Python；没有随包引擎时，也可以用 `TUCOOLS_RUNTIME` 里的旧命令行。本地工具不依赖引擎。AI 页在引擎没起来或没有可用模型时不能开始处理。
 
 ## Docker
 
@@ -90,7 +88,7 @@ Linux：
 npm run package:linux
 ```
 
-产物在 `apps/desktop/release`。里面是页面和壳，不含模型包，也不含 `tucools-engine.exe`。本地图像工具可以离线使用。AI 功能需要本机另有引擎：Windows 沿用随包的 `tucools-engine.exe` 或 `TUCOOLS_RUNTIME`；macOS 和 Linux 调用 `python3`（也可用 `TUCOOLS_PYTHON`）运行随包的引擎源码，依赖要装在那个 Python 里。
+产物在 `apps/desktop/release`。Windows 安装包包含页面、壳和冻结后的引擎程序，不含模型包，也不含 `app.py` 这类引擎源码。安装后打开「图酷」就会启动引擎，引擎把记录写到 `%APPDATA%\tucools\engine.log`。macOS 和 Linux 安装包包含页面、壳和引擎源码，调用 `python3`（也可用 `TUCOOLS_PYTHON`）运行，依赖要装在那个 Python 里。三个平台的本地图像工具都可以离线使用。
 
 安装后的模型包目录：
 
