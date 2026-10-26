@@ -2,7 +2,7 @@
 
 抠图、优化和消除的模型文件单独发布。用户自己下载并解压，不放进安装包，也不放进 Docker 镜像。
 
-模型包和客户端的新版本发布在 [图酷仓库](https://github.com/dingdangdog/tucools) 的 [发布页](https://github.com/dingdangdog/tucools/releases)。某个 AI 功能没有可用模型时，页面只停用该功能，并给出这两个地址。
+下载 [model-pack.zip](https://github.com/dingdangdog/tucools/releases/download/models/model-pack.zip)。发布页是 [models](https://github.com/dingdangdog/tucools/releases/tag/models)。安装步骤见仓库 [README](../README.md)。某个 AI 功能没有可用模型时，页面停用该功能，并给出仓库地址和这个模型发布页。
 
 解压后的目录名可以自定，结构固定如下：
 

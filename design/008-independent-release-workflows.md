@@ -10,7 +10,7 @@
 ## 2. 现状与约束
 
 - 现有架构、组件和数据源：同一份 `apps/web` 给 Docker 和 Electron 使用。镜像定义在 `deploy/Dockerfile.web` 和 `deploy/Dockerfile.engine`。安装包配置在 `apps/desktop/package.json`。旧入口是 `.github/workflows/release.yml`，由标签推送触发，Release 要等镜像和 Windows 都成功。
-- 技术、兼容、安全、合规和发布约束：引擎只留在 Compose 网络内。镜像和安装包不含模型包。GHCR 使用 `GITHUB_TOKEN`。多架构清单索引上的 `org.opencontainers.image.description` 决定 GitHub 包页面描述。`npmRebuild` 必须保持 `false`。Electron 版本必须是固定版本。
+- 技术、兼容、安全、合规和发布约束：引擎只留在 Compose 网络内。镜像和安装包不含模型包。GHCR 使用 `GITHUB_TOKEN`。GitHub 包页面描述来自清单索引和各平台清单上的 `org.opencontainers.image.description`。构建不附带证明清单。`npmRebuild` 必须保持 `false`。Electron 版本必须是固定版本。
 - 已知历史问题：工作区依赖提升会导致 electron-builder 在 `apps/desktop` 下执行 `npm install --production` 并删掉 `app-builder`。Windows 安装包任务已经用 `npmRebuild: false` 避开。macOS 和 Linux 沿用同一设置。
 
 ## 3. 方案概览
@@ -35,7 +35,7 @@
 - 三个入口都是 `workflow_dispatch`，没有 `push` 触发。
 - 镜像工作流权限是 `contents: write` 和 `packages: write`。安装包工作流只有 `contents: write`。
 - 版本不符合三位数字、标签不存在、标签指向别的提交、一个平台都没选：任务失败并写明原因。
-- 镜像推送后读取清单索引。没有 `org.opencontainers.image.description` 则失败。
+- 镜像推送后读取清单索引和两份平台清单。描述缺失或存在证明清单则失败。
 - 不涉及应用内 API。
 
 ### 4.3 状态、缓存、并发与幂等

@@ -105,6 +105,8 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ steps.tags.outputs.tags }}
+          # 证明清单会在包页面多出 unknown/unknown，描述也可能读不到。
+          provenance: false
           labels: |
             org.opencontainers.image.description=${{ steps.desc.outputs.text }}
             org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
@@ -112,9 +114,13 @@ jobs:
             org.opencontainers.image.revision=${{ github.sha }}
           annotations: |
             index:org.opencontainers.image.description=${{ steps.desc.outputs.text }}
+            manifest:org.opencontainers.image.description=${{ steps.desc.outputs.text }}
             index:org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+            manifest:org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
             index:org.opencontainers.image.version=${{ steps.version.outputs.version }}
+            manifest:org.opencontainers.image.version=${{ steps.version.outputs.version }}
             index:org.opencontainers.image.revision=${{ github.sha }}
+            manifest:org.opencontainers.image.revision=${{ github.sha }}
           cache-from: type=gha,scope=tucools-${{ inputs.kind }}
           cache-to: type=gha,scope=tucools-${{ inputs.kind }},mode=max
 
@@ -122,15 +128,8 @@ jobs:
         env:
           IMAGE: ${{ steps.tags.outputs.image }}
           VERSION: ${{ steps.version.outputs.version }}
-        run: |
-          set -euo pipefail
-          docker buildx imagetools inspect "${IMAGE}:${VERSION}"
-          description="$(docker buildx imagetools inspect --raw "${IMAGE}:${VERSION}" | jq -r '.annotations["org.opencontainers.image.description"] // empty')"
-          if [[ -z "$description" || "$description" == "null" ]]; then
-            echo "多架构清单没有描述，GitHub 包页面会显示 No description provided。"
-            exit 1
-          fi
-          echo "描述：${description}"
+          EXPECTED: ${{ steps.desc.outputs.text }}
+        run: node .github/scripts/verify-image-description.mjs
 
       - name: Attach image note
         env:
