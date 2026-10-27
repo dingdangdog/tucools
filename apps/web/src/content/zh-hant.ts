@@ -47,7 +47,7 @@ export const zhHant: Copy = {
     },
     models: {
       title: "下載模型",
-      detail: "自己部署 Docker 或安裝客戶端之後，再另外下載模型包，放到那一次部署的模型目錄。這個網頁放不了模型。",
+      detail: "自己部署或安裝客戶端後，再下載模型包。",
     },
   },
   modelDownload: {

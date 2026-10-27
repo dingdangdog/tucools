@@ -47,7 +47,7 @@ export const es: Copy = {
     },
     models: {
       title: "Descargar modelos",
-      detail: "Después de desplegar Docker o instalar la aplicación por tu cuenta, descarga el paquete de modelos y colócalo en la carpeta de modelos de esa instalación. Esta página no guarda los modelos.",
+      detail: "Descarga el paquete de modelos después de desplegar Docker o instalar la aplicación.",
     },
   },
   modelDownload: {

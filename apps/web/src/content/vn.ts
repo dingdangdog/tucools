@@ -47,7 +47,7 @@ export const vn: Copy = {
     },
     models: {
       title: "Tải mô hình",
-      detail: "Sau khi tự triển khai Docker hoặc cài ứng dụng, hãy tải riêng gói mô hình và đặt vào thư mục mô hình của lần triển khai đó. Trang này không lưu được mô hình.",
+      detail: "Tải gói mô hình sau khi triển khai Docker hoặc cài ứng dụng.",
     },
   },
   modelDownload: {
