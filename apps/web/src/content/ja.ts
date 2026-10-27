@@ -120,7 +120,7 @@ export const ja: Copy = {
     fade: { title: "グレースケール", lead: "画像をグレースケールに変換します。" },
     tocircle: { title: "円形", lead: "直径に合わせて円形に切ります。" },
     exif: { title: "情報の除去", lead: "EXIF を確認し、メタデータを含まない新しい画像に描き直します。" },
-    pdf: { title: "画像から PDF", lead: "複数の画像をそれぞれ 1 ページにして PDF を書き出します。" },
+    pdf: { title: "画像から PDF", lead: "画像ごとに 1 ページ。用紙、向き、順番を変えるとプレビューも変わります。" },
     favicon: { title: "Favicon", lead: "16、32、48、180 の PNG と 1 つの ICO を書き出します。" },
     prompt: {
       title: "AIプロンプト抽出",
@@ -398,11 +398,11 @@ export const ja: Copy = {
       },
       pdf: {
         documentTitle: "画像を PDF にする · 图酷",
-        description: "複数の画像を PDF にまとめ、画像ごとに 1 ページにします。ブラウザのローカルで生成し、アップロードしません。",
+        description: "複数の画像を PDF にまとめ、画像ごとに 1 ページにします。ページをプレビューしてから、用紙と順番を調整します。ブラウザのローカルで生成し、アップロードしません。",
         faqs: [
           {
             q: "複数の画像はどう並びますか？",
-            a: "各画像が PDF の 1 ページになり、入れた順に並びます。",
+            a: "各画像が 1 ページになります。入れたあとでプレビューし、ドラッグして順番を変えてから書き出せます。",
           },
           {
             q: "PDF の生成は画像をアップロードしますか？",
@@ -548,6 +548,24 @@ export const ja: Copy = {
     scale: "倍率",
     canvas: "キャンバスを使えません",
     maskExport: "マスクを書き出せません",
+    pdf: {
+      add: "画像を追加",
+      pages: "ページ",
+      paper: "用紙",
+      paperOriginal: "画像の比率",
+      paperA4: "A4",
+      paperA3: "A3",
+      paperA5: "A5",
+      paperLetter: "Letter",
+      orientation: "向き",
+      orientationAuto: "画像に合わせる",
+      portrait: "縦",
+      landscape: "横",
+      margin: "余白",
+      moveEarlier: "前へ",
+      moveLater: "後ろへ",
+      preview: "ページのプレビュー",
+    },
     store: {
       platform: "プラットフォーム",
       size: "サイズ",

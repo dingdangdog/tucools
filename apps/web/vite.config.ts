@@ -3,6 +3,7 @@ import vue from "@vitejs/plugin-vue";
 import { fileURLToPath, URL } from "node:url";
 import { adsFromEnv, adsTxtForClient, parseAdsenseClient, parseAdsenseSlot } from "./src/ads";
 import { parseAnalyticsId } from "./src/analytics";
+import { parseIcpNumber } from "./src/icp";
 import { seoPlugin } from "./seo-plugin";
 
 function appConfigPlugin(): Plugin {
@@ -19,8 +20,10 @@ function appConfigPlugin(): Plugin {
         const clientRaw = String(process.env.TUCOOLS_ADSENSE_CLIENT || "").trim();
         const slotRaw = String(process.env.TUCOOLS_ADSENSE_SLOT || "").trim();
         const analyticsRaw = String(process.env.TUCOOLS_ANALYTICS_ID || "").trim();
+        const icpRaw = String(process.env.TUCOOLS_ICP_NUMBER || "").trim();
         const ads = adsFromEnv(process.env);
         const analyticsId = parseAnalyticsId(analyticsRaw);
+        const icpNumber = parseIcpNumber(icpRaw);
         if (!adsWarned) {
           adsWarned = true;
           if (clientRaw && !parseAdsenseClient(clientRaw)) {
@@ -33,6 +36,9 @@ function appConfigPlugin(): Plugin {
           }
           if (analyticsRaw && !analyticsId) {
             console.warn("忽略 TUCOOLS_ANALYTICS_ID：需要 G- 加 6 到 20 位字母或数字。");
+          }
+          if (icpRaw && !icpNumber) {
+            console.warn("忽略 TUCOOLS_ICP_NUMBER：需要形如「京ICP备12345678号」，可以带「-1」。");
           }
         }
         res.setHeader("cache-control", "no-store");
@@ -49,7 +55,7 @@ function appConfigPlugin(): Plugin {
         }
         const raw = String(process.env.TUCOOLS_FEATURES || "").replace(/[^A-Za-z0-9,-]/g, "");
         res.setHeader("content-type", "application/json; charset=utf-8");
-        res.end(JSON.stringify({ features: raw, ...ads, analyticsId }));
+        res.end(JSON.stringify({ features: raw, ...ads, analyticsId, icpNumber }));
       });
     },
   };

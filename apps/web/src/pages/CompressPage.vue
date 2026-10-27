@@ -1,7 +1,7 @@
 <template>
   <BatchLayout :lead="copy.tools.compress.lead" :error="state.error">
     <template #stage>
-      <Stage docked :compact="state.items.length > 0" :busy="state.busy" @files="run" />
+      <Stage docked :compact="sources.length > 0" :busy="state.busy" @files="run" />
     </template>
     <template #settings>
       <div>
@@ -20,10 +20,14 @@
         </Field>
       </div>
       <p v-if="format === 'png'" class="text-sm text-muted">{{ copy.ui.pngNote }}</p>
+      <div v-if="sources.length" class="flex flex-wrap justify-center">
+        <button type="button" class="btn btn-primary" :disabled="state.busy" @click="run()">{{ copy.ui.again }}</button>
+      </div>
     </template>
     <ResultGrid
       :items="state.items"
-      @clear="state.reset()"
+      :columns="4"
+      @clear="clearAll"
       @remove="state.remove"
       @download="state.download"
       @download-all="state.downloadAll('compress.zip')"
@@ -32,12 +36,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { onUnmounted, ref } from "vue";
 import BatchLayout from "@/components/BatchLayout.vue";
 import Chips from "@/components/Chips.vue";
 import Field from "@/components/Field.vue";
 import ResultGrid from "@/components/ResultGrid.vue";
 import Stage from "@/components/Stage.vue";
+import { useBatchJob, wholeNumber } from "@/composables/useBatchJob";
 import { useResults } from "@/composables/useResults";
 import { copy } from "@/content";
 import { compressImage, type CompressFormat } from "@/utils/compress";
@@ -48,36 +53,66 @@ const format = ref<CompressFormat>("jpeg");
 const quality = ref(0.8);
 const maxEdge = ref(0);
 const targetKb = ref(0);
+const { files: sources, replace, clear: forget, start } = useBatchJob(
+  [format, quality, maxEdge, targetKb],
+  () => void run()
+);
 const formats = [
   { value: "jpeg", label: "JPEG" },
   { value: "png", label: "PNG" },
   { value: "webp", label: "WebP" },
 ];
 
-async function run(files: File[]) {
-  const images = state.imagesOf(files);
-  if (!images.length) return;
-  state.reset();
+async function run(incoming?: File[]) {
+  if (incoming) {
+    const images = state.imagesOf(incoming);
+    if (!images.length) return;
+    replace(images);
+  }
+  if (!sources.value.length) return;
+  const edge = wholeNumber(maxEdge.value, 0, 16000);
+  const kilobytes = wholeNumber(targetKb.value, 0, 102400);
+  if (edge == null || kilobytes == null || !Number.isFinite(quality.value)) return;
+
+  const alive = start();
+  const batch = sources.value.slice();
+  const currentFormat = format.value;
+  const currentQuality = quality.value;
   state.busy = true;
+  state.error = "";
   try {
-    for (const file of images) {
+    const produced: { name: string; blob: Blob; detail: string }[] = [];
+    for (const file of batch) {
       const image = await fileToImage(file);
+      if (!alive()) return;
       const result = await compressImage(image, {
-        format: format.value,
-        quality: quality.value,
-        maxEdge: maxEdge.value,
-        targetBytes: Math.round(targetKb.value * 1024),
+        format: currentFormat,
+        quality: currentQuality,
+        maxEdge: edge,
+        targetBytes: Math.round(kilobytes * 1024),
       });
-      state.add(
-        `${stem(file.name)}.${format.value === "jpeg" ? "jpg" : format.value}`,
-        result.blob,
-        `${formatBytes(file.size)} → ${formatBytes(result.blob.size)} · ${result.width}×${result.height}`
-      );
+      if (!alive()) return;
+      produced.push({
+        name: `${stem(file.name)}.${currentFormat === "jpeg" ? "jpg" : currentFormat}`,
+        blob: result.blob,
+        detail: `${formatBytes(file.size)} → ${formatBytes(result.blob.size)} · ${result.width}×${result.height}`,
+      });
     }
+    if (!alive()) return;
+    state.reset();
+    for (const item of produced) state.add(item.name, item.blob, item.detail);
   } catch (error) {
-    state.error = error instanceof Error ? error.message : copy.failed;
+    if (alive()) state.error = error instanceof Error ? error.message : copy.failed;
   } finally {
-    state.busy = false;
+    if (alive()) state.busy = false;
   }
 }
+
+function clearAll() {
+  forget();
+  state.reset();
+  state.busy = false;
+}
+
+onUnmounted(clearAll);
 </script>

@@ -90,6 +90,20 @@ function parseAnalyticsId(raw) {
   return /^G-[A-Z0-9]{6,20}$/.test(text) ? text : "";
 }
 
+function parseIcpNumber(raw) {
+  const text = String(raw || "").replace(/\s+/g, "");
+  return /^[\u4e00-\u9fff]{1,8}ICP备\d{6,14}号(?:-\d{1,4})?$/.test(text) ? text : "";
+}
+
+function icpFromProcess() {
+  const raw = String(process.env.TUCOOLS_ICP_NUMBER || "").trim();
+  const icpNumber = parseIcpNumber(raw);
+  if (raw && !icpNumber) {
+    console.error("忽略 TUCOOLS_ICP_NUMBER：需要形如「京ICP备12345678号」，可以带「-1」。");
+  }
+  return icpNumber;
+}
+
 function analyticsFromProcess() {
   const raw = String(process.env.TUCOOLS_ANALYTICS_ID || "").trim();
   const analyticsId = parseAnalyticsId(raw);
@@ -118,11 +132,12 @@ function adsFromProcess() {
 function createStaticServer(webRoot, engine) {
   const ads = adsFromProcess();
   const analyticsId = analyticsFromProcess();
+  const icpNumber = icpFromProcess();
   return http.createServer((req, res) => {
     const url = new URL(req.url || "/", "http://127.0.0.1");
     if (url.pathname === "/app-config.json") {
       const raw = String(process.env.TUCOOLS_FEATURES || "").replace(/[^A-Za-z0-9,-]/g, "");
-      const body = JSON.stringify({ features: raw, ...ads, analyticsId });
+      const body = JSON.stringify({ features: raw, ...ads, analyticsId, icpNumber });
       res.writeHead(200, {
         "content-type": "application/json; charset=utf-8",
         "cache-control": "no-store",

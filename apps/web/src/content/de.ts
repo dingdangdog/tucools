@@ -120,7 +120,7 @@ export const de: Copy = {
     fade: { title: "Graustufen", lead: "Das Bild in Graustufen umwandeln." },
     tocircle: { title: "Kreis", lead: "Nach Durchmesser kreisförmig zuschneiden." },
     exif: { title: "Informationen entfernen", lead: "EXIF ansehen und als neues Bild ohne Metadaten neu zeichnen." },
-    pdf: { title: "Bild zu PDF", lead: "Mehrere Bilder jeweils als eine Seite, als PDF exportieren." },
+    pdf: { title: "Bild zu PDF", lead: "Jedes Bild wird eine eigene Seite. Die Vorschau folgt Papier, Ausrichtung und Reihenfolge." },
     favicon: { title: "Favicon", lead: "PNG in 16, 32, 48 und 180 sowie ein ICO exportieren." },
     prompt: {
       title: "KI-Prompt-Extraktion",
@@ -398,11 +398,11 @@ export const de: Copy = {
       },
       pdf: {
         documentTitle: "Bilder online in PDF umwandeln · 图酷",
-        description: "Mehrere Bilder zu einem PDF zusammenfassen, jedes Bild auf einer eigenen Seite. Lokal im Browser erzeugt, ohne Upload.",
+        description: "Mehrere Bilder zu einem PDF zusammenfassen, jedes Bild auf einer eigenen Seite. Seiten zuerst ansehen, dann Papier und Reihenfolge anpassen. Lokal im Browser erzeugt, ohne Upload.",
         faqs: [
           {
             q: "Wie werden mehrere Bilder angeordnet?",
-            a: "Jedes Bild wird eine eigene Seite des PDF, in der Reihenfolge des Einfügens.",
+            a: "Jedes Bild wird eine eigene Seite. Danach können Sie die Seite ansehen, die Reihenfolge ziehen und dann exportieren.",
           },
           {
             q: "Lädt das Erzeugen des PDF die Bilder hoch?",
@@ -548,6 +548,24 @@ export const de: Copy = {
     scale: "Faktor",
     canvas: "Die Leinwand lässt sich nicht verwenden",
     maskExport: "Die Maske lässt sich nicht exportieren",
+    pdf: {
+      add: "Bilder hinzufügen",
+      pages: "Seiten",
+      paper: "Papier",
+      paperOriginal: "Bildformat",
+      paperA4: "A4",
+      paperA3: "A3",
+      paperA5: "A5",
+      paperLetter: "Letter",
+      orientation: "Ausrichtung",
+      orientationAuto: "Wie das Bild",
+      portrait: "Hochformat",
+      landscape: "Querformat",
+      margin: "Rand",
+      moveEarlier: "Nach vorn",
+      moveLater: "Nach hinten",
+      preview: "Seitenvorschau",
+    },
     store: {
       platform: "Plattform",
       size: "Größe",

@@ -128,7 +128,7 @@ export const en: Copy = {
     fade: { title: "Grayscale", lead: "Convert the image to grayscale." },
     tocircle: { title: "Circle", lead: "Crop to a circle by diameter." },
     exif: { title: "Strip info", lead: "View the EXIF, then redraw a new image without metadata." },
-    pdf: { title: "To PDF", lead: "Put each image on its own page and export a PDF." },
+    pdf: { title: "To PDF", lead: "Each image is its own page. The preview follows the paper, direction, and order." },
     favicon: { title: "Favicon", lead: "Export PNGs at 16, 32, 48, and 180, plus one ICO." },
     prompt: {
       title: "Prompt extract",
@@ -416,11 +416,11 @@ export const en: Copy = {
       },
       pdf: {
         documentTitle: "免费 Free online image to PDF converter, one image per page, no upload · TuCools",
-        description: "Combine images into a PDF, with one image on each page. The PDF is created locally in the browser and is not uploaded.",
+        description: "Combine images into a PDF, with one image on each page. Preview the pages, then adjust the paper and order. The PDF is created locally in the browser and is not uploaded.",
         faqs: [
           {
             q: "How are several images arranged?",
-            a: "Each image becomes its own PDF page, in the order you added them.",
+            a: "Each image becomes its own page. You can preview it, drag to change the order, then export.",
           },
           {
             q: "Does creating a PDF upload the images?",
@@ -568,6 +568,24 @@ export const en: Copy = {
     scale: "Scale",
     canvas: "Canvas unavailable",
     maskExport: "Could not export the mask",
+    pdf: {
+      add: "Add images",
+      pages: "Pages",
+      paper: "Paper",
+      paperOriginal: "Image ratio",
+      paperA4: "A4",
+      paperA3: "A3",
+      paperA5: "A5",
+      paperLetter: "Letter",
+      orientation: "Direction",
+      orientationAuto: "Match image",
+      portrait: "Portrait",
+      landscape: "Landscape",
+      margin: "Margin",
+      moveEarlier: "Move earlier",
+      moveLater: "Move later",
+      preview: "Page preview",
+    },
     store: {
       platform: "Platform",
       size: "Size",

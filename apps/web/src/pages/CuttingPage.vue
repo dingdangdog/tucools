@@ -1,7 +1,7 @@
 <template>
   <BatchLayout :lead="copy.tools.cutting.lead" :error="state.error">
     <template #stage>
-      <Stage docked :compact="state.items.length > 0" :busy="state.busy" @files="run" />
+      <Stage docked :compact="sources.length > 0" :busy="state.busy" @files="run" />
     </template>
     <template #settings>
       <div>
@@ -20,10 +20,14 @@
           <input v-model.number="cols" class="field-input" type="number" min="2" max="12" />
         </Field>
       </div>
+      <div v-if="sources.length" class="flex flex-wrap justify-center">
+        <button type="button" class="btn btn-primary" :disabled="state.busy" @click="run()">{{ copy.ui.again }}</button>
+      </div>
     </template>
     <ResultGrid
       :items="state.items"
-      @clear="state.reset()"
+      :columns="5"
+      @clear="clearAll"
       @remove="state.remove"
       @download="state.download"
       @download-all="state.downloadAll('cutting.zip')"
@@ -32,12 +36,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { onUnmounted, ref } from "vue";
 import BatchLayout from "@/components/BatchLayout.vue";
 import Chips from "@/components/Chips.vue";
 import Field from "@/components/Field.vue";
 import ResultGrid from "@/components/ResultGrid.vue";
 import Stage from "@/components/Stage.vue";
+import { useBatchJob, wholeNumber } from "@/composables/useBatchJob";
 import { useResults } from "@/composables/useResults";
 import { copy } from "@/content";
 import { autoCutAndMerge, splitImage, type CutMode } from "@/utils/cutting";
@@ -48,6 +53,7 @@ const mode = ref<CutMode | "grid">("vertical");
 const action = ref<"split" | "auto">("split");
 const pieces = ref(3);
 const cols = ref(3);
+const { files: sources, replace, clear: forget, start } = useBatchJob([mode, action, pieces, cols], () => void run());
 const actions = [
   { value: "split", label: copy.ui.cut.split },
   { value: "auto", label: copy.ui.cut.auto },
@@ -68,8 +74,8 @@ function gridSplit(image: HTMLImageElement, rows: number, columns: number) {
   for (let row = 0; row < rows; row += 1) {
     for (let col = 0; col < columns; col += 1) {
       const canvas = document.createElement("canvas");
-      canvas.width = Math.round(pieceWidth);
-      canvas.height = Math.round(pieceHeight);
+      canvas.width = Math.max(1, Math.round(pieceWidth));
+      canvas.height = Math.max(1, Math.round(pieceHeight));
       const ctx = canvas.getContext("2d");
       if (!ctx) continue;
       ctx.drawImage(
@@ -89,43 +95,71 @@ function gridSplit(image: HTMLImageElement, rows: number, columns: number) {
   return result;
 }
 
-async function run(files: File[]) {
-  const images = state.imagesOf(files);
-  if (!images.length) return;
+async function run(incoming?: File[]) {
+  if (incoming) {
+    const images = state.imagesOf(incoming);
+    if (!images.length) return;
+    replace(images);
+  }
+  if (!sources.value.length) return;
   if (action.value === "auto" && mode.value === "grid") {
+    start();
+    state.reset();
     state.error = copy.ui.gridMergeUnsupported;
+    state.busy = false;
     return;
   }
-  state.reset();
+  const count = mode.value === "diagonal-x" ? 4 : wholeNumber(pieces.value, 2, 12);
+  const columns = mode.value === "grid" ? wholeNumber(cols.value, 2, 12) : 1;
+  if (count == null || columns == null) return;
+
+  const alive = start();
+  const batch = sources.value.slice();
+  const currentAction = action.value;
+  const currentMode = mode.value;
   state.busy = true;
+  state.error = "";
   try {
-    const loaded = await Promise.all(images.map((file) => fileToImage(file)));
-    if (action.value === "auto") {
-      const cutMode = mode.value === "grid" ? null : mode.value;
+    const loaded = await Promise.all(batch.map((file) => fileToImage(file)));
+    if (!alive()) return;
+    const produced: { name: string; blob: Blob; detail: string }[] = [];
+    if (currentAction === "auto") {
+      const cutMode = currentMode === "grid" ? null : currentMode;
       if (!cutMode) throw new Error(copy.ui.gridMergeUnsupported);
-      const canvas = autoCutAndMerge(loaded, cutMode, pieces.value);
+      const canvas = autoCutAndMerge(loaded, cutMode, count);
       const blob = await canvasToBlob(canvas, "image/png");
-      state.add("merged.png", blob, `${canvas.width}×${canvas.height} · ${formatBytes(blob.size)}`);
-      return;
-    }
-    for (let index = 0; index < loaded.length; index += 1) {
-      const parts =
-        mode.value === "grid"
-          ? gridSplit(loaded[index], pieces.value, cols.value)
-          : splitImage(loaded[index], mode.value, pieces.value);
-      for (let part = 0; part < parts.length; part += 1) {
-        const blob = await canvasToBlob(parts[part], "image/png");
-        state.add(
-          `${stem(images[index].name)}-${part + 1}.png`,
-          blob,
-          `${parts[part].width}×${parts[part].height} · ${formatBytes(blob.size)}`
-        );
+      if (!alive()) return;
+      produced.push({ name: "merged.png", blob, detail: `${canvas.width}×${canvas.height} · ${formatBytes(blob.size)}` });
+    } else {
+      for (let index = 0; index < loaded.length; index += 1) {
+        const parts =
+          currentMode === "grid" ? gridSplit(loaded[index], count, columns) : splitImage(loaded[index], currentMode, count);
+        for (let part = 0; part < parts.length; part += 1) {
+          const blob = await canvasToBlob(parts[part], "image/png");
+          if (!alive()) return;
+          produced.push({
+            name: `${stem(batch[index].name)}-${part + 1}.png`,
+            blob,
+            detail: `${parts[part].width}×${parts[part].height} · ${formatBytes(blob.size)}`,
+          });
+        }
       }
     }
+    if (!alive()) return;
+    state.reset();
+    for (const item of produced) state.add(item.name, item.blob, item.detail);
   } catch (error) {
-    state.error = error instanceof Error ? error.message : copy.failed;
+    if (alive()) state.error = error instanceof Error ? error.message : copy.failed;
   } finally {
-    state.busy = false;
+    if (alive()) state.busy = false;
   }
 }
+
+function clearAll() {
+  forget();
+  state.reset();
+  state.busy = false;
+}
+
+onUnmounted(clearAll);
 </script>

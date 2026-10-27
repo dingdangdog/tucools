@@ -6,7 +6,7 @@
         {{ copy.downloadAll }}
       </button>
     </div>
-    <ul class="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+    <ul class="grid gap-3" :class="columnClass">
       <li v-for="(item, index) in items" :key="item.url" class="panel overflow-hidden">
         <div class="checker flex aspect-[4/3] items-center justify-center">
           <img :src="item.url" :alt="item.name" class="max-h-full max-w-full object-contain" />
@@ -30,6 +30,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
 import { XMarkIcon } from "@heroicons/vue/24/outline";
 import { copy } from "@/content";
 
@@ -40,13 +41,19 @@ export interface ResultItem {
   detail?: string;
 }
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     items: ResultItem[];
     showCopy?: boolean;
     copiedName?: string;
+    columns?: 4 | 5;
   }>(),
-  { showCopy: false, copiedName: "" }
+  { showCopy: false, copiedName: "", columns: 4 }
+);
+const columnClass = computed(() =>
+  props.columns === 5
+    ? "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
+    : "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4"
 );
 defineEmits<{
   clear: [];

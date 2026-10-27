@@ -120,7 +120,7 @@ export const ptBr: Copy = {
     fade: { title: "Escala de cinza", lead: "Converta a imagem para escala de cinza." },
     tocircle: { title: "Círculo", lead: "Recorte em círculo pelo diâmetro." },
     exif: { title: "Remover informações", lead: "Veja o EXIF e redesenhe uma imagem nova sem metadados." },
-    pdf: { title: "Imagem para PDF", lead: "Cada imagem vira uma página. Exporte PDF." },
+    pdf: { title: "Imagem para PDF", lead: "Cada imagem vira uma página. A prévia acompanha o papel, a orientação e a ordem." },
     favicon: { title: "Favicon", lead: "Exporte PNG de 16, 32, 48 e 180, e um ICO." },
     prompt: {
       title: "Extrair prompt de IA",
@@ -398,11 +398,11 @@ export const ptBr: Copy = {
       },
       pdf: {
         documentTitle: "Converter imagens em PDF · 图酷",
-        description: "Reúne várias imagens em um PDF, com uma imagem por página. O arquivo é gerado localmente no navegador e não é enviado.",
+        description: "Reúne várias imagens em um PDF, com uma imagem por página. Veja a prévia e depois ajuste o papel e a ordem. O arquivo é gerado localmente no navegador e não é enviado.",
         faqs: [
           {
             q: "Como várias imagens são organizadas?",
-            a: "Cada imagem vira uma página do PDF, na ordem em que foi adicionada.",
+            a: "Cada imagem vira uma página. Depois dá para ver a prévia, arrastar para mudar a ordem e exportar.",
           },
           {
             q: "Gerar PDF envia as imagens?",
@@ -548,6 +548,24 @@ export const ptBr: Copy = {
     scale: "Fator",
     canvas: "Não é possível usar a tela",
     maskExport: "Não é possível exportar a máscara",
+    pdf: {
+      add: "Adicionar imagens",
+      pages: "Páginas",
+      paper: "Papel",
+      paperOriginal: "Proporção da imagem",
+      paperA4: "A4",
+      paperA3: "A3",
+      paperA5: "A5",
+      paperLetter: "Letter",
+      orientation: "Orientação",
+      orientationAuto: "Como a imagem",
+      portrait: "Retrato",
+      landscape: "Paisagem",
+      margin: "Margem",
+      moveEarlier: "Mover para antes",
+      moveLater: "Mover para depois",
+      preview: "Prévia da página",
+    },
     store: {
       platform: "Plataforma",
       size: "Tamanho",

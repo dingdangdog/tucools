@@ -2,7 +2,7 @@
   <div
     class="stage relative"
     :class="[
-      compact ? 'h-32 shrink-0' : docked ? 'h-52 shrink-0' : 'min-h-[18rem] flex-1 lg:h-full lg:min-h-0',
+      compact ? 'shrink-0' : docked ? 'h-52 shrink-0' : share ? 'min-h-[28rem] min-w-0 flex-1' : 'min-h-[18rem] flex-1 lg:h-full lg:min-h-0',
       filled ? '' : 'is-empty',
       over ? 'is-over' : '',
       disabled && !$slots.fallback ? 'is-disabled' : '',
@@ -23,13 +23,14 @@
     <button
       v-if="!filled && !$slots.fallback"
       type="button"
-      class="stage-pick absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center"
+      class="stage-pick flex w-full items-center justify-center text-center"
+      :class="compact ? 'min-h-24 flex-row flex-wrap gap-x-3 gap-y-2 px-5 py-4' : 'absolute inset-0 flex-col gap-3 px-6'"
       :disabled="disabled"
       @click="openPicker"
     >
-      <PhotoIcon class="h-10 w-10 text-muted" />
-      <span class="text-sm">{{ hint || copy.empty }}</span>
-      <span class="btn btn-primary">{{ copy.choose }}</span>
+      <PhotoIcon class="shrink-0 text-muted" :class="compact ? 'h-6 w-6' : 'h-10 w-10'" />
+      <span class="text-sm" :class="compact ? 'min-w-0 flex-1 text-start' : ''">{{ hint || copy.empty }}</span>
+      <span class="btn btn-primary shrink-0">{{ copy.choose }}</span>
     </button>
     <div v-else-if="!filled" class="px-4 py-6 sm:px-6 lg:absolute lg:inset-0 lg:overflow-y-auto">
       <div class="flex min-h-full flex-col items-center justify-center gap-4 text-center">
@@ -61,6 +62,7 @@ const props = withDefaults(
     hint?: string;
     disabled?: boolean;
     docked?: boolean;
+    share?: boolean;
   }>(),
   {
     filled: false,
@@ -72,6 +74,7 @@ const props = withDefaults(
     hint: "",
     disabled: false,
     docked: false,
+    share: false,
   }
 );
 const emit = defineEmits<{ files: [File[]] }>();

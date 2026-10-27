@@ -62,10 +62,23 @@ html.tucools-js #app {
   overflow: clip;
 }
 
+html.tucools-js #app,
+html.tucools-js #app > .app-frame {
+  overflow: visible;
+}
+
 html.tucools-js #app > .app-frame {
   height: auto;
   min-height: 100dvh;
   max-height: 100dvh;
+}
+
+html.tucools-js .nav-drawer {
+  position: fixed;
+  top: 0;
+  bottom: auto;
+  height: 100vh;
+  max-height: 100vh;
 }
 
 html.tucools-js main {
@@ -166,8 +179,17 @@ html[dir="rtl"] .nav-drawer {
     transform: none;
   }
 
+  html.tucools-js .app-body {
+    margin-inline-start: 15.5rem;
+    transition: margin-inline-start 200ms linear;
+  }
+
   html.nav-rail .nav-drawer {
     width: 4.75rem;
+  }
+
+  html.tucools-js.nav-rail .app-body {
+    margin-inline-start: 4.75rem;
   }
 
   html.nav-rail .brand {
@@ -195,6 +217,10 @@ html[dir="rtl"] .nav-drawer {
   html.nav-rail .nav-foot {
     flex-direction: column;
     align-items: center;
+  }
+
+  html.nav-rail .nav-icp {
+    display: none;
   }
 }
 
@@ -240,6 +266,24 @@ html[dir="rtl"] .nav-drawer {
 .nav-link.router-link-active:hover {
   background: var(--nav-active);
   color: var(--nav-active-ink);
+}
+
+.nav-icp {
+  display: block;
+  border-top: 1px solid var(--line);
+  padding: 0.5rem 0.75rem;
+  overflow: hidden;
+  color: var(--sidebar-muted);
+  font-size: 0.75rem;
+  line-height: 1rem;
+  text-align: center;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nav-icp:hover {
+  color: var(--sidebar-ink);
 }
 
 .nav-foot {

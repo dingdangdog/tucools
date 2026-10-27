@@ -120,7 +120,7 @@ export const vn: Copy = {
     fade: { title: "Thang xám", lead: "Chuyển ảnh sang thang xám." },
     tocircle: { title: "Hình tròn", lead: "Cắt thành hình tròn theo đường kính." },
     exif: { title: "Xóa thông tin", lead: "Xem EXIF, rồi vẽ lại thành ảnh mới không có siêu dữ liệu." },
-    pdf: { title: "Ảnh sang PDF", lead: "Mỗi ảnh thành một trang. Xuất PDF." },
+    pdf: { title: "Ảnh sang PDF", lead: "Mỗi ảnh là một trang. Xem trước đổi theo khổ giấy, hướng và thứ tự." },
     favicon: { title: "Favicon", lead: "Xuất PNG 16, 32, 48, 180 và một ICO." },
     prompt: {
       title: "Trích xuất prompt AI",
@@ -398,11 +398,11 @@ export const vn: Copy = {
       },
       pdf: {
         documentTitle: "Chuyển ảnh sang PDF · 图酷",
-        description: "Ghép nhiều ảnh thành PDF, mỗi ảnh một trang. Tạo cục bộ trên trình duyệt và không tải lên.",
+        description: "Ghép nhiều ảnh thành PDF, mỗi ảnh một trang. Xem trước trang, rồi chỉnh khổ giấy và thứ tự. Tạo cục bộ trên trình duyệt và không tải lên.",
         faqs: [
           {
             q: "Nhiều ảnh được xếp thế nào?",
-            a: "Mỗi ảnh thành một trang PDF, theo thứ tự thêm vào.",
+            a: "Mỗi ảnh là một trang. Sau khi thêm có thể xem trước, kéo để đổi thứ tự, rồi xuất.",
           },
           {
             q: "Tạo PDF có tải ảnh lên không?",
@@ -548,6 +548,24 @@ export const vn: Copy = {
     scale: "Bội số",
     canvas: "Không dùng được canvas",
     maskExport: "Không xuất được mặt nạ",
+    pdf: {
+      add: "Thêm ảnh",
+      pages: "Trang",
+      paper: "Khổ giấy",
+      paperOriginal: "Tỷ lệ ảnh",
+      paperA4: "A4",
+      paperA3: "A3",
+      paperA5: "A5",
+      paperLetter: "Letter",
+      orientation: "Hướng",
+      orientationAuto: "Theo ảnh",
+      portrait: "Dọc",
+      landscape: "Ngang",
+      margin: "Lề",
+      moveEarlier: "Đưa lên trước",
+      moveLater: "Đưa ra sau",
+      preview: "Xem trước trang",
+    },
     store: {
       platform: "Nền tảng",
       size: "Kích thước",

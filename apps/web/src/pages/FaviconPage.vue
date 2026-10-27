@@ -5,6 +5,7 @@
     </template>
     <ResultGrid
       :items="state.items"
+      :columns="5"
       @clear="state.reset()"
       @remove="state.remove"
       @download="state.download"

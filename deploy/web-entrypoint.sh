@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-# 发布商与广告位规则与 apps/web/src/ads.ts 一致。测量 ID 规则与 apps/web/src/analytics.ts 一致。
+# 发布商与广告位规则与 apps/web/src/ads.ts 一致。测量 ID 规则与 apps/web/src/analytics.ts 一致。备案号规则与 apps/web/src/icp.ts 一致。
 normalize_client() {
   text=$(printf '%s' "$1" | tr -d '[:space:]' | tr '[:upper:]' '[:lower:]')
   case "$text" in
@@ -41,7 +41,18 @@ else
   fi
   analytics=""
 fi
-printf '{"features":"%s","adsenseClient":"%s","adsenseSlot":"%s","analyticsId":"%s"}\n' "$raw" "$client" "$slot" "$analytics" > /usr/share/nginx/html/app-config.json
+icp=$(printf '%s' "${TUCOOLS_ICP_NUMBER:-}" | tr -d '[:space:]')
+if [ -n "$icp" ]; then
+  prefix=${icp%%ICP备*}
+  if [ -z "$prefix" ] \
+    || printf '%s' "$prefix" | grep -Eq '[ -~]' \
+    || ! printf '%s' "$icp" | grep -Eq 'ICP备[0-9]{6,14}号(-[0-9]{1,4})?$' \
+    || [ "${#icp}" -gt 64 ]; then
+    echo "忽略 TUCOOLS_ICP_NUMBER：需要形如「京ICP备12345678号」，可以带「-1」。" >&2
+    icp=""
+  fi
+fi
+printf '{"features":"%s","adsenseClient":"%s","adsenseSlot":"%s","analyticsId":"%s","icpNumber":"%s"}\n' "$raw" "$client" "$slot" "$analytics" "$icp" > /usr/share/nginx/html/app-config.json
 if [ -n "$client" ]; then
   pub=${client#ca-}
   printf 'google.com, %s, DIRECT, f08c47fec0942fa0\n' "$pub" > /usr/share/nginx/html/ads.txt

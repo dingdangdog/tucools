@@ -1,9 +1,10 @@
 import { installAds, parseAdsenseClient, parseAdsenseSlot, type AdsPublic } from "@/ads";
 import { installAnalytics, parseAnalyticsId } from "@/analytics";
+import { parseIcpNumber } from "@/icp";
 
-export type RuntimeConfig = AdsPublic & { features: string; analyticsId: string };
+export type RuntimeConfig = AdsPublic & { features: string; analyticsId: string; icpNumber: string };
 
-const empty: RuntimeConfig = { features: "", adsenseClient: "", adsenseSlot: "", analyticsId: "" };
+const empty: RuntimeConfig = { features: "", adsenseClient: "", adsenseSlot: "", analyticsId: "", icpNumber: "" };
 
 let current: RuntimeConfig | null = null;
 let pending: Promise<RuntimeConfig> | null = null;
@@ -36,6 +37,7 @@ async function readRuntimeConfig(): Promise<RuntimeConfig> {
       adsenseClient?: unknown;
       adsenseSlot?: unknown;
       analyticsId?: unknown;
+      icpNumber?: unknown;
     };
     const adsenseClient = parseAdsenseClient(typeof data.adsenseClient === "string" ? data.adsenseClient : "");
     return {
@@ -43,6 +45,7 @@ async function readRuntimeConfig(): Promise<RuntimeConfig> {
       adsenseClient,
       adsenseSlot: adsenseClient && typeof data.adsenseSlot === "string" ? parseAdsenseSlot(data.adsenseSlot) : "",
       analyticsId: parseAnalyticsId(typeof data.analyticsId === "string" ? data.analyticsId : ""),
+      icpNumber: parseIcpNumber(typeof data.icpNumber === "string" ? data.icpNumber : ""),
     };
   } catch {
     return empty;

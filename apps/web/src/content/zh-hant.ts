@@ -119,7 +119,7 @@ export const zhHant: Copy = {
     fade: { title: "灰階", lead: "把圖片轉成灰階。" },
     tocircle: { title: "圓形", lead: "依直徑裁成圓形。" },
     exif: { title: "清除資訊", lead: "查看 EXIF，再重繪成不含中繼資料的新圖。" },
-    pdf: { title: "圖轉 PDF", lead: "多張圖片各成一頁，匯出 PDF。" },
+    pdf: { title: "圖轉 PDF", lead: "每張圖片單獨成頁。調整紙張、方向和順序時，頁面預覽會跟著變。" },
     favicon: { title: "Favicon", lead: "匯出 16、32、48、180 的 PNG 和一個 ICO。" },
     prompt: {
       title: "AI 提示詞擷取",
@@ -397,11 +397,11 @@ export const zhHant: Copy = {
       },
       pdf: {
         documentTitle: "免费線上圖片轉PDF工具，多張圖片合成PDF，每張圖片單獨一頁 · 图酷",
-        description: "把多張圖片合成 PDF，每張圖片單獨一頁。在這台裝置的瀏覽器裡產生，不會上傳。",
+        description: "把多張圖片合成 PDF，每張圖片單獨一頁。放入後先看頁面預覽，再調整紙張和順序。在這台裝置的瀏覽器裡產生，不會上傳。",
         faqs: [
           {
             q: "多張圖片怎麼排？",
-            a: "每張圖片單獨成為 PDF 的一頁，依放入順序排列。",
+            a: "每張圖片單獨成為一頁。放入後可以預覽，並拖動調整順序，再匯出。",
           },
           {
             q: "產生 PDF 會上傳圖片嗎？",
@@ -547,6 +547,24 @@ export const zhHant: Copy = {
     scale: "倍率",
     canvas: "無法使用畫布",
     maskExport: "無法匯出遮罩",
+    pdf: {
+      add: "加入圖片",
+      pages: "頁面",
+      paper: "紙張",
+      paperOriginal: "原比例",
+      paperA4: "A4",
+      paperA3: "A3",
+      paperA5: "A5",
+      paperLetter: "Letter",
+      orientation: "方向",
+      orientationAuto: "隨圖片",
+      portrait: "直向",
+      landscape: "橫向",
+      margin: "頁邊距",
+      moveEarlier: "前移",
+      moveLater: "後移",
+      preview: "頁面預覽",
+    },
     store: {
       platform: "平台",
       size: "尺寸",

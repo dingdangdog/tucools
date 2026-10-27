@@ -69,6 +69,7 @@
     </template>
     <ResultGrid
       :items="state.items"
+      :columns="5"
       show-copy
       :copied-name="copiedName"
       @clear="clearResults"
@@ -81,7 +82,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onUnmounted, ref } from "vue";
+import { computed, onUnmounted, ref, watch } from "vue";
 import BatchLayout from "@/components/BatchLayout.vue";
 import Chips from "@/components/Chips.vue";
 import ResultGrid, { type ResultItem } from "@/components/ResultGrid.vue";
@@ -113,6 +114,7 @@ const fileName = ref("");
 const copiedName = ref("");
 let ticket = 0;
 let copiedTimer = 0;
+let rerunTimer = 0;
 
 const groupOptions = computed(() =>
   storeGroupOrder.map((id) => {
@@ -267,9 +269,16 @@ function clearResults() {
   state.reset();
 }
 
+watch([selected, orientation, fit, backgroundMode, customColor, format], () => {
+  if (!source.value) return;
+  window.clearTimeout(rerunTimer);
+  rerunTimer = window.setTimeout(() => void generate(), 280);
+});
+
 onUnmounted(() => {
   ticket += 1;
   window.clearTimeout(copiedTimer);
+  window.clearTimeout(rerunTimer);
   state.reset();
 });
 </script>

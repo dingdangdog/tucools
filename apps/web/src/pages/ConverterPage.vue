@@ -1,17 +1,21 @@
 <template>
   <BatchLayout :lead="copy.tools.converter.lead" :error="state.error">
     <template #stage>
-      <Stage docked :compact="state.items.length > 0" :busy="state.busy" @files="run" />
+      <Stage docked :compact="sources.length > 0" :busy="state.busy" @files="run" />
     </template>
     <template #settings>
       <div>
         <p class="mb-2 text-sm text-muted">{{ copy.ui.targetFormat }}</p>
         <Chips v-model="selected" :options="formats" :label="copy.ui.targetFormat" />
       </div>
+      <div v-if="sources.length" class="flex flex-wrap justify-center">
+        <button type="button" class="btn btn-primary" :disabled="state.busy" @click="run()">{{ copy.ui.again }}</button>
+      </div>
     </template>
     <ResultGrid
       :items="state.items"
-      @clear="state.reset()"
+      :columns="4"
+      @clear="clearAll"
       @remove="state.remove"
       @download="state.download"
       @download-all="state.downloadAll('convert.zip')"
@@ -20,11 +24,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { onUnmounted, ref } from "vue";
 import BatchLayout from "@/components/BatchLayout.vue";
 import Chips from "@/components/Chips.vue";
 import ResultGrid from "@/components/ResultGrid.vue";
 import Stage from "@/components/Stage.vue";
+import { useBatchJob } from "@/composables/useBatchJob";
 import { useResults } from "@/composables/useResults";
 import { copy } from "@/content";
 import { convertImageFile } from "@/utils/convert-image";
@@ -39,28 +44,55 @@ const formats = [
 ];
 const selected = ref<string[]>(["png"]);
 const state = useResults();
+const { files: sources, replace, clear: forget, start } = useBatchJob([selected], () => void run());
 
-async function run(files: File[]) {
-  const images = state.imagesOf(files);
-  if (!images.length || !selected.value.length) {
-    if (!selected.value.length) state.error = copy.ui.needFormat;
+async function run(incoming?: File[]) {
+  if (incoming) {
+    const images = state.imagesOf(incoming);
+    if (!images.length) return;
+    replace(images);
+  }
+  if (!sources.value.length) return;
+  if (!selected.value.length) {
+    start();
+    state.reset();
+    state.error = copy.ui.needFormat;
+    state.busy = false;
     return;
   }
-  state.reset();
+
+  const alive = start();
+  const batch = sources.value.slice();
+  const targets = selected.value.slice();
   state.busy = true;
+  state.error = "";
   try {
-    for (const file of images) {
-      const converted = await convertImageFile(file, selected.value);
+    const produced: { name: string; blob: Blob; detail: string }[] = [];
+    for (const file of batch) {
+      const converted = await convertImageFile(file, targets);
+      if (!alive()) return;
       for (const item of converted) {
         const blob = await (await fetch(item.original)).blob();
-        state.add(`${item.name}.${item.type}`, blob, formatBytes(blob.size));
+        if (!alive()) return;
+        produced.push({ name: `${item.name}.${item.type}`, blob, detail: formatBytes(blob.size) });
       }
     }
+    if (!alive()) return;
+    state.reset();
+    for (const item of produced) state.add(item.name, item.blob, item.detail);
     if (!state.items.length) state.error = copy.ui.cannotExport;
   } catch (error) {
-    state.error = error instanceof Error ? error.message : copy.failed;
+    if (alive()) state.error = error instanceof Error ? error.message : copy.failed;
   } finally {
-    state.busy = false;
+    if (alive()) state.busy = false;
   }
 }
+
+function clearAll() {
+  forget();
+  state.reset();
+  state.busy = false;
+}
+
+onUnmounted(clearAll);
 </script>

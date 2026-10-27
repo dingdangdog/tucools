@@ -115,7 +115,7 @@ export const zh = {
     fade: { title: "灰度", lead: "把图片转成灰度。" },
     tocircle: { title: "圆形", lead: "按直径裁成圆形。" },
     exif: { title: "去除信息", lead: "查看 EXIF，再重绘成不含元数据的新图。" },
-    pdf: { title: "图转 PDF", lead: "多张图片各成一页，导出 PDF。" },
+    pdf: { title: "图转 PDF", lead: "每张图片单独成页。调整纸张、方向和顺序时，页面预览会跟着变。" },
     favicon: { title: "Favicon", lead: "导出 16、32、48、180 的 PNG 和一个 ICO。" },
     prompt: {
       title: "AI提示词提取",
@@ -393,11 +393,11 @@ export const zh = {
       },
       pdf: {
         documentTitle: "免费在线图片转PDF工具，多张图片合成PDF，每张图片单独一页 · 图酷",
-        description: "把多张图片合成 PDF，每张图片单独一页。在浏览器本地生成，不会上传。",
+        description: "把多张图片合成 PDF，每张图片单独一页。放入后先看页面预览，再调整纸张和顺序。在浏览器本地生成，不会上传。",
         faqs: [
           {
             q: "多张图片怎么排？",
-            a: "每张图片单独成为 PDF 的一页，按放入顺序排列。",
+            a: "每张图片单独成为一页。放入后可以预览，并拖动调整顺序，再导出。",
           },
           {
             q: "生成 PDF 会上传图片吗？",
@@ -543,6 +543,24 @@ export const zh = {
     scale: "倍率",
     canvas: "无法使用画布",
     maskExport: "无法导出蒙版",
+    pdf: {
+      add: "添加图片",
+      pages: "页面",
+      paper: "纸张",
+      paperOriginal: "原比例",
+      paperA4: "A4",
+      paperA3: "A3",
+      paperA5: "A5",
+      paperLetter: "Letter",
+      orientation: "方向",
+      orientationAuto: "随图片",
+      portrait: "纵向",
+      landscape: "横向",
+      margin: "页边距",
+      moveEarlier: "前移",
+      moveLater: "后移",
+      preview: "页面预览",
+    },
     store: {
       platform: "平台",
       size: "尺寸",

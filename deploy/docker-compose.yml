@@ -32,6 +32,8 @@ services:
       TUCOOLS_ADSENSE_SLOT: ${TUCOOLS_ADSENSE_SLOT:-}
       # Google Analytics 4 测量 ID。留空则不加载 gtag.js。改完后重新创建页面容器即可，不必重新构建镜像。
       TUCOOLS_ANALYTICS_ID: ${TUCOOLS_ANALYTICS_ID:-}
+      # 工信部备案号。留空则左侧菜单底部不显示。形如「京ICP备12345678号」，可以带「-1」。
+      TUCOOLS_ICP_NUMBER: ${TUCOOLS_ICP_NUMBER:-}
     # 浏览器打开宿主机 13175，与本地开发页相同。容器内 nginx 仍监听 8080，已发布镜像不用重建。
     ports:
       - "13175:8080"

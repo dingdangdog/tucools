@@ -120,7 +120,7 @@ export const es: Copy = {
     fade: { title: "Escala de grises", lead: "Convierte la imagen a escala de grises." },
     tocircle: { title: "Círculo", lead: "Recorta en círculo según el diámetro." },
     exif: { title: "Quitar información", lead: "Consulta el EXIF y vuelve a dibujar una imagen nueva sin metadatos." },
-    pdf: { title: "Imagen a PDF", lead: "Cada imagen ocupa una página. Exporta un PDF." },
+    pdf: { title: "Imagen a PDF", lead: "Cada imagen es una página. La vista previa sigue el papel, la orientación y el orden." },
     favicon: { title: "Favicon", lead: "Exporta PNG de 16, 32, 48 y 180, y un ICO." },
     prompt: {
       title: "Extracción de prompts de IA",
@@ -398,11 +398,11 @@ export const es: Copy = {
       },
       pdf: {
         documentTitle: "Convertir imágenes a PDF · 图酷",
-        description: "Une varias imágenes en un PDF, cada imagen en su propia página. Se genera en local en el navegador y no se sube.",
+        description: "Une varias imágenes en un PDF, cada imagen en su propia página. Primero vea la vista previa y luego ajuste el papel y el orden. Se genera en local en el navegador y no se sube.",
         faqs: [
           {
             q: "¿Cómo se ordenan varias imágenes?",
-            a: "Cada imagen es una página del PDF, en el orden en que se añadieron.",
+            a: "Cada imagen es una página. Después puede ver la vista previa, arrastrar para cambiar el orden y exportar.",
           },
           {
             q: "¿Generar el PDF sube las imágenes?",
@@ -548,6 +548,24 @@ export const es: Copy = {
     scale: "Factor",
     canvas: "No se puede usar el lienzo",
     maskExport: "No se puede exportar la máscara",
+    pdf: {
+      add: "Añadir imágenes",
+      pages: "Páginas",
+      paper: "Papel",
+      paperOriginal: "Proporción de la imagen",
+      paperA4: "A4",
+      paperA3: "A3",
+      paperA5: "A5",
+      paperLetter: "Letter",
+      orientation: "Orientación",
+      orientationAuto: "Según la imagen",
+      portrait: "Vertical",
+      landscape: "Horizontal",
+      margin: "Margen",
+      moveEarlier: "Adelantar",
+      moveLater: "Atrasar",
+      preview: "Vista previa de la página",
+    },
     store: {
       platform: "Plataforma",
       size: "Tamaño",
