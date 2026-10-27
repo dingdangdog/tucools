@@ -47,7 +47,7 @@ export const ptBr: Copy = {
     },
     models: {
       title: "Baixar modelos",
-      detail: "O pacote de modelos é baixado à parte. Extraia na pasta indicada e verifique de novo aqui.",
+      detail: "Depois de implantar o Docker ou instalar o aplicativo por conta própria, baixe o pacote de modelos e coloque-o na pasta de modelos dessa instalação. Esta página não guarda os modelos.",
     },
   },
   modelDownload: {

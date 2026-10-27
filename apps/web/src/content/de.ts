@@ -47,7 +47,7 @@ export const de: Copy = {
     },
     models: {
       title: "Modelle herunterladen",
-      detail: "Das Modellpaket wird separat heruntergeladen. Entpacke es in den angegebenen Ordner und prüfe hier erneut.",
+      detail: "Nachdem Sie Docker selbst bereitstellen oder die App installieren, laden Sie das Modellpaket herunter und legen es in den Modellordner dieser Bereitstellung. Diese Seite speichert keine Modelle.",
     },
   },
   modelDownload: {

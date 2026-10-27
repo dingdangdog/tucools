@@ -45,7 +45,7 @@ export const zh = {
     },
     models: {
       title: "下载模型",
-      detail: "模型包要单独下载。解压到说明中的目录后，再回到这里检查。",
+      detail: "自己部署 Docker 或安装客户端之后，再单独下载模型包，放到那一次部署的模型目录。这个网页放不了模型。",
     },
   },
   modelDownload: {

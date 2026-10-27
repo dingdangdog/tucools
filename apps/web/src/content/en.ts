@@ -47,7 +47,7 @@ export const en: Copy = {
     },
     models: {
       title: "Download models",
-      detail: "The model pack is a separate download. Extract it into the folder in the instructions, then check again here.",
+      detail: "After you deploy Docker or install the app yourself, download the model pack and put it in that deployment's model folder. This page cannot store the models.",
     },
   },
   modelDownload: {
