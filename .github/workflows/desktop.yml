@@ -1,11 +1,11 @@
-name: 发布安装包
+name: 发布客户端
 
 on:
   workflow_dispatch:
     inputs:
       version:
-        description: 版本号，例如 0.3.0。从对应的 v 标签运行时可留空。
-        required: false
+        description: 版本号，例如 0.3.0。工作流会在当前提交上创建 client-v0.3.0。
+        required: true
         type: string
       windows:
         description: 构建 Windows x64 安装包
@@ -60,6 +60,7 @@ jobs:
         id: version
         env:
           INPUT_VERSION: ${{ inputs.version }}
+          PRODUCT: client
         run: bash .github/scripts/resolve-version.sh
 
       - name: Prepare desktop
@@ -89,8 +90,6 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ steps.version.outputs.tag }}
           VERSION: ${{ steps.version.outputs.version }}
-          WEB_IMAGE: ${{ steps.version.outputs.web_image }}
-          ENGINE_IMAGE: ${{ steps.version.outputs.engine_image }}
         run: bash .github/scripts/publish-desktop-assets.sh windows
 
   macos:
@@ -116,6 +115,7 @@ jobs:
         id: version
         env:
           INPUT_VERSION: ${{ inputs.version }}
+          PRODUCT: client
         run: bash .github/scripts/resolve-version.sh
 
       - name: Prepare desktop
@@ -139,8 +139,6 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ steps.version.outputs.tag }}
           VERSION: ${{ steps.version.outputs.version }}
-          WEB_IMAGE: ${{ steps.version.outputs.web_image }}
-          ENGINE_IMAGE: ${{ steps.version.outputs.engine_image }}
         run: bash .github/scripts/publish-desktop-assets.sh macos ${{ matrix.sums }}
 
   linux:
@@ -156,6 +154,7 @@ jobs:
         id: version
         env:
           INPUT_VERSION: ${{ inputs.version }}
+          PRODUCT: client
         run: bash .github/scripts/resolve-version.sh
 
       - name: Prepare desktop
@@ -187,6 +186,4 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ steps.version.outputs.tag }}
           VERSION: ${{ steps.version.outputs.version }}
-          WEB_IMAGE: ${{ steps.version.outputs.web_image }}
-          ENGINE_IMAGE: ${{ steps.version.outputs.engine_image }}
         run: bash .github/scripts/publish-desktop-assets.sh linux

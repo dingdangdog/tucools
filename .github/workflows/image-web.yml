@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 版本号，例如 0.3.0。从对应的 v 标签运行时可留空。
-        required: false
+        description: 版本号，例如 0.3.0。工作流会在当前提交上创建 web-v0.3.0。
+        required: true
         type: string
       latest:
         description: 是否移动 latest。auto 在没有更高版本时移动；always 总是移动；never 不移动。

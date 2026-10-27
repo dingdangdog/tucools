@@ -31,9 +31,10 @@ import { onMounted, ref } from "vue";
 import { version as packagedVersion } from "../../package.json";
 import { copy } from "@/content";
 import { projectRepo } from "@/release";
-import { checkForUpdate, formatReleaseDate, loadPublishedAt } from "@/version";
+import { checkForUpdate, currentReleaseChannel, formatReleaseDate, loadPublishedAt } from "@/version";
 
 const appVersion = (import.meta.env.VITE_APP_VERSION || "").trim() || packagedVersion;
+const channel = currentReleaseChannel();
 const releaseText = ref(copy.version.loadingRelease);
 const checking = ref(false);
 const checkText = ref("");
@@ -42,7 +43,7 @@ const newerDate = ref("");
 
 onMounted(async () => {
   try {
-    const published = await loadPublishedAt(appVersion);
+    const published = await loadPublishedAt(appVersion, channel);
     releaseText.value = published ? formatReleaseDate(published) || copy.version.releaseUnknown : copy.version.unpublished;
   } catch {
     releaseText.value = copy.version.releaseUnknown;
@@ -56,7 +57,7 @@ async function check() {
   newerDate.value = "";
   checkText.value = "";
   try {
-    const result = await checkForUpdate(appVersion);
+    const result = await checkForUpdate(appVersion, channel);
     if (result.status === "newer") {
       checkText.value = `${copy.version.found} ${result.version}`;
       newerDate.value = formatReleaseDate(result.publishedAt);

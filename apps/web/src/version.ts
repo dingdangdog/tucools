@@ -35,18 +35,31 @@ export function formatReleaseDate(iso: string): string {
   return `${year}-${month}-${day}`;
 }
 
-function releasePoint(release: GitHubRelease): ReleasePoint | null {
-  if (release.draft || release.prerelease || !release.published_at) return null;
-  const parsed = parseVersion(release.tag_name || "");
-  if (!parsed) return null;
-  return { version: parsed.join("."), publishedAt: release.published_at };
+export type ReleaseChannel = "web" | "engine" | "client";
+
+export function currentReleaseChannel(): ReleaseChannel {
+  if (typeof window !== "undefined" && window.tucools) return "client";
+  return "web";
 }
 
-export function newestRelease(releases: GitHubRelease[]): ReleasePoint | null {
+function channelVersion(tagName: string, channel: ReleaseChannel): string | null {
+  const match = new RegExp(`^${channel}-v(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$`).exec(tagName.trim());
+  if (!match) return null;
+  return `${match[1]}.${match[2]}.${match[3]}`;
+}
+
+function releasePoint(release: GitHubRelease, channel: ReleaseChannel): ReleasePoint | null {
+  if (release.draft || release.prerelease || !release.published_at) return null;
+  const version = channelVersion(release.tag_name || "", channel);
+  if (!version) return null;
+  return { version, publishedAt: release.published_at };
+}
+
+export function newestRelease(releases: GitHubRelease[], channel: ReleaseChannel): ReleasePoint | null {
   let best: ReleasePoint | null = null;
   let bestParsed: [number, number, number] | null = null;
   for (const release of releases) {
-    const point = releasePoint(release);
+    const point = releasePoint(release, channel);
     const parsed = point ? parseVersion(point.version) : null;
     if (!point || !parsed) continue;
     if (!bestParsed || compareVersions(parsed, bestParsed) > 0) {
@@ -57,10 +70,10 @@ export function newestRelease(releases: GitHubRelease[]): ReleasePoint | null {
   return best;
 }
 
-export async function loadPublishedAt(version: string, fetchImpl: typeof fetch = fetch): Promise<string | null> {
+export async function loadPublishedAt(version: string, channel: ReleaseChannel, fetchImpl: typeof fetch = fetch): Promise<string | null> {
   const parsed = parseVersion(version);
   if (!parsed) return null;
-  const response = await fetchImpl(`https://api.github.com/repos/dingdangdog/tucools/releases/tags/v${parsed.join(".")}`, { headers });
+  const response = await fetchImpl(`https://api.github.com/repos/dingdangdog/tucools/releases/tags/${channel}-v${parsed.join(".")}`, { headers });
   if (response.status === 404) return null;
   if (!response.ok) throw new Error("http");
   const body = (await response.json()) as GitHubRelease;
@@ -73,14 +86,14 @@ export type VersionCheck =
   | { status: "none" }
   | { status: "invalid" };
 
-export async function checkForUpdate(version: string, fetchImpl: typeof fetch = fetch): Promise<VersionCheck> {
+export async function checkForUpdate(version: string, channel: ReleaseChannel, fetchImpl: typeof fetch = fetch): Promise<VersionCheck> {
   const current = parseVersion(version);
   if (!current) return { status: "invalid" };
   const response = await fetchImpl(RELEASES_URL, { headers });
   if (!response.ok) throw new Error("http");
   const body = (await response.json()) as GitHubRelease[];
   if (!Array.isArray(body)) throw new Error("http");
-  const newest = newestRelease(body);
+  const newest = newestRelease(body, channel);
   const parsed = newest ? parseVersion(newest.version) : null;
   if (!newest || !parsed) return { status: "none" };
   if (compareVersions(parsed, current) <= 0) return { status: "current" };

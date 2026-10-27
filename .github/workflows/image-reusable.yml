@@ -16,10 +16,9 @@ on:
         required: true
         type: number
       version:
-        description: 不带 v 的版本号；从标签运行时可留空
-        required: false
+        description: 不带 v 的版本号，例如 0.3.0
+        required: true
         type: string
-        default: ""
       latest:
         description: auto、always 或 never。true、yes 视为 always，false、no 视为 never。
         required: true
@@ -47,6 +46,7 @@ jobs:
         id: version
         env:
           INPUT_VERSION: ${{ inputs.version }}
+          PRODUCT: ${{ inputs.kind }}
         run: bash .github/scripts/resolve-version.sh
 
       - name: Choose image tags
@@ -56,16 +56,7 @@ jobs:
           KIND: ${{ inputs.kind }}
           VERSION: ${{ steps.version.outputs.version }}
           IMAGE: ${{ inputs.kind == 'web' && steps.version.outputs.web_image || steps.version.outputs.engine_image }}
-        run: |
-          set -euo pipefail
-          case "$KIND" in
-            web|engine) ;;
-            *)
-              echo "kind 只能是 web 或 engine。"
-              exit 1
-              ;;
-          esac
-          bash .github/scripts/image-tags.sh
+        run: bash .github/scripts/image-tags.sh
 
       - name: Log in to GHCR
         uses: docker/login-action@v4

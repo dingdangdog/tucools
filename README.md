@@ -10,7 +10,9 @@
 </div>
 
 <p align="center">
-  <img alt="release" src="https://img.shields.io/github/v/release/dingdangdog/tucools" />
+  <img alt="client release" src="https://img.shields.io/github/v/release/dingdangdog/tucools?filter=client-v&label=client" />
+  <img alt="web release" src="https://img.shields.io/github/v/release/dingdangdog/tucools?filter=web-v&label=web" />
+  <img alt="engine release" src="https://img.shields.io/github/v/release/dingdangdog/tucools?filter=engine-v&label=engine" />
   <img alt="stars" src="https://img.shields.io/github/stars/dingdangdog/tucools" />
   <img alt="forks" src="https://img.shields.io/github/forks/dingdangdog/tucools" />
 </p>
@@ -23,7 +25,7 @@
 
 The Chinese name is 图酷. Compress, crop, convert, watermark, and the other everyday tools finish in the page, and the image stays on this device. Cutout, enhance, and erase call TuCools' own engine. They need a [model pack](https://github.com/dingdangdog/tucools/releases/tag/models) downloaded separately. Open the app and use it. No sign-in.
 
-Installers are on [Releases](https://github.com/dingdangdog/tucools/releases). For cutout, enhance, and erase without reading the source, start with [How to use the AI tools](docs/2026-10-26-如何使用AI功能.md) (Chinese).
+Installers are on the [TuCools Client releases](https://github.com/dingdangdog/tucools/releases). For cutout, enhance, and erase without reading the source, start with [How to use the AI tools](docs/2026-10-26-如何使用AI功能.md) (Chinese).
 
 ## Examples
 
@@ -67,7 +69,7 @@ ID photo size, social sizes, store sizes, and circle are modes of Crop. Split is
 
 ## Desktop app
 
-Download the build for your system from [Releases](https://github.com/dingdangdog/tucools/releases):
+Download the build for your system from the [release titled TuCools Client](https://github.com/dingdangdog/tucools/releases):
 
 | System | File |
 | --- | --- |
@@ -76,7 +78,7 @@ Download the build for your system from [Releases](https://github.com/dingdangdo
 | macOS Intel | `TuCools-<version>-mac-x64.dmg`, and a zip with the same name |
 | Linux x64 | `TuCools-<version>-linux-x86_64.AppImage` and `TuCools-<version>-linux-amd64.deb` |
 
-A release that only has notes does not include these files yet. Pick a release that has them, or use Docker below.
+The client release lists the installers that have finished. A platform file appears after that platform's job succeeds. Page and engine images are separate releases and do not include these files.
 
 The installers are not code-signed. On Windows, choose to run it when the publisher warning appears. On macOS, allow it in System Settings → Privacy & Security. On Linux, mark the AppImage executable before opening it, or install the deb with `dpkg -i`.
 

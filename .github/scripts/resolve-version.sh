@@ -1,7 +1,16 @@
 #!/usr/bin/env bash
-# 解析本次发布版本，并确认远程标签 vX.Y.Z 已经指向当前提交。
-# 不会创建或移动标签。推送标签本身也不会触发构建。
+# 把本次填写的版本号变成业务标签。不查找仓库里已有的版本标签。
+# 标签名是 web-vX.Y.Z、engine-vX.Y.Z 或 client-vX.Y.Z，由后续步骤写到当前提交。
 set -euo pipefail
+
+PRODUCT="${PRODUCT:?}"
+case "$PRODUCT" in
+  web|engine|client) ;;
+  *)
+    echo "业务只能是 web、engine 或 client。当前是：${PRODUCT}"
+    exit 1
+    ;;
+esac
 
 RAW="${INPUT_VERSION:-}"
 if [[ "$RAW" == *$'\n'* || "$RAW" == *$'\r'* ]]; then
@@ -10,45 +19,27 @@ if [[ "$RAW" == *$'\n'* || "$RAW" == *$'\r'* ]]; then
 fi
 RAW="${RAW#"${RAW%%[![:space:]]*}"}"
 RAW="${RAW%"${RAW##*[![:space:]]}"}"
+if [[ "$RAW" == "${PRODUCT}-v"* ]]; then
+  RAW="${RAW#"${PRODUCT}-v"}"
+elif [[ "$RAW" == "${PRODUCT}-"* ]]; then
+  RAW="${RAW#"${PRODUCT}-"}"
+fi
 if [[ "$RAW" == v* ]]; then
   RAW="${RAW#v}"
 fi
 
 semver='^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$'
-tag_re='^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$'
-
 if [[ -z "$RAW" ]]; then
-  if [[ "${GITHUB_REF_TYPE:-}" == "tag" && "${GITHUB_REF_NAME:-}" =~ $tag_re ]]; then
-    TAG="${GITHUB_REF_NAME}"
-    VERSION="${TAG#v}"
-  else
-    echo "从分支运行时必须填写版本号，例如 0.3.0。从 v0.3.0 标签运行时可以留空。"
-    exit 1
-  fi
-else
-  if [[ ! "$RAW" =~ $semver ]]; then
-    echo "版本号必须是主版本.次版本.修订号，例如 0.3.0。当前是：${RAW}"
-    exit 1
-  fi
-  VERSION="$RAW"
-  TAG="v${VERSION}"
-  if [[ "${GITHUB_REF_TYPE:-}" == "tag" && "${GITHUB_REF_NAME}" != "$TAG" ]]; then
-    echo "所选标签是 ${GITHUB_REF_NAME}，与填写的版本 ${TAG} 不一致。"
-    exit 1
-  fi
+  echo "请填写版本号，例如 0.3.0。工作流会在当前提交上创建 ${PRODUCT}-v0.3.0。"
+  exit 1
 fi
-
-if ! git fetch --force origin "refs/tags/${TAG}:refs/tags/${TAG}"; then
-  echo "远程没有标签 ${TAG}。请先推送这个标签。推送标签不会开始构建。"
+if [[ ! "$RAW" =~ $semver ]]; then
+  echo "版本号必须是主版本.次版本.修订号，例如 0.3.0。当前是：${RAW}"
   exit 1
 fi
 
-LOCAL="$(git rev-parse "refs/tags/${TAG}^{commit}")"
-if [[ "$LOCAL" != "${GITHUB_SHA:?}" ]]; then
-  echo "标签 ${TAG} 指向 ${LOCAL}，这次工作流的提交是 ${GITHUB_SHA}。"
-  echo "请从该标签运行，或把标签改到这次提交之后再运行。工作流不会移动已有标签。"
-  exit 1
-fi
+VERSION="$RAW"
+TAG="${PRODUCT}-v${VERSION}"
 
 owner="$(printf '%s' "${GITHUB_REPOSITORY_OWNER:?}" | tr '[:upper:]' '[:lower:]')"
 if [[ ! "$owner" =~ ^[a-z0-9][a-z0-9-]*$ ]]; then
@@ -59,8 +50,9 @@ fi
 {
   echo "version=${VERSION}"
   echo "tag=${TAG}"
+  echo "product=${PRODUCT}"
   echo "web_image=ghcr.io/${owner}/tucools-web"
   echo "engine_image=ghcr.io/${owner}/tucools-engine"
 } >> "${GITHUB_OUTPUT:?}"
 
-echo "版本 ${TAG}，提交 ${GITHUB_SHA}"
+echo "业务 ${PRODUCT}，标签 ${TAG}，提交 ${GITHUB_SHA:-未设置}"

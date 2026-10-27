@@ -10,7 +10,9 @@
 </div>
 
 <p align="center">
-  <img alt="release" src="https://img.shields.io/github/v/release/dingdangdog/tucools" />
+  <img alt="client release" src="https://img.shields.io/github/v/release/dingdangdog/tucools?filter=client-v&label=client" />
+  <img alt="web release" src="https://img.shields.io/github/v/release/dingdangdog/tucools?filter=web-v&label=web" />
+  <img alt="engine release" src="https://img.shields.io/github/v/release/dingdangdog/tucools?filter=engine-v&label=engine" />
   <img alt="stars" src="https://img.shields.io/github/stars/dingdangdog/tucools" />
   <img alt="forks" src="https://img.shields.io/github/forks/dingdangdog/tucools" />
 </p>
@@ -23,7 +25,7 @@
 
 压缩、裁剪、转格式、加水印这些在页面里完成，图片留在这台设备上。抠图、优化和消除交给图酷自己的引擎，需要另外下载[模型包](https://github.com/dingdangdog/tucools/releases/tag/models)。打开就能用，没有登录。
 
-安装包在 [Releases](https://github.com/dingdangdog/tucools/releases)。不想看源码、只想用上抠图、优化和消除，从[怎么用上 AI 功能](docs/2026-10-26-如何使用AI功能.md)开始。
+安装包在标题以 TuCools Client 开头的 [Releases](https://github.com/dingdangdog/tucools/releases)。不想看源码、只想用上抠图、优化和消除，从[怎么用上 AI 功能](docs/2026-10-26-如何使用AI功能.md)开始。
 
 ## 示例
 
@@ -67,7 +69,7 @@
 
 ## 安装客户端
 
-在 [Releases](https://github.com/dingdangdog/tucools/releases) 下载对应系统的安装包：
+在标题以 TuCools Client 开头的 [发布](https://github.com/dingdangdog/tucools/releases) 里下载对应系统的安装包：
 
 | 系统 | 文件 |
 | --- | --- |
@@ -76,7 +78,7 @@
 | macOS Intel | `TuCools-<版本>-mac-x64.dmg`，另有同名 zip |
 | Linux x64 | `TuCools-<版本>-linux-x86_64.AppImage` 和 `TuCools-<版本>-linux-amd64.deb` |
 
-某一版如果只有说明、没有这些文件，是这一版的安装包还没附上。换一个已经带有安装包的版本，或先用下面的 Docker。
+客户端发布里会列出已经完成的安装包。某个系统的文件要等对应任务成功后才会出现。页面镜像和引擎镜像是另外的发布，里面没有这些安装包。
 
 安装包没有代码签名。Windows 出现未知发布者时，选择仍要运行。macOS 到「系统设置 → 隐私与安全性」允许打开。Linux 的 AppImage 先加上可执行权限；deb 用 `dpkg -i` 安装。
 

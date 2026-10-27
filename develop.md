@@ -82,4 +82,4 @@ docker compose -f deploy/docker-compose.yml up --build
 
 ## 发布
 
-先把版本标签推上去。推送标签不会构建。再到 GitHub Actions 按需要手动运行「发布页面镜像」「发布引擎镜像」和「发布安装包」。安装包里的 Windows、macOS、Linux 会同时开始，互不等待。步骤见 [docs/deploy.md](docs/deploy.md)。
+在 GitHub Actions 按需要手动运行「发布页面镜像」「发布引擎镜像」和「发布客户端」，并填写这次的版本号。工作流会在选中的提交上创建 `web-v*`、`engine-v*` 或 `client-v*`。推送标签不会构建。客户端里的 Windows、macOS、Linux 会同时开始，互不等待。步骤见 [docs/deploy.md](docs/deploy.md)。

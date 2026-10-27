@@ -1,9 +1,18 @@
 #!/usr/bin/env bash
-# 决定镜像标签。auto：已有更高的版本标签时不移动 latest。
+# 决定镜像标签。auto：同一业务已有更高的 web-v 或 engine-v 时不移动 latest。
 set -euo pipefail
 
 : "${VERSION:?}"
 : "${IMAGE:?}"
+: "${KIND:?}"
+case "$KIND" in
+  web|engine) ;;
+  *)
+    echo "kind 只能是 web 或 engine。当前是：${KIND}"
+    exit 1
+    ;;
+esac
+
 choice="${INPUT_LATEST:-auto}"
 # GitHub 的运行表单会把未加引号的 yes/no 显示成 true/false。
 case "$choice" in
@@ -22,23 +31,14 @@ mark=false
 if [[ "$choice" == "always" ]]; then
   mark=true
 elif [[ "$choice" == "auto" ]]; then
-  mark=true
-  tags="$(git ls-remote --tags origin 'refs/tags/v*')"
-  while IFS=$'\t' read -r _ ref; do
-    [[ -n "${ref:-}" ]] || continue
-    name="${ref##*/}"
-    name="${name%%^*}"
-    if [[ ! "$name" =~ ^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]]; then
-      continue
-    fi
-    other="${name#v}"
-    top="$(printf '%s\n%s\n' "$VERSION" "$other" | sort -V | tail -n1)"
-    if [[ "$top" == "$other" && "$other" != "$VERSION" ]]; then
-      mark=false
-      echo "已有更高版本标签 v${other}，这次不移动 latest。"
-      break
-    fi
-  done <<< "$tags"
+  higher="$(PREFIX="${KIND}-" VERSION="$VERSION" bash .github/scripts/higher-release.sh)"
+  if [[ "$higher" != "true" && "$higher" != "false" ]]; then
+    echo "无法判断 ${KIND} 是否已有更高版本。"
+    exit 1
+  fi
+  if [[ "$higher" == "false" ]]; then
+    mark=true
+  fi
 fi
 
 {

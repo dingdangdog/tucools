@@ -17,6 +17,8 @@ case "$KIND" in
     ;;
 esac
 
+export PRODUCT="$KIND"
+bash .github/scripts/ensure-tag.sh
 bash .github/scripts/ensure-release.sh
 
 DIR="$(mktemp -d)"

@@ -72,6 +72,8 @@ SUMS="$(mktemp)"
 ) > "$SUMS"
 mv "$SUMS" "$DEST/SHA256SUMS-${SUM_NAME}.txt"
 
+export PRODUCT=client
+bash .github/scripts/ensure-tag.sh
 bash .github/scripts/ensure-release.sh
 gh release upload "$TAG" "$DEST"/* --clobber
 

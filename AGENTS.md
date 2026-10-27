@@ -97,4 +97,4 @@ docker compose -f deploy/docker-compose.deploy.yml -f deploy/docker-compose.gpu.
 
 `npm run engine` 使用仓库根目录 `.venv` 里的 Python 3.12，依赖按 `services/engine/requirements.txt` 装进这个环境。模型包默认是仓库根目录的 `model-pack`；已有旧运行时时可用 `scripts/link-models.ps1` 在本机准备，该脚本不会把模型放进安装包或镜像。没有 NVIDIA GPU 时，去掉上面 Docker 命令里的 `-f deploy/docker-compose.gpu.yml`。
 
-`npm run package:mac` 在 macOS 上使用，`npm run package:linux` 在 Linux 上使用。推送版本标签不会构建。页面镜像、引擎镜像和三个平台的安装包在 GitHub Actions 里分开手动运行，可以同时进行。说明见 `docs/deploy.md`。
+`npm run package:mac` 在 macOS 上使用，`npm run package:linux` 在 Linux 上使用。推送标签不会构建。页面、引擎、客户端三个工作流各自在选中的提交上创建 `web-vX.Y.Z`、`engine-vX.Y.Z`、`client-vX.Y.Z`，并各自发布一条 Release。说明见 `docs/deploy.md`。

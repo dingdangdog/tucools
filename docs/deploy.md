@@ -271,58 +271,53 @@ $env:TUCOOLS_SITE_URL = "https://图片站点.example"
 
 ## 分开发布
 
-推送版本标签不会构建镜像，也不会打安装包。页面镜像、引擎镜像、Windows、macOS、Linux 可以同时跑：两个镜像各是一个工作流，三个安装包在「发布安装包」里各是一个任务。一个失败不会取消其余的。
+页面、引擎、客户端各自发布，版本号互不影响。打开 GitHub 仓库的 Actions，用「Use workflow from」选中要发布的提交，通常是默认分支上的最新代码，再填写这一次的版本号。工作流成功后，把标签打在这次提交上，并单独创建一条 GitHub Release。推送标签不会开始构建。
 
-工作流文件要先在默认分支上，Actions 页面才会出现按钮。运行时再选择含有这些文件的标签。旧标签上没有这些工作流，不能用来发布。
+工作流文件要先在默认分支上，Actions 页面才会出现按钮。运行时选择的提交也要包含这些文件。
 
-### 1. 推送标签
+| 业务 | 工作流 | 标签 | Release 标题 | 产物 |
+| --- | --- | --- | --- | --- |
+| 页面 | 发布页面镜像 | `web-v0.3.0` | `TuCools Web 0.3.0 · 页面镜像` | `ghcr.io/<所有者>/tucools-web:0.3.0` |
+| 引擎 | 发布引擎镜像 | `engine-v0.2.1` | `TuCools Engine 0.2.1 · 引擎镜像` | `ghcr.io/<所有者>/tucools-engine:0.2.1` |
+| 客户端 | 发布客户端 | `client-v0.4.0` | `TuCools Client 0.4.0 · 客户端安装包` | Windows、macOS、Linux 安装包 |
 
-标签必须是 `v主版本.次版本.修订号`，例如 `v0.3.0`。`v1.2`、`v1.2.3-beta`、`v01.2.3` 会被拒绝。工作流不会创建标签，也不会把已有标签移到别的提交。
+版本号写成 `0.3.0`。也可以写成 `v0.3.0`，或带上当前工作流的前缀，例如在页面工作流里填 `web-v0.3.0`。`1.2`、`1.2.3-beta`、`01.2.3` 会失败。工作流不读取仓库里已有的 `vX.Y.Z` 来决定版本。镜像标签仍是不带前缀的 `0.3.0`，git 标签才带业务名。
 
-```powershell
-git tag v0.3.0
-git push origin v0.3.0
-```
+同一个标签如果已经打在这次提交上，再次运行会继续上传。这个标签若已经指向别的提交，工作流失败，也不会把标签挪走；换一个新的版本号再发。
 
-这一步只标记提交。仓库里不会出现新的构建。
-
-### 2. 按需要运行
-
-打开 GitHub 仓库的 Actions。下面三个工作流可以连续点开。它们使用不同的并发组，会同时执行。
+三个工作流使用不同的并发组，可以同时执行。同一个工作流的第二次运行会排队。
 
 | 工作流 | 跑什么 | 什么时候跑 |
 | --- | --- | --- |
 | 发布页面镜像 | `ghcr.io/<所有者>/tucools-web:<版本>`，`linux/amd64` 和 `linux/arm64` | 页面、nginx 或站点构建参数变了 |
 | 发布引擎镜像 | `ghcr.io/<所有者>/tucools-engine:<版本>`。amd64 安装 CUDA 12.8 的 torch，arm64 是 CPU。这一步最慢 | 引擎、依赖或引擎镜像变了 |
-| 发布安装包 | Windows x64、macOS arm64/x64、Linux x64 三个任务同时开始 | 需要新的安装包 |
-
-每个工作流的「Use workflow from」选择标签 `v0.3.0`，版本号留空。这样构建的就是标签指向的那一次提交。
-
-从分支运行时必须填写版本号，例如 `0.3.0` 或 `v0.3.0`。远程标签 `v0.3.0` 必须已经指向这次提交，否则工作流失败。不要选一个和标签不一致的分支再填这个版本。
+| 发布客户端 | Windows x64、macOS arm64/x64、Linux x64 三个任务同时开始 | 需要新的安装包 |
 
 镜像工作流还有「是否把这次镜像标为 latest」：
 
 | 选项 | 行为 |
 | --- | --- |
-| `auto` | 默认。没有更高的 `vX.Y.Z` 标签时，才把 `latest` 指到这次版本 |
-| `always` | 总是移动 `latest` |
+| `auto` | 默认。这个镜像自己的 `web-v*` 或 `engine-v*` 里没有更高版本时，才移动该镜像的 `latest` |
+| `always` | 总是移动这个镜像的 `latest` |
 | `never` | 不移动 `latest` |
+
+比较时不看以前的 `vX.Y.Z`，也不看另一个业务。页面发 `0.2.0` 时，客户端即使已有 `client-v0.9.0`，也不会挡住页面镜像的 `latest`。
 
 下拉选项不能写成 `yes` 和 `no`。GitHub 的「Run workflow」会把这两个词显示成 `true` 和 `false`，提交时又按原来的 `yes`、`no` 校验，表单无法通过。脚本仍把 `true`、`yes` 当作 `always`，把 `false`、`no` 当作 `never`。
 
-安装包工作流默认勾选三个平台。只重做其中一个时，取消另外两个。三个任务之间没有依赖。macOS 失败时，Windows 和 Linux 仍会上传自己的附件。要重跑失败的平台，可以在那次运行里选择 Re-run failed jobs，或重新运行工作流并只勾选该平台。
+客户端工作流默认勾选三个平台。只重做其中一个时，取消另外两个。三个任务之间没有依赖。macOS 失败时，Windows 和 Linux 仍会上传自己的附件。要重跑失败的平台，可以在那次运行里选择 Re-run failed jobs，或重新运行工作流并只勾选该平台。
 
-同一件产物的第二次运行会排队，不会取消正在进行的那一次。页面镜像、引擎镜像和安装包互不排队。
+### 发布页上有什么
 
-### 3. 发布页上有什么
+每条 Release 只说明自己的产物，正文是英文。页面用 `.github/scripts/release-notes-web.md`，引擎用 `release-notes-engine.md`，客户端用 `release-notes-client.md`。说明只在第一次创建时写入，之后的任务只追加自己的附件，不覆盖说明。
 
-任一工作流成功后，都会给这个已有标签创建 GitHub Release。说明正文来自 `.github/scripts/release-notes.md`，语言是英文。说明只在第一次创建时写入，之后的任务只追加自己的附件，不覆盖说明。已经存在的 Release 不会因为模板改成英文而自动更新。
+仓库的 Latest 留给客户端：这次 `client-v*` 不低于已有客户端版本时，把它标成 Latest，方便从 Releases 下载安装包。页面和引擎发布不占用 Latest，用标题区分。Docker 镜像上的 `latest` 标签是另一件事，只跟对应镜像工作流的选项有关。模型包仍在 `models` 这条发布上。
 
-安装包附件使用上面的文件名。校验文件是 `SHA256SUMS-windows.txt`、`SHA256SUMS-macos-arm64.txt`、`SHA256SUMS-macos-x64.txt` 和 `SHA256SUMS-linux.txt`。macOS 的两个架构分开上传，不会改写对方的校验文件。
+客户端附件使用 `TuCools-<版本>-<平台>-<架构>`。校验文件是 `SHA256SUMS-windows.txt`、`SHA256SUMS-macos-arm64.txt`、`SHA256SUMS-macos-x64.txt` 和 `SHA256SUMS-linux.txt`。macOS 的两个架构分开上传，不会改写对方的校验文件。某个平台的文件要等该任务成功后才会出现。
 
 镜像不放进 Release 的二进制附件。坐标写在说明里。摘要写在 `tucools-web-<版本>.txt` 或 `tucools-engine-<版本>.txt`，也写在对应 Actions 运行的摘要里。
 
-版本号只写进当次运行的 `package.json`，不会提交回分支。镜像使用工作流自带的 `GITHUB_TOKEN`，不需要 Docker Hub 账号。两个镜像都包含 `linux/amd64` 和 `linux/arm64`。安装包和镜像都不含模型包。本机 `npm run engine` 仍安装 CPU 依赖。
+版本号只写进当次运行的 `package.json`，不会提交回分支。镜像使用工作流自带的 `GITHUB_TOKEN`，不需要 Docker Hub 账号。两个镜像都包含 `linux/amd64` 和 `linux/arm64`。安装包和镜像都不含模型包。本机 `npm run engine` 仍安装 CPU 依赖。页面里的版本检查会按运行位置对照：安装包看 `client-v*`，网页和 Docker 看 `web-v*`。
 
 GitHub 包页面从多架构清单读取 `org.opencontainers.image.description`。发布时把同一段描述写进清单索引，以及 `linux/amd64` 和 `linux/arm64` 两份平台清单。镜像配置里的 `LABEL` 仍保留，供本机 `docker inspect` 查看。页面镜像的描述是「图酷页面，在浏览器里完成本地图像处理，并把抠图、优化和消除转发到同源引擎。」引擎镜像的描述是「图酷图像处理引擎，提供抠图、优化和消除。镜像不含模型包。」构建不附带 BuildKit 证明清单，包页面只列出这两个架构。推送后会检查索引和两份平台清单；描述缺失或出现证明清单时，工作流失败。已经推送的旧版本不会被改写。`0.0.2` 的清单没有描述。`0.0.3` 的索引已有描述，平台清单还没有，并且带有证明清单，要等下一次发布才会按这里更新。
 
@@ -339,14 +334,14 @@ docker compose -f deploy/docker-compose.deploy.yml -f deploy/docker-compose.gpu.
 
 没有 NVIDIA GPU 时去掉 `-f deploy/docker-compose.gpu.yml`。
 
-固定版本时设置 `TUCOOLS_VERSION`，不要带 `v` 前缀：
+页面和引擎的版本可以不同。两个镜像刚好是同一个数字时，设置 `TUCOOLS_VERSION`，不要带 `v` 或 `web-v` 前缀：
 
 ```powershell
 $env:TUCOOLS_VERSION = "0.2.0"
 docker compose -f deploy/docker-compose.deploy.yml -f deploy/docker-compose.gpu.yml up -d
 ```
 
-要换仓库或标签时，再分别设置完整镜像名。设置后 `TUCOOLS_VERSION` 不再参与这两个镜像名：
+版本不同，或要换仓库时，分别设置完整镜像名。设置后 `TUCOOLS_VERSION` 不再参与这两个镜像名：
 
 ```powershell
 $env:TUCOOLS_WEB_IMAGE = "ghcr.io/<所有者>/tucools-web:0.2.0"
@@ -354,7 +349,7 @@ $env:TUCOOLS_ENGINE_IMAGE = "ghcr.io/<所有者>/tucools-engine:0.2.0"
 docker compose -f deploy/docker-compose.deploy.yml -f deploy/docker-compose.gpu.yml up -d
 ```
 
-私有包拉取前需要 `docker login ghcr.io`；公开包可以直接拉取。重发旧版本时，镜像工作流的 `auto` 不会把 `latest` 改到更旧的版本；只有选择 `always` 才会。本机没有对应镜像时，这条 Compose 只会拉取，不会回退到本地构建。
+私有包拉取前需要 `docker login ghcr.io`；公开包可以直接拉取。重发旧版本时，`auto` 只和同一镜像已有的 `web-v*` 或 `engine-v*` 比较，不会把 `latest` 改到更旧的版本；只有选择 `always` 才会。本机没有对应镜像时，这条 Compose 只会拉取，不会回退到本地构建。
 
 `deploy/docker-compose.yml` 仍用于从源码构建。使用其中已填写的发布镜像、且不要构建时，可以不带 `--build`：
 
