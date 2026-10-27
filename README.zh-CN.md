@@ -10,9 +10,9 @@
 </div>
 
 <p align="center">
-  <img alt="client release" src="https://img.shields.io/github/v/release/dingdangdog/tucools?filter=client-v&label=client" />
-  <img alt="web release" src="https://img.shields.io/github/v/release/dingdangdog/tucools?filter=web-v&label=web" />
-  <img alt="engine release" src="https://img.shields.io/github/v/release/dingdangdog/tucools?filter=engine-v&label=engine" />
+  <img alt="client release" src="https://img.shields.io/github/v/release/dingdangdog/tucools?filter=client-v%2A&display_name=tag&sort=semver&label=client" />
+  <img alt="web release" src="https://img.shields.io/github/v/release/dingdangdog/tucools?filter=web-v%2A&display_name=tag&sort=semver&label=web" />
+  <img alt="engine release" src="https://img.shields.io/github/v/release/dingdangdog/tucools?filter=engine-v%2A&display_name=tag&sort=semver&label=engine" />
   <img alt="stars" src="https://img.shields.io/github/stars/dingdangdog/tucools" />
   <img alt="forks" src="https://img.shields.io/github/forks/dingdangdog/tucools" />
 </p>
